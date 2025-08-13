@@ -1,5 +1,15 @@
 // Content Script for Hotkey Chain Extension
 
+// i18n helper
+function t(key, fallback = "") {
+  try {
+    const msg = chrome.i18n.getMessage(key);
+    return msg || fallback || key;
+  } catch (e) {
+    return fallback || key;
+  }
+}
+
 // Listen for messages from background script
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   const action = request.action;
@@ -16,12 +26,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
       case "copy_url":
         copyToClipboard(window.location.href);
-        showNotification("URL copied to clipboard");
+        showNotification(t("content_urlCopied", "URL copied to clipboard"));
         break;
 
       case "copy_title":
         copyToClipboard(document.title);
-        showNotification("Title copied to clipboard");
+        showNotification(t("content_titleCopied", "Title copied to clipboard"));
         break;
 
       case "toggle_fullscreen":
@@ -42,12 +52,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
       case "page_top":
         window.scrollTo({ top: 0, behavior: "smooth" });
-        showNotification("已跳转到页面顶部");
+        showNotification(t("content_jumpTop", "已跳转到页面顶部"));
         break;
 
       case "page_bottom":
         window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-        showNotification("已跳转到页面底部");
+        showNotification(t("content_jumpBottom", "已跳转到页面底部"));
         break;
 
       case "select_text_for_translation":
@@ -57,7 +67,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
       case "show_extension_notification":
         // 显示扩展激活通知
-        showNotification(request.message || `已尝试激活扩展: ${request.extensionName}`, request.isError || false);
+        showNotification(request.message || `${t("menu_executeDefault", "已尝试激活扩展")}: ${request.extensionName}`, request.isError || false);
         break;
 
       case "show_extension_info_modal":
@@ -101,7 +111,7 @@ async function copyToClipboard(text) {
       console.log("Successfully copied using secondary fallback");
     } catch (fallbackError) {
       console.error("All copy methods failed:", fallbackError);
-      showNotification("复制失败，请手动复制", true);
+      showNotification(t("content_copyFailed", "复制失败，请手动复制"), true);
     }
   }
 }
@@ -235,7 +245,7 @@ function openDevTools() {
   }
 
   // Method 3: Show notification to user
-  showNotification("🔧 DevTools功能已触发 - 请手动按F12打开", 3000);
+  showNotification(`🔧 ${t("content_devtoolsTriggered", "DevTools功能已触发 - 请手动按F12打开")}`, 3000);
 }
 
 // Trigger find in page functionality
@@ -251,7 +261,7 @@ function triggerFindInPage() {
     if (searchBox) {
       searchBox.focus();
       searchBox.select();
-      showNotification(`已聚焦搜索框: ${selector}`);
+      showNotification(t("content_focusedSearchBox", "已聚焦搜索框: $1").replace("$1", selector));
       foundSearchBox = true;
       break;
     }
@@ -259,7 +269,7 @@ function triggerFindInPage() {
 
   if (!foundSearchBox) {
     // Show instruction for manual search
-    showNotification("💡 请手动按 Ctrl+F 搜索页面内容", 3000);
+    showNotification(`💡 ${t("content_manualFindHint", "请手动按 Ctrl+F 搜索页面内容")}`, 3000);
   }
 }
 
@@ -288,10 +298,10 @@ function selectAllContent() {
     selection.removeAllRanges();
     selection.addRange(range);
 
-    showNotification(`已选择全部内容 (${targetElement.tagName})`);
+    showNotification(t("content_selectAllSuccess", "已选择全部内容 ($1)").replace("$1", targetElement.tagName));
   } catch (e) {
     console.warn("Select all failed:", e);
-    showNotification("选择全部内容失败，请手动按 Ctrl+A");
+    showNotification(t("content_selectAllFailed", "选择全部内容失败，请手动按 Ctrl+A"));
   }
 }
 
@@ -303,7 +313,7 @@ function selectTextForTranslation() {
     // 如果页面上有已选择的文本，保持不变
     const selection = window.getSelection();
     if (selection.toString().trim().length > 0) {
-      showNotification("已有选中文本，可进行翻译");
+      showNotification(t("content_textSelected", "已选择页面内容，可进行翻译"));
       return;
     }
 
@@ -332,7 +342,7 @@ function selectTextForTranslation() {
       range.selectNodeContents(contentElement);
       selection.removeAllRanges();
       selection.addRange(range);
-      showNotification("已选择页面内容，可进行翻译");
+      showNotification(t("content_textSelected", "已选择页面内容，可进行翻译"));
     } else {
       // 最后备选：选择页面标题
       const title = document.querySelector("h1, h2, title");
@@ -341,12 +351,12 @@ function selectTextForTranslation() {
         range.selectNodeContents(title);
         selection.removeAllRanges();
         selection.addRange(range);
-        showNotification("已选择页面标题");
+        showNotification(t("content_titleSelected", "已选择页面标题"));
       }
     }
   } catch (error) {
     console.error("Failed to select text for translation:", error);
-    showNotification("文本选择失败");
+    showNotification(t("content_textSelectFailed", "文本选择失败"));
   }
 }
 
@@ -355,7 +365,7 @@ function simulateKeyboardShortcut(keySequence) {
   console.log("Content script: Simulating keyboard shortcut:", keySequence);
 
   if (!keySequence) {
-    showNotification("无效的快捷键序列", true);
+    showNotification(t("content_invalidShortcut", "无效的快捷键序列"), true);
     return;
   }
 
@@ -397,7 +407,7 @@ function simulateKeyboardShortcut(keySequence) {
     });
 
     if (!mainKey) {
-      showNotification("无法识别主按键", true);
+      showNotification(t("content_noMainKey", "无法识别主按键"), true);
       return;
     }
 
@@ -421,11 +431,11 @@ function simulateKeyboardShortcut(keySequence) {
     const keyupEvent = new KeyboardEvent("keyup", eventOptions);
     document.dispatchEvent(keyupEvent);
 
-    showNotification(`已模拟快捷键: ${keySequence}`);
+    showNotification(t("content_shortcutSimulated", "已模拟快捷键: $1").replace("$1", keySequence));
     console.log("Successfully simulated keyboard shortcut:", keySequence);
   } catch (error) {
     console.error("Failed to simulate keyboard shortcut:", error);
-    showNotification(`快捷键模拟失败: ${keySequence}`, true);
+    showNotification(t("content_shortcutFailed", "快捷键模拟失败: $1").replace("$1", keySequence), true);
   }
 }
 
@@ -529,7 +539,7 @@ function showExtensionInfoModal(extensionName, extensionInfo) {
 
     // 标题
     const title = document.createElement("h3");
-    title.textContent = `扩展信息: ${extensionName}`;
+    title.textContent = `${t("actionName_call_extension", "调用扩展")} ${extensionName}`;
     title.style.cssText = `
       margin: 0 0 16px 0 !important;
       color: #1a73e8 !important;
@@ -558,7 +568,7 @@ function showExtensionInfoModal(extensionName, extensionInfo) {
 
     // 关闭按钮
     const closeButton = document.createElement("button");
-    closeButton.textContent = "关闭";
+    closeButton.textContent = t("content_close", "关闭");
     closeButton.style.cssText = `
       background: #1a73e8 !important;
       color: white !important;
@@ -611,6 +621,6 @@ function showExtensionInfoModal(extensionName, extensionInfo) {
   } catch (error) {
     console.error("Failed to create extension info modal:", error);
     // 备用方案：显示简单通知
-    showNotification(`扩展信息: ${extensionName}\n${extensionInfo}`, false, 5000);
+    showNotification(`${t("actionName_call_extension", "调用扩展")}: ${extensionName}\n${extensionInfo}`, false, 5000);
   }
 }

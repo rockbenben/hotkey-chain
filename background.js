@@ -1,5 +1,61 @@
 // Background Service Worker for Hotkey Chain Extension
 
+// Override-able i18n support (driven by options-selected language)
+let localeOverride = "auto";
+let i18nOverrideMap = null; // { key: message }
+
+async function loadLocaleOverrideCache() {
+  try {
+    const { localeOverride: stored } = await chrome.storage.local.get(["localeOverride"]);
+    localeOverride = stored || "auto";
+    if (localeOverride && localeOverride !== "auto") {
+      const url = chrome.runtime.getURL(`_locales/${localeOverride}/messages.json`);
+      const resp = await fetch(url);
+      if (!resp.ok) {
+        i18nOverrideMap = null;
+        return;
+      }
+      const json = await resp.json();
+      const map = {};
+      Object.keys(json).forEach((k) => {
+        const v = json[k];
+        if (v && typeof v.message === "string") map[k] = v.message;
+      });
+      i18nOverrideMap = map;
+    } else {
+      i18nOverrideMap = null;
+    }
+  } catch (e) {
+    console.warn("Failed to load localeOverride cache", e);
+    i18nOverrideMap = null;
+  }
+}
+
+function substituteArgs(template, args) {
+  if (!template || !Array.isArray(args) || args.length === 0) return template;
+  // Replace $1, $2 ... with args[0], args[1] ...
+  return template.replace(/\$([1-9]\d*)/g, (m, n) => {
+    const idx = parseInt(n, 10) - 1;
+    return idx >= 0 && idx < args.length ? String(args[idx]) : m;
+  });
+}
+
+function t(key, fallback = "", args = []) {
+  try {
+    // Prefer override map if available
+    if (i18nOverrideMap && i18nOverrideMap[key]) {
+      return substituteArgs(i18nOverrideMap[key], args) || fallback || key;
+    }
+    const msg = chrome.i18n.getMessage(key, args);
+    return msg || fallback || key;
+  } catch (e) {
+    return fallback || key;
+  }
+}
+
+// Kick off loading override cache on service worker start
+loadLocaleOverrideCache();
+
 // Action types that can be executed
 const ACTION_TYPES = {
   SCROLL_TO_TOP: "scroll_to_top",
@@ -24,73 +80,66 @@ const ACTION_TYPES = {
   PIN_TAB: "pin_tab",
 };
 
-// Default configuration
-const DEFAULT_CONFIG = {
-  defaultChain: "chain_1",
-  chains: {
-    chain_1: {
-      name: "快速浏览链",
-      actions: [
-        { type: ACTION_TYPES.SCROLL_TO_TOP, delay: 200 },
-        { type: ACTION_TYPES.ZOOM_IN, delay: 300 },
-        { type: ACTION_TYPES.ZOOM_IN, delay: 300 },
-      ],
+// Build default configuration (with i18n names)
+function createDefaultConfig() {
+  return {
+    defaultChain: "chain_1",
+    chains: {
+      // 阅读模式：回到顶部 → 放大 ×2 → 全屏
+      chain_1: {
+        name: t("defaultChain_reading", "Reading mode"),
+        actions: [
+          { type: ACTION_TYPES.SCROLL_TO_TOP, delay: 0 },
+          { type: ACTION_TYPES.ZOOM_IN, delay: 200 },
+          { type: ACTION_TYPES.ZOOM_IN, delay: 200 },
+          { type: ACTION_TYPES.FULLSCREEN, delay: 0 },
+        ],
+      },
+      // 标签工具：复制标签页 → 固定/取消固定 → 新建标签页
+      chain_2: {
+        name: t("defaultChain_tabTools", "Tab tools"),
+        actions: [
+          { type: ACTION_TYPES.DUPLICATE_TAB, delay: 0 },
+          { type: ACTION_TYPES.PIN_TAB, delay: 200 },
+          { type: ACTION_TYPES.NEW_TAB, delay: 200 },
+        ],
+      },
+      // 快速收藏：复制 URL → 加入书签（剪贴板保留 URL）
+      chain_3: {
+        name: t("defaultChain_quickBookmark", "Quick bookmark"),
+        actions: [
+          { type: ACTION_TYPES.COPY_URL, delay: 0 },
+          { type: ACTION_TYPES.BOOKMARK, delay: 200 },
+        ],
+      },
+      // 强制刷新：清缓存并刷新当前站点
+      chain_4: {
+        name: t("defaultChain_devRefresh", "Dev hard refresh"),
+        actions: [{ type: ACTION_TYPES.CLEAR_CACHE, delay: 0 }],
+      },
+      // 命令演示：展示如何执行扩展命令（以本扩展为例）
+      chain_5: {
+        name: t("defaultChain_commandDemo", "Command demo"),
+        actions: [
+          // 选择并执行本扩展的某个命令作为示例，例如执行链1
+          { type: ACTION_TYPES.EXECUTE_COMMAND, delay: 0, extensionId: chrome.runtime.id, command: "execute_chain_1" },
+        ],
+      },
     },
-    chain_2: {
-      name: "标签管理链",
-      actions: [
-        { type: ACTION_TYPES.DUPLICATE_TAB, delay: 200 },
-        { type: ACTION_TYPES.PIN_TAB, delay: 300 },
-        { type: ACTION_TYPES.NEW_TAB, delay: 500 },
-      ],
-    },
-    chain_3: {
-      name: "页面收藏链",
-      actions: [
-        { type: ACTION_TYPES.COPY_TITLE, delay: 200 },
-        { type: ACTION_TYPES.COPY_URL, delay: 300 },
-        { type: ACTION_TYPES.BOOKMARK, delay: 400 },
-      ],
-    },
-    chain_4: {
-      name: "扩展调用链",
-      actions: [
-        {
-          type: ACTION_TYPES.CALL_EXTENSION,
-          extensionId: "gighmmpiobklfepjocnamgkkbiglidom", // AdBlock
-          message: { action: "toggle" },
-          delay: 300,
-        },
-        { type: ACTION_TYPES.RELOAD_PAGE, delay: 1000 },
-      ],
-    },
-    chain_5: {
-      name: "命令执行链",
-      actions: [
-        {
-          type: ACTION_TYPES.EXECUTE_COMMAND,
-          command: "execute_chain_1",
-          delay: 500,
-        },
-        { type: ACTION_TYPES.NEW_TAB, delay: 300 },
-      ],
-    },
-  },
-};
+  };
+}
 
-// Initialize extension
-chrome.runtime.onInstalled.addListener(async () => {
-  // Set default configuration if not exists
-  const result = await chrome.storage.sync.get(["hotkeyChainConfig"]);
-  if (!result.hotkeyChainConfig) {
-    await chrome.storage.sync.set({ hotkeyChainConfig: DEFAULT_CONFIG });
-    console.log("Hotkey Chain: Default configuration set");
+async function buildContextMenus() {
+  try {
+    await chrome.contextMenus.removeAll();
+  } catch (e) {
+    // ignore
   }
 
   // Create context menu
   chrome.contextMenus.create({
     id: "hotkey-chain-execute-default",
-    title: "执行默认动作链",
+    title: t("menu_executeDefault", "Execute default chain"),
     contexts: ["action"],
   });
 
@@ -103,19 +152,19 @@ chrome.runtime.onInstalled.addListener(async () => {
   // Add generic chain execution options
   chrome.contextMenus.create({
     id: "execute-chain_1",
-    title: "执行动作链 1",
+    title: t("menu_executeChain", "Execute chain 1", ["1"]),
     contexts: ["action"],
   });
 
   chrome.contextMenus.create({
     id: "execute-chain_2",
-    title: "执行动作链 2",
+    title: t("menu_executeChain", "Execute chain 2", ["2"]),
     contexts: ["action"],
   });
 
   chrome.contextMenus.create({
     id: "execute-chain_3",
-    title: "执行动作链 3",
+    title: t("menu_executeChain", "Execute chain 3", ["3"]),
     contexts: ["action"],
   });
 
@@ -127,9 +176,34 @@ chrome.runtime.onInstalled.addListener(async () => {
 
   chrome.contextMenus.create({
     id: "hotkey-chain-options",
-    title: "配置设置",
+    title: t("menu_options", "Options"),
     contexts: ["action"],
   });
+}
+
+// Initialize extension
+chrome.runtime.onInstalled.addListener(async () => {
+  // Set default configuration if not exists
+  const result = await chrome.storage.sync.get(["hotkeyChainConfig"]);
+  if (!result.hotkeyChainConfig) {
+    await chrome.storage.sync.set({ hotkeyChainConfig: createDefaultConfig() });
+    console.log("Hotkey Chain: Default configuration set");
+  }
+  await loadLocaleOverrideCache();
+  await buildContextMenus();
+});
+
+chrome.runtime.onStartup.addListener(async () => {
+  await loadLocaleOverrideCache();
+  await buildContextMenus();
+});
+
+chrome.storage.onChanged.addListener((changes, area) => {
+  if (area === "local" && changes.localeOverride) {
+    loadLocaleOverrideCache()
+      .then(buildContextMenus)
+      .catch(() => {});
+  }
 });
 
 // Handle context menu clicks
@@ -396,7 +470,10 @@ async function executeExtensionCommand(extensionId, command, tab, keySequence = 
           await chrome.tabs.sendMessage(tab.id, {
             action: "show_extension_notification",
             extensionName: extension.name,
-            message: `${extension.name} 已${newEnabled ? "启用" : "禁用"}`,
+            message: t("msg_extension_toggled", `${extension.name} ${newEnabled ? "enabled" : "disabled"}`, [
+              extension.name,
+              newEnabled ? t("state_enabled", "enabled") : t("state_disabled", "disabled"),
+            ]),
             isError: false,
           });
           console.log(`Extension ${extension.name} ${newEnabled ? "enabled" : "disabled"}`);
@@ -404,8 +481,8 @@ async function executeExtensionCommand(extensionId, command, tab, keySequence = 
           console.error("Failed to toggle extension:", error);
           await chrome.tabs.sendMessage(tab.id, {
             action: "show_extension_notification",
-            extensionName: "扩展",
-            message: "切换扩展状态失败",
+            extensionName: t("label_extension", "Extension"),
+            message: t("error_toggle_extension_failed", "Failed to toggle extension"),
             isError: true,
           });
         }
@@ -420,7 +497,7 @@ async function executeExtensionCommand(extensionId, command, tab, keySequence = 
           await chrome.tabs.sendMessage(tab.id, {
             action: "show_extension_notification",
             extensionName: extension.name,
-            message: `${extension.name} 卸载请求已发送`,
+            message: t("msg_uninstall_requested", `${extension.name} uninstall requested`, [extension.name]),
             isError: false,
           });
           console.log(`Uninstall requested for extension: ${extension.name}`);
@@ -428,8 +505,8 @@ async function executeExtensionCommand(extensionId, command, tab, keySequence = 
           console.error("Failed to uninstall extension:", error);
           await chrome.tabs.sendMessage(tab.id, {
             action: "show_extension_notification",
-            extensionName: "扩展",
-            message: "扩展卸载失败",
+            extensionName: t("label_extension", "Extension"),
+            message: t("error_uninstall_extension_failed", "Failed to uninstall extension"),
             isError: true,
           });
         }
@@ -446,7 +523,7 @@ async function executeExtensionCommand(extensionId, command, tab, keySequence = 
             await chrome.tabs.sendMessage(tab.id, {
               action: "show_extension_notification",
               extensionName: extension.name,
-              message: `${extension.name} 没有选项页面`,
+              message: t("msg_no_options_page", `${extension.name} has no options page`, [extension.name]),
               isError: true,
             });
           }
@@ -471,13 +548,13 @@ async function executeExtensionCommand(extensionId, command, tab, keySequence = 
         // 显示扩展详细信息 (chrome.management.get)
         try {
           const extension = await chrome.management.get(extensionId);
-          const info = `扩展名称: ${extension.name}
-版本: ${extension.version}
-描述: ${extension.description}
-类型: ${extension.type}
-安装类型: ${extension.installType}
-权限: ${extension.permissions?.join(", ") || "无"}
-主页: ${extension.homepageUrl || "无"}`;
+          const info = `${t("label_extension_name", "Extension")}: ${extension.name}
+${t("label_version", "Version")}: ${extension.version}
+${t("label_description", "Description")}: ${extension.description}
+${t("label_type", "Type")}: ${extension.type}
+${t("label_install_type", "Install type")}: ${extension.installType}
+${t("label_permissions", "Permissions")}: ${extension.permissions?.join(", ") || t("label_none", "None")}
+${t("label_homepage", "Homepage")}: ${extension.homepageUrl || t("label_none", "None")}`;
 
           console.log(`Sending extension info to tab ${tab.id}:`, info);
 
@@ -495,7 +572,7 @@ async function executeExtensionCommand(extensionId, command, tab, keySequence = 
               await chrome.tabs.sendMessage(tab.id, {
                 action: "show_extension_notification",
                 extensionName: extension.name,
-                message: `${extension.name} 详细信息请检查控制台`,
+                message: t("msg_check_console_for_details", `${extension.name} details: check console`, [extension.name]),
                 isError: false,
               });
               console.log("Extension info:", info);
@@ -508,8 +585,8 @@ async function executeExtensionCommand(extensionId, command, tab, keySequence = 
           try {
             await chrome.tabs.sendMessage(tab.id, {
               action: "show_extension_notification",
-              extensionName: "错误",
-              message: "获取扩展信息失败",
+              extensionName: t("label_error", "Error"),
+              message: t("error_get_extension_info_failed", "Failed to get extension info"),
               isError: true,
             });
           } catch (notificationError) {
@@ -529,7 +606,7 @@ async function executeExtensionCommand(extensionId, command, tab, keySequence = 
             await chrome.tabs.sendMessage(tab.id, {
               action: "show_extension_notification",
               extensionName: extension.name,
-              message: `${extension.name} 没有设置主页`,
+              message: t("msg_no_homepage", `${extension.name} has no homepage`, [extension.name]),
               isError: true,
             });
           }
@@ -551,7 +628,7 @@ async function executeExtensionCommand(extensionId, command, tab, keySequence = 
             await chrome.tabs.sendMessage(tab.id, {
               action: "show_extension_notification",
               extensionName: extension.name,
-              message: `开发扩展 ${extension.name} 已重新加载`,
+              message: t("msg_dev_extension_reloaded", `Dev extension ${extension.name} reloaded`, [extension.name]),
               isError: false,
             });
             console.log(`Reloaded dev extension: ${extension.name}`);
@@ -559,7 +636,7 @@ async function executeExtensionCommand(extensionId, command, tab, keySequence = 
             await chrome.tabs.sendMessage(tab.id, {
               action: "show_extension_notification",
               extensionName: extension.name,
-              message: `${extension.name} 不是开发扩展，无法重新加载`,
+              message: t("msg_not_dev_extension", `${extension.name} is not a dev extension`, [extension.name]),
               isError: true,
             });
           }
@@ -577,7 +654,7 @@ async function executeExtensionCommand(extensionId, command, tab, keySequence = 
             await chrome.tabs.sendMessage(tab.id, {
               action: "show_extension_notification",
               extensionName: extension.name,
-              message: `Chrome应用 ${extension.name} 已启动`,
+              message: t("msg_app_launched", `App ${extension.name} launched`, [extension.name]),
               isError: false,
             });
             console.log(`Launched app: ${extension.name}`);
@@ -585,7 +662,7 @@ async function executeExtensionCommand(extensionId, command, tab, keySequence = 
             await chrome.tabs.sendMessage(tab.id, {
               action: "show_extension_notification",
               extensionName: extension.name,
-              message: `${extension.name} 不是Chrome应用，无法启动`,
+              message: t("msg_not_chrome_app", `${extension.name} is not a Chrome app`, [extension.name]),
               isError: true,
             });
           }
@@ -593,8 +670,8 @@ async function executeExtensionCommand(extensionId, command, tab, keySequence = 
           console.error("Failed to launch app:", error);
           await chrome.tabs.sendMessage(tab.id, {
             action: "show_extension_notification",
-            extensionName: "应用",
-            message: "启动应用失败",
+            extensionName: t("label_app", "App"),
+            message: t("error_launch_app_failed", "Failed to launch app"),
             isError: true,
           });
         }
@@ -618,8 +695,8 @@ async function executeExtensionCommand(extensionId, command, tab, keySequence = 
         try {
           await chrome.tabs.sendMessage(tab.id, {
             action: "show_extension_notification",
-            extensionName: "命令",
-            message: `未知命令: ${command}`,
+            extensionName: t("label_command", "Command"),
+            message: t("error_unknown_command", `Unknown command: ${command}`, [command]),
             isError: true,
           });
         } catch (error) {
@@ -632,8 +709,8 @@ async function executeExtensionCommand(extensionId, command, tab, keySequence = 
     try {
       await chrome.tabs.sendMessage(tab.id, {
         action: "show_extension_notification",
-        extensionName: "错误",
-        message: "命令执行失败",
+        extensionName: t("label_error", "Error"),
+        message: t("error_execute_command_failed", "Command execution failed"),
         isError: true,
       });
     } catch (notificationError) {
@@ -645,7 +722,7 @@ async function executeExtensionCommand(extensionId, command, tab, keySequence = 
 // Utility functions
 async function getConfig() {
   const result = await chrome.storage.sync.get(["hotkeyChainConfig"]);
-  return result.hotkeyChainConfig || DEFAULT_CONFIG;
+  return result.hotkeyChainConfig || createDefaultConfig();
 }
 
 function sleep(ms) {
@@ -706,14 +783,29 @@ async function getInstalledExtensions() {
 async function getExtensionCommands(extensionId) {
   try {
     if (extensionId === chrome.runtime.id) {
-      // 获取当前扩展的实际命令
+      // 获取当前扩展的实际命令，并用覆盖语言重写名称/描述
       const allCommands = await chrome.commands.getAll();
-      return allCommands.map((cmd) => ({
-        name: cmd.description || cmd.name,
-        command: cmd.name,
-        description: cmd.description,
-        shortcut: cmd.shortcut || "",
-      }));
+      return allCommands.map((cmd) => {
+        const name = cmd.name || "";
+        let key = null;
+        let args = [];
+        if (name === "_execute_action") {
+          key = "cmd_execute_action";
+        } else {
+          const m = name.match(/^execute_chain_(\d+)/);
+          if (m) {
+            key = `cmd_execute_chain_${m[1]}`;
+          }
+        }
+        const fallback = cmd.description || name;
+        const localized = key ? t(key, fallback, args) : fallback;
+        return {
+          name: localized,
+          command: name,
+          description: localized,
+          shortcut: cmd.shortcut || "",
+        };
+      });
     } else {
       // 对于其他扩展，提供Chrome Management API支持的实际操作
       const extensions = await chrome.management.getAll();
@@ -723,18 +815,18 @@ async function getExtensionCommands(extensionId) {
 
         // 1. 启用/禁用扩展 (chrome.management.setEnabled)
         commands.push({
-          name: "启用/禁用扩展",
+          name: t("cmd_toggle_extension_name", "Toggle extension"),
           command: "toggle_enabled",
-          description: `切换 ${targetExt.name} 的启用状态`,
+          description: t("cmd_toggle_extension_desc", `Toggle ${targetExt.name} enabled state`, [targetExt.name]),
           shortcut: "",
         });
 
         // 2. 卸载扩展 (chrome.management.uninstall) - 需要用户确认
         if (targetExt.mayDisable) {
           commands.push({
-            name: "卸载扩展",
+            name: t("cmd_uninstall_extension_name", "Uninstall extension"),
             command: "uninstall_extension",
-            description: `卸载 ${targetExt.name} (需要用户确认)`,
+            description: t("cmd_uninstall_extension_desc", `Uninstall ${targetExt.name} (confirmation required)`, [targetExt.name]),
             shortcut: "",
           });
         }
@@ -742,35 +834,35 @@ async function getExtensionCommands(extensionId) {
         // 3. 打开扩展选项页面 (直接URL访问)
         if (targetExt.optionsUrl) {
           commands.push({
-            name: "打开扩展选项",
+            name: t("cmd_open_options_name", "Open options"),
             command: "open_options",
-            description: `打开 ${targetExt.name} 设置页面`,
+            description: t("cmd_open_options_desc", `Open ${targetExt.name} options page`, [targetExt.name]),
             shortcut: "",
           });
         }
 
         // 4. 打开扩展详情页面 (chrome://extensions/?id=xxx)
         commands.push({
-          name: "打开扩展详情",
+          name: t("cmd_open_details_name", "Open details"),
           command: "open_details",
-          description: `在扩展管理页面查看 ${targetExt.name} 详情`,
+          description: t("cmd_open_details_desc", `View ${targetExt.name} in extensions page`, [targetExt.name]),
           shortcut: "",
         });
 
         // 5. 获取扩展信息 (chrome.management.get)
         commands.push({
-          name: "显示扩展信息",
+          name: t("cmd_show_info_name", "Show extension info"),
           command: "show_extension_info",
-          description: `显示 ${targetExt.name} 的详细信息`,
+          description: t("cmd_show_info_desc", `Show details of ${targetExt.name}`, [targetExt.name]),
           shortcut: "",
         });
 
         // 6. 打开扩展主页 (如果有的话)
         if (targetExt.homepageUrl) {
           commands.push({
-            name: "打开扩展主页",
+            name: t("cmd_open_homepage_name", "Open homepage"),
             command: "open_homepage",
-            description: `访问 ${targetExt.name} 官方网站`,
+            description: t("cmd_open_homepage_desc", `Visit ${targetExt.name} website`, [targetExt.name]),
             shortcut: "",
           });
         }
@@ -778,9 +870,9 @@ async function getExtensionCommands(extensionId) {
         // 7. 特殊：对于开发者扩展，提供重新加载功能
         if (targetExt.installType === "development") {
           commands.push({
-            name: "重新加载开发扩展",
+            name: t("cmd_reload_dev_name", "Reload dev extension"),
             command: "reload_dev_extension",
-            description: `重新加载开发中的 ${targetExt.name}`,
+            description: t("cmd_reload_dev_desc", `Reload dev extension ${targetExt.name}`, [targetExt.name]),
             shortcut: "",
           });
         }
@@ -788,9 +880,9 @@ async function getExtensionCommands(extensionId) {
         // 8. 启动应用程序 (仅对Chrome Apps有效)
         if (targetExt.type === "packaged_app" || targetExt.type === "hosted_app") {
           commands.push({
-            name: "启动应用",
+            name: t("cmd_launch_app_name", "Launch app"),
             command: "launch_app",
-            description: `启动Chrome应用 ${targetExt.name}`,
+            description: t("cmd_launch_app_desc", `Launch Chrome app ${targetExt.name}`, [targetExt.name]),
             shortcut: "",
           });
         }
@@ -799,9 +891,9 @@ async function getExtensionCommands(extensionId) {
         if (targetExt.updateUrl && targetExt.updateUrl.includes("chrome.google.com")) {
           const storeId = targetExt.id;
           commands.push({
-            name: "打开商店页面",
+            name: t("cmd_open_store_name", "Open store page"),
             command: "open_store_page",
-            description: `在Chrome网上应用店查看 ${targetExt.name}`,
+            description: t("cmd_open_store_desc", `View ${targetExt.name} in Chrome Web Store`, [targetExt.name]),
             shortcut: "",
           });
         }

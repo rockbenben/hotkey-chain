@@ -18,8 +18,8 @@
       <div class="main-container">
         <!-- Header -->
         <header class="app-header p-4 text-center">
-          <h1 class="h2 mb-2">🔗 Hotkey Chain</h1>
-          <p class="mb-0 opacity-75">扩展设置 · 动作链管理</p>
+          <h1 class="h2 mb-2" data-i18n="appTitle">🔗 Hotkey Chain 设置</h1>
+          <p class="mb-0 opacity-75" data-i18n="appSubtitle">扩展设置 · 动作链管理</p>
         </header>
 
         <!-- 主界面 -->
@@ -28,11 +28,19 @@
           <div class="toolbar mb-4">
             <div class="d-flex justify-content-between align-items-center">
               <div>
-                <h3 class="h4 mb-1">动作链管理</h3>
-                <p class="text-muted mb-0">创建和管理您的快捷操作序列</p>
+                <h3 class="h4 mb-1" data-i18n="toolbar_title">动作链管理</h3>
+                <p class="text-muted mb-0" data-i18n="toolbar_subtitle">创建和管理您的快捷操作序列</p>
               </div>
-              <div class="toolbar-actions">
-                <button id="addChainBtn" class="btn btn-primary"><i class="bi bi-plus-lg me-2"></i>新建动作链</button>
+              <div class="toolbar-actions d-flex align-items-center gap-2">
+                <div class="d-flex align-items-center me-2">
+                  <label for="localeSelect" class="me-2 small text-muted" data-i18n="settings_language">界面语言</label>
+                  <select id="localeSelect" class="form-select form-select-sm" style="width: auto; min-width: 160px">
+                    <option value="auto" data-i18n="language_auto">跟随浏览器</option>
+                    <option value="en" data-i18n="language_en">English</option>
+                    <option value="zh_CN" data-i18n="language_zh_CN">简体中文</option>
+                  </select>
+                </div>
+                <button id="addChainBtn" class="btn btn-primary"><i class="bi bi-plus-lg me-2"></i><span data-i18n="toolbar_add">新建动作链</span></button>
               </div>
             </div>
           </div>
@@ -48,7 +56,7 @@
               <div class="card-header">
                 <h5 class="mb-0">
                   <button class="btn btn-link text-decoration-none p-0" type="button" data-bs-toggle="collapse" data-bs-target="#helpCollapse">
-                    <i class="bi bi-question-circle me-2"></i>可用动作说明
+                    <i class="bi bi-question-circle me-2"></i><span data-i18n="help_title">可用动作说明</span>
                     <i class="bi bi-chevron-down ms-2"></i>
                   </button>
                 </h5>
@@ -70,14 +78,14 @@
           <div class="edit-header p-4 border-bottom">
             <div class="d-flex align-items-center justify-content-between">
               <div class="d-flex align-items-center">
-                <button id="backBtn" class="btn btn-outline-secondary me-3"><i class="bi bi-arrow-left me-2"></i>返回</button>
+                <button id="backBtn" class="btn btn-outline-secondary me-3"><i class="bi bi-arrow-left me-2"></i><span data-i18n="edit_back">返回</span></button>
                 <div>
-                  <h3 class="h4 mb-0" id="editChainTitle">编辑动作链</h3>
-                  <p class="text-muted mb-0">配置动作序列和执行参数</p>
+                  <h3 class="h4 mb-0" id="editChainTitle" data-i18n="edit_title">编辑动作链</h3>
+                  <p class="text-muted mb-0" data-i18n="edit_subtitle">配置动作序列和执行参数</p>
                 </div>
               </div>
               <div class="edit-actions">
-                <button id="testChainBtn" class="btn btn-outline-primary"><i class="bi bi-play me-2"></i>测试执行</button>
+                <button id="testChainBtn" class="btn btn-outline-primary"><i class="bi bi-play me-2"></i><span data-i18n="edit_test">测试执行</span></button>
               </div>
             </div>
           </div>
@@ -88,18 +96,18 @@
               <!-- 左侧：基本信息 -->
               <div class="col-md-4">
                 <div class="chain-info-panel">
-                  <h5 class="mb-3">基本信息</h5>
+                  <h5 class="mb-3" data-i18n="info_basic">基本信息</h5>
                   <div class="mb-3">
-                    <label class="form-label">动作链名称</label>
-                    <input type="text" class="form-control" id="chainNameInput" placeholder="请输入动作链名称" />
+                    <label class="form-label" data-i18n="info_name">动作链名称</label>
+                    <input type="text" class="form-control" id="chainNameInput" placeholder="__MSG_info_name_placeholder__" />
                   </div>
                   <div class="mb-3">
-                    <label class="form-label">描述</label>
-                    <textarea class="form-control" id="chainDescInput" rows="3" placeholder="可选：描述此动作链的用途"></textarea>
+                    <label class="form-label" data-i18n="info_desc">描述</label>
+                    <textarea class="form-control" id="chainDescInput" rows="3" placeholder="__MSG_info_desc_placeholder__"></textarea>
                   </div>
                   <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="setAsDefaultCheck" />
-                    <label class="form-check-label" for="setAsDefaultCheck"> 设为默认动作链 </label>
+                    <label class="form-check-label" for="setAsDefaultCheck" data-i18n="info_default"> 设为默认动作链 </label>
                   </div>
                 </div>
               </div>
@@ -108,8 +116,8 @@
               <div class="col-md-8">
                 <div class="actions-panel">
                   <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 class="mb-0">动作序列</h5>
-                    <button id="addActionBtn" class="btn btn-outline-primary btn-sm"><i class="bi bi-plus me-1"></i>添加动作</button>
+                    <h5 class="mb-0" data-i18n="actions_title">动作序列</h5>
+                    <button id="addActionBtn" class="btn btn-outline-primary btn-sm"><i class="bi bi-plus me-1"></i><span data-i18n="actions_add">添加动作</span></button>
                   </div>
                   <div class="actions-list" id="chainEditConfig">
                     <!-- Populated by JavaScript -->

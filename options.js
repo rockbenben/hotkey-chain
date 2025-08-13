@@ -3,6 +3,8 @@
 // Global variables
 let currentConfig = {};
 let editingChainId = null;
+let userLocale = null; // 'auto' | 'en' | 'zh_CN'
+let i18nCache = {}; // options page override cache
 
 // Action types mapping (same as background.js)
 const ACTION_TYPES = {
@@ -29,29 +31,29 @@ const ACTION_TYPES = {
   WAIT: "wait",
 };
 
-// Action display names
+// Action display names (i18n)
 const ACTION_NAMES = {
-  [ACTION_TYPES.SCROLL_TO_TOP]: "滚动到顶部",
-  [ACTION_TYPES.SCROLL_TO_BOTTOM]: "滚动到底部",
-  [ACTION_TYPES.RELOAD_PAGE]: "刷新页面",
-  [ACTION_TYPES.CLOSE_TAB]: "关闭标签页",
-  [ACTION_TYPES.NEW_TAB]: "新标签页",
-  [ACTION_TYPES.COPY_URL]: "复制URL",
-  [ACTION_TYPES.COPY_TITLE]: "复制标题",
-  [ACTION_TYPES.FULLSCREEN]: "全屏切换",
-  [ACTION_TYPES.ZOOM_IN]: "放大",
-  [ACTION_TYPES.ZOOM_OUT]: "缩小",
-  [ACTION_TYPES.ZOOM_RESET]: "重置缩放",
-  [ACTION_TYPES.BACK]: "后退",
-  [ACTION_TYPES.FORWARD]: "前进",
-  [ACTION_TYPES.BOOKMARK]: "书签页面",
-  [ACTION_TYPES.FOCUS_ADDRESS_BAR]: "聚焦地址栏",
-  [ACTION_TYPES.CLEAR_CACHE]: "清除缓存",
-  [ACTION_TYPES.DUPLICATE_TAB]: "复制标签页",
-  [ACTION_TYPES.PIN_TAB]: "固定/取消固定标签页",
-  [ACTION_TYPES.WAIT]: "等待",
-  [ACTION_TYPES.EXECUTE_COMMAND]: "执行命令",
-  [ACTION_TYPES.CALL_EXTENSION]: "调用扩展",
+  [ACTION_TYPES.SCROLL_TO_TOP]: () => t("actionName_scroll_to_top", "滚动到顶部"),
+  [ACTION_TYPES.SCROLL_TO_BOTTOM]: () => t("actionName_scroll_to_bottom", "滚动到底部"),
+  [ACTION_TYPES.RELOAD_PAGE]: () => t("actionName_reload_page", "刷新页面"),
+  [ACTION_TYPES.CLOSE_TAB]: () => t("actionName_close_tab", "关闭标签页"),
+  [ACTION_TYPES.NEW_TAB]: () => t("actionName_new_tab", "新标签页"),
+  [ACTION_TYPES.COPY_URL]: () => t("actionName_copy_url", "复制URL"),
+  [ACTION_TYPES.COPY_TITLE]: () => t("actionName_copy_title", "复制标题"),
+  [ACTION_TYPES.FULLSCREEN]: () => t("actionName_toggle_fullscreen", "全屏切换"),
+  [ACTION_TYPES.ZOOM_IN]: () => t("actionName_zoom_in", "放大"),
+  [ACTION_TYPES.ZOOM_OUT]: () => t("actionName_zoom_out", "缩小"),
+  [ACTION_TYPES.ZOOM_RESET]: () => t("actionName_zoom_reset", "重置缩放"),
+  [ACTION_TYPES.BACK]: () => t("actionName_go_back", "后退"),
+  [ACTION_TYPES.FORWARD]: () => t("actionName_go_forward", "前进"),
+  [ACTION_TYPES.BOOKMARK]: () => t("actionName_bookmark_page", "书签页面"),
+  [ACTION_TYPES.FOCUS_ADDRESS_BAR]: () => t("actionName_focus_address_bar", "聚焦地址栏"),
+  [ACTION_TYPES.CLEAR_CACHE]: () => t("actionName_clear_cache", "清除缓存"),
+  [ACTION_TYPES.DUPLICATE_TAB]: () => t("actionName_duplicate_tab", "复制标签页"),
+  [ACTION_TYPES.PIN_TAB]: () => t("actionName_pin_tab", "固定/取消固定标签页"),
+  [ACTION_TYPES.WAIT]: () => t("actionName_wait", "等待"),
+  [ACTION_TYPES.EXECUTE_COMMAND]: () => t("actionName_execute_command", "执行命令"),
+  [ACTION_TYPES.CALL_EXTENSION]: () => t("actionName_call_extension", "调用扩展"),
 };
 
 // Common extension action templates
@@ -146,15 +148,26 @@ let isLoadingCommands = false;
 
 let installedExtensions = [];
 
-// Action categories for grouped display
+// Action categories (stable IDs) and their i18n labels
+const ACTION_CATEGORY_LABELS = {
+  execute_command: () => t("category_execute_command", "执行命令"),
+  page_ops: () => t("category_page_ops", "页面操作"),
+  tab_mgmt: () => t("category_tab_mgmt", "标签管理"),
+  zoom: () => t("category_zoom", "缩放控制"),
+  content: () => t("category_content", "内容操作"),
+  advanced: () => t("category_advanced", "高级功能"),
+  extension: () => t("category_extension", "扩展调用"),
+};
+
+// Action categories for grouped display (do not localize keys here)
 const ACTION_CATEGORIES = {
-  执行命令: [ACTION_TYPES.EXECUTE_COMMAND],
-  页面操作: [ACTION_TYPES.SCROLL_TO_TOP, ACTION_TYPES.SCROLL_TO_BOTTOM, ACTION_TYPES.RELOAD_PAGE, ACTION_TYPES.FULLSCREEN, ACTION_TYPES.BACK, ACTION_TYPES.FORWARD],
-  标签管理: [ACTION_TYPES.CLOSE_TAB, ACTION_TYPES.NEW_TAB, ACTION_TYPES.DUPLICATE_TAB, ACTION_TYPES.PIN_TAB],
-  缩放控制: [ACTION_TYPES.ZOOM_IN, ACTION_TYPES.ZOOM_OUT, ACTION_TYPES.ZOOM_RESET],
-  内容操作: [ACTION_TYPES.COPY_URL, ACTION_TYPES.COPY_TITLE, ACTION_TYPES.BOOKMARK, ACTION_TYPES.FOCUS_ADDRESS_BAR],
-  高级功能: [ACTION_TYPES.CLEAR_CACHE, ACTION_TYPES.WAIT],
-  扩展调用: [ACTION_TYPES.CALL_EXTENSION],
+  execute_command: [ACTION_TYPES.EXECUTE_COMMAND],
+  page_ops: [ACTION_TYPES.SCROLL_TO_TOP, ACTION_TYPES.SCROLL_TO_BOTTOM, ACTION_TYPES.RELOAD_PAGE, ACTION_TYPES.FULLSCREEN, ACTION_TYPES.BACK, ACTION_TYPES.FORWARD],
+  tab_mgmt: [ACTION_TYPES.CLOSE_TAB, ACTION_TYPES.NEW_TAB, ACTION_TYPES.DUPLICATE_TAB, ACTION_TYPES.PIN_TAB],
+  zoom: [ACTION_TYPES.ZOOM_IN, ACTION_TYPES.ZOOM_OUT, ACTION_TYPES.ZOOM_RESET],
+  content: [ACTION_TYPES.COPY_URL, ACTION_TYPES.COPY_TITLE, ACTION_TYPES.BOOKMARK, ACTION_TYPES.FOCUS_ADDRESS_BAR],
+  advanced: [ACTION_TYPES.CLEAR_CACHE, ACTION_TYPES.WAIT],
+  extension: [ACTION_TYPES.CALL_EXTENSION],
 };
 
 // Preferred order for action options
@@ -198,24 +211,66 @@ const ACTION_TYPE_ORDER = [
 // Generate grouped action options
 function generateGroupedActionOptions(selectedType) {
   return Object.entries(ACTION_CATEGORIES)
-    .map(
-      ([category, actions]) => `
-      <optgroup label="${category}">
+    .map(([categoryId, actions]) => {
+      const label = (ACTION_CATEGORY_LABELS[categoryId] && ACTION_CATEGORY_LABELS[categoryId]()) || categoryId;
+      return `
+      <optgroup label="${label}">
         ${actions
           .map(
             (type) => `
-          <option value="${type}" ${selectedType === type ? "selected" : ""}>${ACTION_NAMES[type]}</option>
+          <option value="${type}" ${selectedType === type ? "selected" : ""}>${(ACTION_NAMES[type] && ACTION_NAMES[type]()) || type}</option>
         `
           )
           .join("")}
       </optgroup>
-    `
-    )
+    `;
+    })
     .join("");
 }
 
 // Initialize options page
 document.addEventListener("DOMContentLoaded", async () => {
+  // Load user locale preference
+  try {
+    userLocale = localStorage.getItem("hotkey_chain_locale") || "auto";
+  } catch {}
+  // Preload override locale if any
+  await loadOverrideLocale(userLocale);
+  // Sync override to background so it can localize with the same language
+  try {
+    await chrome.storage.local.set({ localeOverride: userLocale || "auto" });
+  } catch {}
+  // i18n static text first
+  applyI18nToPage();
+  // init selector
+  const localeSelect = document.getElementById("localeSelect");
+  if (localeSelect) {
+    localeSelect.value = userLocale || "auto";
+    localeSelect.addEventListener("change", async (e) => {
+      userLocale = e.target.value;
+      try {
+        if (userLocale && userLocale !== "auto") {
+          localStorage.setItem("hotkey_chain_locale", userLocale);
+        } else {
+          localStorage.removeItem("hotkey_chain_locale");
+        }
+      } catch {}
+      // Persist override for background and wait a tick to ensure it's picked up
+      try {
+        await chrome.storage.local.set({ localeOverride: userLocale || "auto" });
+      } catch {}
+      await loadOverrideLocale(userLocale);
+      applyI18nToPage();
+      // Reload extension commands to reflect new language coming from background
+      try {
+        await new Promise((r) => setTimeout(r, 150));
+        await loadExtensionCommands();
+      } catch {}
+      renderMainView();
+      renderActionsHelp();
+      if (editingChainId) renderChainEdit(editingChainId);
+    });
+  }
   await loadExtensionCommands();
   await loadConfig();
   await loadInstalledExtensions();
@@ -228,6 +283,45 @@ document.addEventListener("DOMContentLoaded", async () => {
     initializeSortableDragDrop();
   }, 200);
 });
+
+// i18n helpers
+function t(msgKey, fallback = "") {
+  try {
+    if (userLocale && userLocale !== "auto" && i18nCache[userLocale]) {
+      const val = i18nCache[userLocale][msgKey];
+      if (val) return val;
+    }
+    const res = chrome.i18n.getMessage(msgKey);
+    return res || fallback || msgKey;
+  } catch (e) {
+    return fallback || msgKey;
+  }
+}
+
+function applyI18nToPage() {
+  document.querySelectorAll("[data-i18n]").forEach((el) => {
+    const key = el.getAttribute("data-i18n");
+    const txt = t(key, el.textContent.trim());
+    if (txt) el.textContent = txt;
+  });
+}
+
+async function loadOverrideLocale(locale) {
+  if (!locale || locale === "auto") return;
+  try {
+    const resp = await fetch(`_locales/${locale}/messages.json`);
+    if (!resp.ok) return;
+    const json = await resp.json();
+    const map = {};
+    Object.keys(json).forEach((k) => {
+      const v = json[k];
+      if (v && typeof v.message === "string") map[k] = v.message;
+    });
+    i18nCache[locale] = map;
+  } catch (e) {
+    console.warn("Failed to load override locale", locale, e);
+  }
+}
 
 // 动态加载所有扩展的命令
 async function loadExtensionCommands() {
@@ -451,7 +545,7 @@ function editChain(chainKey) {
 
   // Update edit view title
   const editTitle = document.getElementById("editChainTitle");
-  editTitle.textContent = `编辑动作链: ${chain.name}`;
+  editTitle.textContent = `${t("edit_title", "编辑动作链")}: ${chain.name}`;
 
   // Fill in the form fields
   const chainNameInput = document.getElementById("chainNameInput");
@@ -543,13 +637,13 @@ function renderMainView() {
           ${
             !isDefault
               ? `
-            <button class="btn btn-link p-1 position-absolute top-0 end-0 set-default-btn" data-chain-key="${chainKey}" title="设为默认动作链">
+            <button class="btn btn-link p-1 position-absolute top-0 end-0 set-default-btn" data-chain-key="${chainKey}" title="${t("tooltip_setDefaultChain", "Set as default chain")}">
               <i class="bi bi-star text-warning"></i>
             </button>
           `
               : `
             <div class="position-absolute top-0 end-0 p-2">
-              <i class="bi bi-star-fill text-warning" title="默认动作链"></i>
+              <i class="bi bi-star-fill text-warning" title="${t("tooltip_defaultChain", "Default chain")}"></i>
             </div>
           `
           }
@@ -559,7 +653,7 @@ function renderMainView() {
               <h6 class="chain-title mb-1">${chain.name}</h6>
               <div class="chain-meta">
                 <span class="chain-actions-count">
-                  <i class="bi bi-list-ul me-1"></i>${chain.actions.length} 个动作
+                  <i class="bi bi-list-ul me-1"></i>${chain.actions.length} ${t("actions_count", "个动作")}
                 </span>
               </div>
             </div>
@@ -572,23 +666,27 @@ function renderMainView() {
               .map(
                 (action) => `
               <div class="action-item d-flex justify-content-between align-items-center py-1">
-                <span class="action-name text-truncate">${ACTION_NAMES[action.type] || action.type}</span>
-                <span class="badge bg-light text-dark ms-2">${action.delay}ms</span>
+                <span class="action-name text-truncate">${(ACTION_NAMES[action.type] && ACTION_NAMES[action.type]()) || action.type}</span>
+                <span class="badge bg-light text-dark ms-2">${action.delay}${t("label.ms", "ms")}</span>
               </div>
             `
               )
               .join("")}
-            ${chain.actions.length > 3 ? `<div class="text-muted small mt-2"><i class="bi bi-three-dots"></i> 还有 ${chain.actions.length - 3} 个动作</div>` : ""}
-            ${chain.actions.length === 0 ? `<div class="text-muted small"><i class="bi bi-info-circle me-1"></i>暂无动作</div>` : ""}
+            ${
+              chain.actions.length > 3
+                ? `<div class="text-muted small mt-2"><i class="bi bi-three-dots"></i> ${t("actions_more", "还有")} ${chain.actions.length - 3} ${t("actions_count", "个动作")}</div>`
+                : ""
+            }
+            ${chain.actions.length === 0 ? `<div class="text-muted small"><i class="bi bi-info-circle me-1"></i>${t("actions_none", "暂无动作")}</div>` : ""}
           </div>
           <div class="chain-card-actions d-flex gap-2 flex-wrap">
             <button class="btn btn-primary btn-sm execute-btn flex-fill" data-chain-key="${chainKey}">
-              <i class="bi bi-caret-right-fill me-1"></i>执行
+              <i class="bi bi-caret-right-fill me-1"></i>${t("card_exec", "执行")}
             </button>
-            <button class="btn btn-outline-secondary btn-sm edit-chain-btn" data-chain-key="${chainKey}">
+            <button class="btn btn-outline-secondary btn-sm edit-chain-btn" data-chain-key="${chainKey}" title="${t("card_edit", "编辑")}">
               <i class="bi bi-pencil"></i>
             </button>
-            <button class="btn btn-outline-danger btn-sm delete-chain-btn" data-chain-key="${chainKey}">
+            <button class="btn btn-outline-danger btn-sm delete-chain-btn" data-chain-key="${chainKey}" title="${t("card_delete", "删除")}">
               <i class="bi bi-trash"></i>
             </button>
           </div>
@@ -630,12 +728,12 @@ function renderChainEdit(chainKey) {
                   ${generateGroupedActionOptions(action.type)}
                 </select>
               </div>
-              <div class="col-md-3">
+    <div class="col-md-3">
                 <div class="input-group input-group-sm">
-                  <span class="input-group-text">延迟</span>
+  <span class="input-group-text">${t("label_delay", "延迟")}</span>
                   <input type="number" class="form-control action-delay-input" min="0" max="10000" step="100" 
-                         value="${action.delay}" data-chain-key="${chainKey}" data-action-index="${index}" placeholder="ms">
-                  <span class="input-group-text">ms</span>
+          value="${action.delay}" data-chain-key="${chainKey}" data-action-index="${index}" placeholder="${t("label_ms", "ms")}">
+        <span class="input-group-text">${t("label_ms", "ms")}</span>
                 </div>
               </div>
               <div class="col-md-auto">
@@ -682,10 +780,10 @@ function generateActionSpecificControls(chainKey, index, action) {
       <div class="mt-2">
         <div class="row g-2 mb-2">
           <div class="col-md-6">
-            <label class="form-label small">选择扩展:</label>
+            <label class="form-label small">${t("label_selectExtension", "选择扩展")}:</label>
             <select class="form-select form-select-sm extension-selector" data-chain-key="${chainKey}" data-action-index="${index}">
-              <option value="">-- 选择已安装的扩展 --</option>
-              <option value="manual" ${!action.extensionId || action.extensionId === "manual" ? "selected" : ""}>手动输入扩展ID</option>
+              <option value="">${t("placeholder_selectInstalledExtension", "-- 选择已安装的扩展 --")}</option>
+              <option value="manual" ${!action.extensionId || action.extensionId === "manual" ? "selected" : ""}>${t("option_manualInputExtensionId", "手动输入扩展ID")}</option>
             </select>
           </div>
           <div class="col-md-auto">
@@ -697,23 +795,23 @@ function generateActionSpecificControls(chainKey, index, action) {
         </div>
         
         <div class="extension-id-row mb-2" ${action.extensionId && action.extensionId !== "manual" ? 'style="display:none"' : ""}>
-          <label class="form-label small">扩展ID:</label>
-          <input type="text" class="form-control form-control-sm extension-id-input" placeholder="扩展ID (如: nfgcnddoajoekfpacfkehomkgmpndhob)" 
+          <label class="form-label small">${t("label_extensionId", "扩展ID")}:</label>
+          <input type="text" class="form-control form-control-sm extension-id-input" placeholder="${t("placeholder_extensionIdExample", "扩展ID (如: nfgcnddoajoekfpacfkehomkgmpndhob)")}" 
                  value="${action.extensionId && action.extensionId !== "manual" ? action.extensionId : ""}" 
                  data-chain-key="${chainKey}" data-action-index="${index}">
         </div>
         
         <div class="extension-action-row mb-2" ${!action.extensionId || action.extensionId === "manual" ? 'style="display:none"' : ""}>
-          <label class="form-label small">预设动作:</label>
+          <label class="form-label small">${t("label_presetAction", "预设动作")}:</label>
           <select class="form-select form-select-sm extension-action-selector" data-chain-key="${chainKey}" data-action-index="${index}">
-            <option value="">-- 选择动作模板 --</option>
-            <option value="custom">自定义消息</option>
+            <option value="">${t("placeholder_selectActionTemplate", "-- 选择动作模板 --")}</option>
+            <option value="custom">${t("option_customMessage", "自定义消息")}</option>
           </select>
         </div>
         
         <div class="extension-message-row">
-          <label class="form-label small">消息内容:</label>
-          <textarea class="form-control form-control-sm extension-message-input" rows="3" placeholder="消息内容 (JSON格式，如: {&quot;action&quot;: &quot;toggle&quot;})" 
+          <label class="form-label small">${t("label_messageContent", "消息内容")}:</label>
+          <textarea class="form-control form-control-sm extension-message-input" rows="3" placeholder="${t("placeholder_messageJson", '消息内容 (JSON格式，如: {"action": "toggle"})')}" 
                    data-chain-key="${chainKey}" data-action-index="${index}">${action.message ? JSON.stringify(action.message, null, 2) : ""}</textarea>
         </div>
       </div>
@@ -723,21 +821,21 @@ function generateActionSpecificControls(chainKey, index, action) {
       <div class="mt-2">
         <div class="row g-2 mb-2">
           <div class="col-md-6">
-            <label class="form-label small">选择扩展:</label>
+            <label class="form-label small">${t("label_selectExtension", "选择扩展")}:</label>
             <select class="form-select form-select-sm command-extension-selector" data-chain-key="${chainKey}" data-action-index="${index}">
-              <option value="">-- 选择扩展 --</option>
+              <option value="">${t("label_selectExtension", "选择扩展")}</option>
             </select>
           </div>
         </div>
         
         <div class="row g-2">
           <div class="col">
-            <label class="form-label small">选择命令:</label>
+            <label class="form-label small">${t("label_selectCommand", "选择命令")}:</label>
             <div class="input-group input-group-sm">
               <select class="form-select form-select-sm command-selector" data-chain-key="${chainKey}" data-action-index="${index}">
-                <option value="">-- 选择命令 --</option>
+                <option value="">${t("placeholder_selectCommand", "-- 选择命令 --")}</option>
               </select>
-              <button class="btn btn-outline-secondary refresh-commands-btn" data-chain-key="${chainKey}" data-action-index="${index}" title="刷新命令列表">
+              <button class="btn btn-outline-secondary refresh-commands-btn" data-chain-key="${chainKey}" data-action-index="${index}" title="${t("tooltip_refreshCommands", "刷新命令列表")}">
                 <i class="bi bi-arrow-clockwise"></i>
               </button>
             </div>
@@ -883,7 +981,7 @@ async function initializeExtensionSelectors() {
     const action = currentConfig.chains[chainKey].actions[actionIndex];
 
     // Clear existing options
-    selector.innerHTML = '<option value="">-- 选择扩展 --</option>';
+    selector.innerHTML = `<option value="">${t("label_selectExtension", "选择扩展")}</option>`;
 
     // Add other installed extensions first (excluding current extension)
     const currentExtensionId = chrome.runtime.id;
@@ -899,7 +997,7 @@ async function initializeExtensionSelectors() {
     // Add current extension at the end
     const currentOption = document.createElement("option");
     currentOption.value = currentExtensionId;
-    currentOption.textContent = "Hotkey Chain (本扩展)";
+    currentOption.textContent = `${t("appName", "Hotkey Chain")} (${t("thisExtension", "本扩展")})`;
     selector.appendChild(currentOption);
 
     // Set current selection
@@ -931,11 +1029,12 @@ function renderActionsHelp() {
   if (!actionsHelp) return;
 
   actionsHelp.innerHTML = Object.entries(ACTION_CATEGORIES)
-    .map(
-      ([category, actions]) => `
+    .map(([categoryId, actions]) => {
+      const label = (ACTION_CATEGORY_LABELS[categoryId] && ACTION_CATEGORY_LABELS[categoryId]()) || categoryId;
+      return `
       <div class="card mb-3">
         <div class="card-header">
-          <h6 class="mb-0">${category}</h6>
+          <h6 class="mb-0">${label}</h6>
         </div>
         <div class="card-body">
           <div class="row">
@@ -943,7 +1042,7 @@ function renderActionsHelp() {
               .map(
                 (action) => `
               <div class="col-md-6 col-lg-4 mb-2">
-                <span class="badge bg-light text-dark">${ACTION_NAMES[action]}</span>
+                <span class="badge bg-light text-dark">${(ACTION_NAMES[action] && ACTION_NAMES[action]()) || action}</span>
               </div>
             `
               )
@@ -951,8 +1050,8 @@ function renderActionsHelp() {
           </div>
         </div>
       </div>
-    `
-    )
+    `;
+    })
     .join("");
 }
 
@@ -963,10 +1062,10 @@ async function executeChain(chainKey) {
       action: "executeChain",
       chainKey: chainKey,
     });
-    showMessage(`执行动作链: ${currentConfig.chains[chainKey].name}`);
+    showMessage(t("toast_chainExecuted", "执行动作链: $1").replace("$1", currentConfig.chains[chainKey].name));
   } catch (error) {
     console.error("Failed to execute chain:", error);
-    showMessage("执行失败", true);
+    showMessage(t("toast_executeFailed", "执行失败"), true);
   }
 }
 
@@ -975,14 +1074,14 @@ async function setDefaultChain(chainKey) {
   currentConfig.defaultChain = chainKey;
   await saveConfig();
   renderMainView();
-  showMessage("默认链已设置");
+  showMessage(t("toast_defaultSet", "默认链已设置"));
 }
 
 // Add new chain
 async function addNewChain() {
   const chainKey = `chain_${Date.now()}`;
   currentConfig.chains[chainKey] = {
-    name: "新动作链",
+    name: t("newChain_defaultName", "新动作链"),
     actions: [],
   };
 
@@ -995,7 +1094,7 @@ async function addNewChain() {
 
   await saveConfig();
   renderMainView();
-  showMessage("新链已添加");
+  showMessage(t("toast_newChainAdded", "新链已添加"));
 
   // 自动进入编辑模式
   setTimeout(() => {
@@ -1006,14 +1105,14 @@ async function addNewChain() {
 // Delete chain
 async function deleteChain(chainKey) {
   if (Object.keys(currentConfig.chains).length <= 1) {
-    showMessage("至少需要保留一个动作链", true);
+    showMessage(t("toast_atLeastOne", "至少需要保留一个动作链"), true);
     return;
   }
 
-  const chainName = currentConfig.chains[chainKey]?.name || "未知动作链";
+  const chainName = currentConfig.chains[chainKey]?.name || t("label_unknownChain", "未知动作链");
 
   // 显示确认对话框
-  const confirmed = confirm(`确定要删除动作链"${chainName}"吗？\n\n此操作不可撤销。`);
+  const confirmed = confirm(`${t("card_delete", "删除")} "${chainName}"?\n\n`);
   if (!confirmed) {
     return;
   }
@@ -1033,7 +1132,7 @@ async function deleteChain(chainKey) {
 
   await saveConfig();
   renderMainView();
-  showMessage("动作链已删除");
+  showMessage(t("card_delete", "删除"));
 }
 
 // Update chain name
@@ -1045,7 +1144,7 @@ async function updateChainName(chainKey, newName) {
   const editView = document.getElementById("edit-view");
   if (editView.style.display !== "none") {
     const editTitle = document.getElementById("editChainTitle");
-    editTitle.textContent = `编辑动作链: ${newName}`;
+    editTitle.textContent = `${t("edit_title", "编辑动作链")}: ${newName}`;
   }
 }
 
@@ -1069,7 +1168,7 @@ async function addAction(chainKey) {
     renderChainEdit(chainKey);
   }
 
-  showMessage("动作已添加");
+  showMessage(t("actions_add", "添加动作"));
 }
 
 // Remove action from chain
@@ -1082,7 +1181,7 @@ async function removeAction(chainKey, actionIndex) {
     renderChainEdit(chainKey);
   }
 
-  showMessage("动作已删除");
+  showMessage(t("card_delete", "删除"));
 }
 
 // Update action type
@@ -1248,7 +1347,7 @@ async function populateCommandSelector(selector, extensionId) {
       });
       if (commands && commands.length > 0) {
         extensionCommandsCache[extensionId] = {
-          name: extensionId === chrome.runtime.id ? "Hotkey Chain" : "Unknown",
+          name: extensionId === chrome.runtime.id ? t("extName", "Hotkey Chain") : "Unknown",
           commands: commands,
         };
       }
@@ -1318,11 +1417,11 @@ async function refreshExtensionsList(chainKey, actionIndex) {
         selector.value = currentValue;
       }
 
-      showMessage(`已刷新 ${extensions.length} 个扩展`);
+      showMessage(t("toast_extensionsRefreshed", "已刷新 $1 个扩展").replace("$1", extensions.length));
     }
   } catch (error) {
     console.error("Failed to refresh extensions:", error);
-    showMessage("刷新扩展列表失败", true);
+    showMessage(t("toast_refreshExtensionsFailed", "刷新扩展列表失败"), true);
   }
 }
 
@@ -1333,7 +1432,7 @@ async function refreshCommandsList(chainKey, actionIndex) {
     const extensionId = action.extensionId;
 
     if (!extensionId) {
-      showMessage("请先选择扩展", true);
+      showMessage(t("toast_selectExtensionFirst", "请先选择扩展"), true);
       return;
     }
 
@@ -1357,10 +1456,10 @@ async function refreshCommandsList(chainKey, actionIndex) {
       }
     }
 
-    showMessage("已刷新命令列表");
+    showMessage(t("toast_commandsRefreshed", "已刷新命令列表"));
   } catch (error) {
     console.error("Failed to refresh commands:", error);
-    showMessage("刷新命令列表失败", true);
+    showMessage(t("toast_refreshCommandsFailed", "刷新命令列表失败"), true);
   }
 }
 

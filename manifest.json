@@ -1,11 +1,12 @@
 {
   "manifest_version": 3,
-  "name": "Hotkey Chain",
+  "name": "__MSG_extName__",
   "version": "1.0.0",
-  "description": "Execute multiple extension actions with customizable hotkey chains",
+  "description": "__MSG_extDescription__",
+  "default_locale": "en",
   "permissions": ["storage", "activeTab", "scripting", "contextMenus", "bookmarks", "management", "clipboardWrite"],
   "action": {
-    "default_title": "Hotkey Chain - Click to execute default action",
+    "default_title": "__MSG_action_defaultTitle__",
     "default_icon": {
       "16": "icons/icon16.png",
       "32": "icons/icon32.png",
@@ -32,25 +33,25 @@
       "suggested_key": {
         "default": "Ctrl+Shift+H"
       },
-      "description": "Execute default action chain"
+      "description": "__MSG_cmd_execute_action__"
     },
     "execute_chain_1": {
       "suggested_key": {
         "default": "Ctrl+Shift+1"
       },
-      "description": "Action chain 1"
+      "description": "__MSG_cmd_execute_chain_1__"
     },
     "execute_chain_2": {
       "suggested_key": {
         "default": "Ctrl+Shift+2"
       },
-      "description": "Action chain 2"
+      "description": "__MSG_cmd_execute_chain_2__"
     },
     "execute_chain_3": {
       "suggested_key": {
         "default": "Ctrl+Shift+3"
       },
-      "description": "Action chain 3"
+      "description": "__MSG_cmd_execute_chain_3__"
     }
   },
   "icons": {

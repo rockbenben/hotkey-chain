@@ -1,0 +1,62 @@
+{
+  "manifest_version": 3,
+  "name": "Hotkey Chain",
+  "version": "1.0.0",
+  "description": "Execute multiple extension actions with customizable hotkey chains",
+  "permissions": ["storage", "activeTab", "scripting", "contextMenus", "bookmarks", "management", "clipboardWrite"],
+  "action": {
+    "default_title": "Hotkey Chain - Click to execute default action",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+H"
+      },
+      "description": "Execute default action chain"
+    },
+    "execute_chain_1": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+1"
+      },
+      "description": "Action chain 1"
+    },
+    "execute_chain_2": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+2"
+      },
+      "description": "Action chain 2"
+    },
+    "execute_chain_3": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+3"
+      },
+      "description": "Action chain 3"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

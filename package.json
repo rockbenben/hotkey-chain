@@ -1,0 +1,31 @@
+{
+  "name": "hotkey-chain",
+  "version": "1.0.0",
+  "description": "A Chrome extension for executing multiple actions with customizable hotkey chains",
+  "main": "background.js",
+  "scripts": {
+    "build": "echo 'Building extension...' && npm run validate",
+    "validate": "echo 'Validating manifest...'",
+    "pack": "echo 'Packing extension...'",
+    "test": "echo 'Running tests...'"
+  },
+  "keywords": [
+    "chrome-extension",
+    "hotkey",
+    "automation",
+    "productivity",
+    "browser-extension"
+  ],
+  "author": "rockbenben",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rockbenben/hotkey-chain.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rockbenben/hotkey-chain/issues"
+  },
+  "homepage": "https://github.com/rockbenben/hotkey-chain#readme",
+  "devDependencies": {},
+  "dependencies": {}
+}

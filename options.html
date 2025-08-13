@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hotkey Chain 设置</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="assets/bootstrap.min.css" />
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="assets/bootstrap-icons.css" />
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="assets/animate.min.css" />
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="main-container">
+        <!-- Header -->
+        <header class="app-header p-4 text-center">
+          <h1 class="h2 mb-2">🔗 Hotkey Chain</h1>
+          <p class="mb-0 opacity-75">扩展设置 · 动作链管理</p>
+        </header>
+
+        <!-- 主界面 -->
+        <div class="main-content p-4" id="main-view">
+          <!-- 工具栏 -->
+          <div class="toolbar mb-4">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h3 class="h4 mb-1">动作链管理</h3>
+                <p class="text-muted mb-0">创建和管理您的快捷操作序列</p>
+              </div>
+              <div class="toolbar-actions">
+                <button id="addChainBtn" class="btn btn-primary"><i class="bi bi-plus-lg me-2"></i>新建动作链</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 动作链网格 -->
+          <div class="chains-grid" id="chains-container">
+            <!-- Populated by JavaScript -->
+          </div>
+
+          <!-- 帮助信息 -->
+          <div class="help-section mt-5">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="mb-0">
+                  <button class="btn btn-link text-decoration-none p-0" type="button" data-bs-toggle="collapse" data-bs-target="#helpCollapse">
+                    <i class="bi bi-question-circle me-2"></i>可用动作说明
+                    <i class="bi bi-chevron-down ms-2"></i>
+                  </button>
+                </h5>
+              </div>
+              <div id="helpCollapse" class="collapse">
+                <div class="card-body">
+                  <div class="actions-help">
+                    <!-- Populated by JavaScript -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 编辑界面 -->
+        <div class="edit-content" id="edit-view" style="display: none">
+          <!-- 编辑头部 -->
+          <div class="edit-header p-4 border-bottom">
+            <div class="d-flex align-items-center justify-content-between">
+              <div class="d-flex align-items-center">
+                <button id="backBtn" class="btn btn-outline-secondary me-3"><i class="bi bi-arrow-left me-2"></i>返回</button>
+                <div>
+                  <h3 class="h4 mb-0" id="editChainTitle">编辑动作链</h3>
+                  <p class="text-muted mb-0">配置动作序列和执行参数</p>
+                </div>
+              </div>
+              <div class="edit-actions">
+                <button id="testChainBtn" class="btn btn-outline-primary"><i class="bi bi-play me-2"></i>测试执行</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 编辑内容 -->
+          <div class="edit-body p-4">
+            <div class="row">
+              <!-- 左侧：基本信息 -->
+              <div class="col-md-4">
+                <div class="chain-info-panel">
+                  <h5 class="mb-3">基本信息</h5>
+                  <div class="mb-3">
+                    <label class="form-label">动作链名称</label>
+                    <input type="text" class="form-control" id="chainNameInput" placeholder="请输入动作链名称" />
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">描述</label>
+                    <textarea class="form-control" id="chainDescInput" rows="3" placeholder="可选：描述此动作链的用途"></textarea>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="setAsDefaultCheck" />
+                    <label class="form-check-label" for="setAsDefaultCheck"> 设为默认动作链 </label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 右侧：动作配置 -->
+              <div class="col-md-8">
+                <div class="actions-panel">
+                  <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="mb-0">动作序列</h5>
+                    <button id="addActionBtn" class="btn btn-outline-primary btn-sm"><i class="bi bi-plus me-1"></i>添加动作</button>
+                  </div>
+                  <div class="actions-list" id="chainEditConfig">
+                    <!-- Populated by JavaScript -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/Sortable.min.js"></script>
+    <script src="assets/bootstrap.bundle.min.js"></script>
+    <script src="options.js"></script>
+  </body>
+</html>

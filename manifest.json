@@ -1,10 +1,34 @@
 {
   "manifest_version": 3,
   "name": "__MSG_extName__",
-  "version": "1.0.0",
+  "version": "1.3.1",
   "description": "__MSG_extDescription__",
   "default_locale": "en",
-  "permissions": ["storage", "activeTab", "scripting", "contextMenus", "bookmarks", "management", "clipboardWrite"],
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "contextMenus",
+    "bookmarks",
+    "management",
+    "clipboardWrite",
+    "clipboardRead",
+    "sessions",
+    "tabs",
+    "tabGroups",
+    "downloads",
+    "notifications",
+    "tts",
+    "alarms",
+    "browsingData",
+    "history",
+    "power",
+    "readingList",
+    "search",
+    "pageCapture"
+  ],
+  "host_permissions": ["<all_urls>"],
+  "omnibox": { "keyword": "hc" },
   "action": {
     "default_title": "__MSG_action_defaultTitle__",
     "default_icon": {
@@ -52,6 +76,24 @@
         "default": "Ctrl+Shift+3"
       },
       "description": "__MSG_cmd_execute_chain_3__"
+    },
+    "execute_chain_4": {
+      "description": "__MSG_cmd_execute_chain_4__"
+    },
+    "execute_chain_5": {
+      "description": "__MSG_cmd_execute_chain_5__"
+    },
+    "execute_chain_6": {
+      "description": "__MSG_cmd_execute_chain_6__"
+    },
+    "execute_chain_7": {
+      "description": "__MSG_cmd_execute_chain_7__"
+    },
+    "execute_chain_8": {
+      "description": "__MSG_cmd_execute_chain_8__"
+    },
+    "execute_chain_9": {
+      "description": "__MSG_cmd_execute_chain_9__"
     }
   },
   "icons": {

@@ -1,8 +1,30 @@
 // Content Script for Hotkey Chain Extension
 
+// Localized-message override, mirrored from the options-page language choice.
+// Without this, content scripts fall back to chrome.i18n (the browser UI
+// language), which diverges from the override the user picked in Options.
+let contentI18nOverride = null;
+
+async function loadContentLocaleOverride() {
+  try {
+    const { localeOverride } = await chrome.storage.local.get(["localeOverride"]);
+    if (!localeOverride || localeOverride === "auto") {
+      contentI18nOverride = null;
+      return;
+    }
+    // The background already has the override map loaded; reuse it instead of
+    // fetching _locales (which would require web_accessible_resources).
+    const resp = await chrome.runtime.sendMessage({ action: "getLocaleMessages" });
+    contentI18nOverride = resp && resp.override ? resp.override : null;
+  } catch (e) {
+    contentI18nOverride = null;
+  }
+}
+
 // i18n helper
 function t(key, fallback = "") {
   try {
+    if (contentI18nOverride && contentI18nOverride[key]) return contentI18nOverride[key];
     const msg = chrome.i18n.getMessage(key);
     return msg || fallback || key;
   } catch (e) {
@@ -10,8 +32,19 @@ function t(key, fallback = "") {
   }
 }
 
-// Listen for messages from background script
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+// Listen for messages from background script.
+// Guarded against double-registration: the background script injects
+// content.js on demand into pages opened before install/update.
+if (!window.__hotkeyChainContentLoaded) {
+  window.__hotkeyChainContentLoaded = true;
+  chrome.runtime.onMessage.addListener(handleBackgroundMessage);
+  loadContentLocaleOverride();
+  chrome.storage.onChanged.addListener((changes, area) => {
+    if (area === "local" && changes.localeOverride) loadContentLocaleOverride();
+  });
+}
+
+function handleBackgroundMessage(request, sender, sendResponse) {
   const action = request.action;
 
   try {
@@ -21,7 +54,16 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         break;
 
       case "scroll_to_bottom":
-        window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+        // documentElement covers pages where body doesn't carry the scroll height
+        window.scrollTo({ top: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight), behavior: "smooth" });
+        break;
+
+      case "scroll_page_up":
+        window.scrollBy({ top: -window.innerHeight * 0.9, behavior: "smooth" });
+        break;
+
+      case "scroll_page_down":
+        window.scrollBy({ top: window.innerHeight * 0.9, behavior: "smooth" });
         break;
 
       case "copy_url":
@@ -34,35 +76,64 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         showNotification(t("content_titleCopied", "Title copied to clipboard"));
         break;
 
+      case "copy_as_markdown":
+        copyToClipboard(`[${document.title}](${window.location.href})`);
+        showNotification(t("content_markdownCopied", "Markdown link copied to clipboard"));
+        break;
+
+      case "copy_selected_text": {
+        const selection = String(window.getSelection()).trim();
+        if (selection) {
+          copyToClipboard(selection);
+          showNotification(t("content_selectionCopied", "Selection copied to clipboard"));
+        } else {
+          showNotification(t("content_noSelection", "No text selected"), true);
+        }
+        break;
+      }
+
+      case "toggle_dark_mode":
+        toggleDarkMode();
+        break;
+
+      case "media_play_pause": {
+        const media = findMediaElements();
+        if (!media.length) {
+          showNotification(t("content_noMedia", "No media found on this page"), true);
+          break;
+        }
+        const playing = media.filter((m) => !m.paused);
+        if (playing.length) {
+          playing.forEach((m) => m.pause());
+        } else {
+          media.forEach((m) => m.play().catch(() => {}));
+        }
+        break;
+      }
+
+      case "media_speed_up":
+      case "media_speed_down":
+      case "media_speed_reset": {
+        const media = findMediaElements();
+        if (!media.length) {
+          showNotification(t("content_noMedia", "No media found on this page"), true);
+          break;
+        }
+        let rate = media[0].playbackRate;
+        if (action === "media_speed_up") rate = Math.min(rate + 0.25, 4);
+        else if (action === "media_speed_down") rate = Math.max(rate - 0.25, 0.25);
+        else rate = 1;
+        media.forEach((m) => (m.playbackRate = rate));
+        showNotification(t("content_playbackRate", "Playback speed: $1x").replace("$1", String(rate)));
+        break;
+      }
+
       case "toggle_fullscreen":
         toggleFullscreen();
         break;
 
-      case "open_devtools":
-        openDevTools();
-        break;
-
-      case "find_in_page":
-        triggerFindInPage();
-        break;
-
-      case "select_all":
-        selectAllContent();
-        break;
-
-      case "page_top":
-        window.scrollTo({ top: 0, behavior: "smooth" });
-        showNotification(t("content_jumpTop", "已跳转到页面顶部"));
-        break;
-
-      case "page_bottom":
-        window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-        showNotification(t("content_jumpBottom", "已跳转到页面底部"));
-        break;
-
-      case "select_text_for_translation":
-        // 为翻译扩展准备文本选择
-        selectTextForTranslation();
+      case "print_page":
+        window.print();
         break;
 
       case "show_extension_notification":
@@ -75,11 +146,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         showExtensionInfoModal(request.extensionName, request.extensionInfo);
         break;
 
-      case "simulate_keyboard_shortcut":
-        // 模拟键盘快捷键
-        simulateKeyboardShortcut(request.keySequence);
-        break;
-
       default:
         console.warn(`Unknown content script action: ${action}`);
     }
@@ -89,7 +155,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     console.error(`Error executing content script action ${action}:`, error);
     sendResponse({ success: false, error: error.message });
   }
-});
+}
 
 // Copy text to clipboard
 async function copyToClipboard(text) {
@@ -97,18 +163,15 @@ async function copyToClipboard(text) {
     // 尝试使用现代 Clipboard API
     if (navigator.clipboard && window.isSecureContext) {
       await navigator.clipboard.writeText(text);
-      console.log("Successfully copied using Clipboard API");
     } else {
       // 使用传统方法作为备用
       await fallbackCopyToClipboard(text);
-      console.log("Successfully copied using fallback method");
     }
   } catch (error) {
     console.error("Failed to copy to clipboard:", error);
     // 再次尝试备用方法
     try {
       await fallbackCopyToClipboard(text);
-      console.log("Successfully copied using secondary fallback");
     } catch (fallbackError) {
       console.error("All copy methods failed:", fallbackError);
       showNotification(t("content_copyFailed", "复制失败，请手动复制"), true);
@@ -151,6 +214,32 @@ async function fallbackCopyToClipboard(text) {
       textArea.remove();
     }
   });
+}
+
+// Collect controllable media elements (video/audio, including inside open shadow roots is out of scope)
+function findMediaElements() {
+  return [...document.querySelectorAll("video, audio")];
+}
+
+// Toggle a CSS-filter based dark mode on the page
+function toggleDarkMode() {
+  const styleId = "hotkey-chain-dark-mode-style";
+  const existing = document.getElementById(styleId);
+  if (existing) {
+    existing.remove();
+    showNotification(t("content_darkModeOff", "Dark mode off"));
+  } else {
+    const style = document.createElement("style");
+    style.id = styleId;
+    style.textContent = `
+      html { filter: invert(1) hue-rotate(180deg) !important; background: #111 !important; }
+      img, video, canvas, picture, svg, iframe, embed, object {
+        filter: invert(1) hue-rotate(180deg) !important;
+      }
+    `;
+    document.documentElement.appendChild(style);
+    showNotification(t("content_darkModeOn", "Dark mode on"));
+  }
 }
 
 // Toggle fullscreen mode
@@ -216,299 +305,14 @@ function showNotification(message, isError = false, duration = 2500) {
   }, duration);
 }
 
-console.log("Hotkey Chain Extension: Content script loaded");
-function openDevTools() {
-  console.log("Content script: Attempting to open DevTools");
-
-  // Method 1: Try to focus on console (some sites might have console access)
-  try {
-    if (window.console && window.console.log) {
-      // Create a distinctive log entry that user can see
-      console.group("🔧 Hotkey Chain - DevTools Opened");
-      console.log("DevTools access requested at:", new Date().toLocaleTimeString());
-      console.log("Page URL:", window.location.href);
-      console.log("Page Title:", document.title);
-      console.groupEnd();
-    }
-  } catch (e) {
-    console.warn("Console access failed:", e);
-  }
-
-  // Method 2: Try to trigger a debugger statement (only works if DevTools is already open)
-  try {
-    // Only trigger debugger in development
-    if (location.hostname === "localhost" || location.hostname === "127.0.0.1" || location.protocol === "file:") {
-      debugger; // This will pause execution if DevTools is open
-    }
-  } catch (e) {
-    console.warn("Debugger trigger failed:", e);
-  }
-
-  // Method 3: Show notification to user
-  showNotification(`🔧 ${t("content_devtoolsTriggered", "DevTools功能已触发 - 请手动按F12打开")}`, 3000);
-}
-
-// Trigger find in page functionality
-function triggerFindInPage() {
-  console.log("Content script: Triggering find in page");
-
-  // Try to focus on search elements that might exist
-  const searchSelectors = ['input[type="search"]', 'input[name="search"]', 'input[placeholder*="search" i]', 'input[placeholder*="搜索" i]', ".search-input", "#search", "[data-search]"];
-
-  let foundSearchBox = false;
-  for (const selector of searchSelectors) {
-    const searchBox = document.querySelector(selector);
-    if (searchBox) {
-      searchBox.focus();
-      searchBox.select();
-      showNotification(t("content_focusedSearchBox", "已聚焦搜索框: $1").replace("$1", selector));
-      foundSearchBox = true;
-      break;
-    }
-  }
-
-  if (!foundSearchBox) {
-    // Show instruction for manual search
-    showNotification(`💡 ${t("content_manualFindHint", "请手动按 Ctrl+F 搜索页面内容")}`, 3000);
-  }
-}
-
-// Select all content
-function selectAllContent() {
-  console.log("Content script: Selecting all content");
-
-  try {
-    // Method 1: Try using Selection API
-    const selection = window.getSelection();
-    const range = document.createRange();
-
-    // Select the main content area if possible
-    const contentSelectors = ["main", "article", ".content", ".post-content", ".entry-content", "body"];
-
-    let targetElement = document.body;
-    for (const selector of contentSelectors) {
-      const element = document.querySelector(selector);
-      if (element) {
-        targetElement = element;
-        break;
-      }
-    }
-
-    range.selectNodeContents(targetElement);
-    selection.removeAllRanges();
-    selection.addRange(range);
-
-    showNotification(t("content_selectAllSuccess", "已选择全部内容 ($1)").replace("$1", targetElement.tagName));
-  } catch (e) {
-    console.warn("Select all failed:", e);
-    showNotification(t("content_selectAllFailed", "选择全部内容失败，请手动按 Ctrl+A"));
-  }
-}
-
-// Select text for translation extensions
-function selectTextForTranslation() {
-  console.log("Content script: Selecting text for translation");
-
-  try {
-    // 如果页面上有已选择的文本，保持不变
-    const selection = window.getSelection();
-    if (selection.toString().trim().length > 0) {
-      showNotification(t("content_textSelected", "已选择页面内容，可进行翻译"));
-      return;
-    }
-
-    // 否则尝试选择页面主要内容
-    const mainContentSelectors = ["main", "article", ".content", ".main-content", "#content", "#main", ".post-content", ".entry-content"];
-
-    let contentElement = null;
-    for (const selector of mainContentSelectors) {
-      contentElement = document.querySelector(selector);
-      if (contentElement) break;
-    }
-
-    // 如果找不到主要内容，选择body的第一个段落或文本节点
-    if (!contentElement) {
-      const paragraphs = document.querySelectorAll("p, div, span");
-      for (const p of paragraphs) {
-        if (p.textContent.trim().length > 20) {
-          contentElement = p;
-          break;
-        }
-      }
-    }
-
-    if (contentElement) {
-      const range = document.createRange();
-      range.selectNodeContents(contentElement);
-      selection.removeAllRanges();
-      selection.addRange(range);
-      showNotification(t("content_textSelected", "已选择页面内容，可进行翻译"));
-    } else {
-      // 最后备选：选择页面标题
-      const title = document.querySelector("h1, h2, title");
-      if (title) {
-        const range = document.createRange();
-        range.selectNodeContents(title);
-        selection.removeAllRanges();
-        selection.addRange(range);
-        showNotification(t("content_titleSelected", "已选择页面标题"));
-      }
-    }
-  } catch (error) {
-    console.error("Failed to select text for translation:", error);
-    showNotification(t("content_textSelectFailed", "文本选择失败"));
-  }
-}
-
-// Simulate keyboard shortcut
-function simulateKeyboardShortcut(keySequence) {
-  console.log("Content script: Simulating keyboard shortcut:", keySequence);
-
-  if (!keySequence) {
-    showNotification(t("content_invalidShortcut", "无效的快捷键序列"), true);
-    return;
-  }
-
-  try {
-    // 解析按键序列，例如 "Ctrl+Shift+L"
-    const keys = keySequence.split("+").map((key) => key.trim());
-    const modifiers = {
-      ctrlKey: false,
-      shiftKey: false,
-      altKey: false,
-      metaKey: false,
-    };
-
-    let mainKey = "";
-
-    // 识别修饰键和主键
-    keys.forEach((key) => {
-      const lowerKey = key.toLowerCase();
-      switch (lowerKey) {
-        case "ctrl":
-        case "control":
-          modifiers.ctrlKey = true;
-          break;
-        case "shift":
-          modifiers.shiftKey = true;
-          break;
-        case "alt":
-          modifiers.altKey = true;
-          break;
-        case "meta":
-        case "cmd":
-        case "command":
-          modifiers.metaKey = true;
-          break;
-        default:
-          mainKey = key;
-          break;
-      }
-    });
-
-    if (!mainKey) {
-      showNotification(t("content_noMainKey", "无法识别主按键"), true);
-      return;
-    }
-
-    // 创建键盘事件
-    const keyCode = getKeyCode(mainKey);
-    const eventOptions = {
-      key: mainKey,
-      code: `Key${mainKey.toUpperCase()}`,
-      keyCode: keyCode,
-      which: keyCode,
-      bubbles: true,
-      cancelable: true,
-      ...modifiers,
-    };
-
-    // 发送keydown事件
-    const keydownEvent = new KeyboardEvent("keydown", eventOptions);
-    document.dispatchEvent(keydownEvent);
-
-    // 发送keyup事件
-    const keyupEvent = new KeyboardEvent("keyup", eventOptions);
-    document.dispatchEvent(keyupEvent);
-
-    showNotification(t("content_shortcutSimulated", "已模拟快捷键: $1").replace("$1", keySequence));
-    console.log("Successfully simulated keyboard shortcut:", keySequence);
-  } catch (error) {
-    console.error("Failed to simulate keyboard shortcut:", error);
-    showNotification(t("content_shortcutFailed", "快捷键模拟失败: $1").replace("$1", keySequence), true);
-  }
-}
-
-// Get key code for a key
-function getKeyCode(key) {
-  const keyCodes = {
-    a: 65,
-    b: 66,
-    c: 67,
-    d: 68,
-    e: 69,
-    f: 70,
-    g: 71,
-    h: 72,
-    i: 73,
-    j: 74,
-    k: 75,
-    l: 76,
-    m: 77,
-    n: 78,
-    o: 79,
-    p: 80,
-    q: 81,
-    r: 82,
-    s: 83,
-    t: 84,
-    u: 85,
-    v: 86,
-    w: 87,
-    x: 88,
-    y: 89,
-    z: 90,
-    1: 49,
-    2: 50,
-    3: 51,
-    4: 52,
-    5: 53,
-    6: 54,
-    7: 55,
-    8: 56,
-    9: 57,
-    0: 48,
-    F1: 112,
-    F2: 113,
-    F3: 114,
-    F4: 115,
-    F5: 116,
-    F6: 117,
-    F7: 118,
-    F8: 119,
-    F9: 120,
-    F10: 121,
-    F11: 122,
-    F12: 123,
-    Enter: 13,
-    Escape: 27,
-    Space: 32,
-    Tab: 9,
-    Backspace: 8,
-    Delete: 46,
-  };
-
-  const upperKey = key.toUpperCase();
-  return keyCodes[key.toLowerCase()] || keyCodes[upperKey] || key.charCodeAt(0);
-}
 
 // Show extension info modal
 function showExtensionInfoModal(extensionName, extensionInfo) {
-  console.log("Content script: Showing extension info modal for:", extensionName);
 
   try {
     // 创建模态框背景
     const modalOverlay = document.createElement("div");
+    modalOverlay.id = "hotkey-chain-info-modal";
     modalOverlay.style.cssText = `
       position: fixed !important;
       top: 0 !important;
@@ -607,6 +411,8 @@ function showExtensionInfoModal(extensionName, extensionInfo) {
       }
     };
     document.addEventListener("keydown", handleKeyPress);
+    // Expose the closer so a re-open can dismiss the previous instance (and its listener)
+    modalOverlay.__hotkeyChainClose = closeModal;
 
     // 组装模态框
     modal.appendChild(title);
@@ -614,10 +420,16 @@ function showExtensionInfoModal(extensionName, extensionInfo) {
     modal.appendChild(closeButton);
     modalOverlay.appendChild(modal);
 
+    // Singleton: if a modal is already open, close it first so we never stack
+    // overlays or leak its document keydown listener.
+    const prior = document.getElementById("hotkey-chain-info-modal");
+    if (prior && prior !== modalOverlay && typeof prior.__hotkeyChainClose === "function") {
+      prior.__hotkeyChainClose();
+    }
+
     // 显示模态框
     document.body.appendChild(modalOverlay);
 
-    console.log("Extension info modal displayed successfully");
   } catch (error) {
     console.error("Failed to create extension info modal:", error);
     // 备用方案：显示简单通知

@@ -1,13 +1,12 @@
 {
   "name": "hotkey-chain",
-  "version": "1.0.0",
-  "description": "A Chrome extension for executing multiple actions with customizable hotkey chains",
+  "version": "1.3.1",
+  "description": "Shortcuts for your browser: chain 75+ actions and run them by hotkey, address bar, right-click, schedule, or URL match",
   "main": "background.js",
   "scripts": {
-    "build": "echo 'Building extension...' && npm run validate",
-    "validate": "echo 'Validating manifest...'",
-    "pack": "echo 'Packing extension...'",
-    "test": "echo 'Running tests...'"
+    "package": "node scripts/package.mjs",
+    "pack": "node scripts/package.mjs",
+    "build": "node scripts/package.mjs"
   },
   "keywords": [
     "chrome-extension",

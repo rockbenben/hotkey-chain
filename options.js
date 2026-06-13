@@ -3,7 +3,7 @@
 // Global variables
 let currentConfig = {};
 let editingChainId = null;
-let userLocale = null; // 'auto' | 'en' | 'zh_CN'
+let userLocale = null; // 'auto' or any _locales/<code> (en, zh_CN, ja, ar, …)
 let i18nCache = {}; // options page override cache
 
 // Action types mapping (same as background.js)
@@ -22,14 +22,71 @@ const ACTION_TYPES = {
   BACK: "go_back",
   FORWARD: "go_forward",
   BOOKMARK: "bookmark_page",
-  FOCUS_ADDRESS_BAR: "focus_address_bar",
   CALL_EXTENSION: "call_extension",
   EXECUTE_COMMAND: "execute_command",
   CLEAR_CACHE: "clear_cache",
   DUPLICATE_TAB: "duplicate_tab",
   PIN_TAB: "pin_tab",
+  MUTE_TAB: "mute_tab",
+  CLOSE_OTHER_TABS: "close_other_tabs",
+  MOVE_TAB_LEFT: "move_tab_left",
+  MOVE_TAB_RIGHT: "move_tab_right",
+  PREV_TAB: "prev_tab",
+  NEXT_TAB: "next_tab",
+  NEW_WINDOW: "new_window",
+  REOPEN_CLOSED_TAB: "reopen_closed_tab",
+  PRINT_PAGE: "print_page",
+  OPEN_URL: "open_url",
+  COPY_AS_MARKDOWN: "copy_as_markdown",
   WAIT: "wait",
+  SCROLL_PAGE_UP: "scroll_page_up",
+  SCROLL_PAGE_DOWN: "scroll_page_down",
+  CLOSE_TABS_RIGHT: "close_tabs_right",
+  CLOSE_WINDOW: "close_window",
+  TOGGLE_DARK_MODE: "toggle_dark_mode",
+  TRANSLATE_PAGE: "translate_page",
+  MEDIA_PLAY_PAUSE: "media_play_pause",
+  MEDIA_SPEED_UP: "media_speed_up",
+  MEDIA_SPEED_DOWN: "media_speed_down",
+  MEDIA_SPEED_RESET: "media_speed_reset",
+  CLOSE_LEFT_TABS: "close_left_tabs",
+  CLOSE_DUPLICATE_TABS: "close_duplicate_tabs",
+  SORT_TABS_BY_URL: "sort_tabs_by_url",
+  GROUP_TABS_BY_DOMAIN: "group_tabs_by_domain",
+  UNGROUP_ALL_TABS: "ungroup_all_tabs",
+  MUTE_ALL_TABS: "mute_all_tabs",
+  UNMUTE_ALL_TABS: "unmute_all_tabs",
+  RELOAD_ALL_TABS: "reload_all_tabs",
+  MOVE_TAB_FIRST: "move_tab_first",
+  MOVE_TAB_LAST: "move_tab_last",
+  MOVE_TAB_TO_NEW_WINDOW: "move_tab_to_new_window",
+  MINIMIZE_WINDOW: "minimize_window",
+  MAXIMIZE_WINDOW: "maximize_window",
+  OPEN_INCOGNITO_WINDOW: "open_incognito_window",
+  COPY_SELECTED_TEXT: "copy_selected_text",
+  SEARCH_SELECTION: "search_selection",
+  SPEAK_SELECTION: "speak_selection",
+  STOP_SPEAKING: "stop_speaking",
+  CAPTURE_SCREENSHOT: "capture_screenshot",
+  SHOW_NOTIFICATION: "show_notification",
+  OPEN_BROWSER_PAGE: "open_browser_page",
+  DISCARD_OTHER_TABS: "discard_other_tabs",
+  GOTO_AUDIBLE_TAB: "goto_audible_tab",
+  BOOKMARK_ALL_TABS: "bookmark_all_tabs",
+  READ_LATER: "read_later",
+  CLEAR_BROWSING_CACHE: "clear_browsing_cache",
+  CLEAR_SITE_DATA: "clear_site_data",
+  DELETE_URL_FROM_HISTORY: "delete_url_from_history",
+  TOGGLE_KEEP_AWAKE: "toggle_keep_awake",
+  SHOW_DOWNLOADS_FOLDER: "show_downloads_folder",
+  SAVE_PAGE_MHTML: "save_page_mhtml",
+  IF_URL_MATCHES: "if_url_matches",
+  IF_HAS_SELECTION: "if_has_selection",
+  RUN_CHAIN: "run_chain",
 };
+
+// Built-in browser pages selectable for the open_browser_page action
+const BROWSER_PAGE_OPTIONS = ["downloads", "history", "bookmarks", "extensions", "settings", "shortcuts", "clear_browsing_data"];
 
 // Action display names (i18n)
 const ACTION_NAMES = {
@@ -46,98 +103,150 @@ const ACTION_NAMES = {
   [ACTION_TYPES.ZOOM_RESET]: () => t("actionName_zoom_reset", "重置缩放"),
   [ACTION_TYPES.BACK]: () => t("actionName_go_back", "后退"),
   [ACTION_TYPES.FORWARD]: () => t("actionName_go_forward", "前进"),
-  [ACTION_TYPES.BOOKMARK]: () => t("actionName_bookmark_page", "书签页面"),
-  [ACTION_TYPES.FOCUS_ADDRESS_BAR]: () => t("actionName_focus_address_bar", "聚焦地址栏"),
-  [ACTION_TYPES.CLEAR_CACHE]: () => t("actionName_clear_cache", "清除缓存"),
+  [ACTION_TYPES.BOOKMARK]: () => t("actionName_bookmark_page", "添加书签"),
+  [ACTION_TYPES.COPY_AS_MARKDOWN]: () => t("actionName_copy_as_markdown", "复制为 Markdown 链接"),
+  [ACTION_TYPES.CLEAR_CACHE]: () => t("actionName_clear_cache", "硬刷新（绕过缓存）"),
   [ACTION_TYPES.DUPLICATE_TAB]: () => t("actionName_duplicate_tab", "复制标签页"),
   [ACTION_TYPES.PIN_TAB]: () => t("actionName_pin_tab", "固定/取消固定标签页"),
+  [ACTION_TYPES.MUTE_TAB]: () => t("actionName_mute_tab", "静音/取消静音标签页"),
+  [ACTION_TYPES.CLOSE_OTHER_TABS]: () => t("actionName_close_other_tabs", "关闭其他标签页"),
+  [ACTION_TYPES.MOVE_TAB_LEFT]: () => t("actionName_move_tab_left", "标签页左移"),
+  [ACTION_TYPES.MOVE_TAB_RIGHT]: () => t("actionName_move_tab_right", "标签页右移"),
+  [ACTION_TYPES.PREV_TAB]: () => t("actionName_prev_tab", "上一个标签页"),
+  [ACTION_TYPES.NEXT_TAB]: () => t("actionName_next_tab", "下一个标签页"),
+  [ACTION_TYPES.NEW_WINDOW]: () => t("actionName_new_window", "新建窗口"),
+  [ACTION_TYPES.REOPEN_CLOSED_TAB]: () => t("actionName_reopen_closed_tab", "重新打开关闭的标签页"),
+  [ACTION_TYPES.PRINT_PAGE]: () => t("actionName_print_page", "打印页面"),
+  [ACTION_TYPES.OPEN_URL]: () => t("actionName_open_url", "打开网址"),
   [ACTION_TYPES.WAIT]: () => t("actionName_wait", "等待"),
   [ACTION_TYPES.EXECUTE_COMMAND]: () => t("actionName_execute_command", "执行命令"),
   [ACTION_TYPES.CALL_EXTENSION]: () => t("actionName_call_extension", "调用扩展"),
+  [ACTION_TYPES.SCROLL_PAGE_UP]: () => t("actionName_scroll_page_up", "向上滚动一屏"),
+  [ACTION_TYPES.SCROLL_PAGE_DOWN]: () => t("actionName_scroll_page_down", "向下滚动一屏"),
+  [ACTION_TYPES.CLOSE_TABS_RIGHT]: () => t("actionName_close_tabs_right", "关闭右侧标签页"),
+  [ACTION_TYPES.CLOSE_WINDOW]: () => t("actionName_close_window", "关闭窗口"),
+  [ACTION_TYPES.TOGGLE_DARK_MODE]: () => t("actionName_toggle_dark_mode", "深色模式切换"),
+  [ACTION_TYPES.TRANSLATE_PAGE]: () => t("actionName_translate_page", "翻译页面"),
+  [ACTION_TYPES.MEDIA_PLAY_PAUSE]: () => t("actionName_media_play_pause", "播放/暂停媒体"),
+  [ACTION_TYPES.MEDIA_SPEED_UP]: () => t("actionName_media_speed_up", "加快播放速度"),
+  [ACTION_TYPES.MEDIA_SPEED_DOWN]: () => t("actionName_media_speed_down", "减慢播放速度"),
+  [ACTION_TYPES.MEDIA_SPEED_RESET]: () => t("actionName_media_speed_reset", "重置播放速度"),
+  [ACTION_TYPES.CLOSE_LEFT_TABS]: () => t("actionName_close_left_tabs", "关闭左侧标签页"),
+  [ACTION_TYPES.CLOSE_DUPLICATE_TABS]: () => t("actionName_close_duplicate_tabs", "关闭重复标签页"),
+  [ACTION_TYPES.SORT_TABS_BY_URL]: () => t("actionName_sort_tabs_by_url", "按网址排序标签页"),
+  [ACTION_TYPES.GROUP_TABS_BY_DOMAIN]: () => t("actionName_group_tabs_by_domain", "按网站分组标签页"),
+  [ACTION_TYPES.UNGROUP_ALL_TABS]: () => t("actionName_ungroup_all_tabs", "取消所有标签分组"),
+  [ACTION_TYPES.MUTE_ALL_TABS]: () => t("actionName_mute_all_tabs", "静音所有标签页"),
+  [ACTION_TYPES.UNMUTE_ALL_TABS]: () => t("actionName_unmute_all_tabs", "取消所有静音"),
+  [ACTION_TYPES.RELOAD_ALL_TABS]: () => t("actionName_reload_all_tabs", "刷新所有标签页"),
+  [ACTION_TYPES.MOVE_TAB_FIRST]: () => t("actionName_move_tab_first", "标签页移到最左"),
+  [ACTION_TYPES.MOVE_TAB_LAST]: () => t("actionName_move_tab_last", "标签页移到最右"),
+  [ACTION_TYPES.MOVE_TAB_TO_NEW_WINDOW]: () => t("actionName_move_tab_to_new_window", "标签页移到新窗口"),
+  [ACTION_TYPES.MINIMIZE_WINDOW]: () => t("actionName_minimize_window", "最小化窗口"),
+  [ACTION_TYPES.MAXIMIZE_WINDOW]: () => t("actionName_maximize_window", "最大化窗口"),
+  [ACTION_TYPES.OPEN_INCOGNITO_WINDOW]: () => t("actionName_open_incognito_window", "打开无痕窗口"),
+  [ACTION_TYPES.COPY_SELECTED_TEXT]: () => t("actionName_copy_selected_text", "复制选中文字"),
+  [ACTION_TYPES.SEARCH_SELECTION]: () => t("actionName_search_selection", "搜索选中文字"),
+  [ACTION_TYPES.SPEAK_SELECTION]: () => t("actionName_speak_selection", "朗读选中文字"),
+  [ACTION_TYPES.STOP_SPEAKING]: () => t("actionName_stop_speaking", "停止朗读"),
+  [ACTION_TYPES.CAPTURE_SCREENSHOT]: () => t("actionName_capture_screenshot", "截图（可见区域）"),
+  [ACTION_TYPES.SHOW_NOTIFICATION]: () => t("actionName_show_notification", "显示系统通知"),
+  [ACTION_TYPES.OPEN_BROWSER_PAGE]: () => t("actionName_open_browser_page", "打开浏览器页面"),
+  [ACTION_TYPES.DISCARD_OTHER_TABS]: () => t("actionName_discard_other_tabs", "休眠其他标签页（释放内存）"),
+  [ACTION_TYPES.GOTO_AUDIBLE_TAB]: () => t("actionName_goto_audible_tab", "跳到发声标签页"),
+  [ACTION_TYPES.BOOKMARK_ALL_TABS]: () => t("actionName_bookmark_all_tabs", "收藏所有标签页"),
+  [ACTION_TYPES.READ_LATER]: () => t("actionName_read_later", "加入阅读清单"),
+  [ACTION_TYPES.CLEAR_BROWSING_CACHE]: () => t("actionName_clear_browsing_cache", "清除浏览器缓存"),
+  [ACTION_TYPES.CLEAR_SITE_DATA]: () => t("actionName_clear_site_data", "清除本站数据"),
+  [ACTION_TYPES.DELETE_URL_FROM_HISTORY]: () => t("actionName_delete_url_from_history", "从历史记录删除本页"),
+  [ACTION_TYPES.TOGGLE_KEEP_AWAKE]: () => t("actionName_toggle_keep_awake", "保持唤醒开/关"),
+  [ACTION_TYPES.SHOW_DOWNLOADS_FOLDER]: () => t("actionName_show_downloads_folder", "打开下载文件夹"),
+  [ACTION_TYPES.SAVE_PAGE_MHTML]: () => t("actionName_save_page_mhtml", "保存页面 (MHTML)"),
+  [ACTION_TYPES.IF_URL_MATCHES]: () => t("actionName_if_url_matches", "条件：网址匹配则继续"),
+  [ACTION_TYPES.IF_HAS_SELECTION]: () => t("actionName_if_has_selection", "条件：有选中文字则继续"),
+  [ACTION_TYPES.RUN_CHAIN]: () => t("actionName_run_chain", "运行另一条动作链"),
 };
 
-// Common extension action templates
+// Common extension action templates.
+// Each action carries a stable `nameKey` (i18n message id) used as both the
+// <option> value and the match key, so the label can be localized without
+// breaking selection when the UI language changes. `name` is the localized
+// label shown to the user (resolved lazily via t()).
 const EXTENSION_TEMPLATES = {
-  // AdBlock类扩展
   gighmmpiobklfepjocnamgkkbiglidom: {
     // AdBlock
     name: "AdBlock",
     actions: [
-      { name: "切换广告拦截", message: { action: "toggle" } },
-      { name: "暂停拦截", message: { action: "pause" } },
-      { name: "恢复拦截", message: { action: "resume" } },
+      { nameKey: "extTmpl_toggleAdblock", message: { action: "toggle" } },
+      { nameKey: "extTmpl_pauseBlocking", message: { action: "pause" } },
+      { nameKey: "extTmpl_resumeBlocking", message: { action: "resume" } },
     ],
   },
   cjpalhdlnbpafiamejdnhcphjbkeiagm: {
     // uBlock Origin
     name: "uBlock Origin",
     actions: [
-      { name: "切换拦截器", message: { action: "toggle" } },
-      { name: "重新加载过滤器", message: { action: "reload-filters" } },
+      { nameKey: "extTmpl_toggleBlocker", message: { action: "toggle" } },
+      { nameKey: "extTmpl_reloadFilters", message: { action: "reload-filters" } },
     ],
   },
-  // 密码管理器
   hdokiejnpimakedhajhdlcegeplioahd: {
     // LastPass
     name: "LastPass",
     actions: [
-      { name: "填充表单", message: { action: "fill_form" } },
-      { name: "打开密码库", message: { action: "open_vault" } },
-      { name: "生成密码", message: { action: "generate_password" } },
+      { nameKey: "extTmpl_fillForm", message: { action: "fill_form" } },
+      { nameKey: "extTmpl_openVault", message: { action: "open_vault" } },
+      { nameKey: "extTmpl_generatePassword", message: { action: "generate_password" } },
     ],
   },
   nngceckbapebfimnlniiiahkandclblb: {
     // Bitwarden
     name: "Bitwarden",
     actions: [
-      { name: "自动填充", message: { action: "autofill" } },
-      { name: "打开弹窗", message: { action: "open_popup" } },
+      { nameKey: "extTmpl_autofill", message: { action: "autofill" } },
+      { nameKey: "extTmpl_openPopup", message: { action: "open_popup" } },
     ],
   },
-  // 开发者工具
   fhbjgbiflinjbdggehcddcbncdddomop: {
     // Postman
     name: "Postman",
     actions: [
-      { name: "捕获请求", message: { action: "capture_request" } },
-      { name: "导入请求", message: { action: "import_request" } },
+      { nameKey: "extTmpl_captureRequest", message: { action: "capture_request" } },
+      { nameKey: "extTmpl_importRequest", message: { action: "import_request" } },
     ],
   },
   kjacjjdnoddnpbbcjilcajfhhbdhkpgk: {
     // Web Developer
     name: "Web Developer",
     actions: [
-      { name: "显示标尺", message: { action: "show_ruler" } },
-      { name: "禁用CSS", message: { action: "disable_css" } },
+      { nameKey: "extTmpl_showRuler", message: { action: "show_ruler" } },
+      { nameKey: "extTmpl_disableCss", message: { action: "disable_css" } },
     ],
   },
-  // 翻译类
   aapbdbdomjkkjkaonfhkkikfgjllcleb: {
     // Google Translate
     name: "Google Translate",
     actions: [
-      { name: "翻译页面", message: { action: "translate_page" } },
-      { name: "翻译选中文本", message: { action: "translate_selection" } },
+      { nameKey: "extTmpl_translatePage", message: { action: "translate_page" } },
+      { nameKey: "extTmpl_translateSelection", message: { action: "translate_selection" } },
     ],
   },
-  // 截图类
   alelhddbbhepgpmgidjdcjakblofbmce: {
     // GoFullPage
     name: "GoFullPage",
     actions: [
-      { name: "截取整页", message: { action: "capture_full_page" } },
-      { name: "截取可见区域", message: { action: "capture_visible" } },
+      { nameKey: "extTmpl_captureFullPage", message: { action: "capture_full_page" } },
+      { nameKey: "extTmpl_captureVisible", message: { action: "capture_visible" } },
     ],
   },
-  // 通用动作模板
   generic: {
-    name: "通用扩展",
+    nameKey: "extTmpl_genericName",
     actions: [
-      { name: "切换功能", message: { action: "toggle" } },
-      { name: "执行主功能", message: { action: "execute" } },
-      { name: "打开弹窗", message: { action: "open_popup" } },
-      { name: "刷新", message: { action: "refresh" } },
-      { name: "重置", message: { action: "reset" } },
+      { nameKey: "extTmpl_toggleFeature", message: { action: "toggle" } },
+      { nameKey: "extTmpl_runMain", message: { action: "execute" } },
+      { nameKey: "extTmpl_openPopup", message: { action: "open_popup" } },
+      { nameKey: "extTmpl_refresh", message: { action: "refresh" } },
+      { nameKey: "extTmpl_reset", message: { action: "reset" } },
     ],
   },
 };
@@ -151,9 +260,12 @@ let installedExtensions = [];
 // Action categories (stable IDs) and their i18n labels
 const ACTION_CATEGORY_LABELS = {
   execute_command: () => t("category_execute_command", "执行命令"),
+  flow: () => t("category_flow", "流程控制"),
   page_ops: () => t("category_page_ops", "页面操作"),
   tab_mgmt: () => t("category_tab_mgmt", "标签管理"),
+  window_mgmt: () => t("category_window", "窗口管理"),
   zoom: () => t("category_zoom", "缩放控制"),
+  media: () => t("category_media", "媒体控制"),
   content: () => t("category_content", "内容操作"),
   advanced: () => t("category_advanced", "高级功能"),
   extension: () => t("category_extension", "扩展调用"),
@@ -162,50 +274,325 @@ const ACTION_CATEGORY_LABELS = {
 // Action categories for grouped display (do not localize keys here)
 const ACTION_CATEGORIES = {
   execute_command: [ACTION_TYPES.EXECUTE_COMMAND],
-  page_ops: [ACTION_TYPES.SCROLL_TO_TOP, ACTION_TYPES.SCROLL_TO_BOTTOM, ACTION_TYPES.RELOAD_PAGE, ACTION_TYPES.FULLSCREEN, ACTION_TYPES.BACK, ACTION_TYPES.FORWARD],
-  tab_mgmt: [ACTION_TYPES.CLOSE_TAB, ACTION_TYPES.NEW_TAB, ACTION_TYPES.DUPLICATE_TAB, ACTION_TYPES.PIN_TAB],
+  flow: [ACTION_TYPES.IF_URL_MATCHES, ACTION_TYPES.IF_HAS_SELECTION, ACTION_TYPES.RUN_CHAIN, ACTION_TYPES.WAIT],
+  page_ops: [
+    ACTION_TYPES.SCROLL_TO_TOP,
+    ACTION_TYPES.SCROLL_TO_BOTTOM,
+    ACTION_TYPES.SCROLL_PAGE_UP,
+    ACTION_TYPES.SCROLL_PAGE_DOWN,
+    ACTION_TYPES.RELOAD_PAGE,
+    ACTION_TYPES.FULLSCREEN,
+    ACTION_TYPES.TOGGLE_DARK_MODE,
+    ACTION_TYPES.TRANSLATE_PAGE,
+    ACTION_TYPES.BACK,
+    ACTION_TYPES.FORWARD,
+    ACTION_TYPES.PRINT_PAGE,
+    ACTION_TYPES.OPEN_URL,
+  ],
+  tab_mgmt: [
+    ACTION_TYPES.NEW_TAB,
+    ACTION_TYPES.CLOSE_TAB,
+    ACTION_TYPES.CLOSE_OTHER_TABS,
+    ACTION_TYPES.CLOSE_TABS_RIGHT,
+    ACTION_TYPES.CLOSE_LEFT_TABS,
+    ACTION_TYPES.CLOSE_DUPLICATE_TABS,
+    ACTION_TYPES.SORT_TABS_BY_URL,
+    ACTION_TYPES.GROUP_TABS_BY_DOMAIN,
+    ACTION_TYPES.UNGROUP_ALL_TABS,
+    ACTION_TYPES.DUPLICATE_TAB,
+    ACTION_TYPES.PIN_TAB,
+    ACTION_TYPES.MUTE_TAB,
+    ACTION_TYPES.MUTE_ALL_TABS,
+    ACTION_TYPES.UNMUTE_ALL_TABS,
+    ACTION_TYPES.RELOAD_ALL_TABS,
+    ACTION_TYPES.MOVE_TAB_LEFT,
+    ACTION_TYPES.MOVE_TAB_RIGHT,
+    ACTION_TYPES.MOVE_TAB_FIRST,
+    ACTION_TYPES.MOVE_TAB_LAST,
+    ACTION_TYPES.PREV_TAB,
+    ACTION_TYPES.NEXT_TAB,
+    ACTION_TYPES.REOPEN_CLOSED_TAB,
+    ACTION_TYPES.DISCARD_OTHER_TABS,
+    ACTION_TYPES.GOTO_AUDIBLE_TAB,
+    ACTION_TYPES.BOOKMARK_ALL_TABS,
+  ],
+  window_mgmt: [
+    ACTION_TYPES.NEW_WINDOW,
+    ACTION_TYPES.CLOSE_WINDOW,
+    ACTION_TYPES.MINIMIZE_WINDOW,
+    ACTION_TYPES.MAXIMIZE_WINDOW,
+    ACTION_TYPES.OPEN_INCOGNITO_WINDOW,
+    ACTION_TYPES.MOVE_TAB_TO_NEW_WINDOW,
+  ],
   zoom: [ACTION_TYPES.ZOOM_IN, ACTION_TYPES.ZOOM_OUT, ACTION_TYPES.ZOOM_RESET],
-  content: [ACTION_TYPES.COPY_URL, ACTION_TYPES.COPY_TITLE, ACTION_TYPES.BOOKMARK, ACTION_TYPES.FOCUS_ADDRESS_BAR],
-  advanced: [ACTION_TYPES.CLEAR_CACHE, ACTION_TYPES.WAIT],
+  media: [ACTION_TYPES.MEDIA_PLAY_PAUSE, ACTION_TYPES.MEDIA_SPEED_UP, ACTION_TYPES.MEDIA_SPEED_DOWN, ACTION_TYPES.MEDIA_SPEED_RESET, ACTION_TYPES.SPEAK_SELECTION, ACTION_TYPES.STOP_SPEAKING],
+  content: [ACTION_TYPES.COPY_URL, ACTION_TYPES.COPY_TITLE, ACTION_TYPES.COPY_AS_MARKDOWN, ACTION_TYPES.COPY_SELECTED_TEXT, ACTION_TYPES.SEARCH_SELECTION, ACTION_TYPES.BOOKMARK, ACTION_TYPES.READ_LATER],
+  advanced: [
+    ACTION_TYPES.CLEAR_CACHE,
+    ACTION_TYPES.CAPTURE_SCREENSHOT,
+    ACTION_TYPES.SAVE_PAGE_MHTML,
+    ACTION_TYPES.SHOW_NOTIFICATION,
+    ACTION_TYPES.OPEN_BROWSER_PAGE,
+    ACTION_TYPES.SHOW_DOWNLOADS_FOLDER,
+    ACTION_TYPES.CLEAR_BROWSING_CACHE,
+    ACTION_TYPES.CLEAR_SITE_DATA,
+    ACTION_TYPES.DELETE_URL_FROM_HISTORY,
+    ACTION_TYPES.TOGGLE_KEEP_AWAKE,
+  ],
   extension: [ACTION_TYPES.CALL_EXTENSION],
 };
 
-// Preferred order for action options
-const ACTION_TYPE_ORDER = [
-  // 执行命令 - 第一个
-  ACTION_TYPES.EXECUTE_COMMAND,
+// ---- Action visuals (Shortcut-style colored icon tiles) ----
+// Color is by category (so a chain spanning categories reads as a colorful
+// sequence); icons are line glyphs shared across related actions.
+const CATEGORY_COLORS = {
+  execute_command: "#14b8a6",
+  flow: "#8b5cf6",
+  page_ops: "#3b82f6",
+  tab_mgmt: "#10b981",
+  window_mgmt: "#6366f1",
+  zoom: "#06b6d4",
+  media: "#a855f7",
+  content: "#f59e0b",
+  advanced: "#0ea5e9",
+  extension: "#f43f5e",
+};
 
-  // 页面操作
-  ACTION_TYPES.SCROLL_TO_TOP,
-  ACTION_TYPES.SCROLL_TO_BOTTOM,
-  ACTION_TYPES.RELOAD_PAGE,
-  ACTION_TYPES.FULLSCREEN,
-  ACTION_TYPES.BACK,
-  ACTION_TYPES.FORWARD,
+// Reverse lookup: action type -> category id
+const ACTION_CATEGORY_OF = (() => {
+  const map = {};
+  for (const [cat, list] of Object.entries(ACTION_CATEGORIES)) {
+    for (const type of list) map[type] = cat;
+  }
+  return map;
+})();
 
-  // 标签管理
-  ACTION_TYPES.CLOSE_TAB,
-  ACTION_TYPES.NEW_TAB,
-  ACTION_TYPES.DUPLICATE_TAB,
-  ACTION_TYPES.PIN_TAB,
+// 24x24 line-icon inner markup (stroke = currentColor, set to #fff on tiles)
+const ICONS = {
+  arrowUp: '<path d="M12 19V5"/><path d="M5 12l7-7 7 7"/>',
+  arrowDown: '<path d="M12 5v14"/><path d="M19 12l-7 7-7-7"/>',
+  arrowLeft: '<path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/>',
+  arrowRight: '<path d="M5 12h14"/><path d="M12 5l7 7-7 7"/>',
+  chevUp: '<path d="M17 11l-5-5-5 5"/><path d="M17 18l-5-5-5 5"/>',
+  chevDown: '<path d="M7 6l5 5 5-5"/><path d="M7 13l5 5 5-5"/>',
+  chevLeft: '<path d="M11 17l-5-5 5-5"/><path d="M18 17l-5-5 5-5"/>',
+  chevRight: '<path d="M13 17l5-5-5-5"/><path d="M6 17l5-5-5-5"/>',
+  refresh: '<path d="M21 12a9 9 0 11-3-6.7L21 8"/><path d="M21 3v5h-5"/>',
+  expand: '<path d="M8 3H5a2 2 0 00-2 2v3"/><path d="M16 3h3a2 2 0 012 2v3"/><path d="M8 21H5a2 2 0 01-2-2v-3"/><path d="M16 21h3a2 2 0 002-2v-3"/>',
+  moon: '<path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/>',
+  globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 010 18 14 14 0 010-18z"/>',
+  printer: '<path d="M6 9V3h12v6"/><path d="M6 18H4a2 2 0 01-2-2v-4a2 2 0 012-2h16a2 2 0 012 2v4a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="7" rx="1"/>',
+  external: '<path d="M15 3h6v6"/><path d="M10 14L21 3"/><path d="M21 14v5a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h5"/>',
+  plus: '<path d="M12 5v14M5 12h14"/>',
+  minus: '<path d="M5 12h14"/>',
+  x: '<path d="M18 6L6 18M6 6l12 12"/>',
+  xCircle: '<circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/>',
+  copy: '<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>',
+  sort: '<path d="M11 5h10M11 9h7M11 13h4"/><path d="M3 8l3-3 3 3"/><path d="M6 5v14"/>',
+  group: '<rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="13" width="8" height="8" rx="1"/><path d="M13 6h5a3 3 0 013 3v0"/>',
+  pin: '<path d="M12 17v5"/><path d="M9 3h6l-1 7 3 2v2H7v-2l3-2-1-7z"/>',
+  volume: '<path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 010 7"/>',
+  volumeX: '<path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M22 9l-6 6M16 9l6 6"/>',
+  bookmark: '<path d="M6 3h12v18l-6-4-6 4z"/>',
+  bookmarkPlus: '<path d="M6 3h12v18l-6-4-6 4z"/><path d="M12 7v6M9 10h6"/>',
+  window: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/>',
+  maximize: '<path d="M8 3H5a2 2 0 00-2 2v3M21 8V5a2 2 0 00-2-2h-3M3 16v3a2 2 0 002 2h3M16 21h3a2 2 0 002-2v-3"/>',
+  eyeOff: '<path d="M17.9 17.9A9.8 9.8 0 0112 20c-7 0-10-8-10-8a18 18 0 015.1-5.9M9.9 4.2A9.6 9.6 0 0112 4c7 0 10 8 10 8a18 18 0 01-2.2 3.2"/><path d="M1 1l22 22"/>',
+  zoomIn: '<circle cx="11" cy="11" r="7"/><path d="M11 8v6M8 11h6M21 21l-4.3-4.3"/>',
+  zoomOut: '<circle cx="11" cy="11" r="7"/><path d="M8 11h6M21 21l-4.3-4.3"/>',
+  search: '<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>',
+  play: '<path d="M7 4l13 8-13 8V4z"/>',
+  fastFwd: '<path d="M13 5l8 7-8 7V5z"/><path d="M3 5l8 7-8 7V5z"/>',
+  rewind: '<path d="M11 5L3 12l8 7V5z"/><path d="M21 5l-8 7 8 7V5z"/>',
+  speak: '<path d="M3 10v4h3l4 4V6L6 10H3z"/><path d="M14 8a5 5 0 010 8M17 5a9 9 0 010 14"/>',
+  link: '<path d="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1"/><path d="M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1"/>',
+  type: '<path d="M4 7V5h16v2"/><path d="M9 19h6M12 5v14"/>',
+  code: '<path d="M16 18l6-6-6-6"/><path d="M8 6l-6 6 6 6"/>',
+  clipboard: '<rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4V3h6v1"/><path d="M9 11h6M9 15h4"/>',
+  branch: '<circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="9" r="2.5"/><path d="M6 8.5v7M6 12h6a3 3 0 003-3"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  command: '<path d="M6 4a2 2 0 110 4h12a2 2 0 110-4 2 2 0 11-4 0v12a2 2 0 11-4 0V8a2 2 0 11-4 0 2 2 0 11-4 0z"/>',
+  camera: '<path d="M3 7h3l2-2h8l2 2h3v12H3z"/><circle cx="12" cy="13" r="3.5"/>',
+  save: '<path d="M5 3h11l3 3v15H5z"/><path d="M8 3v5h7M8 21v-7h8v7"/>',
+  bell: '<path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/>',
+  layout: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>',
+  folder: '<path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/>',
+  trash: '<path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/>',
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+  puzzle: '<path d="M9 4a2 2 0 014 0v1h2a2 2 0 012 2v2h1a2 2 0 010 4h-1v3a2 2 0 01-2 2h-2v-1a2 2 0 00-4 0v1H7a2 2 0 01-2-2v-2H4a2 2 0 010-4h1V7a2 2 0 012-2h2V4z"/>',
+  dot: '<circle cx="12" cy="12" r="3"/>',
+};
 
-  // 缩放控制
-  ACTION_TYPES.ZOOM_IN,
-  ACTION_TYPES.ZOOM_OUT,
-  ACTION_TYPES.ZOOM_RESET,
+// Per-action icon key (falls back to a per-category default)
+const ACTION_ICON_KEYS = {
+  [ACTION_TYPES.SCROLL_TO_TOP]: "arrowUp",
+  [ACTION_TYPES.SCROLL_TO_BOTTOM]: "arrowDown",
+  [ACTION_TYPES.SCROLL_PAGE_UP]: "chevUp",
+  [ACTION_TYPES.SCROLL_PAGE_DOWN]: "chevDown",
+  [ACTION_TYPES.RELOAD_PAGE]: "refresh",
+  [ACTION_TYPES.FULLSCREEN]: "expand",
+  [ACTION_TYPES.TOGGLE_DARK_MODE]: "moon",
+  [ACTION_TYPES.TRANSLATE_PAGE]: "globe",
+  [ACTION_TYPES.BACK]: "arrowLeft",
+  [ACTION_TYPES.FORWARD]: "arrowRight",
+  [ACTION_TYPES.PRINT_PAGE]: "printer",
+  [ACTION_TYPES.OPEN_URL]: "external",
+  [ACTION_TYPES.NEW_TAB]: "plus",
+  [ACTION_TYPES.CLOSE_TAB]: "x",
+  [ACTION_TYPES.CLOSE_OTHER_TABS]: "xCircle",
+  [ACTION_TYPES.CLOSE_TABS_RIGHT]: "chevRight",
+  [ACTION_TYPES.CLOSE_LEFT_TABS]: "chevLeft",
+  [ACTION_TYPES.CLOSE_DUPLICATE_TABS]: "copy",
+  [ACTION_TYPES.SORT_TABS_BY_URL]: "sort",
+  [ACTION_TYPES.GROUP_TABS_BY_DOMAIN]: "group",
+  [ACTION_TYPES.UNGROUP_ALL_TABS]: "group",
+  [ACTION_TYPES.DUPLICATE_TAB]: "copy",
+  [ACTION_TYPES.PIN_TAB]: "pin",
+  [ACTION_TYPES.MUTE_TAB]: "volumeX",
+  [ACTION_TYPES.MUTE_ALL_TABS]: "volumeX",
+  [ACTION_TYPES.UNMUTE_ALL_TABS]: "volume",
+  [ACTION_TYPES.RELOAD_ALL_TABS]: "refresh",
+  [ACTION_TYPES.MOVE_TAB_LEFT]: "arrowLeft",
+  [ACTION_TYPES.MOVE_TAB_RIGHT]: "arrowRight",
+  [ACTION_TYPES.MOVE_TAB_FIRST]: "chevLeft",
+  [ACTION_TYPES.MOVE_TAB_LAST]: "chevRight",
+  [ACTION_TYPES.PREV_TAB]: "arrowLeft",
+  [ACTION_TYPES.NEXT_TAB]: "arrowRight",
+  [ACTION_TYPES.REOPEN_CLOSED_TAB]: "refresh",
+  [ACTION_TYPES.DISCARD_OTHER_TABS]: "moon",
+  [ACTION_TYPES.GOTO_AUDIBLE_TAB]: "volume",
+  [ACTION_TYPES.BOOKMARK_ALL_TABS]: "bookmark",
+  [ACTION_TYPES.NEW_WINDOW]: "window",
+  [ACTION_TYPES.CLOSE_WINDOW]: "x",
+  [ACTION_TYPES.MINIMIZE_WINDOW]: "minus",
+  [ACTION_TYPES.MAXIMIZE_WINDOW]: "maximize",
+  [ACTION_TYPES.OPEN_INCOGNITO_WINDOW]: "eyeOff",
+  [ACTION_TYPES.MOVE_TAB_TO_NEW_WINDOW]: "external",
+  [ACTION_TYPES.ZOOM_IN]: "zoomIn",
+  [ACTION_TYPES.ZOOM_OUT]: "zoomOut",
+  [ACTION_TYPES.ZOOM_RESET]: "search",
+  [ACTION_TYPES.MEDIA_PLAY_PAUSE]: "play",
+  [ACTION_TYPES.MEDIA_SPEED_UP]: "fastFwd",
+  [ACTION_TYPES.MEDIA_SPEED_DOWN]: "rewind",
+  [ACTION_TYPES.MEDIA_SPEED_RESET]: "refresh",
+  [ACTION_TYPES.SPEAK_SELECTION]: "speak",
+  [ACTION_TYPES.STOP_SPEAKING]: "volumeX",
+  [ACTION_TYPES.COPY_URL]: "link",
+  [ACTION_TYPES.COPY_TITLE]: "type",
+  [ACTION_TYPES.COPY_AS_MARKDOWN]: "code",
+  [ACTION_TYPES.COPY_SELECTED_TEXT]: "clipboard",
+  [ACTION_TYPES.SEARCH_SELECTION]: "search",
+  [ACTION_TYPES.BOOKMARK]: "bookmark",
+  [ACTION_TYPES.READ_LATER]: "bookmarkPlus",
+  [ACTION_TYPES.CLEAR_CACHE]: "refresh",
+  [ACTION_TYPES.CAPTURE_SCREENSHOT]: "camera",
+  [ACTION_TYPES.SAVE_PAGE_MHTML]: "save",
+  [ACTION_TYPES.SHOW_NOTIFICATION]: "bell",
+  [ACTION_TYPES.OPEN_BROWSER_PAGE]: "layout",
+  [ACTION_TYPES.SHOW_DOWNLOADS_FOLDER]: "folder",
+  [ACTION_TYPES.CLEAR_BROWSING_CACHE]: "trash",
+  [ACTION_TYPES.CLEAR_SITE_DATA]: "trash",
+  [ACTION_TYPES.DELETE_URL_FROM_HISTORY]: "trash",
+  [ACTION_TYPES.TOGGLE_KEEP_AWAKE]: "sun",
+  [ACTION_TYPES.IF_URL_MATCHES]: "branch",
+  [ACTION_TYPES.IF_HAS_SELECTION]: "branch",
+  [ACTION_TYPES.RUN_CHAIN]: "link",
+  [ACTION_TYPES.WAIT]: "clock",
+  [ACTION_TYPES.EXECUTE_COMMAND]: "command",
+  [ACTION_TYPES.CALL_EXTENSION]: "puzzle",
+};
 
-  // 内容操作
-  ACTION_TYPES.COPY_URL,
-  ACTION_TYPES.COPY_TITLE,
-  ACTION_TYPES.BOOKMARK,
-  ACTION_TYPES.FOCUS_ADDRESS_BAR,
+const CATEGORY_DEFAULT_ICON = {
+  execute_command: "command", flow: "branch", page_ops: "dot", tab_mgmt: "window",
+  window_mgmt: "window", zoom: "search", media: "play", content: "clipboard",
+  advanced: "dot", extension: "puzzle",
+};
 
-  // 高级功能
-  ACTION_TYPES.CLEAR_CACHE,
-  ACTION_TYPES.WAIT,
+// Resolve an action type to { color, svg } for a colored icon tile
+function actionVisual(type) {
+  const cat = ACTION_CATEGORY_OF[type] || "advanced";
+  const color = CATEGORY_COLORS[cat] || "#64748b";
+  const iconKey = ACTION_ICON_KEYS[type] || CATEGORY_DEFAULT_ICON[cat] || "dot";
+  return { color, svg: ICONS[iconKey] || ICONS.dot };
+}
 
-  // 扩展调用 - 最后一个
-  ACTION_TYPES.CALL_EXTENSION,
+// Build a colored icon-tile element for an action type
+function actionTile(type, size = "") {
+  const { color, svg } = actionVisual(type);
+  return `<span class="action-tile ${size}" style="background:${color}"><svg viewBox="0 0 24 24">${svg}</svg></span>`;
+}
+
+// Built-in chain templates ("Shortcuts"-style recipes users can add with one click).
+// `build` is a function so action text/names are localized at creation time.
+const CHAIN_TEMPLATES = [
+  {
+    key: "focus",
+    nameKey: "tmpl_focusMode",
+    fallback: "专注模式",
+    icon: "bi-moon-stars",
+    build: () => [
+      { type: ACTION_TYPES.MUTE_ALL_TABS, delay: 0 },
+      { type: ACTION_TYPES.TOGGLE_DARK_MODE, delay: 200 },
+      { type: ACTION_TYPES.FULLSCREEN, delay: 200 },
+    ],
+  },
+  {
+    key: "tabCleanup",
+    nameKey: "tmpl_tabCleanup",
+    fallback: "标签大扫除",
+    icon: "bi-magic",
+    build: () => [
+      { type: ACTION_TYPES.CLOSE_DUPLICATE_TABS, delay: 0 },
+      { type: ACTION_TYPES.SORT_TABS_BY_URL, delay: 300 },
+      { type: ACTION_TYPES.GROUP_TABS_BY_DOMAIN, delay: 300 },
+    ],
+  },
+  {
+    key: "video",
+    nameKey: "tmpl_videoMode",
+    fallback: "视频模式",
+    icon: "bi-play-circle",
+    build: () => [
+      { type: ACTION_TYPES.MEDIA_PLAY_PAUSE, delay: 0 },
+      { type: ACTION_TYPES.FULLSCREEN, delay: 200 },
+    ],
+  },
+  {
+    key: "snapshot",
+    nameKey: "tmpl_snapshot",
+    fallback: "截图存档",
+    icon: "bi-camera",
+    build: () => [
+      { type: ACTION_TYPES.CAPTURE_SCREENSHOT, delay: 0 },
+      { type: ACTION_TYPES.BOOKMARK, delay: 300 },
+      { type: ACTION_TYPES.SHOW_NOTIFICATION, delay: 300, text: t("tmpl_snapshot_done", "已截图并加入书签") },
+    ],
+  },
+  {
+    key: "readAloud",
+    nameKey: "tmpl_readAloud",
+    fallback: "朗读选中内容",
+    icon: "bi-megaphone",
+    build: () => [{ type: ACTION_TYPES.SPEAK_SELECTION, delay: 0 }],
+  },
+  {
+    key: "translate",
+    nameKey: "tmpl_translate",
+    fallback: "翻译当前页面",
+    icon: "bi-translate",
+    build: () => [{ type: ACTION_TYPES.TRANSLATE_PAGE, delay: 0 }],
+  },
+  {
+    key: "wrapUp",
+    nameKey: "tmpl_wrapUp",
+    fallback: "收工模式",
+    icon: "bi-cup-hot",
+    build: () => [
+      { type: ACTION_TYPES.BOOKMARK, delay: 0 },
+      { type: ACTION_TYPES.MUTE_ALL_TABS, delay: 200 },
+      { type: ACTION_TYPES.MINIMIZE_WINDOW, delay: 200 },
+    ],
+  },
 ];
 
 // Generate grouped action options
@@ -242,6 +629,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   } catch {}
   // i18n static text first
   applyI18nToPage();
+  applyTextDirection(userLocale);
   // init selector
   const localeSelect = document.getElementById("localeSelect");
   if (localeSelect) {
@@ -261,6 +649,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       } catch {}
       await loadOverrideLocale(userLocale);
       applyI18nToPage();
+      applyTextDirection(userLocale);
       // Reload extension commands to reflect new language coming from background
       try {
         await new Promise((r) => setTimeout(r, 150));
@@ -268,6 +657,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       } catch {}
       renderMainView();
       renderActionsHelp();
+      populateTemplateMenu();
       if (editingChainId) renderChainEdit(editingChainId);
     });
   }
@@ -277,6 +667,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   setupEventListeners();
   renderMainView();
   renderActionsHelp();
+  populateTemplateMenu();
 
   // 初始化 Sortable.js 拖拽功能
   setTimeout(() => {
@@ -304,6 +695,33 @@ function applyI18nToPage() {
     const txt = t(key, el.textContent.trim());
     if (txt) el.textContent = txt;
   });
+  // __MSG_*__ placeholders are only substituted in manifest/CSS, not HTML,
+  // so placeholder/title attributes are localized here instead
+  document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+    const txt = t(el.getAttribute("data-i18n-placeholder"), "");
+    if (txt) el.setAttribute("placeholder", txt);
+  });
+  document.querySelectorAll("[data-i18n-title]").forEach((el) => {
+    const txt = t(el.getAttribute("data-i18n-title"), "");
+    if (txt) el.setAttribute("title", txt);
+  });
+  document.title = t("appTitle", document.title);
+}
+
+// RTL languages — mirror the page direction for these locales (e.g. Arabic).
+const RTL_LOCALES = new Set(["ar", "he", "fa", "ur"]);
+function applyTextDirection(locale) {
+  let lang = locale;
+  if (!lang || lang === "auto") {
+    try {
+      lang = chrome.i18n.getUILanguage() || "en";
+    } catch {
+      lang = "en";
+    }
+  }
+  const base = String(lang).toLowerCase().split(/[-_]/)[0];
+  document.documentElement.setAttribute("dir", RTL_LOCALES.has(base) ? "rtl" : "ltr");
+  document.documentElement.setAttribute("lang", base || "en");
 }
 
 async function loadOverrideLocale(locale) {
@@ -345,6 +763,50 @@ function setupEventListeners() {
     addNewChain();
   });
 
+  // Template gallery dropdown
+  const templateMenu = document.getElementById("templateMenu");
+  if (templateMenu) {
+    templateMenu.addEventListener("click", (e) => {
+      const item = e.target.closest("[data-template-key]");
+      if (item) {
+        e.preventDefault();
+        addChainFromTemplate(item.dataset.templateKey);
+      }
+    });
+  }
+
+  // Export configuration as a JSON file
+  const exportBtn = document.getElementById("exportBtn");
+  if (exportBtn) {
+    exportBtn.addEventListener("click", exportConfig);
+  }
+
+  // Import configuration from a JSON file
+  const importBtn = document.getElementById("importBtn");
+  const importFileInput = document.getElementById("importFileInput");
+  if (importBtn && importFileInput) {
+    importBtn.addEventListener("click", () => importFileInput.click());
+    importFileInput.addEventListener("change", async (e) => {
+      const file = e.target.files && e.target.files[0];
+      e.target.value = ""; // allow re-importing the same file
+      if (file) await importConfig(file);
+    });
+  }
+
+  // Restore the built-in default action chains (replaces the whole config)
+  const restoreDefaultsBtn = document.getElementById("restoreDefaultsBtn");
+  if (restoreDefaultsBtn) {
+    restoreDefaultsBtn.addEventListener("click", restoreDefaults);
+  }
+
+  // Open Chrome's keyboard shortcut settings for this extension
+  const shortcutsBtn = document.getElementById("shortcutsBtn");
+  if (shortcutsBtn) {
+    shortcutsBtn.addEventListener("click", () => {
+      chrome.tabs.create({ url: "chrome://extensions/shortcuts" });
+    });
+  }
+
   // Back button in edit view
   document.getElementById("backBtn").addEventListener("click", () => {
     showMainView();
@@ -365,6 +827,13 @@ function setupEventListeners() {
       if (editBtn) {
         const chainKey = editBtn.dataset.chainKey;
         editChain(chainKey);
+        return;
+      }
+
+      const duplicateBtn = e.target.closest(".duplicate-chain-btn");
+      if (duplicateBtn) {
+        const chainKey = duplicateBtn.dataset.chainKey;
+        duplicateChain(chainKey);
         return;
       }
 
@@ -457,6 +926,37 @@ function setupEventListeners() {
       handleCommandExtensionSelection(chainKey, index, target.value);
       return;
     }
+
+    if (target.matches(".extension-action-selector")) {
+      const chainKey = target.dataset.chainKey;
+      const index = parseInt(target.dataset.actionIndex, 10);
+      handleExtensionActionSelection(chainKey, index, target.value);
+      return;
+    }
+
+    if (target.matches(".open-url-target")) {
+      const chainKey = target.dataset.chainKey;
+      const index = parseInt(target.dataset.actionIndex, 10);
+      currentConfig.chains[chainKey].actions[index].openIn = target.value;
+      saveConfig();
+      return;
+    }
+
+    if (target.matches(".browser-page-select")) {
+      const chainKey = target.dataset.chainKey;
+      const index = parseInt(target.dataset.actionIndex, 10);
+      currentConfig.chains[chainKey].actions[index].page = target.value;
+      saveConfig();
+      return;
+    }
+
+    if (target.matches(".run-chain-select")) {
+      const chainKey = target.dataset.chainKey;
+      const index = parseInt(target.dataset.actionIndex, 10);
+      currentConfig.chains[chainKey].actions[index].chainKey = target.value;
+      saveConfig();
+      return;
+    }
   });
 
   chainEditConfigEl.addEventListener("input", (e) => {
@@ -472,6 +972,43 @@ function setupEventListeners() {
       const chainKey = target.dataset.chainKey;
       const index = parseInt(target.dataset.actionIndex, 10);
       updateActionDelay(chainKey, index, target.value);
+      return;
+    }
+
+    if (target.matches(".extension-id-input")) {
+      const chainKey = target.dataset.chainKey;
+      const index = parseInt(target.dataset.actionIndex, 10);
+      updateExtensionId(chainKey, index, target.value.trim());
+      return;
+    }
+
+    if (target.matches(".extension-message-input")) {
+      const chainKey = target.dataset.chainKey;
+      const index = parseInt(target.dataset.actionIndex, 10);
+      updateExtensionMessage(chainKey, index, target.value);
+      return;
+    }
+
+    if (target.matches(".open-url-input")) {
+      const chainKey = target.dataset.chainKey;
+      const index = parseInt(target.dataset.actionIndex, 10);
+      updateActionUrl(chainKey, index, target.value);
+      return;
+    }
+
+    if (target.matches(".notify-text-input")) {
+      const chainKey = target.dataset.chainKey;
+      const index = parseInt(target.dataset.actionIndex, 10);
+      currentConfig.chains[chainKey].actions[index].text = target.value;
+      saveConfig();
+      return;
+    }
+
+    if (target.matches(".condition-pattern-input")) {
+      const chainKey = target.dataset.chainKey;
+      const index = parseInt(target.dataset.actionIndex, 10);
+      currentConfig.chains[chainKey].actions[index].pattern = target.value;
+      saveConfig();
       return;
     }
   });
@@ -509,6 +1046,38 @@ function setupEventListeners() {
     testChainBtn.addEventListener("click", () => {
       if (editingChainId) {
         executeChain(editingChainId);
+      }
+    });
+  }
+
+  // Export just the chain being edited (shareable single-chain JSON)
+  const exportChainBtn = document.getElementById("exportChainBtn");
+  if (exportChainBtn) {
+    exportChainBtn.addEventListener("click", () => {
+      if (editingChainId) {
+        exportSingleChain(editingChainId);
+      }
+    });
+  }
+
+  // Trigger settings: schedule (minutes) and auto-run URL patterns
+  const chainScheduleInput = document.getElementById("chainScheduleInput");
+  if (chainScheduleInput) {
+    chainScheduleInput.addEventListener("input", (e) => {
+      if (editingChainId) {
+        const minutes = parseInt(e.target.value, 10);
+        currentConfig.chains[editingChainId].scheduleMinutes = Number.isFinite(minutes) && minutes > 0 ? minutes : 0;
+        saveConfig();
+      }
+    });
+  }
+
+  const chainAutoRunInput = document.getElementById("chainAutoRunInput");
+  if (chainAutoRunInput) {
+    chainAutoRunInput.addEventListener("input", (e) => {
+      if (editingChainId) {
+        currentConfig.chains[editingChainId].autoRunPatterns = e.target.value;
+        saveConfig();
       }
     });
   }
@@ -556,6 +1125,11 @@ function editChain(chainKey) {
   if (chainDescInput) chainDescInput.value = chain.description || "";
   if (setAsDefaultCheck) setAsDefaultCheck.checked = currentConfig.defaultChain === chainKey;
 
+  const chainScheduleInput = document.getElementById("chainScheduleInput");
+  const chainAutoRunInput = document.getElementById("chainAutoRunInput");
+  if (chainScheduleInput) chainScheduleInput.value = Number(chain.scheduleMinutes) > 0 ? chain.scheduleMinutes : 0;
+  if (chainAutoRunInput) chainAutoRunInput.value = chain.autoRunPatterns || "";
+
   // Render the chain configuration in edit view
   renderChainEdit(chainKey);
 }
@@ -589,17 +1163,42 @@ async function loadConfig() {
   }
 }
 
-// Save configuration to storage
-async function saveConfig() {
+// Save configuration to storage.
+// Debounced: the editor saves on every keystroke, and each write fans out to
+// the background (rebuilds context menus, re-syncs alarms). Coalescing rapid
+// edits avoids that churn.
+let saveConfigTimer = null;
+let saveConfigDirty = false;
+
+function saveConfig() {
+  saveConfigDirty = true;
+  clearTimeout(saveConfigTimer);
+  saveConfigTimer = setTimeout(flushSaveConfig, 400);
+}
+
+async function flushSaveConfig() {
+  if (!saveConfigDirty) return;
+  saveConfigDirty = false;
+  clearTimeout(saveConfigTimer);
   try {
-    await chrome.runtime.sendMessage({
+    const response = await chrome.runtime.sendMessage({
       action: "saveConfig",
       config: currentConfig,
     });
+    if (response && response.success === false) {
+      throw new Error(response.error || "unknown error");
+    }
   } catch (error) {
+    // Surface unexpected storage failures instead of silently losing edits
     console.error("Failed to save config:", error);
+    showMessage(t("toast_saveFailed", "保存失败: $1").replace("$1", error.message), true);
   }
 }
+
+// Persist the trailing debounced write when the options page closes
+window.addEventListener("pagehide", () => {
+  flushSaveConfig();
+});
 
 // Load installed extensions
 async function loadInstalledExtensions() {
@@ -611,7 +1210,6 @@ async function loadInstalledExtensions() {
   }
 }
 
-// Render main view with action chains
 // Render main view with action chains
 function renderMainView() {
   // Chains grid container
@@ -632,61 +1230,61 @@ function renderMainView() {
 
       const isDefault = chainKey === currentConfig.defaultChain;
 
+      const scheduleMin = Number(chain.scheduleMinutes) > 0 ? Number(chain.scheduleMinutes) : 0;
+      const hasAutoRun = !!(chain.autoRunPatterns && String(chain.autoRunPatterns).trim());
+      const triggerChips =
+        (scheduleMin ? `<span class="cc-chip" title="${t("info_schedule", "Schedule")}"><i class="bi bi-clock me-1"></i>${scheduleMin}m</span>` : "") +
+        (hasAutoRun ? `<span class="cc-chip" title="${t("info_autoRun", "Auto-run")}"><i class="bi bi-lightning-charge"></i></span>` : "");
+
       chainCard.innerHTML = `
-        <div class="chain-card-header position-relative">
-          ${
-            !isDefault
-              ? `
-            <button class="btn btn-link p-1 position-absolute top-0 end-0 set-default-btn" data-chain-key="${chainKey}" title="${t("tooltip_setDefaultChain", "Set as default chain")}">
-              <i class="bi bi-star text-warning"></i>
-            </button>
-          `
-              : `
-            <div class="position-absolute top-0 end-0 p-2">
-              <i class="bi bi-star-fill text-warning" title="${t("tooltip_defaultChain", "Default chain")}"></i>
-            </div>
-          `
-          }
-          <div class="d-flex align-items-start pe-4">
-            <span class="drag-handle me-2">⋮⋮</span>
-            <div class="flex-grow-1">
-              <h6 class="chain-title mb-1">${chain.name}</h6>
-              <div class="chain-meta">
-                <span class="chain-actions-count">
-                  <i class="bi bi-list-ul me-1"></i>${chain.actions.length} ${t("actions_count", "个动作")}
-                </span>
-              </div>
+        <div class="chain-card-header">
+          <span class="drag-handle" title="">⋮⋮</span>
+          <div class="cc-titlewrap">
+            <h6 class="chain-title">${escapeHtmlAttr(chain.name)}</h6>
+            <div class="chain-meta">
+              <span class="chain-actions-count">${chain.actions.length} ${t("actions_count", "个动作")}</span>
+              ${isDefault ? `<span class="cc-chip def"><i class="bi bi-star-fill me-1"></i>${t("tooltip_defaultChain", "Default")}</span>` : ""}
+              ${triggerChips}
             </div>
           </div>
+          ${
+            !isDefault
+              ? `<button class="set-default-btn" data-chain-key="${chainKey}" title="${t("tooltip_setDefaultChain", "Set as default chain")}"><i class="bi bi-star"></i></button>`
+              : ""
+          }
         </div>
         <div class="chain-card-body">
-          <div class="chain-actions mb-3">
+          <div class="chain-actions">
             ${chain.actions
               .slice(0, 3)
               .map(
                 (action) => `
-              <div class="action-item d-flex justify-content-between align-items-center py-1">
-                <span class="action-name text-truncate">${(ACTION_NAMES[action.type] && ACTION_NAMES[action.type]()) || action.type}</span>
-                <span class="badge bg-light text-dark ms-2">${action.delay}${t("label.ms", "ms")}</span>
+              <div class="action-item">
+                ${actionTile(action.type)}
+                <span class="action-name">${(ACTION_NAMES[action.type] && ACTION_NAMES[action.type]()) || escapeHtmlAttr(action.type)}</span>
+                <span class="action-ms ${Number(action.delay) === 0 ? "zero" : ""}">${Number(action.delay) || 0}${t("label_ms", "ms")}</span>
               </div>
             `
               )
               .join("")}
             ${
               chain.actions.length > 3
-                ? `<div class="text-muted small mt-2"><i class="bi bi-three-dots"></i> ${t("actions_more", "还有")} ${chain.actions.length - 3} ${t("actions_count", "个动作")}</div>`
+                ? `<div class="chain-more">+ ${chain.actions.length - 3} ${t("actions_more", "more")}</div>`
                 : ""
             }
-            ${chain.actions.length === 0 ? `<div class="text-muted small"><i class="bi bi-info-circle me-1"></i>${t("actions_none", "暂无动作")}</div>` : ""}
+            ${chain.actions.length === 0 ? `<div class="chain-empty">${t("actions_none", "暂无动作")}</div>` : ""}
           </div>
-          <div class="chain-card-actions d-flex gap-2 flex-wrap">
-            <button class="btn btn-primary btn-sm execute-btn flex-fill" data-chain-key="${chainKey}">
-              <i class="bi bi-caret-right-fill me-1"></i>${t("card_exec", "执行")}
+          <div class="chain-card-actions">
+            <button class="btn btn-primary btn-sm execute-btn" data-chain-key="${chainKey}">
+              <i class="bi bi-play-fill me-1"></i>${t("card_exec", "执行")}
             </button>
-            <button class="btn btn-outline-secondary btn-sm edit-chain-btn" data-chain-key="${chainKey}" title="${t("card_edit", "编辑")}">
+            <button class="btn btn-outline-secondary btn-sm icon-btn edit-chain-btn" data-chain-key="${chainKey}" title="${t("card_edit", "编辑")}">
               <i class="bi bi-pencil"></i>
             </button>
-            <button class="btn btn-outline-danger btn-sm delete-chain-btn" data-chain-key="${chainKey}" title="${t("card_delete", "删除")}">
+            <button class="btn btn-outline-secondary btn-sm icon-btn duplicate-chain-btn" data-chain-key="${chainKey}" title="${t("card_duplicate", "复制")}">
+              <i class="bi bi-copy"></i>
+            </button>
+            <button class="btn btn-outline-danger btn-sm icon-btn delete-chain-btn" data-chain-key="${chainKey}" title="${t("card_delete", "删除")}">
               <i class="bi bi-trash"></i>
             </button>
           </div>
@@ -720,7 +1318,8 @@ function renderChainEdit(chainKey) {
     actionDiv.innerHTML = `
       <div class="card-body">
         <div class="d-flex align-items-center">
-          <span class="drag-handle me-3" style="cursor: move;">⋮⋮</span>
+          <span class="drag-handle me-2" style="cursor: move;">⋮⋮</span>
+          ${actionTile(action.type, "edit-tile")}
           <div class="flex-grow-1">
             <div class="row g-2 align-items-center">
               <div class="col-md-4">
@@ -731,8 +1330,8 @@ function renderChainEdit(chainKey) {
     <div class="col-md-3">
                 <div class="input-group input-group-sm">
   <span class="input-group-text">${t("label_delay", "延迟")}</span>
-                  <input type="number" class="form-control action-delay-input" min="0" max="10000" step="100" 
-          value="${action.delay}" data-chain-key="${chainKey}" data-action-index="${index}" placeholder="${t("label_ms", "ms")}">
+                  <input type="number" class="form-control action-delay-input" min="0" max="10000" step="100"
+          value="${Number(action.delay) || 0}" data-chain-key="${chainKey}" data-action-index="${index}" placeholder="${t("label_ms", "ms")}">
         <span class="input-group-text">${t("label_ms", "ms")}</span>
                 </div>
               </div>
@@ -797,7 +1396,7 @@ function generateActionSpecificControls(chainKey, index, action) {
         <div class="extension-id-row mb-2" ${action.extensionId && action.extensionId !== "manual" ? 'style="display:none"' : ""}>
           <label class="form-label small">${t("label_extensionId", "扩展ID")}:</label>
           <input type="text" class="form-control form-control-sm extension-id-input" placeholder="${t("placeholder_extensionIdExample", "扩展ID (如: nfgcnddoajoekfpacfkehomkgmpndhob)")}" 
-                 value="${action.extensionId && action.extensionId !== "manual" ? action.extensionId : ""}" 
+                 value="${action.extensionId && action.extensionId !== "manual" ? escapeHtmlAttr(action.extensionId) : ""}"
                  data-chain-key="${chainKey}" data-action-index="${index}">
         </div>
         
@@ -811,9 +1410,10 @@ function generateActionSpecificControls(chainKey, index, action) {
         
         <div class="extension-message-row">
           <label class="form-label small">${t("label_messageContent", "消息内容")}:</label>
-          <textarea class="form-control form-control-sm extension-message-input" rows="3" placeholder="${t("placeholder_messageJson", '消息内容 (JSON格式，如: {"action": "toggle"})')}" 
-                   data-chain-key="${chainKey}" data-action-index="${index}">${action.message ? JSON.stringify(action.message, null, 2) : ""}</textarea>
+          <textarea class="form-control form-control-sm extension-message-input" rows="3" placeholder="${t("placeholder_messageJson", '消息内容 (JSON格式，如: {"action": "toggle"})')}"
+                   data-chain-key="${chainKey}" data-action-index="${index}">${action.message ? escapeHtmlAttr(JSON.stringify(action.message, null, 2)) : ""}</textarea>
         </div>
+        <div class="form-text small">${t("hint_callExtension", "向另一个扩展发送消息；仅当目标扩展允许外部消息（externally_connectable）时才生效，多数扩展不支持，可能没有反应。")}</div>
       </div>
     `;
   } else if (action.type === ACTION_TYPES.EXECUTE_COMMAND) {
@@ -841,101 +1441,76 @@ function generateActionSpecificControls(chainKey, index, action) {
             </div>
           </div>
         </div>
+        <div class="form-text small">${t("hint_executeCommand", "选「本扩展」运行你自己的动作链；选其它扩展则是对它执行管理操作（启用/停用、卸载、打开选项等），不是触发该扩展自己的快捷键。")}</div>
+      </div>
+    `;
+  } else if (action.type === ACTION_TYPES.OPEN_URL) {
+    return `
+      <div class="mt-2">
+        <div class="row g-2">
+          <div class="col-md-8">
+            <label class="form-label small">${t("label_url", "网址")}:</label>
+            <input type="text" class="form-control form-control-sm open-url-input" placeholder="${t("placeholder_urlExample", "网址 (如: https://example.com)")}"
+                   value="${action.url ? escapeHtmlAttr(action.url) : ""}"
+                   data-chain-key="${chainKey}" data-action-index="${index}">
+            <div class="form-text small">${t("hint_templateVars", "支持变量: {url} {title} {selection} {clipboard} {date} {time}")}</div>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label small">${t("label_openIn", "打开方式")}:</label>
+            <select class="form-select form-select-sm open-url-target" data-chain-key="${chainKey}" data-action-index="${index}">
+              <option value="new" ${action.openIn !== "current" ? "selected" : ""}>${t("option_openIn_new", "新标签页")}</option>
+              <option value="current" ${action.openIn === "current" ? "selected" : ""}>${t("option_openIn_current", "当前标签页")}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    `;
+  } else if (action.type === ACTION_TYPES.SHOW_NOTIFICATION) {
+    return `
+      <div class="mt-2">
+        <label class="form-label small">${t("label_notifyText", "通知内容")}:</label>
+        <input type="text" class="form-control form-control-sm notify-text-input" placeholder="${t("placeholder_notifyText", "要显示的通知文字")}"
+               value="${action.text ? escapeHtmlAttr(action.text) : ""}"
+               data-chain-key="${chainKey}" data-action-index="${index}">
+        <div class="form-text small">${t("hint_templateVars", "支持变量: {url} {title} {selection} {clipboard} {date} {time}")}</div>
+      </div>
+    `;
+  } else if (action.type === ACTION_TYPES.IF_URL_MATCHES) {
+    return `
+      <div class="mt-2">
+        <label class="form-label small">${t("label_pattern", "匹配规则")}:</label>
+        <input type="text" class="form-control form-control-sm condition-pattern-input" placeholder="${t("placeholder_pattern", "如 *://github.com/* 或关键字，多个用逗号分隔")}"
+               value="${action.pattern ? escapeHtmlAttr(action.pattern) : ""}"
+               data-chain-key="${chainKey}" data-action-index="${index}">
+      </div>
+    `;
+  } else if (action.type === ACTION_TYPES.RUN_CHAIN) {
+    const otherChains = (currentConfig.chainOrder || Object.keys(currentConfig.chains)).filter((key) => currentConfig.chains[key] && key !== chainKey);
+    return `
+      <div class="mt-2">
+        <label class="form-label small">${t("label_runChain", "选择动作链")}:</label>
+        <select class="form-select form-select-sm run-chain-select" data-chain-key="${chainKey}" data-action-index="${index}">
+          <option value="">${t("placeholder_selectChain", "-- 选择动作链 --")}</option>
+          ${otherChains.map((key) => `<option value="${key}" ${action.chainKey === key ? "selected" : ""}>${escapeHtmlAttr(currentConfig.chains[key].name || key)}</option>`).join("")}
+        </select>
+      </div>
+    `;
+  } else if (action.type === ACTION_TYPES.OPEN_BROWSER_PAGE) {
+    return `
+      <div class="mt-2">
+        <label class="form-label small">${t("label_browserPage", "浏览器页面")}:</label>
+        <select class="form-select form-select-sm browser-page-select" data-chain-key="${chainKey}" data-action-index="${index}">
+          ${BROWSER_PAGE_OPTIONS.map((page) => `<option value="${page}" ${(action.page || "downloads") === page ? "selected" : ""}>${t(`browserPage_${page}`, page)}</option>`).join("")}
+        </select>
       </div>
     `;
   }
   return ""; // For other action types, no additional controls
 }
 
-// Render actions configuration
-function renderActionsConfig(chainKey, actions) {
-  return actions
-    .map(
-      (action, index) => `
-    <div class="action-config" draggable="true" data-chain-key="${chainKey}" data-action-index="${index}">
-      <div class="action-main-row">
-        <span class="drag-handle">⋮⋮</span>
-        <select class="form-select form-select-sm action-type-select" data-chain-key="${chainKey}" data-action-index="${index}">
-          ${generateGroupedActionOptions(action.type)}
-        </select>
-
-        <label>延迟:</label>
-        <input type="number" class="form-control form-control-sm action-delay-input" min="0" max="10000" step="100" value="${action.delay}"
-               data-chain-key="${chainKey}" data-action-index="${index}" placeholder="ms">
-        <button class="btn btn-danger btn-sm remove-action-btn" data-chain-key="${chainKey}" data-action-index="${index}">删除</button>
-      </div>
-
-      ${
-        action.type === ACTION_TYPES.CALL_EXTENSION
-          ? `
-        <div class="extension-config">
-          <div class="extension-selector-row">
-            <label>选择扩展:</label>
-            <select class="form-select form-select-sm extension-selector" data-chain-key="${chainKey}" data-action-index="${index}">
-              <option value="">-- 选择已安装的扩展 --</option>
-              <option value="manual" ${!action.extensionId || action.extensionId === "manual" ? "selected" : ""}>手动输入扩展ID</option>
-            </select>
-            <button class="btn btn-secondary btn-sm refresh-extensions-btn" data-chain-key="${chainKey}" data-action-index="${index}">刷新</button>
-          </div>
-          
-          <div class="extension-id-row" ${action.extensionId && action.extensionId !== "manual" ? 'style="display:none"' : ""}>
-            <label>扩展ID:</label>
-            <input type="text" class="form-control form-control-sm extension-id-input" placeholder="扩展ID (如: nfgcnddoajoekfpacfkehomkgmpndhob)" 
-                   value="${action.extensionId && action.extensionId !== "manual" ? action.extensionId : ""}" 
-                   data-chain-key="${chainKey}" data-action-index="${index}">
-          </div>
-          
-          <div class="extension-action-row" ${!action.extensionId || action.extensionId === "manual" ? 'style="display:none"' : ""}>
-            <label>预设动作:</label>
-            <select class="form-select form-select-sm extension-action-selector" data-chain-key="${chainKey}" data-action-index="${index}">
-              <option value="">-- 选择动作模板 --</option>
-              <option value="custom">自定义消息</option>
-            </select>
-          </div>
-          
-          <div class="extension-message-row">
-            <label>消息内容:</label>
-            <textarea class="form-control form-control-sm extension-message-input" placeholder="消息内容 (JSON格式，如: {&quot;action&quot;: &quot;toggle&quot;})" 
-                     data-chain-key="${chainKey}" data-action-index="${index}">${action.message ? JSON.stringify(action.message, null, 2) : ""}</textarea>
-          </div>
-        </div>
-      `
-          : action.type === ACTION_TYPES.EXECUTE_COMMAND
-          ? `
-        <div class="command-config">
-          <div class="command-selector-row">
-            <label>选择扩展:</label>
-            <select class="form-select form-select-sm command-extension-selector" data-chain-key="${chainKey}" data-action-index="${index}">
-              <option value="">-- 选择扩展 --</option>
-            </select>
-          </div>
-          </div>
-          
-          <div class="command-list-row">
-            <label>选择命令:</label>
-            <div class="command-selector-with-refresh">
-              <select class="form-select form-select-sm command-selector" data-chain-key="${chainKey}" data-action-index="${index}">
-                <option value="">-- 选择命令 --</option>
-              </select>
-              <button class="btn btn-secondary btn-small refresh-commands-btn" data-chain-key="${chainKey}" data-action-index="${index}" title="刷新命令列表">🔄</button>
-            </div>
-          </div>
-          
-          <div class="command-manual-row">
-            <label>或手动输入命令:</label>
-            <input type="text" class="command-input" placeholder="命令名称 (如: _execute_action, execute_chain_1)" 
-                   value="${action.command || ""}" 
-                   data-chain-key="${chainKey}" data-action-index="${index}">
-            <small class="help-text">扩展自身命令格式: _execute_action, execute_chain_1 等</small>
-          </div>
-        </div>
-      `
-          : ""
-      }
-    </div>
-  `
-    )
-    .join("");
+// Escape a string for safe use inside an HTML attribute value
+function escapeHtmlAttr(value) {
+  return String(value).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
 // Initialize extension selectors with installed extensions
@@ -1058,6 +1633,8 @@ function renderActionsHelp() {
 // Execute chain
 async function executeChain(chainKey) {
   try {
+    // The background reads the chain from storage — flush pending edits first
+    await flushSaveConfig();
     await chrome.runtime.sendMessage({
       action: "executeChain",
       chainKey: chainKey,
@@ -1100,6 +1677,216 @@ async function addNewChain() {
   setTimeout(() => {
     editChain(chainKey);
   }, 100);
+}
+
+// Fill the template dropdown (re-run on locale change so names follow the language)
+function populateTemplateMenu() {
+  const templateMenu = document.getElementById("templateMenu");
+  if (!templateMenu) return;
+  templateMenu.innerHTML = CHAIN_TEMPLATES.map(
+    (tpl) => `
+    <li>
+      <a class="dropdown-item" href="#" data-template-key="${tpl.key}">
+        <i class="bi ${tpl.icon} me-2"></i>${t(tpl.nameKey, tpl.fallback)}
+      </a>
+    </li>
+  `
+  ).join("");
+}
+
+// Create a new chain from a built-in template and open it for editing
+async function addChainFromTemplate(templateKey) {
+  const template = CHAIN_TEMPLATES.find((tpl) => tpl.key === templateKey);
+  if (!template) return;
+
+  const chainKey = `chain_${Date.now()}`;
+  currentConfig.chains[chainKey] = {
+    name: t(template.nameKey, template.fallback),
+    actions: template.build(),
+  };
+
+  if (!currentConfig.chainOrder) {
+    currentConfig.chainOrder = Object.keys(currentConfig.chains);
+  } else {
+    currentConfig.chainOrder = [chainKey, ...currentConfig.chainOrder];
+  }
+
+  await saveConfig();
+  renderMainView();
+  showMessage(t("toast_newChainAdded", "新链已添加"));
+
+  setTimeout(() => {
+    editChain(chainKey);
+  }, 100);
+}
+
+// Duplicate chain (deep copy, inserted right after the source)
+async function duplicateChain(chainKey) {
+  const source = currentConfig.chains[chainKey];
+  if (!source) return;
+
+  const newKey = `chain_${Date.now()}`;
+  const copy = JSON.parse(JSON.stringify(source));
+  copy.name = `${source.name} ${t("suffix_copy", "(副本)")}`;
+  currentConfig.chains[newKey] = copy;
+
+  if (!currentConfig.chainOrder) {
+    currentConfig.chainOrder = Object.keys(currentConfig.chains);
+  } else {
+    const sourceIndex = currentConfig.chainOrder.indexOf(chainKey);
+    if (sourceIndex >= 0) {
+      currentConfig.chainOrder.splice(sourceIndex + 1, 0, newKey);
+    } else {
+      currentConfig.chainOrder.push(newKey);
+    }
+  }
+
+  await saveConfig();
+  renderMainView();
+  setTimeout(() => initializeSortableDragDrop(), 100);
+  showMessage(t("toast_chainDuplicated", "动作链已复制"));
+}
+
+// Export the full configuration as a downloadable JSON file
+function exportConfig() {
+  try {
+    const data = JSON.stringify(currentConfig, null, 2);
+    const blob = new Blob([data], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `hotkey-chain-config-${new Date().toISOString().slice(0, 10)}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+    showMessage(t("toast_configExported", "配置已导出"));
+  } catch (error) {
+    console.error("Failed to export config:", error);
+    showMessage(t("toast_executeFailed", "执行失败"), true);
+  }
+}
+
+// Export a single chain as a shareable JSON file
+function exportSingleChain(chainKey) {
+  const chain = currentConfig.chains[chainKey];
+  if (!chain) return;
+  try {
+    const payload = { type: "hotkey-chain", version: 1, chain: JSON.parse(JSON.stringify(chain)) };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    const safeName = (chain.name || "chain").replace(/[\\/:*?"<>|]/g, "_").slice(0, 50);
+    link.download = `hotkey-chain-${safeName}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+    showMessage(t("toast_chainExported", "已导出动作链"));
+  } catch (error) {
+    console.error("Failed to export chain:", error);
+    showMessage(t("toast_executeFailed", "执行失败"), true);
+  }
+}
+
+// A valid action list is an array of objects that each carry a string `type`.
+// Imported files are untrusted: a null/garbage element would later crash
+// renderMainView() (which dereferences action.type), leaving a blank page.
+function isValidActionList(actions) {
+  return Array.isArray(actions) && actions.every((a) => a && typeof a === "object" && typeof a.type === "string");
+}
+
+// Add a single shared chain (from exportSingleChain or a bare {name, actions} object)
+async function importSingleChain(chainData) {
+  if (!chainData || typeof chainData.name !== "string" || !isValidActionList(chainData.actions)) {
+    throw new Error(t("error_invalidConfigFile", "无效的配置文件"));
+  }
+  const chainKey = `chain_${Date.now()}`;
+  currentConfig.chains[chainKey] = JSON.parse(JSON.stringify(chainData));
+  if (!currentConfig.chainOrder) {
+    currentConfig.chainOrder = Object.keys(currentConfig.chains);
+  } else {
+    currentConfig.chainOrder = [chainKey, ...currentConfig.chainOrder];
+  }
+  await saveConfig();
+  renderMainView();
+  setTimeout(() => initializeSortableDragDrop(), 100);
+  showMessage(t("toast_chainImported", "已导入动作链: $1").replace("$1", chainData.name));
+}
+
+// Import configuration from a JSON file (replaces the current configuration)
+async function importConfig(file) {
+  try {
+    const text = await file.text();
+    const imported = JSON.parse(text);
+
+    // Single-chain share file? Confirm then append.
+    if (imported && imported.type === "hotkey-chain" && imported.chain) {
+      const chainName = imported.chain && typeof imported.chain.name === "string" ? imported.chain.name : "?";
+      if (!confirm(t("confirm_importChain", `导入动作链「${chainName}」？`).replace("$1", chainName))) return;
+      await importSingleChain(imported.chain);
+      return;
+    }
+    if (imported && !imported.chains && typeof imported.name === "string" && Array.isArray(imported.actions)) {
+      if (!confirm(t("confirm_importChain", `导入动作链「${imported.name}」？`).replace("$1", imported.name))) return;
+      await importSingleChain(imported);
+      return;
+    }
+
+    // Minimal shape validation before replacing anything
+    if (!imported || typeof imported !== "object" || !imported.chains || typeof imported.chains !== "object" || Object.keys(imported.chains).length === 0) {
+      throw new Error(t("error_invalidConfigFile", "无效的配置文件"));
+    }
+    for (const [key, chain] of Object.entries(imported.chains)) {
+      // Chain keys are interpolated unescaped into data-chain-key="..." during render.
+      // Every key this extension generates is "chain_<digits>"; reject anything outside
+      // [A-Za-z0-9_-] so a crafted import can't break out of the attribute and inject
+      // HTML/JS into the (privileged) options page.
+      if (!/^[\w-]+$/.test(key) || !chain || typeof chain.name !== "string" || !isValidActionList(chain.actions)) {
+        throw new Error(t("error_invalidConfigFile", "无效的配置文件") + `: ${key}`);
+      }
+    }
+
+    const confirmed = confirm(t("confirm_importOverwrite", "导入将替换当前全部配置，是否继续？"));
+    if (!confirmed) return;
+
+    // Normalize derived fields so the rest of the UI can rely on them
+    if (!Array.isArray(imported.chainOrder)) {
+      imported.chainOrder = Object.keys(imported.chains);
+    }
+    imported.chainOrder = imported.chainOrder.filter((key) => imported.chains[key]);
+    Object.keys(imported.chains).forEach((key) => {
+      if (!imported.chainOrder.includes(key)) imported.chainOrder.push(key);
+    });
+    if (!imported.defaultChain || !imported.chains[imported.defaultChain]) {
+      imported.defaultChain = imported.chainOrder[0];
+    }
+
+    currentConfig = imported;
+    await saveConfig();
+    renderMainView();
+    setTimeout(() => initializeSortableDragDrop(), 100);
+    showMessage(t("toast_configImported", "配置已导入"));
+  } catch (error) {
+    console.error("Failed to import config:", error);
+    showMessage(t("toast_importFailed", "导入失败: $1").replace("$1", error.message), true);
+  }
+}
+
+// Restore the built-in default action chains (replaces the entire config)
+async function restoreDefaults() {
+  const confirmed = confirm(t("confirm_restoreDefaults", "恢复默认动作链将替换当前全部动作链，确定继续？"));
+  if (!confirmed) return;
+  try {
+    const response = await chrome.runtime.sendMessage({ action: "resetToDefaults" });
+    if (!response || response.success === false) {
+      throw new Error((response && response.error) || "unknown error");
+    }
+    currentConfig = response.config;
+    if (!currentConfig.chainOrder) currentConfig.chainOrder = Object.keys(currentConfig.chains);
+    showMainView(); // re-renders the grid and re-inits drag-and-drop
+    showMessage(t("toast_defaultsRestored", "已恢复默认动作链"));
+  } catch (error) {
+    console.error("Failed to restore defaults:", error);
+    showMessage(t("toast_restoreDefaultsFailed", "恢复默认失败"), true);
+  }
 }
 
 // Delete chain
@@ -1201,6 +1988,31 @@ async function updateActionType(chainKey, actionIndex, newType) {
     if (!action.extensionId) action.extensionId = chrome.runtime.id; // 默认为当前扩展
   }
 
+  // If switching to OPEN_URL, initialize the url field
+  if (newType === ACTION_TYPES.OPEN_URL) {
+    if (!action.url) action.url = "";
+  }
+
+  // If switching to SHOW_NOTIFICATION, initialize the text field
+  if (newType === ACTION_TYPES.SHOW_NOTIFICATION) {
+    if (!action.text) action.text = "";
+  }
+
+  // If switching to OPEN_BROWSER_PAGE, initialize the page field
+  if (newType === ACTION_TYPES.OPEN_BROWSER_PAGE) {
+    if (!action.page) action.page = "downloads";
+  }
+
+  // If switching to IF_URL_MATCHES, initialize the pattern field
+  if (newType === ACTION_TYPES.IF_URL_MATCHES) {
+    if (!action.pattern) action.pattern = "";
+  }
+
+  // If switching to RUN_CHAIN, initialize the target chain field
+  if (newType === ACTION_TYPES.RUN_CHAIN) {
+    if (!action.chainKey) action.chainKey = "";
+  }
+
   await saveConfig();
 
   // Re-render the entire chain edit view to immediately show the changes
@@ -1211,8 +2023,14 @@ async function updateActionType(chainKey, actionIndex, newType) {
 
 // Update action delay
 async function updateActionDelay(chainKey, actionIndex, newDelay) {
-  currentConfig.chains[chainKey].actions[actionIndex].delay = parseInt(newDelay) || 0;
+  currentConfig.chains[chainKey].actions[actionIndex].delay = parseInt(newDelay, 10) || 0;
   await saveConfig();
+}
+
+// Update the target URL of an open_url action
+function updateActionUrl(chainKey, actionIndex, url) {
+  currentConfig.chains[chainKey].actions[actionIndex].url = url;
+  saveConfig();
 }
 
 // Update extension ID
@@ -1277,7 +2095,10 @@ async function handleExtensionSelection(chainKey, actionIndex, selectedValue) {
 // Handle extension action selection
 async function handleExtensionActionSelection(chainKey, actionIndex, selectedValue) {
   const action = currentConfig.chains[chainKey].actions[actionIndex];
-  const template = EXTENSION_TEMPLATES[action.extensionId];
+  // Mirror populateActionSelector's fallback: extensions without a bespoke
+  // template show the generic presets, so resolve them the same way here —
+  // otherwise selecting a generic preset would silently set no message.
+  const template = EXTENSION_TEMPLATES[action.extensionId] || EXTENSION_TEMPLATES["generic"];
 
   if (selectedValue === "custom") {
     // User wants to customize, don't auto-fill
@@ -1285,7 +2106,7 @@ async function handleExtensionActionSelection(chainKey, actionIndex, selectedVal
   }
 
   if (template && template.actions) {
-    const selectedAction = template.actions.find((a) => a.name === selectedValue);
+    const selectedAction = template.actions.find((a) => a.nameKey === selectedValue);
     if (selectedAction) {
       action.message = selectedAction.message;
       // Update the message textarea
@@ -1304,14 +2125,6 @@ async function handleExtensionActionSelection(chainKey, actionIndex, selectedVal
 async function handleCommandSelection(chainKey, actionIndex, selectedCommand) {
   const action = currentConfig.chains[chainKey].actions[actionIndex];
   action.command = selectedCommand;
-
-  // Update the manual input field
-  const container = document.querySelector(`[data-chain-key="${chainKey}"][data-action-index="${actionIndex}"]`).closest(".action-config");
-  const commandInput = container.querySelector(".command-input");
-  if (commandInput) {
-    commandInput.value = selectedCommand;
-  }
-
   await saveConfig();
 }
 
@@ -1361,7 +2174,9 @@ async function populateCommandSelector(selector, extensionId) {
     template.commands.forEach((cmd) => {
       const option = document.createElement("option");
       option.value = cmd.command;
-      option.textContent = `${cmd.name} - ${cmd.description}`;
+      // Avoid "Name - Name" when the secondary text is identical (e.g. an
+      // unbound chain slot whose label is already the slot name).
+      option.textContent = cmd.description && cmd.description !== cmd.name ? `${cmd.name} - ${cmd.description}` : cmd.name;
       if (cmd.shortcut) {
         option.textContent += ` (${cmd.shortcut})`;
       }
@@ -1379,11 +2194,11 @@ function populateActionSelector(selector, extensionId) {
     selector.removeChild(selector.lastChild);
   }
 
-  // Add template actions
+  // Add template actions (stable nameKey as value, localized label as text)
   template.actions.forEach((action) => {
     const option = document.createElement("option");
-    option.value = action.name;
-    option.textContent = action.name;
+    option.value = action.nameKey;
+    option.textContent = t(action.nameKey, action.nameKey);
     selector.appendChild(option);
   });
 }
@@ -1481,7 +2296,7 @@ function showMessage(text, isError = false) {
       <div class="d-flex">
         <div class="toast-body">
           <i class="bi ${isError ? "bi-exclamation-triangle" : "bi-check-circle"} me-2"></i>
-          ${text}
+          ${escapeHtmlAttr(text)}
         </div>
         <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
       </div>
@@ -1504,47 +2319,30 @@ function showMessage(text, isError = false) {
   });
 }
 
-// Make functions global for HTML onclick handlers
-window.executeChain = executeChain;
-window.deleteChain = deleteChain;
-window.updateChainName = updateChainName;
-window.addAction = addAction;
-window.removeAction = removeAction;
-window.updateActionType = updateActionType;
-window.updateActionDelay = updateActionDelay;
-window.updateExtensionId = updateExtensionId;
-window.updateExtensionMessage = updateExtensionMessage;
-
 // 使用 Sortable.js 实现拖拽排序
+const SORTABLE_OPTIONS = {
+  animation: 150,
+  ghostClass: "sortable-ghost",
+  chosenClass: "sortable-chosen",
+  dragClass: "sortable-drag",
+  handle: ".drag-handle",
+};
+
+// 在元素上创建 Sortable，若已存在实例先销毁，避免重复初始化导致的句柄堆叠
+function createSortable(element, onEnd) {
+  if (!element || !window.Sortable) return;
+  const existing = Sortable.get(element);
+  if (existing) existing.destroy();
+  new Sortable(element, { ...SORTABLE_OPTIONS, onEnd });
+}
+
 function initializeSortableDragDrop() {
   // 主页面 - 动作链网格拖拽排序
-  const chainsContainer = document.getElementById("chains-container");
-  if (chainsContainer && window.Sortable) {
-    new Sortable(chainsContainer, {
-      animation: 150,
-      ghostClass: "sortable-ghost",
-      chosenClass: "sortable-chosen",
-      dragClass: "sortable-drag",
-      handle: ".drag-handle",
-      onEnd: async function (evt) {
-        await updateChainOrderFromSort();
-      },
-    });
-  }
+  createSortable(document.getElementById("chains-container"), () => updateChainOrderFromSort());
 
   // 编辑界面 - 动作拖拽排序
-  const editActionsList = document.getElementById("chainEditConfig");
-  if (editActionsList && window.Sortable && editingChainId) {
-    new Sortable(editActionsList, {
-      animation: 150,
-      ghostClass: "sortable-ghost",
-      chosenClass: "sortable-chosen",
-      dragClass: "sortable-drag",
-      handle: ".drag-handle",
-      onEnd: async function (evt) {
-        await updateActionOrderFromSort(editingChainId);
-      },
-    });
+  if (editingChainId) {
+    createSortable(document.getElementById("chainEditConfig"), () => updateActionOrderFromSort(editingChainId));
   }
 }
 
@@ -1583,21 +2381,4 @@ async function updateActionOrderFromSort(chainKey) {
   if (editingChainId === chainKey) {
     renderChainEdit(chainKey);
   }
-}
-
-// 更新动作链顺序（执行页面）
-async function updateExecuteChainOrderFromSort() {
-  const chainItems = document.querySelectorAll(".chain-list .chain-item");
-
-  // 提取新的顺序
-  const newOrder = [];
-  chainItems.forEach((item) => {
-    const chainKey = item.dataset.chainKey;
-    newOrder.push(chainKey);
-  });
-
-  // 保存新的顺序
-  currentConfig.chainOrder = newOrder;
-  await saveConfig();
-  renderMainView(); // 同步更新主页面
 }

@@ -1,0 +1,20 @@
+{
+  "en": ["browser automation", "keyboard shortcuts", "tab manager", "productivity workflow", "macro shortcut", "auto run tabs"],
+  "zh_CN": ["浏览器自动化", "快捷键", "标签管理", "效率工具", "宏命令", "自动执行", "网页脚本"],
+  "zh_TW": ["瀏覽器自動化", "快捷鍵", "分頁管理", "效率工具", "宏指令", "自動執行", "網頁腳本"],
+  "ja": ["ブラウザ自動化", "ショートカットキー", "タブ管理", "タブ整理", "作業効率化", "マクロ", "定型作業 自動化"],
+  "ko": ["브라우저 자동화", "단축키", "탭 관리", "탭 정리", "생산성 도구", "매크로", "반복 작업 자동화"],
+  "id": ["otomatisasi browser", "pintasan keyboard", "pengelola tab", "produktivitas", "makro browser", "rapikan tab", "tugas berulang"],
+  "es": ["automatización del navegador", "atajos de teclado", "gestor de pestañas", "productividad", "macros navegador", "automatizar tareas"],
+  "pt_BR": ["automação do navegador", "atalhos de teclado", "gerenciador de abas", "produtividade", "macros navegador", "automatizar tarefas"],
+  "it": ["automazione del browser", "scorciatoie da tastiera", "gestione schede", "produttività", "macro browser", "automatizzare attività"],
+  "fr": ["automatisation navigateur", "raccourcis clavier", "gestionnaire onglets", "macro navigateur", "productivité web", "automatiser tâches"],
+  "de": ["browser automatisierung", "tastenkürzel", "tab manager", "browser makro", "produktivität", "aufgaben automatisieren"],
+  "pl": ["automatyzacja przeglądarki", "skróty klawiszowe", "menedżer kart", "makro przeglądarki", "produktywność", "automatyzacja zadań"],
+  "ru": ["автоматизация браузера", "горячие клавиши", "менеджер вкладок", "продуктивность", "макрос браузера", "автоматизация задач"],
+  "tr": ["tarayıcı otomasyonu", "kısayol tuşları", "sekme yöneticisi", "verimlilik", "tarayıcı makrosu", "görev otomasyonu"],
+  "vi": ["tự động hóa trình duyệt", "phím tắt", "quản lý thẻ", "năng suất", "macro trình duyệt", "tự động hóa tác vụ"],
+  "ar": ["أتمتة المتصفح", "اختصارات لوحة المفاتيح", "مدير علامات التبويب", "ماكرو المتصفح", "أدوات الإنتاجية", "تشغيل تلقائي للصفحات"],
+  "hi": ["ब्राउज़र ऑटोमेशन", "कीबोर्ड शॉर्टकट", "टैब मैनेजर", "प्रोडक्टिविटी टूल", "ब्राउज़र मैक्रो", "दोहराव वाले काम"],
+  "th": ["ระบบอัตโนมัติเบราว์เซอร์", "ปุ่มลัดคีย์บอร์ด", "จัดการแท็บ", "แมโครเบราว์เซอร์", "เครื่องมือเพิ่มประสิทธิภาพ", "งานซ้ำ ๆ"]
+}

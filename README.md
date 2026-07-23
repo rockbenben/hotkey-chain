@@ -1,8 +1,15 @@
 # 🔗 Hotkey Chain (Chrome Extension)
 
-<div align="right">English | <a href="./README_zh-CN.md">简体中文</a></div>
+> Chain 75+ browser actions and run them by hotkey, address bar, right-click, schedule, or URL match
 
-> **Shortcuts for your browser.** Chain dozens of browser actions together and trigger them however you like — a hotkey, the address bar, a right-click, a schedule, or automatically when a page matches a URL pattern.
+**English** · [简体中文](README.zh.md)
+
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![365 Open Source Plan #014](https://img.shields.io/badge/365%20Open%20Source%20Plan-%23014-1f6feb)](https://github.com/rockbenben/365opensource)
+
+**[⬇ Install from the Chrome Web Store](https://chromewebstore.google.com/detail/hotkey-chain/kcinhmiihahdgckoonemglanjpggdldb)** · [load an unpacked build](#-installation)
+
+![Chain list](assets/screenshot/1-chain-list.png)
 
 Think of macOS/iOS Shortcuts, but living inside Chrome. Build a sequence once (a "chain"), then run it anywhere — with per-step delays, conditions, variables, and chains that call other chains.
 
@@ -12,11 +19,11 @@ Think of macOS/iOS Shortcuts, but living inside Chrome. Build a sequence once (a
 - [Triggers](#-triggers)
 - [Actions](#-actions)
 - [Flow control & variables](#-flow-control--variables)
+- [Permissions & privacy](#-permissions--privacy)
 - [Installation](#-installation)
 - [Quick Start](#-quick-start)
 - [Configuration](#️-configuration)
 - [Internationalization](#-internationalization)
-- [License](#-license)
 
 ## ✨ Highlights
 
@@ -55,7 +62,7 @@ Think of macOS/iOS Shortcuts, but living inside Chrome. Build a sequence once (a
 
 **Advanced** — hard refresh · capture screenshot · save page as MHTML · system notification · open browser pages (downloads, history, settings…) · open downloads folder · clear browser cache · clear this site's data · remove page from history · keep-awake toggle
 
-**Extension control** — enable/disable, uninstall (with confirmation), reload a dev extension, launch a Chrome App, show extension info, open its options/homepage/store page, or execute a Chrome command (including this extension's own chains)
+**Extension control** — enable/disable, uninstall (with confirmation), reload a dev extension, launch a Chrome App, show extension info, open its options/homepage/store page, or execute a Chrome command (including this extension's own chains). This group is what the `management` permission is for — see [Permissions & privacy](#-permissions--privacy).
 
 ## 🔀 Flow control & variables
 
@@ -66,7 +73,32 @@ A chain isn't just a fixed list — you can branch and compose:
 - **Variables** — in *Open URL* and *Show notification* text, use `{url}` `{title}` `{selection}` `{clipboard}` `{date}` `{time}` (e.g. search the selection on any site)
 - **Run feedback** — a toolbar badge shows while a chain runs; failures raise an error badge plus a system notification
 
+## 🔐 Permissions & privacy
+
+The install prompt asks for a lot, because an action can only be offered if the permission behind it is granted. Here is what the broad ones are actually for:
+
+| Permission | Needed by |
+| --- | --- |
+| `<all_urls>` + `scripting` + `activeTab` | Every action that runs *inside* a page: scroll, dark mode, translate, copy selection, read aloud. It has to work on whatever site you're on, so it can't be scoped to a list. |
+| `management` | The **Extension control** actions — enable / disable / uninstall another extension, reload a dev build. Uninstall always asks for confirmation. |
+| `browsingData` | *Clear browser cache* and *Clear this site's data*. |
+| `history` | *Remove page from history*. |
+| `clipboardRead` / `clipboardWrite` | The copy actions, and the `{clipboard}` variable. |
+| `pageCapture` | *Save page as MHTML*. |
+| `tabs` · `tabGroups` · `sessions` | The tab and window actions — sorting, grouping, reopening a closed tab. |
+| `bookmarks` · `readingList` · `downloads` · `search` | Bookmark, reading-list, download-folder, and search-selection actions. |
+| `tts` · `notifications` · `alarms` · `power` | Read aloud, notifications, scheduled chains, keep-awake. |
+| `storage` · `contextMenus` | Your chains, and the right-click menu. |
+
+**Nothing leaves your browser.** There is no analytics, no telemetry, and no backend — the only two `fetch` calls in the source read the extension's own bundled locale files via `chrome.runtime.getURL()`. Chains and settings live in `chrome.storage`; export/import is a local file you choose.
+
+If you don't want to grant this much, load an unpacked build and delete the permissions you don't need from `manifest.json` — the actions that depend on them will fail, everything else keeps working.
+
 ## 📦 Installation
+
+**[From the Chrome Web Store](https://chromewebstore.google.com/detail/hotkey-chain/kcinhmiihahdgckoonemglanjpggdldb)** — one click, auto-updates. This is all most people need.
+
+To run it from source instead (to modify it, or to trim permissions):
 
 1. Clone or download this repository
 2. Open `chrome://extensions` and enable **Developer mode**
@@ -111,10 +143,6 @@ No dependencies required; the script uses Node's built-ins plus your OS zip tool
 - The options page has a language selector that overrides the entire extension — background, menus, notifications, and commands; right-to-left layout is applied automatically for Arabic
 - Locale files live in `_locales/<code>/messages.json` (e.g. `en`, `zh_CN`, `ja`, `ar`)
 
-## 📄 License
+## About the 365 Open Source Plan
 
-MIT. See [LICENSE](./LICENSE) for details.
-
-—
-
-If you find this useful, a ⭐ would be appreciated.
+Project **#014** of the [365 Open Source Plan](https://github.com/rockbenben/365opensource) — one person + AI, 300+ open-source projects in a year. [Submit your idea →](https://365.aishort.top/) · [Discord](https://discord.gg/PZTQfJ4GjX) · [Telegram](https://t.me/aishort_top)

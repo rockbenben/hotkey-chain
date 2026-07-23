@@ -1,8 +1,15 @@
 # 🔗 Hotkey Chain（Chrome 扩展）
 
-<div align="right"><a href="./README.md">English</a> | 简体中文</div>
+> 把 75+ 个浏览器动作编排成动作链，用快捷键、地址栏、右键、定时或网址匹配触发
 
-> **浏览器里的快捷指令。** 把几十个浏览器动作编排成一条"动作链"，再用你喜欢的任意方式触发——快捷键、地址栏、右键、定时，或在页面网址匹配规则时自动运行。
+[English](README.md) · **简体中文**
+
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![365 开源计划 #014](https://img.shields.io/badge/365%20%E5%BC%80%E6%BA%90%E8%AE%A1%E5%88%92-%23014-1f6feb)](https://github.com/rockbenben/365opensource)
+
+**[⬇ 从 Chrome 应用商店安装](https://chromewebstore.google.com/detail/hotkey-chain/kcinhmiihahdgckoonemglanjpggdldb)** · [加载解压后的扩展](#-安装)
+
+![动作链列表](assets/screenshot/zh/1-chain-list.png)
 
 就像 macOS / iOS 的「快捷指令」，但活在 Chrome 里。动作序列只需配置一次，之后随处触发，并支持逐步延迟、条件判断、变量，以及链调用链。
 
@@ -12,11 +19,11 @@
 - [触发方式](#-触发方式)
 - [支持的动作](#-支持的动作)
 - [流程控制与变量](#-流程控制与变量)
+- [权限与隐私](#-权限与隐私)
 - [安装](#-安装)
 - [快速上手](#-快速上手)
 - [使用与配置](#️-使用与配置)
 - [国际化](#-国际化)
-- [许可证](#-许可证)
 
 ## ✨ 核心亮点
 
@@ -55,7 +62,7 @@
 
 **高级** — 硬刷新 · 截图 · 保存页面为 MHTML · 系统通知 · 打开浏览器内置页面（下载、历史、设置……）· 打开下载文件夹 · 清除浏览器缓存 · 清除本站数据 · 从历史删除本页 · 保持唤醒开关
 
-**扩展管理** — 启用/禁用、卸载（需确认）、重新加载开发扩展、启动 Chrome 应用、查看扩展信息、打开其选项/主页/商店页，或执行 Chrome 命令（含本扩展自己的动作链）
+**扩展管理** — 启用/禁用、卸载（需确认）、重新加载开发扩展、启动 Chrome 应用、查看扩展信息、打开其选项/主页/商店页，或执行 Chrome 命令（含本扩展自己的动作链）。这一组正是 `management` 权限的用途，详见[权限与隐私](#-权限与隐私)。
 
 ## 🔀 流程控制与变量
 
@@ -66,7 +73,32 @@
 - **变量** — 在「打开网址」「显示通知」文本中使用 `{url}` `{title}` `{selection}` `{clipboard}` `{date}` `{time}`（例如在任意网站搜索选中文字）
 - **运行反馈** — 链运行时工具栏显示徽章；失败时弹出错误徽章 + 系统通知
 
+## 🔐 权限与隐私
+
+安装时索要的权限不少，因为一个动作要能提供，背后的权限就得先拿到。范围最大的那几项分别是给谁用的：
+
+| 权限 | 谁在用 |
+| --- | --- |
+| `<all_urls>` + `scripting` + `activeTab` | 所有在**页面内**执行的动作：滚动、暗色模式、翻译、复制选中、朗读。你在哪个网站就得在哪生效，没法限定白名单。 |
+| `management` | **扩展控制**类动作 —— 启用 / 停用 / 卸载其他扩展、重载开发版。卸载一定会二次确认。 |
+| `browsingData` | 「清除浏览器缓存」「清除本站数据」。 |
+| `history` | 「从历史记录中删除本页」。 |
+| `clipboardRead` / `clipboardWrite` | 各类复制动作，以及 `{clipboard}` 变量。 |
+| `pageCapture` | 「保存页面为 MHTML」。 |
+| `tabs` · `tabGroups` · `sessions` | 标签页与窗口动作 —— 排序、按域名分组、恢复关闭的标签。 |
+| `bookmarks` · `readingList` · `downloads` · `search` | 书签、稍后读、下载目录、搜索选中文字。 |
+| `tts` · `notifications` · `alarms` · `power` | 朗读、系统通知、定时链、保持唤醒。 |
+| `storage` · `contextMenus` | 存放你的链，以及右键菜单。 |
+
+**没有任何数据离开你的浏览器。** 无统计、无遥测、无后端 —— 源码里仅有的两处 `fetch` 都是用 `chrome.runtime.getURL()` 读扩展自带的语言包。链与设置存在 `chrome.storage`，导出 / 导入是你自己选的本地文件。
+
+不想给这么多权限的话，可以用开发者模式加载解压版，把 `manifest.json` 里不需要的权限删掉 —— 依赖它们的动作会失效，其余照常可用。
+
 ## 📦 安装
+
+**[从 Chrome 应用商店安装](https://chromewebstore.google.com/detail/hotkey-chain/kcinhmiihahdgckoonemglanjpggdldb)** —— 一键装好、自动更新，绝大多数人用这个就够。
+
+想改代码、或想精简权限的话，从源码运行：
 
 1. 克隆或下载本仓库
 2. 打开 `chrome://extensions` 并启用**开发者模式**
@@ -111,10 +143,6 @@ npm run package    # 或：node scripts/package.mjs
 - 选项页提供语言选择器，覆盖整套扩展——后台、菜单、通知、命令；阿拉伯语自动启用从右到左（RTL）布局
 - 语言文件位于 `_locales/<code>/messages.json`（如 `en`、`zh_CN`、`ja`、`ar`）
 
-## 📄 许可证
+## 关于 365 开源计划
 
-MIT，详见 [LICENSE](./LICENSE)。
-
-—
-
-如果觉得好用，欢迎点一个 ⭐ 支持。
+[365 开源计划](https://github.com/rockbenben/365opensource) 的第 **#014** 个项目——一个人 + AI，一年 300+ 个开源项目。[提交你的需求 →](https://365.aishort.top/) · [Discord](https://discord.gg/PZTQfJ4GjX) · [Telegram](https://t.me/aishort_top)

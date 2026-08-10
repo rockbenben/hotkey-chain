@@ -1,11 +1,10 @@
 # 🔗 Hotkey Chain (Chrome Extension)
 
-> Chain 75+ browser actions and run them by hotkey, address bar, right-click, schedule, or URL match
+> Chain 77 browser actions and run them by hotkey, address bar, right-click, schedule, or URL match
 
 **English** · [简体中文](README.zh.md)
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![365 Open Source Plan #014](https://img.shields.io/badge/365%20Open%20Source%20Plan-%23014-1f6feb)](https://github.com/rockbenben/365opensource)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE) [![365 Open Source Plan #014](https://img.shields.io/badge/365%20Open%20Source%20Plan-%23014-1f6feb)](https://github.com/rockbenben/365opensource)
 
 **[⬇ Install from the Chrome Web Store](https://chromewebstore.google.com/detail/hotkey-chain/kcinhmiihahdgckoonemglanjpggdldb)** · [load an unpacked build](#-installation)
 
@@ -16,6 +15,7 @@ Think of macOS/iOS Shortcuts, but living inside Chrome. Build a sequence once (a
 ## Table of Contents
 
 - [Highlights](#-highlights)
+- [Compatibility](#-compatibility)
 - [Triggers](#-triggers)
 - [Actions](#-actions)
 - [Flow control & variables](#-flow-control--variables)
@@ -25,9 +25,19 @@ Think of macOS/iOS Shortcuts, but living inside Chrome. Build a sequence once (a
 - [Configuration](#️-configuration)
 - [Internationalization](#-internationalization)
 
+## 🧩 Compatibility
+
+| Aspect | Supported |
+| --- | --- |
+| Browser | Chrome 116+, Edge 116+, and other Chromium browsers |
+| Install | Chrome Web Store, or load `extension/` unpacked — no build step |
+| Two actions need a newer Chrome | *Add to reading list* needs 120+ (falls back with a notice); *Save page as MHTML* needs 116+ |
+| Where chains run | Any `http(s)` page. Browser pages (`chrome://`, the Web Store) block extension scripts, so page actions are skipped there |
+| Data | Stays in your browser — no account, no sync, no server |
+
 ## ✨ Highlights
 
-- **75+ actions** across pages, tabs, windows, media, content, and the browser itself
+- **77 actions** across pages, tabs, windows, media, content, and the browser itself
 - **Five ways to trigger** a chain — hotkey, icon, right-click, address bar, schedule, or URL auto-run
 - **Flow control**: conditions, sub-chains, and template variables make a chain behave like a tiny script
 - **Visual editor**: build chains with grouped action pickers, per-step delays, and drag-and-drop ordering
@@ -48,29 +58,28 @@ Think of macOS/iOS Shortcuts, but living inside Chrome. Build a sequence once (a
 
 ## 🎬 Actions
 
-**Page** — scroll top/bottom, scroll one screen up/down, reload, back/forward, fullscreen, dark mode, translate page, print, open URL (new or current tab, supports variables)
+77 actions in nine groups. The extension lists every one of them, in your language, under **Available actions** on the options page — this table is just the shape of it.
 
-**Tabs** — new / close / close others / close to the left or right / close duplicates · sort by URL · group & ungroup by domain · duplicate / pin / mute (one or all) · reload all · discard others to free memory · jump to the audible tab · bookmark all tabs · move left / right / first / last · prev / next · reopen closed tab
-
-**Windows** — new / close / minimize / maximize · open incognito · move tab to a new window
-
-**Media** — play/pause · playback speed up / down / reset · read selection aloud (TTS) · stop reading
-
-**Content** — copy URL / title / selection · copy as Markdown link · search selection with your default engine · bookmark (duplicate-safe) · add to reading list
-
-**Zoom** — in / out / reset
-
-**Advanced** — hard refresh · capture screenshot · save page as MHTML · system notification · open browser pages (downloads, history, settings…) · open downloads folder · clear browser cache · clear this site's data · remove page from history · keep-awake toggle
-
-**Extension control** — enable/disable, uninstall (with confirmation), reload a dev extension, launch a Chrome App, show extension info, open its options/homepage/store page, or execute a Chrome command (including this extension's own chains). This group is what the `management` permission is for — see [Permissions & privacy](#-permissions--privacy).
+| Group | What's in it |
+| --- | --- |
+| **Page** | Scroll, reload, back/forward, fullscreen, dark mode, translate, print, open a URL |
+| **Tabs** | Close duplicates, sort by URL, group by domain, mute, discard to free memory, reopen closed, move and switch |
+| **Windows** | New, close, minimize, maximize, incognito, move tab to its own window |
+| **Media** | Play/pause, playback speed, read the selection aloud |
+| **Content** | Copy the URL, title, selection, a Markdown link, or your own format; search the selection; bookmark; add to reading list |
+| **Zoom** | In, out, reset |
+| **Flow control** | Conditions, confirmation prompts, sub-chains, waits |
+| **Advanced** | Hard refresh, screenshot, save as MHTML, notifications, clear cache or this site's data, keep awake |
+| **Extension control** | Enable/disable, uninstall, reload a dev build, open another extension's options or store page. This group is what the `management` permission is for — see [Permissions & privacy](#-permissions--privacy) |
 
 ## 🔀 Flow control & variables
 
 A chain isn't just a fixed list — you can branch and compose:
 
 - **Conditions** — `Continue if URL matches` and `Continue if text is selected` stop the chain early when the condition fails
+- **Confirmation** — `Ask to confirm` pauses the chain and shows a dialog on the page; the rest runs only if you choose Continue. Put it before a destructive step like *Close other tabs*
 - **Sub-chains** — `Run another chain` calls a chain as a step (with loop and depth guards)
-- **Variables** — in *Open URL* and *Show notification* text, use `{url}` `{title}` `{selection}` `{clipboard}` `{date}` `{time}` (e.g. search the selection on any site)
+- **Variables** — in *Open URL*, *Copy text*, *Ask to confirm* and *Show notification* text, use `{url}` `{title}` `{selection}` `{clipboard}` `{date}` `{time}` (e.g. search the selection on any site)
 - **Run feedback** — a toolbar badge shows while a chain runs; failures raise an error badge plus a system notification
 
 ## 🔐 Permissions & privacy
@@ -92,7 +101,7 @@ The install prompt asks for a lot, because an action can only be offered if the 
 
 **Nothing leaves your browser.** There is no analytics, no telemetry, and no backend — the only two `fetch` calls in the source read the extension's own bundled locale files via `chrome.runtime.getURL()`. Chains and settings live in `chrome.storage`; export/import is a local file you choose.
 
-If you don't want to grant this much, load an unpacked build and delete the permissions you don't need from `manifest.json` — the actions that depend on them will fail, everything else keeps working.
+If you don't want to grant this much, load an unpacked build and delete the permissions you don't need from `extension/manifest.json` — the actions that depend on them will fail, everything else keeps working.
 
 ## 📦 Installation
 
@@ -102,25 +111,12 @@ To run it from source instead (to modify it, or to trim permissions):
 
 1. Clone or download this repository
 2. Open `chrome://extensions` and enable **Developer mode**
-3. Click **Load unpacked** and select the `hotkey-chain` folder
+3. Click **Load unpacked** and select the **`extension`** folder (the one with `manifest.json` directly inside)
 4. The 🔗 icon appears in the toolbar
 
 Customize keyboard shortcuts at `chrome://extensions/shortcuts` (the keyboard icon in the options toolbar jumps straight there).
 
-### Build a package
-
-To produce a clean, distributable build (only the files the extension ships — no `design/`, `docs/`, or `scripts/`):
-
-```bash
-npm run package    # or: node scripts/package.mjs
-```
-
-Output (in `dist/`, git-ignored):
-
-- `dist/hotkey-chain/` — unpacked folder, ready for **Load unpacked**
-- `dist/hotkey-chain-v<version>.zip` — ready to upload to the Chrome Web Store (manifest at the archive root)
-
-No dependencies required; the script uses Node's built-ins plus your OS zip tool.
+Working on the extension — tests, packaging, releasing, brand assets — is in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## 🚀 Quick Start
 
@@ -131,7 +127,8 @@ No dependencies required; the script uses Node's built-ins plus your OS zip tool
 
 ## 🛠️ Configuration
 
-- The options page is a visual editor: grouped action pickers, per-step delays (ms), and drag-and-drop ordering
+- The options page is a visual editor: grouped action pickers, per-step delays (ms), and drag-and-drop ordering. Each chain card previews its first three steps as a timeline, with the delay shown on the connector between them
+- The toolbar splits by weight: library operations (language, shortcuts, export, import, restore) on the left, the two actions that create something on the right
 - Each chain can carry its own triggers — a schedule interval and URL auto-run patterns
 - **Execute command** lists the commands of any extension (including this one); **Call extension** sends a structured message (template or custom JSON)
 - Chains and their order are stored in `chrome.storage.local`
@@ -141,8 +138,11 @@ No dependencies required; the script uses Node's built-ins plus your OS zip tool
 
 - **18 languages**: English, 简体中文, 繁體中文, 日本語, 한국어, Español, Français, Deutsch, Português (Brasil), Русский, Italiano, العربية, हिन्दी, Bahasa Indonesia, Türkçe, Tiếng Việt, ไทย, Polski — default follows the browser
 - The options page has a language selector that overrides the entire extension — background, menus, notifications, and commands; right-to-left layout is applied automatically for Arabic
-- Locale files live in `_locales/<code>/messages.json` (e.g. `en`, `zh_CN`, `ja`, `ar`)
+- Locale files live in `extension/_locales/<code>/messages.json` (e.g. `en`, `zh_CN`, `ja`, `ar`), 340 keys each — `npm test` fails if any locale drifts out of sync
+- Chrome's i18n has no plural rules, so counts that vary use a pair of keys (`actions_count_one` / `actions_count`); languages without a plural distinction simply repeat the same string
 
 ## About the 365 Open Source Plan
 
-Project **#014** of the [365 Open Source Plan](https://github.com/rockbenben/365opensource) — one person + AI, 300+ open-source projects in a year. [Submit your idea →](https://365.aishort.top/) · [Discord](https://discord.gg/PZTQfJ4GjX) · [Telegram](https://t.me/aishort_top)
+Project **#014** of the [365 Open Source Plan](https://github.com/rockbenben/365opensource) — one person + AI, 300+ open-source projects in a year.
+
+[Submit your idea →](https://365.aishort.top/) · [Discord](https://discord.gg/PZTQfJ4GjX) · [Telegram](https://t.me/aishort_top)

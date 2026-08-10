@@ -1,0 +1,106 @@
+{
+  "manifest_version": 3,
+  "name": "__MSG_extName__",
+  "version": "1.4.0",
+  "description": "__MSG_extDescription__",
+  "default_locale": "en",
+  "homepage_url": "https://github.com/rockbenben/hotkey-chain",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "contextMenus",
+    "bookmarks",
+    "management",
+    "clipboardWrite",
+    "clipboardRead",
+    "sessions",
+    "tabs",
+    "tabGroups",
+    "downloads",
+    "notifications",
+    "tts",
+    "alarms",
+    "browsingData",
+    "history",
+    "power",
+    "readingList",
+    "search",
+    "pageCapture"
+  ],
+  "host_permissions": ["<all_urls>"],
+  "omnibox": { "keyword": "hc" },
+  "action": {
+    "default_title": "__MSG_action_defaultTitle__",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+H"
+      },
+      "description": "__MSG_cmd_execute_action__"
+    },
+    "execute_chain_1": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+1"
+      },
+      "description": "__MSG_cmd_execute_chain_1__"
+    },
+    "execute_chain_2": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+2"
+      },
+      "description": "__MSG_cmd_execute_chain_2__"
+    },
+    "execute_chain_3": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+3"
+      },
+      "description": "__MSG_cmd_execute_chain_3__"
+    },
+    "execute_chain_4": {
+      "description": "__MSG_cmd_execute_chain_4__"
+    },
+    "execute_chain_5": {
+      "description": "__MSG_cmd_execute_chain_5__"
+    },
+    "execute_chain_6": {
+      "description": "__MSG_cmd_execute_chain_6__"
+    },
+    "execute_chain_7": {
+      "description": "__MSG_cmd_execute_chain_7__"
+    },
+    "execute_chain_8": {
+      "description": "__MSG_cmd_execute_chain_8__"
+    },
+    "execute_chain_9": {
+      "description": "__MSG_cmd_execute_chain_9__"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

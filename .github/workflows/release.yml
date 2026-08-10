@@ -1,0 +1,82 @@
+name: CI
+
+# 平时推 main 只跑测试；打个 v1.4.0 这样的 tag 才额外打包并建 Release。
+# 测试得在 tag 之前就有机会红 —— 只在发布时跑的闸门，红的时候 tag 已经推出去了。
+# 不给 workflow_dispatch：手点时 GITHUB_REF_NAME 是分支名，
+# 下面的版本校验拿它去比 manifest 必然不一致，等于挂一个注定失败的入口。
+# 要补发就删掉 tag 重新推。
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+
+permissions:
+  contents: write # 建 Release 需要
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+
+      # 没有构建步骤，所以没有编译器替你发现问题。这套用例守的是「不会报错、
+      # 只会静默失效」的那一类：动作漏注册、18 份语言文件的 key 不齐平。
+      - name: test
+        run: node --test test.mjs
+
+      # tag 和 manifest 版本对不上是最容易犯又最难发现的错 —— 商店里显示的是
+      # manifest 那个，Release 页显示的是 tag，不一致就没人说得清装的是哪版。
+      # （package.json 与 manifest 的一致性由 test.mjs 守，这里只需比 tag。）
+      - name: 校验 tag 与 manifest 版本一致
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          manifest=$(node -p "require('./extension/manifest.json').version")
+          echo "tag=$tag  manifest=$manifest"
+          if [ "$tag" != "$manifest" ]; then
+            echo "::error::tag ($tag) 和 extension/manifest.json ($manifest) 版本不一致"
+            exit 1
+          fi
+
+      # extension/ 里的每个文件都该进包，所以整个目录直接打进去，没有排除清单要维护
+      # （截图等文档素材在根目录 assets/）。在目录里面打包，zip 根目录直接就是
+      # manifest.json —— 商店只认 manifest 在根的，多套一层就判「找不到 manifest」。
+      - name: 打包扩展
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          zip="hotkey-chain-${GITHUB_REF_NAME}.zip"
+          (cd extension && zip -r "../$zip" . -x '*.DS_Store')
+          unzip -Z1 "$zip"
+          unzip -Z1 "$zip" | grep -qx 'manifest.json' \
+            || { echo "::error::manifest.json 不在 zip 根目录，商店会拒"; exit 1; }
+          # 18 份语言文件少一份，装上去是某些语言直接显示 key 名
+          n=$(unzip -Z1 "$zip" | grep -c '^_locales/.*/messages\.json$')
+          [ "$n" = "18" ] || { echo "::error::语言文件只有 $n 份，应为 18"; exit 1; }
+
+      # 只能给一种 notes：--notes-file 和 --generate-notes 同时给，gh 会直接报错退出。
+      # 选自己写的安装说明 —— 对装扩展的人比一串 commit 列表有用。
+      - name: 建 Release
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cat > notes.md <<'EOF'
+          一般用户请直接从 [Chrome 网上应用店](https://chromewebstore.google.com/detail/hotkey-chain/kcinhmiihahdgckoonemglanjpggdldb)安装，会自动更新。
+
+          想装这个 zip（改代码、或想删掉部分权限）的话：
+
+          1. 下载下面的 zip 并解压
+          2. 打开 `chrome://extensions`，右上角开启**开发者模式**
+          3. 点「加载已解压的扩展程序」，选中解压出来的那个文件夹（里面直接就是 `manifest.json`）
+          4. 🔗 图标出现在工具栏，按 `Ctrl+Shift+H` 运行默认动作链
+
+          用法见 [README](https://github.com/rockbenben/hotkey-chain#-quick-start)。
+          EOF
+          gh release create "$GITHUB_REF_NAME" \
+            "hotkey-chain-${GITHUB_REF_NAME}.zip" \
+            --title "$GITHUB_REF_NAME" \
+            --notes-file notes.md

@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8" />
+<style>
+  @font-face {
+    font-family: "Plus Jakarta Sans";
+    src: url("/extension/assets/fonts/plus-jakarta-sans.woff2") format("woff2");
+    font-weight: 200 800;
+    font-display: block;
+  }
+  :root {
+    --ink: #1c1d28;
+    --ink-2: #6b6e80;
+    --ink-3: #9a9db0;
+    --brand: #6155f5;
+    --line: #ececf2;
+    --line-2: #e2e3ec;
+    --t-page: #3b82f6;
+    --t-zoom: #06b6d4;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    width: 1400px; height: 560px; overflow: hidden;
+    font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    /* 商店里要在一格格缩略图中跳出来，所以沿用紫色场；
+       浅色留给社交卡片，两张资产各司其职。 */
+    background:
+      radial-gradient(760px 520px at 84% -18%, #8f7dff, transparent 62%),
+      radial-gradient(620px 440px at 6% 108%, #5b3fd6, transparent 60%),
+      linear-gradient(128deg, #6a5cf7 0%, #7551e8 100%);
+    padding: 62px 60px;
+    display: flex; align-items: center; gap: 56px;
+    color: #fff;
+  }
+
+  /* ---- 左：主张 ---- */
+  .left { flex: 1; min-width: 0; }
+  .brand { display: flex; align-items: center; gap: 13px; }
+  /* 紫底上用反白版：带容器圆反而让形状浮不起来 */
+  .mark { width: 42px; height: 42px; display: block; }
+  .brand-name { font-size: 27px; font-weight: 800; letter-spacing: -0.5px; }
+
+  .thesis {
+    margin-top: 30px;
+    font-size: 51px; font-weight: 800; letter-spacing: -1.6px; line-height: 1.13;
+  }
+  .sub {
+    margin-top: 15px; font-size: 20px; font-weight: 500; line-height: 1.45;
+    color: rgba(255,255,255,.82);
+  }
+
+  /* 触发方式是这个扩展真正区别于「一键工具」的地方，值得单独列出来 */
+  .triggers { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 9px; }
+  .pill {
+    background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.2);
+    border-radius: 11px; padding: 8px 14px; font-size: 15.5px; font-weight: 600;
+    display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
+  }
+  .pill svg { width: 16px; height: 16px; stroke: #fff; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .meta { margin-top: 22px; font-size: 15.5px; font-weight: 600; color: rgba(255,255,255,.72); }
+
+  /* ---- 右：真实的链卡片 ----
+     和选项页画出来的是同一个东西：时间轴、导轨上的延迟、
+     0 延迟不显示数字。签名装置本身就是最好的产品展示。 */
+  .card {
+    flex: none; width: 494px;
+    background: #fff; border-radius: 24px; color: var(--ink);
+    box-shadow: 0 40px 80px -30px rgba(24,16,70,.62), 0 4px 12px rgba(24,16,70,.18);
+    overflow: hidden;
+  }
+  .card-head { padding: 22px 24px 18px; border-bottom: 1px solid var(--line); }
+  .card-title { font-size: 22px; font-weight: 700; letter-spacing: -0.3px; }
+  .card-meta { margin-top: 10px; display: flex; align-items: center; gap: 8px; }
+  .chip {
+    font-size: 13px; font-weight: 600; color: var(--ink-3);
+    background: #eef0f7; padding: 4px 11px; border-radius: 9px;
+  }
+  .chip.def {
+    color: #fff; font-weight: 700;
+    background: linear-gradient(145deg, #6155f5, #8b5cf6);
+    display: inline-flex; align-items: center; gap: 5px;
+  }
+  .chip.def svg { width: 12px; height: 12px; fill: #fff; }
+
+  .card-body { padding: 20px 24px 24px; }
+  .row { display: flex; align-items: center; gap: 14px; }
+  .tile {
+    width: 42px; height: 42px; border-radius: 13px; flex: none;
+    display: grid; place-items: center;
+    box-shadow: 0 6px 12px -5px rgba(20,18,45,.45);
+  }
+  .tile svg { width: 22px; height: 22px; stroke: #fff; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .name { font-size: 18px; font-weight: 600; }
+
+  /* 延迟画在连接线上，0 延迟什么都不显示 —— 与界面同一条规则 */
+  .gap { position: relative; height: 30px; display: flex; align-items: center; padding-left: 57px; }
+  .gap::before { content: ""; position: absolute; left: 20px; top: -4px; bottom: -4px; width: 3px; background: var(--line-2); border-radius: 3px; }
+  .ms {
+    font-size: 12.5px; font-weight: 700; color: var(--ink-3);
+    background: #eef0f7; padding: 3px 9px; border-radius: 7px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .run {
+    margin-top: 22px; height: 50px; border-radius: 13px;
+    background: linear-gradient(145deg, #6155f5, #8b5cf6);
+    box-shadow: 0 10px 20px -8px rgba(97,85,245,.65);
+    color: #fff; font-size: 17px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; gap: 9px;
+  }
+  .run svg { width: 15px; height: 15px; fill: #fff; }
+</style>
+
+<div class="left">
+  <div class="brand">
+    <svg class="mark" viewBox="0 0 48 48" aria-hidden="true">
+      <g fill="#fff">
+        <rect x="9.5" y="9.5" width="14" height="14" rx="4.6" />
+        <rect x="24.5" y="24.5" width="14" height="14" rx="4.6" />
+        <rect x="19.6" y="20.4" width="8.8" height="7.2" rx="3.2" transform="rotate(45 24 24)" />
+      </g>
+    </svg>
+    <span class="brand-name">Hotkey Chain</span>
+  </div>
+
+  <div class="thesis">Chain browser actions.<br />Run them with one hotkey.</div>
+  <div class="sub">Like Shortcuts, inside your browser.</div>
+
+  <div class="triggers">
+    <span class="pill">
+      <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg>Hotkey
+    </span>
+    <span class="pill">
+      <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M6 12h9"/></svg>Address bar
+    </span>
+    <span class="pill">
+      <svg viewBox="0 0 24 24"><path d="M5 3l14 8-6 2-2 6-6-16z"/></svg>Right-click
+    </span>
+    <span class="pill">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Schedule
+    </span>
+    <span class="pill">
+      <svg viewBox="0 0 24 24"><path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z"/></svg>URL match
+    </span>
+  </div>
+
+  <div class="meta">77 actions · 18 languages · Chrome &amp; Edge · free and open source</div>
+</div>
+
+<div class="card">
+  <div class="card-head">
+    <div class="card-title">Reading mode</div>
+    <div class="card-meta">
+      <span class="chip">3 actions</span>
+      <span class="chip def"><svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .9-5 4.8 1.3 7L12 17.9 5.7 21.2 7 14.2 2 9.4l7-.9z"/></svg>Default chain</span>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <span class="tile" style="background:var(--t-page)">
+        <svg viewBox="0 0 24 24"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
+      </span>
+      <span class="name">Scroll to top</span>
+    </div>
+    <div class="gap"><span class="ms">200ms</span></div>
+    <div class="row">
+      <span class="tile" style="background:var(--t-zoom)">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M11 8v6M8 11h6M21 21l-4.3-4.3"/></svg>
+      </span>
+      <span class="name">Zoom in</span>
+    </div>
+    <div class="gap"><span class="ms">200ms</span></div>
+    <div class="row">
+      <span class="tile" style="background:var(--t-page)">
+        <svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 00-2 2v3"/><path d="M16 3h3a2 2 0 012 2v3"/><path d="M8 21H5a2 2 0 01-2-2v-3"/><path d="M16 21h3a2 2 0 002-2v-3"/></svg>
+      </span>
+      <span class="name">Toggle fullscreen</span>
+    </div>
+    <div class="run"><svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8V4z"/></svg>Run</div>
+  </div>
+</div>
+</html>

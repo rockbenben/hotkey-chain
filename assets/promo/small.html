@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8" />
+<style>
+  @font-face {
+    font-family: "Plus Jakarta Sans";
+    src: url("/extension/assets/fonts/plus-jakarta-sans.woff2") format("woff2");
+    font-weight: 200 800;
+    font-display: block;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* 440×280 的小图块在商店里显示得很小，所以只放三样东西：
+     标识、名字、一句话。动作磁贴用来点出「多个动作」这件事。 */
+  body {
+    width: 440px; height: 280px; overflow: hidden;
+    font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    background:
+      radial-gradient(420px 300px at 82% -20%, #8f7dff, transparent 66%),
+      radial-gradient(360px 260px at 4% 112%, #5b3fd6, transparent 62%),
+      linear-gradient(128deg, #6a5cf7 0%, #7551e8 100%);
+    color: #fff;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 26px;
+  }
+
+  .mark { width: 62px; height: 62px; display: block; }
+  .name { margin-top: 16px; font-size: 33px; font-weight: 800; letter-spacing: -0.9px; }
+  .tag { margin-top: 7px; font-size: 15px; font-weight: 600; color: rgba(255,255,255,.85); }
+
+  /* 一小段横过来的时间轴：和其它素材同一个装置 */
+  .chain { margin-top: 22px; display: flex; align-items: center; }
+  .tile {
+    width: 38px; height: 38px; border-radius: 12px;
+    display: grid; place-items: center;
+    box-shadow: 0 6px 14px -6px rgba(16,10,50,.6);
+  }
+  .tile svg { width: 20px; height: 20px; stroke: #fff; stroke-width: 2.1; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .link { width: 16px; height: 3px; border-radius: 3px; background: rgba(255,255,255,.42); }
+</style>
+
+<svg class="mark" viewBox="0 0 48 48" aria-hidden="true">
+  <g fill="#fff">
+    <rect x="9.5" y="9.5" width="14" height="14" rx="4.6" />
+    <rect x="24.5" y="24.5" width="14" height="14" rx="4.6" />
+    <rect x="19.6" y="20.4" width="8.8" height="7.2" rx="3.2" transform="rotate(45 24 24)" />
+  </g>
+</svg>
+
+<div class="name">Hotkey Chain</div>
+<div class="tag">Many actions, one hotkey</div>
+
+<div class="chain">
+  <span class="tile" style="background:#10b981">
+    <svg viewBox="0 0 24 24"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M22 9l-6 6M16 9l6 6"/></svg>
+  </span>
+  <span class="link"></span>
+  <span class="tile" style="background:#3b82f6">
+    <svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
+  </span>
+  <span class="link"></span>
+  <span class="tile" style="background:#06b6d4">
+    <svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 00-2 2v3"/><path d="M16 3h3a2 2 0 012 2v3"/><path d="M8 21H5a2 2 0 01-2-2v-3"/><path d="M16 21h3a2 2 0 002-2v-3"/></svg>
+  </span>
+  <span class="link"></span>
+  <span class="tile" style="background:#f59e0b">
+    <svg viewBox="0 0 24 24"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4V3h6v1"/><path d="M9 11h6M9 15h4"/></svg>
+  </span>
+</div>
+</html>

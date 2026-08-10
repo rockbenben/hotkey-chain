@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6f63ff"/>
+      <stop offset="1" stop-color="#7b4fd6"/>
+    </linearGradient>
+  </defs>
+  <!-- 圆形轮廓沿用原图标，保持品牌识别不变 -->
+  <circle cx="24" cy="24" r="24" fill="url(#bg)"/>
+  <!-- 两块实心圆角方块 + 连接杆：呼应界面里的动作磁贴。
+       实心形状在 16px 下不会像细圆环那样内部填死。 -->
+  <g fill="#fff">
+    <rect x="9.5" y="9.5" width="14" height="14" rx="4.6"/>
+    <rect x="24.5" y="24.5" width="14" height="14" rx="4.6"/>
+    <rect x="19.6" y="20.4" width="8.8" height="7.2" rx="3.2" transform="rotate(45 24 24)"/>
+  </g>
+</svg>

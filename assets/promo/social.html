@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8" />
+<style>
+  @font-face {
+    font-family: "Plus Jakarta Sans";
+    src: url("/extension/assets/fonts/plus-jakarta-sans.woff2") format("woff2");
+    font-weight: 200 800;
+    font-display: block;
+  }
+
+  /* 全部取自产品本身的 token，不另起一套配色 */
+  :root {
+    --ink: #1c1d28;
+    --ink-2: #6b6e80;
+    --ink-3: #9a9db0;
+    --brand: #6155f5;
+    --line: #dcdde8;
+    --tile-tabs: #10b981;
+    --tile-page: #3b82f6;
+    --tile-media: #a855f7;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    width: 1280px;
+    height: 640px;
+    position: relative;
+    overflow: hidden;
+    font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    /* 选项页自己的背景：浅色 + 两团淡色光晕 */
+    background:
+      radial-gradient(1000px 620px at 94% -14%, #e9e6fd, transparent 62%),
+      radial-gradient(720px 500px at -6% 6%, #e2f2ef, transparent 58%),
+      #f5f5f8;
+    padding: 56px 72px 60px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ---- eyebrow ---- */
+  .brand { display: flex; align-items: center; gap: 13px; }
+  .mark { width: 40px; height: 40px; display: block; }
+  .brand-name { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
+  .brand-meta {
+    margin-left: auto; font-size: 15.5px; font-weight: 600; color: var(--ink-3);
+    display: flex; align-items: center; gap: 9px;
+  }
+  .brand-meta b { font-weight: 700; color: var(--ink-2); }
+  .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--ink-3); opacity: .5; }
+
+  /* ---- 论点：先给主张，再用下面那条链作证 ---- */
+  .thesis {
+    margin-top: 38px;
+    font-size: 44px; font-weight: 800; letter-spacing: -1.3px; line-height: 1.16;
+  }
+  .thesis em { font-style: normal; color: var(--brand); }
+  .sub { margin-top: 13px; font-size: 19px; font-weight: 500; color: var(--ink-2); }
+
+  /* ---- hero：键帽 → 时间轴 ----
+     导轨必须是连续的：产品里延迟画在两步之间的连接线上，
+     这张卡片沿用同一条规则，只是把时间轴放平。 */
+  .stage {
+    margin-top: 104px;
+    display: flex; align-items: center;
+    position: relative;
+  }
+
+  /* 唯一有厚度的元素。产品讲的就是「按下去」这件事，
+     立体感全花在键帽上，其余保持和界面一样的扁平。 */
+  .keycap {
+    width: 150px; height: 150px; flex: none; border-radius: 24px;
+    background: linear-gradient(168deg, #7d70ff 0%, var(--brand) 46%, #5546e0 100%);
+    box-shadow:
+      inset 0 3px 0 rgba(255,255,255,.42),
+      inset 0 -7px 0 rgba(28,20,90,.30),
+      0 22px 42px -18px rgba(97,85,245,.8),
+      0 3px 0 #4636c4;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    color: #fff; position: relative; z-index: 2;
+  }
+  .keycap .k-mod {
+    font-size: 13px; font-weight: 700; letter-spacing: 1.5px;
+    color: rgba(255,255,255,.78);
+  }
+  .keycap .k-key { font-size: 52px; font-weight: 800; line-height: 1; margin-top: 6px; }
+
+  /* 连接线：贴着磁贴边缘，两端不留缝 */
+  /* 段长与延迟成比例：0ms 紧贴，200ms 撑开。
+     和界面里「间隔就是等待时间」是同一条规则，只是放平了。 */
+  .seg {
+    height: 3px; background: var(--line); border-radius: 3px;
+    position: relative; z-index: 0;
+  }
+  .seg.instant { flex: 1; }
+  .seg.wait { flex: 2.6; }
+  .seg .ms {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    background: #fff; color: var(--ink-2); border: 1px solid var(--line);
+    font-size: 13.5px; font-weight: 700; padding: 4px 11px; border-radius: 8px;
+    font-variant-numeric: tabular-nums; white-space: nowrap;
+  }
+
+  /* 磁贴骑在导轨上；名字绝对定位在下方，不撑开节点宽度，
+     这样线段才能贴着磁贴走 */
+  .node { flex: none; position: relative; z-index: 1; }
+  .tile {
+    width: 84px; height: 84px; border-radius: 24px;
+    display: grid; place-items: center; color: #fff;
+    box-shadow: 0 16px 28px -12px rgba(20,18,45,.5);
+  }
+  .tile svg { width: 40px; height: 40px; stroke: #fff; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .step-name {
+    position: absolute; top: calc(100% + 14px); left: 50%; transform: translateX(-50%);
+    font-size: 17px; font-weight: 700; color: var(--ink); white-space: nowrap;
+  }
+</style>
+
+<div class="brand">
+  <svg class="mark" viewBox="0 0 48 48" aria-hidden="true">
+    <defs>
+      <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#6f63ff" /><stop offset="1" stop-color="#7b4fd6" />
+      </linearGradient>
+    </defs>
+    <circle cx="24" cy="24" r="24" fill="url(#g)" />
+    <g fill="#fff">
+      <rect x="9.5" y="9.5" width="14" height="14" rx="4.6" />
+      <rect x="24.5" y="24.5" width="14" height="14" rx="4.6" />
+      <rect x="19.6" y="20.4" width="8.8" height="7.2" rx="3.2" transform="rotate(45 24 24)" />
+    </g>
+  </svg>
+  <span class="brand-name">Hotkey Chain</span>
+  <span class="brand-meta">
+    <b>77</b> actions <span class="dot"></span> <b>18</b> languages <span class="dot"></span> Chrome &amp; Edge
+  </span>
+</div>
+
+<div class="thesis">Chain browser actions.<br />Run them with <em>one hotkey</em>.</div>
+<div class="sub">Like Shortcuts, inside your browser — free and open source.</div>
+
+<div class="stage">
+  <div class="keycap">
+    <span class="k-mod">CTRL + SHIFT</span>
+    <span class="k-key">H</span>
+  </div>
+
+  <div class="seg instant"></div>
+
+  <div class="node">
+    <span class="tile" style="background:var(--tile-tabs)">
+      <svg viewBox="0 0 24 24"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M22 9l-6 6M16 9l6 6"/></svg>
+    </span>
+    <span class="step-name">Mute all tabs</span>
+  </div>
+
+  <div class="seg wait"><span class="ms">200ms</span></div>
+
+  <div class="node">
+    <span class="tile" style="background:var(--tile-page)">
+      <svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
+    </span>
+    <span class="step-name">Toggle dark mode</span>
+  </div>
+
+  <div class="seg wait"><span class="ms">200ms</span></div>
+
+  <div class="node">
+    <span class="tile" style="background:var(--tile-media)">
+      <svg viewBox="0 0 24 24"><path d="M3 10v4h3l4 4V6L6 10H3z"/><path d="M14 8a5 5 0 010 8M17 5a9 9 0 010 14"/></svg>
+    </span>
+    <span class="step-name">Read page aloud</span>
+  </div>
+</div>
+</html>

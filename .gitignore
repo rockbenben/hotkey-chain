@@ -16,3 +16,6 @@ _*.json
 
 # Tooling state (gstack browser audit/network logs)
 .gstack/
+
+# WorkBuddy AI 本地记忆与技能状态
+.workbuddy-ai/

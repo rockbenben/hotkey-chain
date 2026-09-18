@@ -14,6 +14,7 @@ import { readFileSync, rmSync, mkdirSync, existsSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import vm from "node:vm";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const source = join(root, "extension");
@@ -23,6 +24,25 @@ const zipPath = join(distRoot, `hotkey-chain-v${version}.zip`);
 
 if (!existsSync(join(source, "manifest.json"))) {
   console.error("✖ 找不到 extension/manifest.json");
+  process.exit(1);
+}
+
+// 语法闸门。没有构建步骤，所以没有编译器替我们发现语法错误 —— 而这里产出的
+// zip 是直接拿去传商店的，一旦打出来就有人可能原样上传。所以生成产物之前
+// 先让解析器真的读一遍源文件：service worker 解析失败不是「某个功能坏」，
+// 是整个扩展一个动作都不会触发，且装上去不报任何错。
+const JS_FILES = ["background.js", "content.js", "options.js", "sidepanel.js"];
+const syntaxErrors = [];
+for (const file of JS_FILES) {
+  try {
+    new vm.Script(readFileSync(join(source, file), "utf8"), { filename: file });
+  } catch (e) {
+    syntaxErrors.push(`${file}: ${e.message}`);
+  }
+}
+if (syntaxErrors.length) {
+  console.error("✖ 源文件存在语法错误，打出来的包装上去会静默失效：");
+  for (const e of syntaxErrors) console.error(`  - ${e}`);
   process.exit(1);
 }
 

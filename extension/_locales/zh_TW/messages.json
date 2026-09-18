@@ -1,358 +1,1613 @@
 {
-  "extName": { "message": "Hotkey Chain" },
-  "extDescription": { "message": "瀏覽器快捷工具：串接 75 種以上動作，透過快速鍵、網址列、右鍵選單、排程或網址比對來執行。" },
-  "appName": { "message": "Hotkey Chain" },
-  "thisExtension": { "message": "本擴充功能" },
-
-  "appTitle": { "message": "Hotkey Chain 設定" },
-  "appSubtitle": { "message": "把瀏覽器操作串成一條鏈，一個快速鍵跑完" },
-
-  "toolbar_add": { "message": "新增動作鏈" },
-  "toolbar_export": { "message": "匯出" },
-  "toolbar_import": { "message": "匯入" },
-  "toolbar_restoreDefaults": { "message": "還原預設值" },
-  "toolbar_shortcuts": { "message": "鍵盤快速鍵" },
-  "toolbar_templates": { "message": "從範本新增" },
-
-  "tmpl_focusMode": { "message": "專注模式" },
-  "tmpl_tabCleanup": { "message": "分頁清理" },
-  "tmpl_videoMode": { "message": "影片模式" },
-  "tmpl_snapshot": { "message": "擷取並儲存" },
-  "tmpl_snapshot_done": { "message": "已儲存螢幕截圖並將頁面加入書籤" },
-  "tmpl_readAloud": { "message": "朗讀" },
-  "tmpl_translate": { "message": "翻譯此頁面" },
-  "tmpl_wrapUp": { "message": "收尾模式" },
-
-  "extTmpl_genericName": { "message": "通用擴充功能" },
-  "extTmpl_toggleAdblock": { "message": "切換廣告封鎖" },
-  "extTmpl_pauseBlocking": { "message": "暫停封鎖" },
-  "extTmpl_resumeBlocking": { "message": "恢復封鎖" },
-  "extTmpl_toggleBlocker": { "message": "切換封鎖器" },
-  "extTmpl_reloadFilters": { "message": "重新載入過濾規則" },
-  "extTmpl_fillForm": { "message": "填寫表單" },
-  "extTmpl_openVault": { "message": "開啟保險庫" },
-  "extTmpl_generatePassword": { "message": "產生密碼" },
-  "extTmpl_autofill": { "message": "自動填入" },
-  "extTmpl_openPopup": { "message": "開啟彈出視窗" },
-  "extTmpl_captureRequest": { "message": "擷取請求" },
-  "extTmpl_importRequest": { "message": "匯入請求" },
-  "extTmpl_showRuler": { "message": "顯示尺規" },
-  "extTmpl_disableCss": { "message": "停用 CSS" },
-  "extTmpl_translatePage": { "message": "翻譯頁面" },
-  "extTmpl_translateSelection": { "message": "翻譯選取內容" },
-  "extTmpl_captureFullPage": { "message": "擷取整頁" },
-  "extTmpl_captureVisible": { "message": "擷取可見區域" },
-  "extTmpl_toggleFeature": { "message": "切換功能" },
-  "extTmpl_runMain": { "message": "執行主要動作" },
-  "extTmpl_refresh": { "message": "重新整理" },
-  "extTmpl_reset": { "message": "重設" },
-
-  "help_title": { "message": "可用動作" },
-
-  "edit_title": { "message": "編輯動作鏈" },
-  "edit_back": { "message": "返回" },
-  "edit_test": { "message": "測試執行" },
-  "edit_exportChain": { "message": "匯出此動作鏈" },
-  "info_triggers": { "message": "自動觸發條件" },
-  "info_schedule": { "message": "每隔多久執行一次（分鐘，0 = 關閉）" },
-  "info_autoRun": { "message": "頁面載入時自動執行（網址模式）" },
-  "info_autoRun_placeholder": { "message": "例如 *://github.com/*；多個模式請以逗號或換行分隔" },
-
-  "info_basic": { "message": "基本資訊" },
-  "info_name": { "message": "動作鏈名稱" },
-  "info_name_placeholder": { "message": "輸入動作鏈名稱" },
-  "info_desc": { "message": "說明" },
-  "info_desc_placeholder": { "message": "選填：說明此動作鏈的用途" },
-  "info_default": { "message": "設為預設動作鏈" },
-
-  "actions_title": { "message": "動作" },
-  "actions_add": { "message": "新增動作" },
-  "actions_none": { "message": "尚無動作" },
-  "actions_more": { "message": "項其他動作" },
-  "actions_count": { "message": "項動作" },
-
-  "card_exec": { "message": "執行" },
-  "card_edit": { "message": "編輯" },
-  "card_duplicate": { "message": "複製" },
-  "card_delete": { "message": "刪除" },
-  "suffix_copy": { "message": "（副本）" },
-  "action_defaultTitle": { "message": "Hotkey Chain － 點擊以執行預設動作" },
-  "cmd_execute_action": { "message": "執行預設動作鏈" },
-  "cmd_execute_chain_1": { "message": "動作鏈 1" },
-  "cmd_execute_chain_2": { "message": "動作鏈 2" },
-  "cmd_execute_chain_3": { "message": "動作鏈 3" },
-  "cmd_execute_chain_4": { "message": "動作鏈 4" },
-  "cmd_execute_chain_5": { "message": "動作鏈 5" },
-  "cmd_execute_chain_6": { "message": "動作鏈 6" },
-  "cmd_execute_chain_7": { "message": "動作鏈 7" },
-  "cmd_execute_chain_8": { "message": "動作鏈 8" },
-  "cmd_execute_chain_9": { "message": "動作鏈 9" },
-  "menu_executeDefault": { "message": "執行預設動作鏈" },
-  "menu_executeChain": { "message": "執行動作鏈 $1" },
-  "menu_options": { "message": "開啟設定" },
-
-  "settings_language": { "message": "語言" },
-  "language_auto": { "message": "自動（依瀏覽器）" },
-  "language_en": { "message": "English" },
-  "language_zh_CN": { "message": "简体中文" },
-
-  "defaultChain_reading": { "message": "閱讀模式" },
-  "defaultChain_tidyTabs": { "message": "整理分頁" },
-  "defaultChain_readLater": { "message": "稍後閱讀" },
-  "defaultChain_readLater_note": { "message": "已儲存至閱讀清單：{title}" },
-  "defaultChain_searchSelection": { "message": "搜尋選取內容" },
-  "defaultChain_cinema": { "message": "劇院模式" },
-  "defaultChain_copyMarkdown": { "message": "複製為 Markdown" },
-  "defaultChain_hardRefresh": { "message": "強制重新整理" },
-  "defaultChain_morningRoutine": { "message": "晨間例行作業" },
-  "defaultChain_morningRoutine_note": { "message": "工作環境已就緒" },
-
-  "actionName_scroll_to_top": { "message": "捲動至頂端" },
-  "actionName_scroll_to_bottom": { "message": "捲動至底端" },
-  "actionName_reload_page": { "message": "重新載入頁面" },
-  "actionName_close_tab": { "message": "關閉分頁" },
-  "actionName_new_tab": { "message": "新增分頁" },
-  "actionName_copy_url": { "message": "複製網址" },
-  "actionName_copy_title": { "message": "複製標題" },
-  "actionName_toggle_fullscreen": { "message": "切換全螢幕" },
-  "actionName_zoom_in": { "message": "放大" },
-  "actionName_zoom_out": { "message": "縮小" },
-  "actionName_zoom_reset": { "message": "重設縮放" },
-  "actionName_go_back": { "message": "上一頁" },
-  "actionName_go_forward": { "message": "下一頁" },
-  "actionName_bookmark_page": { "message": "將頁面加入書籤" },
-  "actionName_copy_as_markdown": { "message": "複製為 Markdown 連結" },
-  "actionName_clear_cache": { "message": "強制重新整理（略過快取）" },
-  "actionName_duplicate_tab": { "message": "複製分頁" },
-  "actionName_pin_tab": { "message": "釘選／取消釘選分頁" },
-  "actionName_mute_tab": { "message": "靜音／取消靜音分頁" },
-  "actionName_close_other_tabs": { "message": "關閉其他分頁" },
-  "actionName_move_tab_left": { "message": "將分頁左移" },
-  "actionName_move_tab_right": { "message": "將分頁右移" },
-  "actionName_prev_tab": { "message": "上一個分頁" },
-  "actionName_next_tab": { "message": "下一個分頁" },
-  "actionName_new_window": { "message": "開新視窗" },
-  "actionName_reopen_closed_tab": { "message": "重新開啟已關閉的分頁" },
-  "actionName_print_page": { "message": "列印頁面" },
-  "actionName_open_url": { "message": "開啟網址" },
-  "actionName_wait": { "message": "等待" },
-  "actionName_scroll_page_up": { "message": "向上捲動一個畫面" },
-  "actionName_scroll_page_down": { "message": "向下捲動一個畫面" },
-  "actionName_close_tabs_right": { "message": "關閉右側分頁" },
-  "actionName_close_window": { "message": "關閉視窗" },
-  "actionName_toggle_dark_mode": { "message": "切換深色模式" },
-  "actionName_translate_page": { "message": "翻譯頁面" },
-  "actionName_media_play_pause": { "message": "播放／暫停媒體" },
-  "actionName_media_speed_up": { "message": "加快播放速度" },
-  "actionName_media_speed_down": { "message": "減慢播放速度" },
-  "actionName_media_speed_reset": { "message": "重設播放速度" },
-  "actionName_close_left_tabs": { "message": "關閉左側分頁" },
-  "actionName_close_duplicate_tabs": { "message": "關閉重複的分頁" },
-  "actionName_sort_tabs_by_url": { "message": "依網址排序分頁" },
-  "actionName_group_tabs_by_domain": { "message": "依網域將分頁分組" },
-  "actionName_ungroup_all_tabs": { "message": "取消所有分頁分組" },
-  "actionName_mute_all_tabs": { "message": "將所有分頁靜音" },
-  "actionName_unmute_all_tabs": { "message": "取消所有分頁靜音" },
-  "actionName_reload_all_tabs": { "message": "重新載入所有分頁" },
-  "actionName_move_tab_first": { "message": "將分頁移至開頭" },
-  "actionName_move_tab_last": { "message": "將分頁移至結尾" },
-  "actionName_move_tab_to_new_window": { "message": "將分頁移至新視窗" },
-  "actionName_minimize_window": { "message": "最小化視窗" },
-  "actionName_maximize_window": { "message": "最大化視窗" },
-  "actionName_open_incognito_window": { "message": "開啟無痕視窗" },
-  "actionName_copy_selected_text": { "message": "複製選取的文字" },
-  "actionName_search_selection": { "message": "搜尋選取的文字" },
-  "actionName_speak_selection": { "message": "朗讀選取內容" },
-  "actionName_stop_speaking": { "message": "停止朗讀" },
-  "actionName_capture_screenshot": { "message": "擷取螢幕截圖（可見區域）" },
-  "actionName_show_notification": { "message": "顯示通知" },
-  "actionName_open_browser_page": { "message": "開啟瀏覽器頁面" },
-  "actionName_discard_other_tabs": { "message": "捨棄其他分頁（釋出記憶體）" },
-  "actionName_goto_audible_tab": { "message": "跳至有聲音的分頁" },
-  "actionName_bookmark_all_tabs": { "message": "將所有分頁加入書籤" },
-  "actionName_read_later": { "message": "加入閱讀清單" },
-  "actionName_clear_browsing_cache": { "message": "清除瀏覽器快取" },
-  "actionName_clear_site_data": { "message": "清除此網站的資料" },
-  "actionName_delete_url_from_history": { "message": "從歷史記錄中移除此頁面" },
-  "actionName_toggle_keep_awake": { "message": "切換保持喚醒" },
-  "actionName_show_downloads_folder": { "message": "顯示下載資料夾" },
-  "actionName_save_page_mhtml": { "message": "儲存頁面（MHTML）" },
-  "actionName_if_url_matches": { "message": "條件：網址符合時繼續" },
-  "actionName_if_has_selection": { "message": "條件：有選取文字時繼續" },
-  "actionName_run_chain": { "message": "執行其他動作鏈" },
-  "actionName_execute_command": { "message": "執行命令" },
-  "actionName_call_extension": { "message": "呼叫擴充功能" },
-
-  "category_execute_command": { "message": "執行命令" },
-  "category_flow": { "message": "流程控制" },
-  "category_page_ops": { "message": "頁面操作" },
-  "category_tab_mgmt": { "message": "分頁管理" },
-  "category_window": { "message": "視窗管理" },
-  "category_media": { "message": "媒體控制" },
-  "category_zoom": { "message": "縮放控制" },
-  "category_content": { "message": "內容操作" },
-  "category_advanced": { "message": "進階" },
-  "category_extension": { "message": "擴充功能呼叫" },
-
-  "label_delay": { "message": "延遲" },
-  "label_ms": { "message": "毫秒" },
-  "label_selectExtension": { "message": "選擇擴充功能" },
-  "placeholder_selectInstalledExtension": { "message": "-- 選擇已安裝的擴充功能 --" },
-  "option_manualInputExtensionId": { "message": "手動輸入擴充功能 ID" },
-  "label_extensionId": { "message": "擴充功能 ID" },
-  "placeholder_extensionIdExample": { "message": "擴充功能 ID（例如 nfgcnddoajoekfpacfkehomkgmpndhob）" },
-  "label_url": { "message": "網址" },
-  "placeholder_urlExample": { "message": "網址（例如 https://example.com）" },
-  "label_openIn": { "message": "開啟於" },
-  "option_openIn_new": { "message": "新分頁" },
-  "option_openIn_current": { "message": "目前分頁" },
-  "label_notifyText": { "message": "通知文字" },
-  "placeholder_notifyText": { "message": "要顯示在通知中的文字" },
-  "label_browserPage": { "message": "瀏覽器頁面" },
-  "browserPage_downloads": { "message": "下載" },
-  "browserPage_history": { "message": "歷史記錄" },
-  "browserPage_bookmarks": { "message": "書籤管理員" },
-  "browserPage_extensions": { "message": "擴充功能" },
-  "browserPage_settings": { "message": "設定" },
-  "browserPage_shortcuts": { "message": "鍵盤快速鍵" },
-  "browserPage_clear_browsing_data": { "message": "清除瀏覽資料" },
-  "label_pattern": { "message": "網址模式" },
-  "placeholder_pattern": { "message": "例如 *://github.com/* 或關鍵字；以逗號分隔" },
-  "label_runChain": { "message": "要執行的動作鏈" },
-  "placeholder_selectChain": { "message": "-- 選擇動作鏈 --" },
-  "hint_templateVars": { "message": "變數：{url} {title} {selection} {clipboard} {date} {time}" },
-  "hint_executeCommand": { "message": "選擇此擴充功能可執行你自己的動作鏈；選擇其他擴充功能則會對其進行管理操作（啟用／停用、解除安裝、開啟選項…），而非執行該擴充功能本身的快捷功能。" },
-  "hint_callExtension": { "message": "傳送訊息給另一個擴充功能。僅在該擴充功能接受外部訊息（externally_connectable）時有效——大多數擴充功能並不接受，因此可能不會有任何作用。" },
-  "label_presetAction": { "message": "預設動作" },
-  "placeholder_selectActionTemplate": { "message": "-- 選擇動作範本 --" },
-  "option_customMessage": { "message": "自訂訊息" },
-  "label_messageContent": { "message": "訊息內容" },
-  "placeholder_messageJson": { "message": "訊息內容（JSON，例如 {\"action\": \"toggle\"}）" },
-  "label_selectCommand": { "message": "選擇命令" },
-  "placeholder_selectCommand": { "message": "-- 選擇命令 --" },
-  "tooltip_refreshCommands": { "message": "重新整理命令" },
-  "tooltip_setDefaultChain": { "message": "設為預設動作鏈" },
-  "tooltip_defaultChain": { "message": "預設動作鏈" },
-  "newChain_defaultName": { "message": "新動作鏈" },
-  "msg_extension_toggled": { "message": "$1 現在已$2" },
-  "state_enabled": { "message": "啟用" },
-  "state_disabled": { "message": "停用" },
-  "label_extension": { "message": "擴充功能" },
-  "error_toggle_extension_failed": { "message": "切換擴充功能失敗" },
-  "error_uninstall_extension_failed": { "message": "解除安裝擴充功能失敗" },
-  "label_extension_name": { "message": "擴充功能名稱" },
-  "label_version": { "message": "版本" },
-  "label_description": { "message": "說明" },
-  "label_type": { "message": "類型" },
-  "label_install_type": { "message": "安裝類型" },
-  "label_permissions": { "message": "權限" },
-  "label_none": { "message": "無" },
-  "label_homepage": { "message": "首頁" },
-  "label_error": { "message": "錯誤" },
-  "error_get_extension_info_failed": { "message": "取得擴充功能資訊失敗" },
-  "label_app": { "message": "應用程式" },
-  "error_launch_app_failed": { "message": "啟動應用程式失敗" },
-  "label_command": { "message": "命令" },
-  "error_unknown_command": { "message": "未知的命令：$1" },
-  "error_execute_command_failed": { "message": "命令執行失敗" },
-  "cmd_toggle_extension_name": { "message": "啟用／停用擴充功能" },
-  "cmd_toggle_extension_desc": { "message": "切換 $1 的啟用狀態" },
-  "cmd_uninstall_extension_name": { "message": "解除安裝擴充功能" },
-  "cmd_uninstall_extension_desc": { "message": "解除安裝 $1（需要確認）" },
-  "cmd_open_options_name": { "message": "開啟選項" },
-  "cmd_open_options_desc": { "message": "開啟 $1 的選項頁面" },
-  "cmd_open_details_name": { "message": "開啟詳細資料" },
-  "cmd_open_details_desc": { "message": "在擴充功能頁面中檢視 $1" },
-  "cmd_show_info_name": { "message": "顯示擴充功能資訊" },
-  "cmd_show_info_desc": { "message": "顯示 $1 的詳細資訊" },
-  "cmd_open_homepage_name": { "message": "開啟首頁" },
-  "cmd_open_homepage_desc": { "message": "造訪 $1 的首頁" },
-  "cmd_reload_dev_name": { "message": "重新載入開發中的擴充功能" },
-  "cmd_reload_dev_desc": { "message": "重新載入開發中的擴充功能 $1" },
-  "cmd_launch_app_name": { "message": "啟動應用程式" },
-  "cmd_launch_app_desc": { "message": "啟動 Chrome 應用程式 $1" },
-  "cmd_open_store_name": { "message": "開啟商店頁面" },
-  "cmd_open_store_desc": { "message": "開啟 $1 的 Chrome 線上應用程式商店頁面" },
-  "label_unknownChain": { "message": "未知的動作鏈" },
-  "msg_no_options_page": { "message": "$1 沒有選項頁面" },
-  "msg_check_console_for_details": { "message": "$1 詳細資料：請查看主控台" },
-  "msg_no_homepage": { "message": "$1 未設定首頁" },
-  "msg_dev_extension_reloaded": { "message": "已重新載入開發中的擴充功能 $1" },
-  "msg_not_dev_extension": { "message": "$1 並非開發中的擴充功能，無法重新載入" },
-  "msg_app_launched": { "message": "已啟動 Chrome 應用程式 $1" },
-  "msg_not_chrome_app": { "message": "$1 並非 Chrome 應用程式，無法啟動" },
-
-  "toast_chainExecuted": { "message": "已執行動作鏈：$1" },
-  "toast_executeFailed": { "message": "執行失敗" },
-  "toast_defaultSet": { "message": "已設定預設動作鏈" },
-  "toast_newChainAdded": { "message": "已新增動作鏈" },
-  "toast_atLeastOne": { "message": "至少須保留一個動作鏈" },
-  "toast_extensionsRefreshed": { "message": "已重新整理 $1 個擴充功能" },
-  "toast_refreshExtensionsFailed": { "message": "重新整理擴充功能失敗" },
-  "toast_selectExtensionFirst": { "message": "請先選擇擴充功能" },
-  "toast_commandsRefreshed": { "message": "已重新整理命令清單" },
-  "toast_refreshCommandsFailed": { "message": "重新整理命令清單失敗" },
-  "toast_chainDuplicated": { "message": "已複製動作鏈" },
-  "toast_configExported": { "message": "已匯出設定" },
-  "toast_configImported": { "message": "已匯入設定" },
-  "toast_importFailed": { "message": "匯入失敗：$1" },
-  "toast_saveFailed": { "message": "儲存失敗：$1" },
-  "toast_defaultsRestored": { "message": "已還原預設動作鏈" },
-  "toast_restoreDefaultsFailed": { "message": "還原預設值失敗" },
-  "confirm_importOverwrite": { "message": "匯入會取代你目前的所有設定。是否繼續？" },
-  "confirm_restoreDefaults": { "message": "還原預設值會取代目前所有的動作鏈。是否繼續？" },
-  "error_invalidConfigFile": { "message": "無效的設定檔" },
-
-  "content_urlCopied": { "message": "已將網址複製到剪貼簿" },
-  "content_titleCopied": { "message": "已將標題複製到剪貼簿" },
-  "content_markdownCopied": { "message": "已將 Markdown 連結複製到剪貼簿" },
-  "content_copyFailed": { "message": "複製失敗，請手動複製" },
-  "content_bookmarkAdded": { "message": "已將頁面加入書籤" },
-  "content_bookmarkExists": { "message": "已加入書籤" },
-  "content_selectionCopied": { "message": "已將選取內容複製到剪貼簿" },
-  "content_noSelection": { "message": "未選取任何文字" },
-  "content_noMedia": { "message": "此頁面找不到媒體" },
-  "content_playbackRate": { "message": "播放速度：$1 倍" },
-  "content_darkModeOn": { "message": "深色模式已開啟" },
-  "content_darkModeOff": { "message": "深色模式已關閉" },
-  "msg_duplicateTabsClosed": { "message": "已關閉 $1 個重複的分頁" },
-  "error_incognitoNotAllowed": { "message": "請先允許本擴充功能在無痕模式下執行（chrome://extensions）" },
-  "msg_noAudibleTab": { "message": "沒有正在發出聲音的分頁" },
-  "msg_tabsBookmarked": { "message": "已將 $1 個分頁加入書籤" },
-  "msg_readLaterAdded": { "message": "已加入閱讀清單" },
-  "msg_readLaterExists": { "message": "已在閱讀清單中" },
-  "msg_readingListUnsupported": { "message": "此瀏覽器不支援閱讀清單 API" },
-  "msg_cacheCleared": { "message": "已清除瀏覽器快取" },
-  "msg_siteDataCleared": { "message": "已清除網站資料" },
-  "msg_historyDeleted": { "message": "已從歷史記錄中移除" },
-  "msg_keepAwakeOn": { "message": "保持喚醒已開啟" },
-  "msg_keepAwakeOff": { "message": "保持喚醒已關閉" },
-  "msg_chainErrors": { "message": "動作鏈 $1：$2 個動作執行失敗" },
-  "menu_pageParent": { "message": "執行動作鏈" },
-  "toast_chainExported": { "message": "已匯出動作鏈" },
-  "toast_chainImported": { "message": "已匯入動作鏈：$1" },
-  "content_close": { "message": "關閉" },
-  "msg_uninstall_requested": { "message": "已要求解除安裝" },
-  "actionName_copy_text": { "message": "依格式複製文字" },
-  "actionName_confirm": { "message": "詢問確認後繼續" },
-  "label_copyText": { "message": "複製內容" },
-  "placeholder_copyText": { "message": "例如 {title} — {url}" },
-  "label_confirmText": { "message": "詢問文字" },
-  "placeholder_confirmText": { "message": "例如：確定要關閉其他分頁嗎？" },
-  "hint_confirm": { "message": "在頁面上顯示詢問框：按「繼續」才會執行後面的動作，按「取消」則整條鏈停止。無法顯示對話框的頁面（如 chrome:// 開頭的頁面）同樣會停止。" },
-  "confirm_defaultText": { "message": "確定要繼續嗎？" },
-  "content_textCopied": { "message": "已複製到剪貼簿" },
-  "content_continue": { "message": "繼續" },
-  "content_cancel": { "message": "取消" },
-  "tmpl_copyPageInfo": { "message": "複製頁面資訊" },
-  "tmpl_safeCloseOthers": { "message": "關閉其他分頁（先確認）" },
-  "tmpl_safeCloseOthers_ask": { "message": "確定要關閉其他所有分頁嗎？" },
-  "confirm_importChain": { "message": "匯入動作鏈「$1」？" },
-  "actions_count_one": { "message": "項動作" },
-  "card_addActions": { "message": "新增動作" },
-  "actions_remove": { "message": "刪除動作" },
-  "label_msValue": { "message": "$1毫秒" },
-  "empty_title": { "message": "還沒有動作鏈" },
-  "empty_body": { "message": "從範本開始最快，也可以新增一條空鏈自己加動作。" },
-  "footer_source": { "message": "原始碼與意見回饋" }
+  "extName": {
+    "message": "Hotkey Chain"
+  },
+  "extDescription": {
+    "message": "瀏覽器快捷工具：串接 103+ 種動作，透過快速鍵、網址列、右鍵選單、排程或網址比對來執行。"
+  },
+  "appName": {
+    "message": "Hotkey Chain"
+  },
+  "thisExtension": {
+    "message": "本擴充功能"
+  },
+  "appTitle": {
+    "message": "Hotkey Chain 設定"
+  },
+  "appSubtitle": {
+    "message": "把瀏覽器操作串成一條鏈，一個快速鍵跑完"
+  },
+  "toolbar_add": {
+    "message": "新增動作鏈"
+  },
+  "toolbar_export": {
+    "message": "匯出"
+  },
+  "toolbar_import": {
+    "message": "匯入"
+  },
+  "toolbar_restoreDefaults": {
+    "message": "還原預設值"
+  },
+  "toolbar_shortcuts": {
+    "message": "鍵盤快速鍵"
+  },
+  "toolbar_templates": {
+    "message": "從範本新增"
+  },
+  "tmpl_focusMode": {
+    "message": "專注模式"
+  },
+  "tmpl_tabCleanup": {
+    "message": "分頁清理"
+  },
+  "tmpl_snapshot": {
+    "message": "擷取並儲存"
+  },
+  "tmpl_readAloud": {
+    "message": "朗讀"
+  },
+  "tmpl_wrapUp": {
+    "message": "收尾模式"
+  },
+  "extTmpl_genericName": {
+    "message": "通用擴充功能"
+  },
+  "extTmpl_toggleAdblock": {
+    "message": "切換廣告封鎖"
+  },
+  "extTmpl_pauseBlocking": {
+    "message": "暫停封鎖"
+  },
+  "extTmpl_resumeBlocking": {
+    "message": "恢復封鎖"
+  },
+  "extTmpl_toggleBlocker": {
+    "message": "切換封鎖器"
+  },
+  "extTmpl_reloadFilters": {
+    "message": "重新載入過濾規則"
+  },
+  "extTmpl_fillForm": {
+    "message": "填寫表單"
+  },
+  "extTmpl_openVault": {
+    "message": "開啟保險庫"
+  },
+  "extTmpl_generatePassword": {
+    "message": "產生密碼"
+  },
+  "extTmpl_autofill": {
+    "message": "自動填入"
+  },
+  "extTmpl_openPopup": {
+    "message": "開啟彈出視窗"
+  },
+  "extTmpl_captureRequest": {
+    "message": "擷取請求"
+  },
+  "extTmpl_importRequest": {
+    "message": "匯入請求"
+  },
+  "extTmpl_showRuler": {
+    "message": "顯示尺規"
+  },
+  "extTmpl_disableCss": {
+    "message": "停用 CSS"
+  },
+  "extTmpl_translatePage": {
+    "message": "翻譯頁面"
+  },
+  "extTmpl_translateSelection": {
+    "message": "翻譯選取內容"
+  },
+  "extTmpl_captureFullPage": {
+    "message": "擷取整頁"
+  },
+  "extTmpl_captureVisible": {
+    "message": "擷取可見區域"
+  },
+  "extTmpl_toggleFeature": {
+    "message": "切換功能"
+  },
+  "extTmpl_runMain": {
+    "message": "執行主要動作"
+  },
+  "extTmpl_refresh": {
+    "message": "重新整理"
+  },
+  "extTmpl_reset": {
+    "message": "重設"
+  },
+  "help_title": {
+    "message": "可用動作"
+  },
+  "edit_title": {
+    "message": "編輯動作鏈"
+  },
+  "edit_back": {
+    "message": "返回"
+  },
+  "edit_test": {
+    "message": "測試執行"
+  },
+  "edit_exportChain": {
+    "message": "匯出此動作鏈"
+  },
+  "info_triggers": {
+    "message": "自動觸發條件"
+  },
+  "info_schedule": {
+    "message": "每隔多久執行一次（分鐘，0 = 關閉）"
+  },
+  "info_autoRun": {
+    "message": "頁面載入時自動執行（網址模式）"
+  },
+  "info_autoRun_placeholder": {
+    "message": "例如 *://github.com/*；多個模式請以逗號或換行分隔"
+  },
+  "info_basic": {
+    "message": "基本資訊"
+  },
+  "info_name": {
+    "message": "動作鏈名稱"
+  },
+  "info_name_placeholder": {
+    "message": "輸入動作鏈名稱"
+  },
+  "info_desc": {
+    "message": "說明"
+  },
+  "info_desc_placeholder": {
+    "message": "選填：說明此動作鏈的用途"
+  },
+  "info_default": {
+    "message": "設為預設動作鏈"
+  },
+  "actions_title": {
+    "message": "動作"
+  },
+  "actions_add": {
+    "message": "新增動作"
+  },
+  "actions_none": {
+    "message": "尚無動作"
+  },
+  "actions_more": {
+    "message": "項其他動作"
+  },
+  "actions_count": {
+    "message": "項動作"
+  },
+  "card_exec": {
+    "message": "執行"
+  },
+  "card_edit": {
+    "message": "編輯"
+  },
+  "card_duplicate": {
+    "message": "複製"
+  },
+  "card_delete": {
+    "message": "刪除"
+  },
+  "suffix_copy": {
+    "message": "（副本）"
+  },
+  "action_defaultTitle": {
+    "message": "Hotkey Chain － 點擊以執行預設動作"
+  },
+  "cmd_execute_action": {
+    "message": "執行預設動作鏈"
+  },
+  "cmd_execute_chain_1": {
+    "message": "動作鏈 1"
+  },
+  "cmd_execute_chain_2": {
+    "message": "動作鏈 2"
+  },
+  "cmd_execute_chain_3": {
+    "message": "動作鏈 3"
+  },
+  "cmd_execute_chain_4": {
+    "message": "動作鏈 4"
+  },
+  "cmd_execute_chain_5": {
+    "message": "動作鏈 5"
+  },
+  "cmd_execute_chain_6": {
+    "message": "動作鏈 6"
+  },
+  "cmd_execute_chain_7": {
+    "message": "動作鏈 7"
+  },
+  "cmd_execute_chain_8": {
+    "message": "動作鏈 8"
+  },
+  "cmd_execute_chain_9": {
+    "message": "動作鏈 9"
+  },
+  "menu_executeDefault": {
+    "message": "執行預設動作鏈"
+  },
+  "menu_options": {
+    "message": "開啟設定"
+  },
+  "settings_language": {
+    "message": "語言"
+  },
+  "language_auto": {
+    "message": "自動（依瀏覽器）"
+  },
+  "defaultChain_reading": {
+    "message": "閱讀模式"
+  },
+  "defaultChain_tidyTabs": {
+    "message": "整理分頁"
+  },
+  "defaultChain_copyMarkdown": {
+    "message": "複製為 Markdown"
+  },
+  "actionName_scroll_to_top": {
+    "message": "捲動至頂端"
+  },
+  "actionName_scroll_to_bottom": {
+    "message": "捲動至底端"
+  },
+  "actionName_reload_page": {
+    "message": "重新載入頁面"
+  },
+  "actionName_close_tab": {
+    "message": "關閉分頁"
+  },
+  "actionName_new_tab": {
+    "message": "新增分頁"
+  },
+  "actionName_copy_url": {
+    "message": "複製網址"
+  },
+  "actionName_copy_title": {
+    "message": "複製標題"
+  },
+  "actionName_toggle_fullscreen": {
+    "message": "切換全螢幕"
+  },
+  "actionName_zoom_in": {
+    "message": "放大"
+  },
+  "actionName_zoom_out": {
+    "message": "縮小"
+  },
+  "actionName_zoom_reset": {
+    "message": "重設縮放"
+  },
+  "actionName_go_back": {
+    "message": "上一頁"
+  },
+  "actionName_go_forward": {
+    "message": "下一頁"
+  },
+  "actionName_bookmark_page": {
+    "message": "將頁面加入書籤"
+  },
+  "actionName_copy_as_markdown": {
+    "message": "複製為 Markdown 連結"
+  },
+  "actionName_clear_cache": {
+    "message": "強制重新整理（略過快取）"
+  },
+  "actionName_duplicate_tab": {
+    "message": "複製分頁"
+  },
+  "actionName_pin_tab": {
+    "message": "釘選／取消釘選分頁"
+  },
+  "actionName_mute_tab": {
+    "message": "靜音／取消靜音分頁"
+  },
+  "actionName_close_other_tabs": {
+    "message": "關閉其他分頁"
+  },
+  "actionName_move_tab_left": {
+    "message": "將分頁左移"
+  },
+  "actionName_move_tab_right": {
+    "message": "將分頁右移"
+  },
+  "actionName_prev_tab": {
+    "message": "上一個分頁"
+  },
+  "actionName_next_tab": {
+    "message": "下一個分頁"
+  },
+  "actionName_new_window": {
+    "message": "開新視窗"
+  },
+  "actionName_reopen_closed_tab": {
+    "message": "重新開啟已關閉的分頁"
+  },
+  "actionName_print_page": {
+    "message": "列印頁面"
+  },
+  "actionName_open_url": {
+    "message": "開啟網址"
+  },
+  "actionName_wait": {
+    "message": "等待"
+  },
+  "actionName_scroll_page_up": {
+    "message": "向上捲動一個畫面"
+  },
+  "actionName_scroll_page_down": {
+    "message": "向下捲動一個畫面"
+  },
+  "actionName_close_tabs_right": {
+    "message": "關閉右側分頁"
+  },
+  "actionName_close_window": {
+    "message": "關閉視窗"
+  },
+  "actionName_toggle_dark_mode": {
+    "message": "切換深色模式"
+  },
+  "actionName_translate_page": {
+    "message": "翻譯頁面"
+  },
+  "actionName_media_play_pause": {
+    "message": "播放／暫停媒體"
+  },
+  "actionName_media_speed_up": {
+    "message": "加快播放速度"
+  },
+  "actionName_media_speed_down": {
+    "message": "減慢播放速度"
+  },
+  "actionName_media_speed_reset": {
+    "message": "重設播放速度"
+  },
+  "actionName_close_left_tabs": {
+    "message": "關閉左側分頁"
+  },
+  "actionName_close_duplicate_tabs": {
+    "message": "關閉重複的分頁"
+  },
+  "actionName_sort_tabs_by_url": {
+    "message": "依網址排序分頁"
+  },
+  "actionName_group_tabs_by_domain": {
+    "message": "依網域將分頁分組"
+  },
+  "actionName_ungroup_all_tabs": {
+    "message": "取消所有分頁分組"
+  },
+  "actionName_mute_all_tabs": {
+    "message": "將所有分頁靜音"
+  },
+  "actionName_unmute_all_tabs": {
+    "message": "取消所有分頁靜音"
+  },
+  "actionName_reload_all_tabs": {
+    "message": "重新載入所有分頁"
+  },
+  "actionName_move_tab_first": {
+    "message": "將分頁移至開頭"
+  },
+  "actionName_move_tab_last": {
+    "message": "將分頁移至結尾"
+  },
+  "actionName_move_tab_to_new_window": {
+    "message": "將分頁移至新視窗"
+  },
+  "actionName_minimize_window": {
+    "message": "最小化視窗"
+  },
+  "actionName_maximize_window": {
+    "message": "最大化視窗"
+  },
+  "actionName_open_incognito_window": {
+    "message": "開啟無痕視窗"
+  },
+  "actionName_copy_selected_text": {
+    "message": "複製選取的文字"
+  },
+  "actionName_search_selection": {
+    "message": "搜尋選取的文字"
+  },
+  "actionName_speak_selection": {
+    "message": "朗讀選取內容"
+  },
+  "actionName_stop_speaking": {
+    "message": "停止朗讀"
+  },
+  "actionName_capture_screenshot": {
+    "message": "擷取螢幕截圖（可見區域）"
+  },
+  "actionName_show_notification": {
+    "message": "顯示通知"
+  },
+  "actionName_open_browser_page": {
+    "message": "開啟瀏覽器頁面"
+  },
+  "actionName_discard_other_tabs": {
+    "message": "捨棄其他分頁（釋出記憶體）"
+  },
+  "actionName_goto_audible_tab": {
+    "message": "跳至有聲音的分頁"
+  },
+  "actionName_bookmark_all_tabs": {
+    "message": "將所有分頁加入書籤"
+  },
+  "actionName_read_later": {
+    "message": "加入閱讀清單"
+  },
+  "actionName_clear_browsing_cache": {
+    "message": "清除瀏覽器快取"
+  },
+  "actionName_clear_site_data": {
+    "message": "清除此網站的資料"
+  },
+  "actionName_delete_url_from_history": {
+    "message": "從歷史記錄中移除此頁面"
+  },
+  "actionName_toggle_keep_awake": {
+    "message": "切換保持喚醒"
+  },
+  "actionName_show_downloads_folder": {
+    "message": "顯示下載資料夾"
+  },
+  "actionName_save_page_mhtml": {
+    "message": "儲存頁面（MHTML）"
+  },
+  "actionName_if_url_matches": {
+    "message": "條件：網址符合時繼續"
+  },
+  "actionName_if_has_selection": {
+    "message": "條件：有選取文字時繼續"
+  },
+  "actionName_run_chain": {
+    "message": "執行其他動作鏈"
+  },
+  "actionName_execute_command": {
+    "message": "執行命令"
+  },
+  "actionName_call_extension": {
+    "message": "呼叫擴充功能"
+  },
+  "category_execute_command": {
+    "message": "執行命令"
+  },
+  "category_flow": {
+    "message": "流程控制"
+  },
+  "category_page_ops": {
+    "message": "頁面操作"
+  },
+  "category_tab_mgmt": {
+    "message": "分頁管理"
+  },
+  "category_window": {
+    "message": "視窗管理"
+  },
+  "category_media": {
+    "message": "媒體控制"
+  },
+  "category_zoom": {
+    "message": "縮放控制"
+  },
+  "category_content": {
+    "message": "內容操作"
+  },
+  "category_advanced": {
+    "message": "進階"
+  },
+  "category_extension": {
+    "message": "擴充功能呼叫"
+  },
+  "label_delay": {
+    "message": "延遲"
+  },
+  "label_ms": {
+    "message": "毫秒"
+  },
+  "label_selectExtension": {
+    "message": "選擇擴充功能"
+  },
+  "placeholder_selectInstalledExtension": {
+    "message": "-- 選擇已安裝的擴充功能 --"
+  },
+  "option_manualInputExtensionId": {
+    "message": "手動輸入擴充功能 ID"
+  },
+  "label_extensionId": {
+    "message": "擴充功能 ID"
+  },
+  "placeholder_extensionIdExample": {
+    "message": "擴充功能 ID（例如 nfgcnddoajoekfpacfkehomkgmpndhob）"
+  },
+  "label_url": {
+    "message": "網址"
+  },
+  "placeholder_urlExample": {
+    "message": "網址（例如 https://example.com）"
+  },
+  "label_openIn": {
+    "message": "開啟於"
+  },
+  "option_openIn_new": {
+    "message": "新分頁"
+  },
+  "option_openIn_current": {
+    "message": "目前分頁"
+  },
+  "label_notifyText": {
+    "message": "通知文字"
+  },
+  "placeholder_notifyText": {
+    "message": "要顯示在通知中的文字"
+  },
+  "label_browserPage": {
+    "message": "瀏覽器頁面"
+  },
+  "browserPage_downloads": {
+    "message": "下載"
+  },
+  "browserPage_history": {
+    "message": "歷史記錄"
+  },
+  "browserPage_bookmarks": {
+    "message": "書籤管理員"
+  },
+  "browserPage_extensions": {
+    "message": "擴充功能"
+  },
+  "browserPage_settings": {
+    "message": "設定"
+  },
+  "browserPage_shortcuts": {
+    "message": "鍵盤快速鍵"
+  },
+  "browserPage_clear_browsing_data": {
+    "message": "清除瀏覽資料"
+  },
+  "label_pattern": {
+    "message": "網址模式"
+  },
+  "placeholder_pattern": {
+    "message": "例如 *://github.com/* 或關鍵字；以逗號分隔"
+  },
+  "label_runChain": {
+    "message": "要執行的動作鏈"
+  },
+  "placeholder_selectChain": {
+    "message": "-- 選擇動作鏈 --"
+  },
+  "hint_templateVars": {
+    "message": "變數：{url} {title} {selection} {clipboard} {date} {time}"
+  },
+  "hint_executeCommand": {
+    "message": "選擇此擴充功能可執行你自己的動作鏈；選擇其他擴充功能則會對其進行管理操作（啟用／停用、解除安裝、開啟選項…），而非執行該擴充功能本身的快捷功能。"
+  },
+  "hint_callExtension": {
+    "message": "傳送訊息給另一個擴充功能。僅在該擴充功能接受外部訊息（externally_connectable）時有效——大多數擴充功能並不接受，因此可能不會有任何作用。"
+  },
+  "label_presetAction": {
+    "message": "預設動作"
+  },
+  "placeholder_selectActionTemplate": {
+    "message": "-- 選擇動作範本 --"
+  },
+  "option_customMessage": {
+    "message": "自訂訊息"
+  },
+  "label_messageContent": {
+    "message": "訊息內容"
+  },
+  "placeholder_messageJson": {
+    "message": "訊息內容（JSON，例如 {\"action\": \"toggle\"}）"
+  },
+  "label_selectCommand": {
+    "message": "選擇命令"
+  },
+  "placeholder_selectCommand": {
+    "message": "-- 選擇命令 --"
+  },
+  "tooltip_refreshCommands": {
+    "message": "重新整理命令"
+  },
+  "tooltip_setDefaultChain": {
+    "message": "設為預設動作鏈"
+  },
+  "tooltip_defaultChain": {
+    "message": "預設動作鏈"
+  },
+  "newChain_defaultName": {
+    "message": "新動作鏈"
+  },
+  "msg_extension_toggled": {
+    "message": "$1 現在已$2"
+  },
+  "state_enabled": {
+    "message": "啟用"
+  },
+  "state_disabled": {
+    "message": "停用"
+  },
+  "label_extension": {
+    "message": "擴充功能"
+  },
+  "error_toggle_extension_failed": {
+    "message": "切換擴充功能失敗"
+  },
+  "error_uninstall_extension_failed": {
+    "message": "解除安裝擴充功能失敗"
+  },
+  "label_extension_name": {
+    "message": "擴充功能名稱"
+  },
+  "label_version": {
+    "message": "版本"
+  },
+  "label_description": {
+    "message": "說明"
+  },
+  "label_type": {
+    "message": "類型"
+  },
+  "label_install_type": {
+    "message": "安裝類型"
+  },
+  "label_permissions": {
+    "message": "權限"
+  },
+  "label_none": {
+    "message": "無"
+  },
+  "label_homepage": {
+    "message": "首頁"
+  },
+  "label_error": {
+    "message": "錯誤"
+  },
+  "error_get_extension_info_failed": {
+    "message": "取得擴充功能資訊失敗"
+  },
+  "label_app": {
+    "message": "應用程式"
+  },
+  "error_launch_app_failed": {
+    "message": "啟動應用程式失敗"
+  },
+  "label_command": {
+    "message": "命令"
+  },
+  "error_unknown_command": {
+    "message": "未知的命令：$1"
+  },
+  "error_execute_command_failed": {
+    "message": "命令執行失敗"
+  },
+  "cmd_toggle_extension_name": {
+    "message": "啟用／停用擴充功能"
+  },
+  "cmd_toggle_extension_desc": {
+    "message": "切換 $1 的啟用狀態"
+  },
+  "cmd_uninstall_extension_name": {
+    "message": "解除安裝擴充功能"
+  },
+  "cmd_uninstall_extension_desc": {
+    "message": "解除安裝 $1（需要確認）"
+  },
+  "cmd_open_options_name": {
+    "message": "開啟選項"
+  },
+  "cmd_open_options_desc": {
+    "message": "開啟 $1 的選項頁面"
+  },
+  "cmd_open_details_name": {
+    "message": "開啟詳細資料"
+  },
+  "cmd_open_details_desc": {
+    "message": "在擴充功能頁面中檢視 $1"
+  },
+  "cmd_show_info_name": {
+    "message": "顯示擴充功能資訊"
+  },
+  "cmd_show_info_desc": {
+    "message": "顯示 $1 的詳細資訊"
+  },
+  "cmd_open_homepage_name": {
+    "message": "開啟首頁"
+  },
+  "cmd_open_homepage_desc": {
+    "message": "造訪 $1 的首頁"
+  },
+  "cmd_reload_dev_name": {
+    "message": "重新載入開發中的擴充功能"
+  },
+  "cmd_reload_dev_desc": {
+    "message": "重新載入開發中的擴充功能 $1"
+  },
+  "cmd_launch_app_name": {
+    "message": "啟動應用程式"
+  },
+  "cmd_launch_app_desc": {
+    "message": "啟動 Chrome 應用程式 $1"
+  },
+  "cmd_open_store_name": {
+    "message": "開啟商店頁面"
+  },
+  "cmd_open_store_desc": {
+    "message": "開啟 $1 的 Chrome 線上應用程式商店頁面"
+  },
+  "label_unknownChain": {
+    "message": "未知的動作鏈"
+  },
+  "msg_no_options_page": {
+    "message": "$1 沒有選項頁面"
+  },
+  "msg_check_console_for_details": {
+    "message": "$1 詳細資料：請查看主控台"
+  },
+  "msg_no_homepage": {
+    "message": "$1 未設定首頁"
+  },
+  "msg_dev_extension_reloaded": {
+    "message": "已重新載入開發中的擴充功能 $1"
+  },
+  "msg_not_dev_extension": {
+    "message": "$1 並非開發中的擴充功能，無法重新載入"
+  },
+  "msg_app_launched": {
+    "message": "已啟動 Chrome 應用程式 $1"
+  },
+  "msg_not_chrome_app": {
+    "message": "$1 並非 Chrome 應用程式，無法啟動"
+  },
+  "toast_chainExecuted": {
+    "message": "已執行動作鏈：$1"
+  },
+  "toast_executeFailed": {
+    "message": "執行失敗"
+  },
+  "toast_defaultSet": {
+    "message": "已設定預設動作鏈"
+  },
+  "toast_newChainAdded": {
+    "message": "已新增動作鏈"
+  },
+  "toast_atLeastOne": {
+    "message": "至少須保留一個動作鏈"
+  },
+  "toast_extensionsRefreshed": {
+    "message": "已重新整理 $1 個擴充功能"
+  },
+  "toast_refreshExtensionsFailed": {
+    "message": "重新整理擴充功能失敗"
+  },
+  "toast_selectExtensionFirst": {
+    "message": "請先選擇擴充功能"
+  },
+  "toast_commandsRefreshed": {
+    "message": "已重新整理命令清單"
+  },
+  "toast_refreshCommandsFailed": {
+    "message": "重新整理命令清單失敗"
+  },
+  "toast_chainDuplicated": {
+    "message": "已複製動作鏈"
+  },
+  "toast_configExported": {
+    "message": "已匯出設定"
+  },
+  "toast_configImported": {
+    "message": "已匯入設定"
+  },
+  "toast_importFailed": {
+    "message": "匯入失敗：$1"
+  },
+  "toast_saveFailed": {
+    "message": "儲存失敗：$1"
+  },
+  "toast_defaultsRestored": {
+    "message": "已還原預設動作鏈"
+  },
+  "toast_restoreDefaultsFailed": {
+    "message": "還原預設值失敗"
+  },
+  "confirm_importOverwrite": {
+    "message": "匯入會取代你目前的所有設定。是否繼續？"
+  },
+  "confirm_restoreDefaults": {
+    "message": "還原預設值會取代目前所有的動作鏈。是否繼續？"
+  },
+  "error_invalidConfigFile": {
+    "message": "無效的設定檔"
+  },
+  "content_urlCopied": {
+    "message": "已將網址複製到剪貼簿"
+  },
+  "content_titleCopied": {
+    "message": "已將標題複製到剪貼簿"
+  },
+  "content_markdownCopied": {
+    "message": "已將 Markdown 連結複製到剪貼簿"
+  },
+  "content_copyFailed": {
+    "message": "複製失敗，請手動複製"
+  },
+  "content_bookmarkAdded": {
+    "message": "已將頁面加入書籤"
+  },
+  "content_bookmarkExists": {
+    "message": "已加入書籤"
+  },
+  "content_selectionCopied": {
+    "message": "已將選取內容複製到剪貼簿"
+  },
+  "content_noSelection": {
+    "message": "未選取任何文字"
+  },
+  "content_noMedia": {
+    "message": "此頁面找不到媒體"
+  },
+  "content_playbackRate": {
+    "message": "播放速度：$1 倍"
+  },
+  "content_darkModeOn": {
+    "message": "深色模式已開啟"
+  },
+  "content_darkModeOff": {
+    "message": "深色模式已關閉"
+  },
+  "msg_duplicateTabsClosed": {
+    "message": "已關閉 $1 個重複的分頁"
+  },
+  "error_incognitoNotAllowed": {
+    "message": "請先允許本擴充功能在無痕模式下執行（chrome://extensions）"
+  },
+  "msg_noAudibleTab": {
+    "message": "沒有正在發出聲音的分頁"
+  },
+  "msg_tabsBookmarked": {
+    "message": "已將 $1 個分頁加入書籤"
+  },
+  "msg_readLaterAdded": {
+    "message": "已加入閱讀清單"
+  },
+  "msg_readLaterExists": {
+    "message": "已在閱讀清單中"
+  },
+  "msg_readingListUnsupported": {
+    "message": "此瀏覽器不支援閱讀清單 API"
+  },
+  "msg_cacheCleared": {
+    "message": "已清除瀏覽器快取"
+  },
+  "msg_siteDataCleared": {
+    "message": "已清除網站資料"
+  },
+  "msg_historyDeleted": {
+    "message": "已從歷史記錄中移除"
+  },
+  "msg_keepAwakeOn": {
+    "message": "保持喚醒已開啟"
+  },
+  "msg_keepAwakeOff": {
+    "message": "保持喚醒已關閉"
+  },
+  "msg_chainErrors": {
+    "message": "動作鏈 $1：$2 個動作執行失敗"
+  },
+  "menu_pageParent": {
+    "message": "執行動作鏈"
+  },
+  "toast_chainExported": {
+    "message": "已匯出動作鏈"
+  },
+  "toast_chainImported": {
+    "message": "已匯入動作鏈：$1"
+  },
+  "content_close": {
+    "message": "關閉"
+  },
+  "msg_uninstall_requested": {
+    "message": "已要求解除安裝"
+  },
+  "actionName_copy_text": {
+    "message": "依格式複製文字"
+  },
+  "actionName_confirm": {
+    "message": "詢問確認後繼續"
+  },
+  "label_copyText": {
+    "message": "複製內容"
+  },
+  "placeholder_copyText": {
+    "message": "例如 {title} — {url}"
+  },
+  "label_confirmText": {
+    "message": "詢問文字"
+  },
+  "placeholder_confirmText": {
+    "message": "例如：確定要關閉其他分頁嗎？"
+  },
+  "hint_confirm": {
+    "message": "在頁面上顯示詢問框：按「繼續」才會執行後面的動作，按「取消」則整條鏈停止。無法顯示對話框的頁面（如 chrome:// 開頭的頁面）同樣會停止。"
+  },
+  "confirm_defaultText": {
+    "message": "確定要繼續嗎？"
+  },
+  "content_textCopied": {
+    "message": "已複製到剪貼簿"
+  },
+  "content_continue": {
+    "message": "繼續"
+  },
+  "content_cancel": {
+    "message": "取消"
+  },
+  "tmpl_safeCloseOthers": {
+    "message": "關閉其他分頁（先確認）"
+  },
+  "tmpl_safeCloseOthers_ask": {
+    "message": "確定要關閉其他所有分頁嗎？"
+  },
+  "confirm_importChain": {
+    "message": "匯入動作鏈「$1」？"
+  },
+  "actions_count_one": {
+    "message": "項動作"
+  },
+  "card_addActions": {
+    "message": "新增動作"
+  },
+  "actions_remove": {
+    "message": "刪除動作"
+  },
+  "label_msValue": {
+    "message": "$1毫秒"
+  },
+  "empty_title": {
+    "message": "還沒有動作鏈"
+  },
+  "empty_body": {
+    "message": "從範本開始最快，也可以新增一條空鏈自己加動作。"
+  },
+  "footer_source": {
+    "message": "原始碼與意見回饋"
+  },
+  "toolbar_sidePanel": {
+    "message": "開啟側邊欄"
+  },
+  "ai_notSupported": {
+    "message": "目前瀏覽器無法執行 Chrome 內建 AI（Gemini Nano）。需要桌面版 Chrome（Windows/macOS/Linux/Chromebook Plus）、約 22 GB 可用磁碟空間，以及顯示記憶體 >4 GB 或 16 GB 記憶體。"
+  },
+  "ai_modelDownloading": {
+    "message": "Chrome AI 模型正在裝置上下載，請稍後重試"
+  },
+  "ai_noTextToProcess": {
+    "message": "未選取文字且頁面未找到有效內容"
+  },
+  "ai_summaryCopied": {
+    "message": "AI 總結（已複製）"
+  },
+  "ai_noSelection": {
+    "message": "請先用滑鼠選取文字"
+  },
+  "ai_explanationCopied": {
+    "message": "AI 解釋（已複製）"
+  },
+  "ai_translationCopied": {
+    "message": "AI 翻譯（已複製）"
+  },
+  "msg_cookiesCleared": {
+    "message": "所有 Cookie 已清除"
+  },
+  "msg_downloadsCleared": {
+    "message": "下載紀錄已清除"
+  },
+  "actionName_open_side_panel": {
+    "message": "開啟側邊欄"
+  },
+  "actionName_ai_summarize": {
+    "message": "AI 總結內容"
+  },
+  "actionName_ai_explain": {
+    "message": "AI 解釋選取內容"
+  },
+  "actionName_ai_translate": {
+    "message": "AI 翻譯選取內容"
+  },
+  "actionName_discard_current_tab": {
+    "message": "休眠目前分頁（釋放記憶體）"
+  },
+  "actionName_duplicate_tab_to_new_window": {
+    "message": "在新視窗中複製分頁"
+  },
+  "actionName_collapse_all_groups": {
+    "message": "收合所有分頁群組"
+  },
+  "actionName_expand_all_groups": {
+    "message": "展開所有分頁群組"
+  },
+  "actionName_close_other_windows": {
+    "message": "關閉其他視窗"
+  },
+  "actionName_open_options_page": {
+    "message": "開啟擴充功能設定頁"
+  },
+  "actionName_open_shortcuts_page": {
+    "message": "開啟快捷鍵管理"
+  },
+  "actionName_reload_extension": {
+    "message": "重新載入擴充功能"
+  },
+  "actionName_open_action_popup": {
+    "message": "開啟擴充功能彈出視窗"
+  },
+  "actionName_clear_cookies": {
+    "message": "清除所有 Cookie"
+  },
+  "actionName_clear_downloads_history": {
+    "message": "清除下載紀錄"
+  },
+  "actionName_speak_text": {
+    "message": "朗讀指定文字"
+  },
+  "actionName_toggle_design_mode": {
+    "message": "網頁即時編輯開/關"
+  },
+  "actionName_copy_page_html": {
+    "message": "複製網頁 HTML 原始碼"
+  },
+  "actionName_extract_all_links": {
+    "message": "擷取頁面所有連結"
+  },
+  "actionName_extract_all_images": {
+    "message": "擷取頁面所有圖片連結"
+  },
+  "label_speakText": {
+    "message": "朗讀內容"
+  },
+  "placeholder_speakText": {
+    "message": "要朗讀的文字，支援變數如: {title}"
+  },
+  "content_designModeOff": {
+    "message": "網頁編輯模式已關閉"
+  },
+  "content_designModeOn": {
+    "message": "網頁編輯模式已開啟（可在頁面直接修改文字）"
+  },
+  "content_pageHtmlCopied": {
+    "message": "網頁 HTML 已複製到剪貼簿"
+  },
+  "content_linksExtracted": {
+    "message": "已擷取頁面連結至剪貼簿"
+  },
+  "content_noLinksFound": {
+    "message": "頁面上未找到任何連結"
+  },
+  "content_imagesExtracted": {
+    "message": "已擷取圖片連結至剪貼簿"
+  },
+  "content_noImagesFound": {
+    "message": "頁面上未找到任何圖片"
+  },
+  "sidepanel_title": {
+    "message": "Hotkey Chain"
+  },
+  "sidepanel_openSettings": {
+    "message": "設定"
+  },
+  "sidepanel_searchPlaceholder": {
+    "message": "搜尋動作鏈..."
+  },
+  "sidepanel_noChainsFound": {
+    "message": "未找到符合的動作鏈"
+  },
+  "sidepanel_manageChains": {
+    "message": "+ 管理動作鏈"
+  },
+  "sidepanel_chainsSuffix": {
+    "message": "條動作鏈"
+  },
+  "sidepanel_actionsSuffix": {
+    "message": "個動作"
+  },
+  "sidepanel_runChain": {
+    "message": "執行"
+  },
+  "sidepanel_executedPrefix": {
+    "message": "已執行："
+  },
+  "sidepanel_executionFailed": {
+    "message": "執行失敗"
+  },
+  "tmpl_cat_all": {
+    "message": "全部範本"
+  },
+  "tmpl_cat_ai": {
+    "message": "AI 智慧"
+  },
+  "tmpl_cat_tabs": {
+    "message": "分頁與記憶體"
+  },
+  "tmpl_cat_reading": {
+    "message": "閱讀與視聽"
+  },
+  "tmpl_cat_developer": {
+    "message": "網頁與開發"
+  },
+  "tmpl_cat_privacy": {
+    "message": "隱私與清理"
+  },
+  "tmpl_cat_workflow": {
+    "message": "日常工作流程"
+  },
+  "tmpl_gallery_title": {
+    "message": "動作鏈範本庫"
+  },
+  "tmpl_gallery_subtitle": {
+    "message": "挑選隨選即用的自動化動作鏈，一鍵新增並隨心自訂"
+  },
+  "tmpl_gallery_search_placeholder": {
+    "message": "搜尋範本名稱、說明或動作..."
+  },
+  "tmpl_gallery_use": {
+    "message": "使用此範本"
+  },
+  "tmpl_gallery_actions_count": {
+    "message": "$1 個動作"
+  },
+  "tmpl_gallery_empty_title": {
+    "message": "未找到符合的範本"
+  },
+  "tmpl_gallery_empty_desc": {
+    "message": "請嘗試更換關鍵字或切換上方分類"
+  },
+  "tmpl_gallery_empty_reset": {
+    "message": "重設搜尋"
+  },
+  "tmpl_aiSummarize": {
+    "message": "AI 智慧頁面速讀"
+  },
+  "tmpl_aiExplain": {
+    "message": "AI 選字深度解析"
+  },
+  "tmpl_aiTranslate": {
+    "message": "AI 選區翻譯與朗讀"
+  },
+  "tmpl_tabHibernateClean": {
+    "message": "記憶體釋放與分頁整理"
+  },
+  "tmpl_webEditor": {
+    "message": "網頁原地自由編輯"
+  },
+  "tmpl_extractMedia": {
+    "message": "頁面連結與圖片擷取"
+  },
+  "tmpl_cinemaMode": {
+    "message": "影片播放與全螢幕"
+  },
+  "tmpl_privacyWipe": {
+    "message": "隱私資料快速抹除"
+  },
+  "tmpl_copyMarkdown": {
+    "message": "Markdown 引用連結複製"
+  },
+  "tmpl_sidePanelCompanion": {
+    "message": "側邊欄效率助手"
+  },
+  "tmpl_focusMode_desc": {
+    "message": "一鍵將所有分頁設為靜音、切換深色保護眼睛並進入全螢幕專注"
+  },
+  "tmpl_tabCleanup_desc": {
+    "message": "清理重複分頁，按網址排序並依網域名稱自動分類分組"
+  },
+  "tmpl_safeCloseOthers_desc": {
+    "message": "彈出安全二次確認，防止誤觸關閉其他所有分頁造成資料遺失"
+  },
+  "tmpl_aiSummarize_desc": {
+    "message": "使用裝置端 Gemini Nano AI 擷取網頁核心摘要，並在側邊欄中整理呈現"
+  },
+  "tmpl_aiExplain_desc": {
+    "message": "選取網頁段落，呼叫裝置端 AI 進行逐段答疑解析並在側邊欄記錄"
+  },
+  "tmpl_aiTranslate_desc": {
+    "message": "透過裝置端 AI 將劃選文字翻譯為目標語言，並調用系統語音引擎朗讀"
+  },
+  "tmpl_tabHibernateClean_desc": {
+    "message": "關閉重複分頁，休眠凍結非活躍分頁釋放記憶體，並依網域名稱分組折疊"
+  },
+  "tmpl_webEditor_desc": {
+    "message": "切換頁面 DesignMode，支援像 Word 一樣任意修改網頁文字與版面用於排版截圖"
+  },
+  "tmpl_extractMedia_desc": {
+    "message": "從目前頁面一鍵解析並擷取全部媒體圖片與連結清單"
+  },
+  "tmpl_cinemaMode_desc": {
+    "message": "確保頁面影片處於播放狀態，再切換到全螢幕獲得無干擾的觀影體驗"
+  },
+  "tmpl_readAloud_desc": {
+    "message": "調用瀏覽器原生語音合成引擎朗讀目前反白選取的文章段落"
+  },
+  "tmpl_privacyWipe_desc": {
+    "message": "經彈窗確認後，清除全部網站的 Cookie 與完整下載記錄 —— 不限於目前網站"
+  },
+  "tmpl_copyMarkdown_desc": {
+    "message": "快速擷取目前網頁標題與網址，按 Markdown 標準格式複製到剪貼簿"
+  },
+  "tmpl_snapshot_desc": {
+    "message": "擷取可見區域影像，同時將頁面新增至書籤列備忘"
+  },
+  "tmpl_wrapUp_desc": {
+    "message": "儲存書籤防遺失，將所有聲音設為靜音並最小化視窗準備下班"
+  },
+  "tmpl_sidePanelCompanion_desc": {
+    "message": "一鍵開啟 Hotkey Chain 側邊欄助手，隨時執行快捷鏈與管理設定"
+  },
+  "tmpl_privacyWipe_ask": {
+    "message": "這會清除【全部網站】的 Cookie 與下載記錄，不只是目前網站。確定繼續嗎？"
+  },
+  "tmpl_gallery_footer_hint": {
+    "message": "點擊任意範本即可直接建立並進入編輯，所有參數皆可依個人習慣自由調整"
+  },
+  "actionPicker_title": {
+    "message": "新增動作"
+  },
+  "actionPicker_subtitle": {
+    "message": "搜尋或依分類挑選，點擊即可直接新增至動作序列末端"
+  },
+  "actionPicker_searchPlaceholder": {
+    "message": "搜尋動作名稱（如深色、分頁、AI、靜音、截圖、關閉）..."
+  },
+  "actionPicker_allCategories": {
+    "message": "全部"
+  },
+  "actionPicker_noResults": {
+    "message": "未找到相關動作，請嘗試更換關鍵字"
+  },
+  "shortcut_badge_omnibox": {
+    "message": "網址列: hc + 鏈名"
+  },
+  "shortcut_hint_click": {
+    "message": "點擊前往 Chrome 快捷鍵設定頁面"
+  },
+  "empty_cta_templates": {
+    "message": "從範本庫挑選"
+  },
+  "empty_cta_blank": {
+    "message": "建立空白鏈"
+  },
+  "tmpl_gallery_add_direct": {
+    "message": "新增到我的鏈"
+  },
+  "tmpl_gallery_add_and_edit": {
+    "message": "新增並自訂"
+  },
+  "toast_chainAdded_actionRun": {
+    "message": "立即執行"
+  },
+  "workflow_title": {
+    "message": "工作流程自動組合 (Pipeline)"
+  },
+  "workflow_subtitle": {
+    "message": "自動銜接下一步工作流程，上一步輸出數據自動流向下游"
+  },
+  "workflow_nextChain": {
+    "message": "執行成功後流轉至下一鏈"
+  },
+  "workflow_fallbackChain": {
+    "message": "執行出錯時流轉至備用鏈"
+  },
+  "workflow_noNextChain": {
+    "message": "（無 - 執行完畢即終止）"
+  },
+  "workflow_noFallbackChain": {
+    "message": "（無 - 遇錯停止）"
+  },
+  "workflow_passOutput": {
+    "message": "向下游傳遞輸出數據（{{output}} / 選中文本）"
+  },
+  "workflow_chipTooltip": {
+    "message": "工作流程：執行完畢後自動流轉至 $1"
+  },
+  "workflow_elseChain": {
+    "message": "不滿足條件時分支鏈 (可選)"
+  },
+  "workflow_noElseChain": {
+    "message": "（無 - 終止後續動作）"
+  },
+  "workflow_incomingTooltip": {
+    "message": "工作流程下游節點：由其他動作鏈觸發"
+  },
+  "workflow_step_current": {
+    "message": "當前動作鏈"
+  },
+  "workflow_step_next": {
+    "message": "後續環節：點擊跳轉編輯"
+  },
+  "workflow_step_incoming": {
+    "message": "上一環節：點擊跳轉編輯"
+  },
+  "workflow_fallback_label": {
+    "message": "出錯備用"
+  },
+  "workflow_pipeline_active": {
+    "message": "流水線模式已激活：$1 個關聯節點"
+  },
+  "workflow_pipeline_single": {
+    "message": "單動作鏈（未關聯下游）"
+  },
+  "workflow_step_end": {
+    "message": "終點"
+  },
+  "hint_hasSelection": {
+    "message": "若當前頁面有選中文本則繼續，並將選中文本作為 {{output}} 傳遞給後續動作。"
+  },
+  "tmpl_workflowAiResearch": {
+    "message": "AI 擷取與總結工作流程"
+  },
+  "tmpl_workflowAiResearch_desc": {
+    "message": "自動擷取網頁連結並由端側 AI 智慧總結要點，格式化寫入剪貼簿"
+  },
+  "tmpl_workflowReadLater": {
+    "message": "稍後讀與正文歸檔流水線"
+  },
+  "tmpl_workflowReadLater_desc": {
+    "message": "將目前網頁擷取為乾淨的 Markdown 存入剪貼簿，同時加入書籤備忘"
+  },
+  "tmpl_aiKnowledgeCard": {
+    "message": "AI 知識卡片速記"
+  },
+  "tmpl_aiKnowledgeCard_desc": {
+    "message": "使用端側 AI 提煉網頁或選取內容的核心重點，格式化為 Markdown 引用卡片存入剪貼簿"
+  },
+  "tmpl_workflowDevClean": {
+    "message": "前端開發極速重設管線"
+  },
+  "tmpl_workflowDevClean_desc": {
+    "message": "一鍵清除目前站台儲存資料、清空瀏覽器快取並強制硬重新整理，前端偵錯零快取干擾"
+  },
+  "tmpl_workflowCleanWorkspace": {
+    "message": "獨立任務專注沙盒"
+  },
+  "tmpl_workflowCleanWorkspace_desc": {
+    "message": "將目前分頁移至全新獨立視窗並最大化，同時凍結休眠原視窗其餘分頁釋放記憶體"
+  },
+  "tmpl_incognitoHandoff": {
+    "message": "無痕無痕交接與痕跡抹除"
+  },
+  "tmpl_incognitoHandoff_desc": {
+    "message": "在無痕視窗中無縫繼續瀏覽目前網頁，關閉原分頁並從歷史紀錄中徹底抹除造訪足跡"
+  },
+  "actionName_toggle_site_javascript": {
+    "message": "目前站台 JavaScript 開/關"
+  },
+  "actionName_toggle_site_images": {
+    "message": "目前站台圖片載入開/關"
+  },
+  "actionName_toggle_site_popups": {
+    "message": "目前站台彈跳視窗攔截開/關"
+  },
+  "actionName_open_top_sites": {
+    "message": "開啟常用工作台站台"
+  },
+  "actionName_wait_for_navigation": {
+    "message": "等待頁面載入/導覽完成"
+  },
+  "msg_jsBlocked": {
+    "message": "目前站台已停用 JavaScript"
+  },
+  "msg_jsAllowed": {
+    "message": "目前站台已啟用 JavaScript"
+  },
+  "msg_imagesBlocked": {
+    "message": "目前站台已停用圖片載入"
+  },
+  "msg_imagesAllowed": {
+    "message": "目前站台已啟用圖片載入"
+  },
+  "msg_popupsBlocked": {
+    "message": "目前站台已攔截彈跳視窗"
+  },
+  "msg_popupsAllowed": {
+    "message": "目前站台已允許彈跳視窗"
+  },
+  "badge_requiresAi": {
+    "message": "需端側 AI"
+  },
+  "hint_aiRequirement": {
+    "message": "依賴 Chrome 內建的 Gemini Nano（Prompt API），全程在本機執行。需要桌面版 Chrome 且有足夠的顯示記憶體或記憶體；無需 API Key，也無需開啟任何 flag。"
+  },
+  "btn_checkAiStatus": {
+    "message": "檢測端側 AI 狀態"
+  },
+  "ai_statusReady": {
+    "message": "Chrome 內建端側 AI (Gemini Nano) 已就緒，可直接執行智慧操作。"
+  },
+  "ai_statusGuide": {
+    "message": "使用條件：\n1. 桌面版 Chrome（Windows / macOS / Linux / Chromebook Plus），不支援 Android / iOS\n2. 設定檔所在磁碟約 22 GB 可用空間；顯示記憶體 >4 GB，或 16 GB 記憶體 + 4 核心以上\n3. 首次使用才會下載模型，進度見 chrome://on-device-internals\n4. 首次下載需要非計費網路；之後不再向任何伺服器傳送資料"
+  },
+  "msg_noTopSites": {
+    "message": "瀏覽歷史中未找到常用常訪網站"
+  },
+  "msg_topSitesOpened": {
+    "message": "已在背景分頁開啟  個常用網站"
+  },
+  "tmpl_pureReader": {
+    "message": "純淨無擾閱讀"
+  },
+  "tmpl_pureReader_desc": {
+    "message": "攔截彈窗並封鎖圖片載入，開啟深色模式享受極致純文字沉浸閱讀"
+  },
+  "tmpl_siteScriptShield": {
+    "message": "極客指令碼與彈窗防護"
+  },
+  "tmpl_siteScriptShield_desc": {
+    "message": "一鍵關閉當前網站的 JavaScript 執行權限並攔截彈窗，抵禦惡意腳本追蹤"
+  },
+  "tmpl_workstationLaunch": {
+    "message": "常訪工作台啟航管線"
+  },
+  "tmpl_workstationLaunch_desc": {
+    "message": "批次在背景開啟常用工作台網站，自動整理去重並依網域歸類分組"
+  },
+  "defaultChain_workstation": {
+    "message": "工作台一鍵啟航"
+  },
+  "defaultChain_workstation_note": {
+    "message": "工作台已就緒：常訪網站已開啟並整理"
+  },
+  "defaultChain_aiKnowledge": {
+    "message": "AI 智慧速讀卡片"
+  },
+  "defaultChain_aiKnowledge_note": {
+    "message": "AI 知識卡片已生成並複製"
+  },
+  "defaultChain_pureReader": {
+    "message": "純淨無擾閱讀"
+  },
+  "defaultChain_devReset": {
+    "message": "前端極速重設"
+  },
+  "defaultChain_focusSandbox": {
+    "message": "獨占專注沙盒"
+  },
+  "label_targetLang": {
+    "message": "目標語言"
+  },
+  "label_translateStyle": {
+    "message": "翻譯風格"
+  },
+  "label_summaryLang": {
+    "message": "總結語言"
+  },
+  "label_summaryFormat": {
+    "message": "總結格式"
+  },
+  "label_explainLang": {
+    "message": "解析語言"
+  },
+  "label_explainStyle": {
+    "message": "解析深度與風格"
+  },
+  "label_ttsLang": {
+    "message": "朗讀語音語言"
+  },
+  "label_ttsSpeed": {
+    "message": "朗讀語速"
+  },
+  "label_preferOutput": {
+    "message": "優先朗讀前序動作輸出 (如 AI 翻譯結果)"
+  },
+  "opt_lang_auto": {
+    "message": "自動（跟隨瀏覽器介面語言）"
+  },
+  "opt_format_bullets": {
+    "message": "要點清單 (推薦)"
+  },
+  "opt_format_concise": {
+    "message": "精煉簡短段落"
+  },
+  "opt_format_detailed": {
+    "message": "深度結構化整理"
+  },
+  "opt_format_oneSentence": {
+    "message": "一句話核心結論"
+  },
+  "opt_style_concise": {
+    "message": "精煉清晰 (預設)"
+  },
+  "opt_style_simple": {
+    "message": "通俗易懂 (新手視角)"
+  },
+  "opt_style_technical": {
+    "message": "專業技術深度解析"
+  },
+  "opt_style_analogy": {
+    "message": "形象生動比喻"
+  },
+  "opt_trans_natural": {
+    "message": "道地通順 (預設)"
+  },
+  "opt_trans_formal": {
+    "message": "商務正規嚴謹"
+  },
+  "opt_trans_literal": {
+    "message": "術語嚴謹直譯"
+  },
+  "actionName_media_play": {
+    "message": "播放媒體（不暫停）"
+  },
+  "label_incognitoCurrent": {
+    "message": "在新視窗中開啟目前網頁"
+  },
+  "hint_incognitoCurrent": {
+    "message": "不勾選則只開一個空白無痕視窗。交接類動作鏈需要勾選，否則原分頁關閉後頁面就遺失了。"
+  },
+  "tmpl_pipelineSummarySpeak": {
+    "message": "長文提煉與朗讀流水線"
+  },
+  "tmpl_pipelineSummarySpeak_desc": {
+    "message": "端側 AI 提煉正文摘要，完成後自動流轉到第二條鏈，用系統語音朗讀出來"
+  },
+  "tmpl_pipelineSummarySpeak_next": {
+    "message": "朗讀摘要（流水線第二段）"
+  },
+  "tmpl_pipelineSummarySpeak_next_desc": {
+    "message": "由主鏈自動觸發：把上一步的摘要用系統語音朗讀出來"
+  },
+  "tmpl_selectionSearch": {
+    "message": "劃詞即搜（條件分支）"
+  },
+  "tmpl_selectionSearch_desc": {
+    "message": "先判斷頁面上有沒有選取文字：有就用預設搜尋引擎搜尋，沒有則提示你先劃詞"
+  },
+  "tmpl_selectionSearch_else": {
+    "message": "提示先劃詞（分支）"
+  },
+  "tmpl_selectionSearch_else_desc": {
+    "message": "由條件動作在不滿足時觸發：提示使用者先選取要搜尋的文字"
+  },
+  "tmpl_selectionSearch_elseMsg": {
+    "message": "請先在頁面上選取要搜尋的文字"
+  },
+  "tmpl_reloadThenExtract": {
+    "message": "載入完成後擷取連結"
+  },
+  "tmpl_reloadThenExtract_desc": {
+    "message": "重新整理頁面並等待載入真正完成（適合單頁應用），再擷取全部外連並複製"
+  },
+  "ai_contentTooLong": {
+    "message": "內容超出端側模型的處理上限。請少選一點文字後重試。"
+  },
+  "progress_starting": {
+    "message": "準備中…"
+  },
+  "progress_done": {
+    "message": "已完成"
+  },
+  "progress_failed": {
+    "message": "執行完成，但有錯誤"
+  },
+  "label_noCopy": {
+    "message": "不自動複製到剪貼簿（結果交給後續動作處理）"
+  },
+  "hint_extractNoCopy": {
+    "message": "範本中把多個擷取結果合併後再複製時勾選，避免中間結果先佔一次剪貼簿並彈出誤導的「已複製」。"
+  },
+  "ai_diag_language": {
+    "message": "AI 輸出語言"
+  },
+  "hint_actionLangOverrides": {
+    "message": "動作中指定語言時會覆寫全域介面語言；選「自動」則跟隨介面語言（見工具列 CPU 圖示的診斷）。"
+  },
+  "shortcut_badge_withKey": {
+    "message": "快速鍵: {key}"
+  },
+  "shortcut_badge_unset": {
+    "message": "未設定快速鍵"
+  }
 }

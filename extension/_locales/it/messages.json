@@ -1,358 +1,1613 @@
 {
-  "extName": { "message": "Hotkey Chain" },
-  "extDescription": { "message": "Scorciatoie per il tuo browser: concatena oltre 75 azioni ed eseguile tramite scorciatoia, barra degli indirizzi, clic destro, pianificazione o corrispondenza URL." },
-  "appName": { "message": "Hotkey Chain" },
-  "thisExtension": { "message": "questa estensione" },
-
-  "appTitle": { "message": "Impostazioni Hotkey Chain" },
-  "appSubtitle": { "message": "Concatena azioni del browser ed eseguile con una scorciatoia" },
-
-  "toolbar_add": { "message": "Nuova catena" },
-  "toolbar_export": { "message": "Esporta" },
-  "toolbar_import": { "message": "Importa" },
-  "toolbar_restoreDefaults": { "message": "Ripristina predefiniti" },
-  "toolbar_shortcuts": { "message": "Scorciatoie da tastiera" },
-  "toolbar_templates": { "message": "Nuova da modello" },
-
-  "tmpl_focusMode": { "message": "Modalità concentrazione" },
-  "tmpl_tabCleanup": { "message": "Pulizia schede" },
-  "tmpl_videoMode": { "message": "Modalità video" },
-  "tmpl_snapshot": { "message": "Istantanea e salvataggio" },
-  "tmpl_snapshot_done": { "message": "Screenshot salvato e pagina aggiunta ai segnalibri" },
-  "tmpl_readAloud": { "message": "Lettura ad alta voce" },
-  "tmpl_translate": { "message": "Traduci questa pagina" },
-  "tmpl_wrapUp": { "message": "Modalità chiusura" },
-
-  "extTmpl_genericName": { "message": "Estensione generica" },
-  "extTmpl_toggleAdblock": { "message": "Attiva/disattiva blocco pubblicità" },
-  "extTmpl_pauseBlocking": { "message": "Sospendi blocco" },
-  "extTmpl_resumeBlocking": { "message": "Riprendi blocco" },
-  "extTmpl_toggleBlocker": { "message": "Attiva/disattiva blocco" },
-  "extTmpl_reloadFilters": { "message": "Ricarica filtri" },
-  "extTmpl_fillForm": { "message": "Compila modulo" },
-  "extTmpl_openVault": { "message": "Apri cassaforte" },
-  "extTmpl_generatePassword": { "message": "Genera password" },
-  "extTmpl_autofill": { "message": "Compilazione automatica" },
-  "extTmpl_openPopup": { "message": "Apri popup" },
-  "extTmpl_captureRequest": { "message": "Acquisisci richiesta" },
-  "extTmpl_importRequest": { "message": "Importa richiesta" },
-  "extTmpl_showRuler": { "message": "Mostra righello" },
-  "extTmpl_disableCss": { "message": "Disabilita CSS" },
-  "extTmpl_translatePage": { "message": "Traduci pagina" },
-  "extTmpl_translateSelection": { "message": "Traduci selezione" },
-  "extTmpl_captureFullPage": { "message": "Acquisisci pagina intera" },
-  "extTmpl_captureVisible": { "message": "Acquisisci area visibile" },
-  "extTmpl_toggleFeature": { "message": "Attiva/disattiva funzione" },
-  "extTmpl_runMain": { "message": "Esegui azione principale" },
-  "extTmpl_refresh": { "message": "Aggiorna" },
-  "extTmpl_reset": { "message": "Reimposta" },
-
-  "help_title": { "message": "Azioni disponibili" },
-
-  "edit_title": { "message": "Modifica catena" },
-  "edit_back": { "message": "Indietro" },
-  "edit_test": { "message": "Esecuzione di prova" },
-  "edit_exportChain": { "message": "Esporta questa catena" },
-  "info_triggers": { "message": "Trigger automatici" },
-  "info_schedule": { "message": "Esegui ogni (minuti, 0 = disattivato)" },
-  "info_autoRun": { "message": "Esecuzione automatica al caricamento pagina (pattern URL)" },
-  "info_autoRun_placeholder": { "message": "es. *://github.com/*; separa più pattern con virgole o a capo" },
-
-  "info_basic": { "message": "Informazioni di base" },
-  "info_name": { "message": "Nome catena" },
-  "info_name_placeholder": { "message": "Inserisci un nome per la catena" },
-  "info_desc": { "message": "Descrizione" },
-  "info_desc_placeholder": { "message": "Facoltativo: descrivi lo scopo di questa catena" },
-  "info_default": { "message": "Imposta come catena predefinita" },
-
-  "actions_title": { "message": "Azioni" },
-  "actions_add": { "message": "Aggiungi azione" },
-  "actions_none": { "message": "Nessuna azione" },
-  "actions_more": { "message": "altre azioni" },
-  "actions_count": { "message": "azioni" },
-
-  "card_exec": { "message": "Esegui" },
-  "card_edit": { "message": "Modifica" },
-  "card_duplicate": { "message": "Duplica" },
-  "card_delete": { "message": "Elimina" },
-  "suffix_copy": { "message": "(copia)" },
-  "action_defaultTitle": { "message": "Hotkey Chain - Clicca per eseguire l'azione predefinita" },
-  "cmd_execute_action": { "message": "Esegui la catena di azioni predefinita" },
-  "cmd_execute_chain_1": { "message": "Catena di azioni 1" },
-  "cmd_execute_chain_2": { "message": "Catena di azioni 2" },
-  "cmd_execute_chain_3": { "message": "Catena di azioni 3" },
-  "cmd_execute_chain_4": { "message": "Catena di azioni 4" },
-  "cmd_execute_chain_5": { "message": "Catena di azioni 5" },
-  "cmd_execute_chain_6": { "message": "Catena di azioni 6" },
-  "cmd_execute_chain_7": { "message": "Catena di azioni 7" },
-  "cmd_execute_chain_8": { "message": "Catena di azioni 8" },
-  "cmd_execute_chain_9": { "message": "Catena di azioni 9" },
-  "menu_executeDefault": { "message": "Esegui la catena di azioni predefinita" },
-  "menu_executeChain": { "message": "Esegui la catena di azioni $1" },
-  "menu_options": { "message": "Apri impostazioni" },
-
-  "settings_language": { "message": "Lingua" },
-  "language_auto": { "message": "Automatica (browser)" },
-  "language_en": { "message": "English" },
-  "language_zh_CN": { "message": "简体中文" },
-
-  "defaultChain_reading": { "message": "Modalità lettura" },
-  "defaultChain_tidyTabs": { "message": "Riordina schede" },
-  "defaultChain_readLater": { "message": "Leggi dopo" },
-  "defaultChain_readLater_note": { "message": "Salvato nell'elenco di lettura: {title}" },
-  "defaultChain_searchSelection": { "message": "Cerca selezione" },
-  "defaultChain_cinema": { "message": "Modalità cinema" },
-  "defaultChain_copyMarkdown": { "message": "Copia come Markdown" },
-  "defaultChain_hardRefresh": { "message": "Aggiornamento forzato" },
-  "defaultChain_morningRoutine": { "message": "Routine mattutina" },
-  "defaultChain_morningRoutine_note": { "message": "Area di lavoro pronta" },
-
-  "actionName_scroll_to_top": { "message": "Scorri all'inizio" },
-  "actionName_scroll_to_bottom": { "message": "Scorri alla fine" },
-  "actionName_reload_page": { "message": "Ricarica pagina" },
-  "actionName_close_tab": { "message": "Chiudi scheda" },
-  "actionName_new_tab": { "message": "Nuova scheda" },
-  "actionName_copy_url": { "message": "Copia URL" },
-  "actionName_copy_title": { "message": "Copia titolo" },
-  "actionName_toggle_fullscreen": { "message": "Attiva/disattiva schermo intero" },
-  "actionName_zoom_in": { "message": "Ingrandisci" },
-  "actionName_zoom_out": { "message": "Riduci" },
-  "actionName_zoom_reset": { "message": "Reimposta zoom" },
-  "actionName_go_back": { "message": "Vai indietro" },
-  "actionName_go_forward": { "message": "Vai avanti" },
-  "actionName_bookmark_page": { "message": "Aggiungi pagina ai segnalibri" },
-  "actionName_copy_as_markdown": { "message": "Copia come link Markdown" },
-  "actionName_clear_cache": { "message": "Aggiornamento forzato (ignora cache)" },
-  "actionName_duplicate_tab": { "message": "Duplica scheda" },
-  "actionName_pin_tab": { "message": "Fissa/Sblocca scheda" },
-  "actionName_mute_tab": { "message": "Disattiva/Attiva audio scheda" },
-  "actionName_close_other_tabs": { "message": "Chiudi altre schede" },
-  "actionName_move_tab_left": { "message": "Sposta scheda a sinistra" },
-  "actionName_move_tab_right": { "message": "Sposta scheda a destra" },
-  "actionName_prev_tab": { "message": "Scheda precedente" },
-  "actionName_next_tab": { "message": "Scheda successiva" },
-  "actionName_new_window": { "message": "Nuova finestra" },
-  "actionName_reopen_closed_tab": { "message": "Riapri scheda chiusa" },
-  "actionName_print_page": { "message": "Stampa pagina" },
-  "actionName_open_url": { "message": "Apri URL" },
-  "actionName_wait": { "message": "Attendi" },
-  "actionName_scroll_page_up": { "message": "Scorri una schermata in su" },
-  "actionName_scroll_page_down": { "message": "Scorri una schermata in giù" },
-  "actionName_close_tabs_right": { "message": "Chiudi le schede a destra" },
-  "actionName_close_window": { "message": "Chiudi finestra" },
-  "actionName_toggle_dark_mode": { "message": "Attiva/disattiva modalità scura" },
-  "actionName_translate_page": { "message": "Traduci pagina" },
-  "actionName_media_play_pause": { "message": "Riproduci/Pausa media" },
-  "actionName_media_speed_up": { "message": "Accelera riproduzione" },
-  "actionName_media_speed_down": { "message": "Rallenta riproduzione" },
-  "actionName_media_speed_reset": { "message": "Reimposta velocità riproduzione" },
-  "actionName_close_left_tabs": { "message": "Chiudi le schede a sinistra" },
-  "actionName_close_duplicate_tabs": { "message": "Chiudi schede duplicate" },
-  "actionName_sort_tabs_by_url": { "message": "Ordina schede per URL" },
-  "actionName_group_tabs_by_domain": { "message": "Raggruppa schede per dominio" },
-  "actionName_ungroup_all_tabs": { "message": "Separa tutte le schede" },
-  "actionName_mute_all_tabs": { "message": "Disattiva audio di tutte le schede" },
-  "actionName_unmute_all_tabs": { "message": "Attiva audio di tutte le schede" },
-  "actionName_reload_all_tabs": { "message": "Ricarica tutte le schede" },
-  "actionName_move_tab_first": { "message": "Sposta scheda all'inizio" },
-  "actionName_move_tab_last": { "message": "Sposta scheda alla fine" },
-  "actionName_move_tab_to_new_window": { "message": "Sposta scheda in nuova finestra" },
-  "actionName_minimize_window": { "message": "Riduci a icona finestra" },
-  "actionName_maximize_window": { "message": "Ingrandisci finestra" },
-  "actionName_open_incognito_window": { "message": "Apri finestra di navigazione in incognito" },
-  "actionName_copy_selected_text": { "message": "Copia testo selezionato" },
-  "actionName_search_selection": { "message": "Cerca testo selezionato" },
-  "actionName_speak_selection": { "message": "Leggi la selezione ad alta voce" },
-  "actionName_stop_speaking": { "message": "Interrompi lettura" },
-  "actionName_capture_screenshot": { "message": "Acquisisci screenshot (area visibile)" },
-  "actionName_show_notification": { "message": "Mostra notifica" },
-  "actionName_open_browser_page": { "message": "Apri pagina del browser" },
-  "actionName_discard_other_tabs": { "message": "Sospendi altre schede (libera memoria)" },
-  "actionName_goto_audible_tab": { "message": "Vai alla scheda con audio" },
-  "actionName_bookmark_all_tabs": { "message": "Aggiungi tutte le schede ai segnalibri" },
-  "actionName_read_later": { "message": "Aggiungi all'elenco di lettura" },
-  "actionName_clear_browsing_cache": { "message": "Svuota cache del browser" },
-  "actionName_clear_site_data": { "message": "Cancella i dati di questo sito" },
-  "actionName_delete_url_from_history": { "message": "Rimuovi pagina dalla cronologia" },
-  "actionName_toggle_keep_awake": { "message": "Attiva/disattiva mantieni attivo" },
-  "actionName_show_downloads_folder": { "message": "Mostra cartella download" },
-  "actionName_save_page_mhtml": { "message": "Salva pagina (MHTML)" },
-  "actionName_if_url_matches": { "message": "Condizione: continua se l'URL corrisponde" },
-  "actionName_if_has_selection": { "message": "Condizione: continua se è selezionato del testo" },
-  "actionName_run_chain": { "message": "Esegui un'altra catena" },
-  "actionName_execute_command": { "message": "Esegui comando" },
-  "actionName_call_extension": { "message": "Chiama estensione" },
-
-  "category_execute_command": { "message": "Esegui comando" },
-  "category_flow": { "message": "Controllo di flusso" },
-  "category_page_ops": { "message": "Operazioni pagina" },
-  "category_tab_mgmt": { "message": "Gestione schede" },
-  "category_window": { "message": "Gestione finestre" },
-  "category_media": { "message": "Controlli media" },
-  "category_zoom": { "message": "Controlli zoom" },
-  "category_content": { "message": "Operazioni sui contenuti" },
-  "category_advanced": { "message": "Avanzate" },
-  "category_extension": { "message": "Chiamate a estensioni" },
-
-  "label_delay": { "message": "Ritardo" },
-  "label_ms": { "message": "ms" },
-  "label_selectExtension": { "message": "Seleziona estensione" },
-  "placeholder_selectInstalledExtension": { "message": "-- Seleziona estensione installata --" },
-  "option_manualInputExtensionId": { "message": "Inserimento manuale dell'ID estensione" },
-  "label_extensionId": { "message": "ID estensione" },
-  "placeholder_extensionIdExample": { "message": "ID estensione (es. nfgcnddoajoekfpacfkehomkgmpndhob)" },
-  "label_url": { "message": "URL" },
-  "placeholder_urlExample": { "message": "URL (es. https://example.com)" },
-  "label_openIn": { "message": "Apri in" },
-  "option_openIn_new": { "message": "Nuova scheda" },
-  "option_openIn_current": { "message": "Scheda corrente" },
-  "label_notifyText": { "message": "Testo notifica" },
-  "placeholder_notifyText": { "message": "Testo da mostrare nella notifica" },
-  "label_browserPage": { "message": "Pagina del browser" },
-  "browserPage_downloads": { "message": "Download" },
-  "browserPage_history": { "message": "Cronologia" },
-  "browserPage_bookmarks": { "message": "Gestione segnalibri" },
-  "browserPage_extensions": { "message": "Estensioni" },
-  "browserPage_settings": { "message": "Impostazioni" },
-  "browserPage_shortcuts": { "message": "Scorciatoie da tastiera" },
-  "browserPage_clear_browsing_data": { "message": "Cancella dati di navigazione" },
-  "label_pattern": { "message": "Pattern URL" },
-  "placeholder_pattern": { "message": "es. *://github.com/* o una parola chiave; separa con virgole" },
-  "label_runChain": { "message": "Catena da eseguire" },
-  "placeholder_selectChain": { "message": "-- Seleziona una catena --" },
-  "hint_templateVars": { "message": "Variabili: {url} {title} {selection} {clipboard} {date} {time}" },
-  "hint_executeCommand": { "message": "Scegli questa estensione per eseguire le tue catene di azioni; scegliendo un'altra estensione esegui azioni di gestione su di essa (abilita/disabilita, disinstalla, apri opzioni…), non le sue scorciatoie." },
-  "hint_callExtension": { "message": "Invia un messaggio a un'altra estensione. Funziona solo se quell'estensione accetta messaggi esterni (externally_connectable) — la maggior parte non lo fa, quindi potrebbe non avere effetto." },
-  "label_presetAction": { "message": "Azione predefinita" },
-  "placeholder_selectActionTemplate": { "message": "-- Seleziona modello di azione --" },
-  "option_customMessage": { "message": "Messaggio personalizzato" },
-  "label_messageContent": { "message": "Contenuto del messaggio" },
-  "placeholder_messageJson": { "message": "Contenuto del messaggio (JSON, es. {\"action\": \"toggle\"})" },
-  "label_selectCommand": { "message": "Seleziona comando" },
-  "placeholder_selectCommand": { "message": "-- Seleziona comando --" },
-  "tooltip_refreshCommands": { "message": "Aggiorna comandi" },
-  "tooltip_setDefaultChain": { "message": "Imposta come catena predefinita" },
-  "tooltip_defaultChain": { "message": "Catena predefinita" },
-  "newChain_defaultName": { "message": "Nuova catena" },
-  "msg_extension_toggled": { "message": "$1 è ora $2" },
-  "state_enabled": { "message": "abilitata" },
-  "state_disabled": { "message": "disabilitata" },
-  "label_extension": { "message": "Estensione" },
-  "error_toggle_extension_failed": { "message": "Impossibile attivare/disattivare l'estensione" },
-  "error_uninstall_extension_failed": { "message": "Impossibile disinstallare l'estensione" },
-  "label_extension_name": { "message": "Nome estensione" },
-  "label_version": { "message": "Versione" },
-  "label_description": { "message": "Descrizione" },
-  "label_type": { "message": "Tipo" },
-  "label_install_type": { "message": "Tipo di installazione" },
-  "label_permissions": { "message": "Autorizzazioni" },
-  "label_none": { "message": "Nessuna" },
-  "label_homepage": { "message": "Homepage" },
-  "label_error": { "message": "Errore" },
-  "error_get_extension_info_failed": { "message": "Impossibile ottenere le informazioni dell'estensione" },
-  "label_app": { "message": "App" },
-  "error_launch_app_failed": { "message": "Impossibile avviare l'app" },
-  "label_command": { "message": "Comando" },
-  "error_unknown_command": { "message": "Comando sconosciuto: $1" },
-  "error_execute_command_failed": { "message": "Esecuzione del comando non riuscita" },
-  "cmd_toggle_extension_name": { "message": "Abilita/Disabilita estensione" },
-  "cmd_toggle_extension_desc": { "message": "Attiva/disattiva lo stato di abilitazione di $1" },
-  "cmd_uninstall_extension_name": { "message": "Disinstalla estensione" },
-  "cmd_uninstall_extension_desc": { "message": "Disinstalla $1 (conferma richiesta)" },
-  "cmd_open_options_name": { "message": "Apri opzioni" },
-  "cmd_open_options_desc": { "message": "Apri la pagina delle opzioni di $1" },
-  "cmd_open_details_name": { "message": "Apri dettagli" },
-  "cmd_open_details_desc": { "message": "Visualizza $1 nella pagina delle estensioni" },
-  "cmd_show_info_name": { "message": "Mostra informazioni estensione" },
-  "cmd_show_info_desc": { "message": "Mostra le informazioni dettagliate di $1" },
-  "cmd_open_homepage_name": { "message": "Apri homepage" },
-  "cmd_open_homepage_desc": { "message": "Visita la homepage di $1" },
-  "cmd_reload_dev_name": { "message": "Ricarica estensione in sviluppo" },
-  "cmd_reload_dev_desc": { "message": "Ricarica l'estensione in sviluppo $1" },
-  "cmd_launch_app_name": { "message": "Avvia app" },
-  "cmd_launch_app_desc": { "message": "Avvia l'app Chrome $1" },
-  "cmd_open_store_name": { "message": "Apri pagina dello store" },
-  "cmd_open_store_desc": { "message": "Apri la pagina del Chrome Web Store di $1" },
-  "label_unknownChain": { "message": "Catena sconosciuta" },
-  "msg_no_options_page": { "message": "$1 non ha una pagina delle opzioni" },
-  "msg_check_console_for_details": { "message": "Dettagli di $1: controlla la console" },
-  "msg_no_homepage": { "message": "$1 non ha una homepage configurata" },
-  "msg_dev_extension_reloaded": { "message": "Estensione in sviluppo $1 ricaricata" },
-  "msg_not_dev_extension": { "message": "$1 non è un'estensione in sviluppo; impossibile ricaricare" },
-  "msg_app_launched": { "message": "App Chrome $1 avviata" },
-  "msg_not_chrome_app": { "message": "$1 non è un'app Chrome; impossibile avviare" },
-
-  "toast_chainExecuted": { "message": "Catena eseguita: $1" },
-  "toast_executeFailed": { "message": "Esecuzione non riuscita" },
-  "toast_defaultSet": { "message": "Catena predefinita impostata" },
-  "toast_newChainAdded": { "message": "Nuova catena aggiunta" },
-  "toast_atLeastOne": { "message": "Deve rimanere almeno una catena" },
-  "toast_extensionsRefreshed": { "message": "$1 estensioni aggiornate" },
-  "toast_refreshExtensionsFailed": { "message": "Impossibile aggiornare le estensioni" },
-  "toast_selectExtensionFirst": { "message": "Seleziona prima un'estensione" },
-  "toast_commandsRefreshed": { "message": "Elenco comandi aggiornato" },
-  "toast_refreshCommandsFailed": { "message": "Impossibile aggiornare l'elenco dei comandi" },
-  "toast_chainDuplicated": { "message": "Catena duplicata" },
-  "toast_configExported": { "message": "Configurazione esportata" },
-  "toast_configImported": { "message": "Configurazione importata" },
-  "toast_importFailed": { "message": "Importazione non riuscita: $1" },
-  "toast_saveFailed": { "message": "Salvataggio non riuscito: $1" },
-  "toast_defaultsRestored": { "message": "Catene di azioni predefinite ripristinate" },
-  "toast_restoreDefaultsFailed": { "message": "Impossibile ripristinare i predefiniti" },
-  "confirm_importOverwrite": { "message": "L'importazione sostituirà l'intera configurazione attuale. Continuare?" },
-  "confirm_restoreDefaults": { "message": "Il ripristino dei predefiniti sostituirà tutte le catene di azioni attuali. Continuare?" },
-  "error_invalidConfigFile": { "message": "File di configurazione non valido" },
-
-  "content_urlCopied": { "message": "URL copiato negli appunti" },
-  "content_titleCopied": { "message": "Titolo copiato negli appunti" },
-  "content_markdownCopied": { "message": "Link Markdown copiato negli appunti" },
-  "content_copyFailed": { "message": "Copia non riuscita, copia manualmente" },
-  "content_bookmarkAdded": { "message": "Pagina aggiunta ai segnalibri" },
-  "content_bookmarkExists": { "message": "Già nei segnalibri" },
-  "content_selectionCopied": { "message": "Selezione copiata negli appunti" },
-  "content_noSelection": { "message": "Nessun testo selezionato" },
-  "content_noMedia": { "message": "Nessun elemento multimediale trovato in questa pagina" },
-  "content_playbackRate": { "message": "Velocità di riproduzione: $1x" },
-  "content_darkModeOn": { "message": "Modalità scura attivata" },
-  "content_darkModeOff": { "message": "Modalità scura disattivata" },
-  "msg_duplicateTabsClosed": { "message": "Chiuse $1 schede duplicate" },
-  "error_incognitoNotAllowed": { "message": "Consenti prima questa estensione in modalità incognito (chrome://extensions)" },
-  "msg_noAudibleTab": { "message": "Nessuna scheda con audio" },
-  "msg_tabsBookmarked": { "message": "$1 schede aggiunte ai segnalibri" },
-  "msg_readLaterAdded": { "message": "Aggiunto all'elenco di lettura" },
-  "msg_readLaterExists": { "message": "Già nell'elenco di lettura" },
-  "msg_readingListUnsupported": { "message": "API elenco di lettura non supportata in questo browser" },
-  "msg_cacheCleared": { "message": "Cache del browser svuotata" },
-  "msg_siteDataCleared": { "message": "Dati del sito cancellati" },
-  "msg_historyDeleted": { "message": "Rimosso dalla cronologia" },
-  "msg_keepAwakeOn": { "message": "Mantieni attivo attivato" },
-  "msg_keepAwakeOff": { "message": "Mantieni attivo disattivato" },
-  "msg_chainErrors": { "message": "Catena $1: $2 azioni non riuscite" },
-  "menu_pageParent": { "message": "Esegui catena di azioni" },
-  "toast_chainExported": { "message": "Catena esportata" },
-  "toast_chainImported": { "message": "Catena importata: $1" },
-  "content_close": { "message": "Chiudi" },
-  "msg_uninstall_requested": { "message": "Disinstallazione richiesta" },
-  "actionName_copy_text": { "message": "Copia testo (formato libero)" },
-  "actionName_confirm": { "message": "Chiedi conferma" },
-  "label_copyText": { "message": "Testo da copiare" },
-  "placeholder_copyText": { "message": "es. {title} — {url}" },
-  "label_confirmText": { "message": "Domanda" },
-  "placeholder_confirmText": { "message": "es. Chiudere tutte le altre schede?" },
-  "hint_confirm": { "message": "Mostra una finestra di dialogo nella pagina. La catena prosegue solo se scegli Continua; Annulla la interrompe. Anche le pagine dove il dialogo non può comparire (pagine chrome://) la interrompono." },
-  "confirm_defaultText": { "message": "Continuare?" },
-  "content_textCopied": { "message": "Copiato negli appunti" },
-  "content_continue": { "message": "Continua" },
-  "content_cancel": { "message": "Annulla" },
-  "tmpl_copyPageInfo": { "message": "Copia informazioni pagina" },
-  "tmpl_safeCloseOthers": { "message": "Chiudi altre schede (con conferma)" },
-  "tmpl_safeCloseOthers_ask": { "message": "Chiudere tutte le altre schede?" },
-  "confirm_importChain": { "message": "Importare la catena di azioni «$1»?" },
-  "actions_count_one": { "message": "azione" },
-  "card_addActions": { "message": "Aggiungi azioni" },
-  "actions_remove": { "message": "Rimuovi azione" },
-  "label_msValue": { "message": "$1 ms" },
-  "empty_title": { "message": "Nessuna catena di azioni" },
-  "empty_body": { "message": "Partire da un modello è il modo più rapido, oppure crea una catena vuota e aggiungi le tue azioni." },
-  "footer_source": { "message": "Codice e segnalazioni" }
+  "extName": {
+    "message": "Hotkey Chain"
+  },
+  "extDescription": {
+    "message": "Scorciatoie per il browser: concatena 103+ azioni ed eseguile con scorciatoia, barra indirizzi, clic destro o pianificazione."
+  },
+  "appName": {
+    "message": "Hotkey Chain"
+  },
+  "thisExtension": {
+    "message": "questa estensione"
+  },
+  "appTitle": {
+    "message": "Impostazioni Hotkey Chain"
+  },
+  "appSubtitle": {
+    "message": "Concatena azioni del browser ed eseguile con una scorciatoia"
+  },
+  "toolbar_add": {
+    "message": "Nuova catena"
+  },
+  "toolbar_export": {
+    "message": "Esporta"
+  },
+  "toolbar_import": {
+    "message": "Importa"
+  },
+  "toolbar_restoreDefaults": {
+    "message": "Ripristina predefiniti"
+  },
+  "toolbar_shortcuts": {
+    "message": "Scorciatoie da tastiera"
+  },
+  "toolbar_templates": {
+    "message": "Nuova da modello"
+  },
+  "tmpl_focusMode": {
+    "message": "Modalità concentrazione"
+  },
+  "tmpl_tabCleanup": {
+    "message": "Pulizia schede"
+  },
+  "tmpl_snapshot": {
+    "message": "Istantanea e salvataggio"
+  },
+  "tmpl_readAloud": {
+    "message": "Lettura ad alta voce"
+  },
+  "tmpl_wrapUp": {
+    "message": "Modalità chiusura"
+  },
+  "extTmpl_genericName": {
+    "message": "Estensione generica"
+  },
+  "extTmpl_toggleAdblock": {
+    "message": "Attiva/disattiva blocco pubblicità"
+  },
+  "extTmpl_pauseBlocking": {
+    "message": "Sospendi blocco"
+  },
+  "extTmpl_resumeBlocking": {
+    "message": "Riprendi blocco"
+  },
+  "extTmpl_toggleBlocker": {
+    "message": "Attiva/disattiva blocco"
+  },
+  "extTmpl_reloadFilters": {
+    "message": "Ricarica filtri"
+  },
+  "extTmpl_fillForm": {
+    "message": "Compila modulo"
+  },
+  "extTmpl_openVault": {
+    "message": "Apri cassaforte"
+  },
+  "extTmpl_generatePassword": {
+    "message": "Genera password"
+  },
+  "extTmpl_autofill": {
+    "message": "Compilazione automatica"
+  },
+  "extTmpl_openPopup": {
+    "message": "Apri popup"
+  },
+  "extTmpl_captureRequest": {
+    "message": "Acquisisci richiesta"
+  },
+  "extTmpl_importRequest": {
+    "message": "Importa richiesta"
+  },
+  "extTmpl_showRuler": {
+    "message": "Mostra righello"
+  },
+  "extTmpl_disableCss": {
+    "message": "Disabilita CSS"
+  },
+  "extTmpl_translatePage": {
+    "message": "Traduci pagina"
+  },
+  "extTmpl_translateSelection": {
+    "message": "Traduci selezione"
+  },
+  "extTmpl_captureFullPage": {
+    "message": "Acquisisci pagina intera"
+  },
+  "extTmpl_captureVisible": {
+    "message": "Acquisisci area visibile"
+  },
+  "extTmpl_toggleFeature": {
+    "message": "Attiva/disattiva funzione"
+  },
+  "extTmpl_runMain": {
+    "message": "Esegui azione principale"
+  },
+  "extTmpl_refresh": {
+    "message": "Aggiorna"
+  },
+  "extTmpl_reset": {
+    "message": "Reimposta"
+  },
+  "help_title": {
+    "message": "Azioni disponibili"
+  },
+  "edit_title": {
+    "message": "Modifica catena"
+  },
+  "edit_back": {
+    "message": "Indietro"
+  },
+  "edit_test": {
+    "message": "Esecuzione di prova"
+  },
+  "edit_exportChain": {
+    "message": "Esporta questa catena"
+  },
+  "info_triggers": {
+    "message": "Trigger automatici"
+  },
+  "info_schedule": {
+    "message": "Esegui ogni (minuti, 0 = disattivato)"
+  },
+  "info_autoRun": {
+    "message": "Esecuzione automatica al caricamento pagina (pattern URL)"
+  },
+  "info_autoRun_placeholder": {
+    "message": "es. *://github.com/*; separa più pattern con virgole o a capo"
+  },
+  "info_basic": {
+    "message": "Informazioni di base"
+  },
+  "info_name": {
+    "message": "Nome catena"
+  },
+  "info_name_placeholder": {
+    "message": "Inserisci un nome per la catena"
+  },
+  "info_desc": {
+    "message": "Descrizione"
+  },
+  "info_desc_placeholder": {
+    "message": "Facoltativo: descrivi lo scopo di questa catena"
+  },
+  "info_default": {
+    "message": "Imposta come catena predefinita"
+  },
+  "actions_title": {
+    "message": "Azioni"
+  },
+  "actions_add": {
+    "message": "Aggiungi azione"
+  },
+  "actions_none": {
+    "message": "Nessuna azione"
+  },
+  "actions_more": {
+    "message": "altre azioni"
+  },
+  "actions_count": {
+    "message": "azioni"
+  },
+  "card_exec": {
+    "message": "Esegui"
+  },
+  "card_edit": {
+    "message": "Modifica"
+  },
+  "card_duplicate": {
+    "message": "Duplica"
+  },
+  "card_delete": {
+    "message": "Elimina"
+  },
+  "suffix_copy": {
+    "message": "(copia)"
+  },
+  "action_defaultTitle": {
+    "message": "Hotkey Chain - Clicca per eseguire l'azione predefinita"
+  },
+  "cmd_execute_action": {
+    "message": "Esegui la catena di azioni predefinita"
+  },
+  "cmd_execute_chain_1": {
+    "message": "Catena di azioni 1"
+  },
+  "cmd_execute_chain_2": {
+    "message": "Catena di azioni 2"
+  },
+  "cmd_execute_chain_3": {
+    "message": "Catena di azioni 3"
+  },
+  "cmd_execute_chain_4": {
+    "message": "Catena di azioni 4"
+  },
+  "cmd_execute_chain_5": {
+    "message": "Catena di azioni 5"
+  },
+  "cmd_execute_chain_6": {
+    "message": "Catena di azioni 6"
+  },
+  "cmd_execute_chain_7": {
+    "message": "Catena di azioni 7"
+  },
+  "cmd_execute_chain_8": {
+    "message": "Catena di azioni 8"
+  },
+  "cmd_execute_chain_9": {
+    "message": "Catena di azioni 9"
+  },
+  "menu_executeDefault": {
+    "message": "Esegui la catena di azioni predefinita"
+  },
+  "menu_options": {
+    "message": "Apri impostazioni"
+  },
+  "settings_language": {
+    "message": "Lingua"
+  },
+  "language_auto": {
+    "message": "Automatica (browser)"
+  },
+  "defaultChain_reading": {
+    "message": "Modalità lettura"
+  },
+  "defaultChain_tidyTabs": {
+    "message": "Riordina schede"
+  },
+  "defaultChain_copyMarkdown": {
+    "message": "Copia come Markdown"
+  },
+  "actionName_scroll_to_top": {
+    "message": "Scorri all'inizio"
+  },
+  "actionName_scroll_to_bottom": {
+    "message": "Scorri alla fine"
+  },
+  "actionName_reload_page": {
+    "message": "Ricarica pagina"
+  },
+  "actionName_close_tab": {
+    "message": "Chiudi scheda"
+  },
+  "actionName_new_tab": {
+    "message": "Nuova scheda"
+  },
+  "actionName_copy_url": {
+    "message": "Copia URL"
+  },
+  "actionName_copy_title": {
+    "message": "Copia titolo"
+  },
+  "actionName_toggle_fullscreen": {
+    "message": "Attiva/disattiva schermo intero"
+  },
+  "actionName_zoom_in": {
+    "message": "Ingrandisci"
+  },
+  "actionName_zoom_out": {
+    "message": "Riduci"
+  },
+  "actionName_zoom_reset": {
+    "message": "Reimposta zoom"
+  },
+  "actionName_go_back": {
+    "message": "Vai indietro"
+  },
+  "actionName_go_forward": {
+    "message": "Vai avanti"
+  },
+  "actionName_bookmark_page": {
+    "message": "Aggiungi pagina ai segnalibri"
+  },
+  "actionName_copy_as_markdown": {
+    "message": "Copia come link Markdown"
+  },
+  "actionName_clear_cache": {
+    "message": "Aggiornamento forzato (ignora cache)"
+  },
+  "actionName_duplicate_tab": {
+    "message": "Duplica scheda"
+  },
+  "actionName_pin_tab": {
+    "message": "Fissa/Sblocca scheda"
+  },
+  "actionName_mute_tab": {
+    "message": "Disattiva/Attiva audio scheda"
+  },
+  "actionName_close_other_tabs": {
+    "message": "Chiudi altre schede"
+  },
+  "actionName_move_tab_left": {
+    "message": "Sposta scheda a sinistra"
+  },
+  "actionName_move_tab_right": {
+    "message": "Sposta scheda a destra"
+  },
+  "actionName_prev_tab": {
+    "message": "Scheda precedente"
+  },
+  "actionName_next_tab": {
+    "message": "Scheda successiva"
+  },
+  "actionName_new_window": {
+    "message": "Nuova finestra"
+  },
+  "actionName_reopen_closed_tab": {
+    "message": "Riapri scheda chiusa"
+  },
+  "actionName_print_page": {
+    "message": "Stampa pagina"
+  },
+  "actionName_open_url": {
+    "message": "Apri URL"
+  },
+  "actionName_wait": {
+    "message": "Attendi"
+  },
+  "actionName_scroll_page_up": {
+    "message": "Scorri una schermata in su"
+  },
+  "actionName_scroll_page_down": {
+    "message": "Scorri una schermata in giù"
+  },
+  "actionName_close_tabs_right": {
+    "message": "Chiudi le schede a destra"
+  },
+  "actionName_close_window": {
+    "message": "Chiudi finestra"
+  },
+  "actionName_toggle_dark_mode": {
+    "message": "Attiva/disattiva modalità scura"
+  },
+  "actionName_translate_page": {
+    "message": "Traduci pagina"
+  },
+  "actionName_media_play_pause": {
+    "message": "Riproduci/Pausa media"
+  },
+  "actionName_media_speed_up": {
+    "message": "Accelera riproduzione"
+  },
+  "actionName_media_speed_down": {
+    "message": "Rallenta riproduzione"
+  },
+  "actionName_media_speed_reset": {
+    "message": "Reimposta velocità riproduzione"
+  },
+  "actionName_close_left_tabs": {
+    "message": "Chiudi le schede a sinistra"
+  },
+  "actionName_close_duplicate_tabs": {
+    "message": "Chiudi schede duplicate"
+  },
+  "actionName_sort_tabs_by_url": {
+    "message": "Ordina schede per URL"
+  },
+  "actionName_group_tabs_by_domain": {
+    "message": "Raggruppa schede per dominio"
+  },
+  "actionName_ungroup_all_tabs": {
+    "message": "Separa tutte le schede"
+  },
+  "actionName_mute_all_tabs": {
+    "message": "Disattiva audio di tutte le schede"
+  },
+  "actionName_unmute_all_tabs": {
+    "message": "Attiva audio di tutte le schede"
+  },
+  "actionName_reload_all_tabs": {
+    "message": "Ricarica tutte le schede"
+  },
+  "actionName_move_tab_first": {
+    "message": "Sposta scheda all'inizio"
+  },
+  "actionName_move_tab_last": {
+    "message": "Sposta scheda alla fine"
+  },
+  "actionName_move_tab_to_new_window": {
+    "message": "Sposta scheda in nuova finestra"
+  },
+  "actionName_minimize_window": {
+    "message": "Riduci a icona finestra"
+  },
+  "actionName_maximize_window": {
+    "message": "Ingrandisci finestra"
+  },
+  "actionName_open_incognito_window": {
+    "message": "Apri finestra di navigazione in incognito"
+  },
+  "actionName_copy_selected_text": {
+    "message": "Copia testo selezionato"
+  },
+  "actionName_search_selection": {
+    "message": "Cerca testo selezionato"
+  },
+  "actionName_speak_selection": {
+    "message": "Leggi la selezione ad alta voce"
+  },
+  "actionName_stop_speaking": {
+    "message": "Interrompi lettura"
+  },
+  "actionName_capture_screenshot": {
+    "message": "Acquisisci screenshot (area visibile)"
+  },
+  "actionName_show_notification": {
+    "message": "Mostra notifica"
+  },
+  "actionName_open_browser_page": {
+    "message": "Apri pagina del browser"
+  },
+  "actionName_discard_other_tabs": {
+    "message": "Sospendi altre schede (libera memoria)"
+  },
+  "actionName_goto_audible_tab": {
+    "message": "Vai alla scheda con audio"
+  },
+  "actionName_bookmark_all_tabs": {
+    "message": "Aggiungi tutte le schede ai segnalibri"
+  },
+  "actionName_read_later": {
+    "message": "Aggiungi all'elenco di lettura"
+  },
+  "actionName_clear_browsing_cache": {
+    "message": "Svuota cache del browser"
+  },
+  "actionName_clear_site_data": {
+    "message": "Cancella i dati di questo sito"
+  },
+  "actionName_delete_url_from_history": {
+    "message": "Rimuovi pagina dalla cronologia"
+  },
+  "actionName_toggle_keep_awake": {
+    "message": "Attiva/disattiva mantieni attivo"
+  },
+  "actionName_show_downloads_folder": {
+    "message": "Mostra cartella download"
+  },
+  "actionName_save_page_mhtml": {
+    "message": "Salva pagina (MHTML)"
+  },
+  "actionName_if_url_matches": {
+    "message": "Condizione: continua se l'URL corrisponde"
+  },
+  "actionName_if_has_selection": {
+    "message": "Condizione: continua se è selezionato del testo"
+  },
+  "actionName_run_chain": {
+    "message": "Esegui un'altra catena"
+  },
+  "actionName_execute_command": {
+    "message": "Esegui comando"
+  },
+  "actionName_call_extension": {
+    "message": "Chiama estensione"
+  },
+  "category_execute_command": {
+    "message": "Esegui comando"
+  },
+  "category_flow": {
+    "message": "Controllo di flusso"
+  },
+  "category_page_ops": {
+    "message": "Operazioni pagina"
+  },
+  "category_tab_mgmt": {
+    "message": "Gestione schede"
+  },
+  "category_window": {
+    "message": "Gestione finestre"
+  },
+  "category_media": {
+    "message": "Controlli media"
+  },
+  "category_zoom": {
+    "message": "Controlli zoom"
+  },
+  "category_content": {
+    "message": "Operazioni sui contenuti"
+  },
+  "category_advanced": {
+    "message": "Avanzate"
+  },
+  "category_extension": {
+    "message": "Chiamate a estensioni"
+  },
+  "label_delay": {
+    "message": "Ritardo"
+  },
+  "label_ms": {
+    "message": "ms"
+  },
+  "label_selectExtension": {
+    "message": "Seleziona estensione"
+  },
+  "placeholder_selectInstalledExtension": {
+    "message": "-- Seleziona estensione installata --"
+  },
+  "option_manualInputExtensionId": {
+    "message": "Inserimento manuale dell'ID estensione"
+  },
+  "label_extensionId": {
+    "message": "ID estensione"
+  },
+  "placeholder_extensionIdExample": {
+    "message": "ID estensione (es. nfgcnddoajoekfpacfkehomkgmpndhob)"
+  },
+  "label_url": {
+    "message": "URL"
+  },
+  "placeholder_urlExample": {
+    "message": "URL (es. https://example.com)"
+  },
+  "label_openIn": {
+    "message": "Apri in"
+  },
+  "option_openIn_new": {
+    "message": "Nuova scheda"
+  },
+  "option_openIn_current": {
+    "message": "Scheda corrente"
+  },
+  "label_notifyText": {
+    "message": "Testo notifica"
+  },
+  "placeholder_notifyText": {
+    "message": "Testo da mostrare nella notifica"
+  },
+  "label_browserPage": {
+    "message": "Pagina del browser"
+  },
+  "browserPage_downloads": {
+    "message": "Download"
+  },
+  "browserPage_history": {
+    "message": "Cronologia"
+  },
+  "browserPage_bookmarks": {
+    "message": "Gestione segnalibri"
+  },
+  "browserPage_extensions": {
+    "message": "Estensioni"
+  },
+  "browserPage_settings": {
+    "message": "Impostazioni"
+  },
+  "browserPage_shortcuts": {
+    "message": "Scorciatoie da tastiera"
+  },
+  "browserPage_clear_browsing_data": {
+    "message": "Cancella dati di navigazione"
+  },
+  "label_pattern": {
+    "message": "Pattern URL"
+  },
+  "placeholder_pattern": {
+    "message": "es. *://github.com/* o una parola chiave; separa con virgole"
+  },
+  "label_runChain": {
+    "message": "Catena da eseguire"
+  },
+  "placeholder_selectChain": {
+    "message": "-- Seleziona una catena --"
+  },
+  "hint_templateVars": {
+    "message": "Variabili: {url} {title} {selection} {clipboard} {date} {time}"
+  },
+  "hint_executeCommand": {
+    "message": "Scegli questa estensione per eseguire le tue catene di azioni; scegliendo un'altra estensione esegui azioni di gestione su di essa (abilita/disabilita, disinstalla, apri opzioni…), non le sue scorciatoie."
+  },
+  "hint_callExtension": {
+    "message": "Invia un messaggio a un'altra estensione. Funziona solo se quell'estensione accetta messaggi esterni (externally_connectable) — la maggior parte non lo fa, quindi potrebbe non avere effetto."
+  },
+  "label_presetAction": {
+    "message": "Azione predefinita"
+  },
+  "placeholder_selectActionTemplate": {
+    "message": "-- Seleziona modello di azione --"
+  },
+  "option_customMessage": {
+    "message": "Messaggio personalizzato"
+  },
+  "label_messageContent": {
+    "message": "Contenuto del messaggio"
+  },
+  "placeholder_messageJson": {
+    "message": "Contenuto del messaggio (JSON, es. {\"action\": \"toggle\"})"
+  },
+  "label_selectCommand": {
+    "message": "Seleziona comando"
+  },
+  "placeholder_selectCommand": {
+    "message": "-- Seleziona comando --"
+  },
+  "tooltip_refreshCommands": {
+    "message": "Aggiorna comandi"
+  },
+  "tooltip_setDefaultChain": {
+    "message": "Imposta come catena predefinita"
+  },
+  "tooltip_defaultChain": {
+    "message": "Catena predefinita"
+  },
+  "newChain_defaultName": {
+    "message": "Nuova catena"
+  },
+  "msg_extension_toggled": {
+    "message": "$1 è ora $2"
+  },
+  "state_enabled": {
+    "message": "abilitata"
+  },
+  "state_disabled": {
+    "message": "disabilitata"
+  },
+  "label_extension": {
+    "message": "Estensione"
+  },
+  "error_toggle_extension_failed": {
+    "message": "Impossibile attivare/disattivare l'estensione"
+  },
+  "error_uninstall_extension_failed": {
+    "message": "Impossibile disinstallare l'estensione"
+  },
+  "label_extension_name": {
+    "message": "Nome estensione"
+  },
+  "label_version": {
+    "message": "Versione"
+  },
+  "label_description": {
+    "message": "Descrizione"
+  },
+  "label_type": {
+    "message": "Tipo"
+  },
+  "label_install_type": {
+    "message": "Tipo di installazione"
+  },
+  "label_permissions": {
+    "message": "Autorizzazioni"
+  },
+  "label_none": {
+    "message": "Nessuna"
+  },
+  "label_homepage": {
+    "message": "Homepage"
+  },
+  "label_error": {
+    "message": "Errore"
+  },
+  "error_get_extension_info_failed": {
+    "message": "Impossibile ottenere le informazioni dell'estensione"
+  },
+  "label_app": {
+    "message": "App"
+  },
+  "error_launch_app_failed": {
+    "message": "Impossibile avviare l'app"
+  },
+  "label_command": {
+    "message": "Comando"
+  },
+  "error_unknown_command": {
+    "message": "Comando sconosciuto: $1"
+  },
+  "error_execute_command_failed": {
+    "message": "Esecuzione del comando non riuscita"
+  },
+  "cmd_toggle_extension_name": {
+    "message": "Abilita/Disabilita estensione"
+  },
+  "cmd_toggle_extension_desc": {
+    "message": "Attiva/disattiva lo stato di abilitazione di $1"
+  },
+  "cmd_uninstall_extension_name": {
+    "message": "Disinstalla estensione"
+  },
+  "cmd_uninstall_extension_desc": {
+    "message": "Disinstalla $1 (conferma richiesta)"
+  },
+  "cmd_open_options_name": {
+    "message": "Apri opzioni"
+  },
+  "cmd_open_options_desc": {
+    "message": "Apri la pagina delle opzioni di $1"
+  },
+  "cmd_open_details_name": {
+    "message": "Apri dettagli"
+  },
+  "cmd_open_details_desc": {
+    "message": "Visualizza $1 nella pagina delle estensioni"
+  },
+  "cmd_show_info_name": {
+    "message": "Mostra informazioni estensione"
+  },
+  "cmd_show_info_desc": {
+    "message": "Mostra le informazioni dettagliate di $1"
+  },
+  "cmd_open_homepage_name": {
+    "message": "Apri homepage"
+  },
+  "cmd_open_homepage_desc": {
+    "message": "Visita la homepage di $1"
+  },
+  "cmd_reload_dev_name": {
+    "message": "Ricarica estensione in sviluppo"
+  },
+  "cmd_reload_dev_desc": {
+    "message": "Ricarica l'estensione in sviluppo $1"
+  },
+  "cmd_launch_app_name": {
+    "message": "Avvia app"
+  },
+  "cmd_launch_app_desc": {
+    "message": "Avvia l'app Chrome $1"
+  },
+  "cmd_open_store_name": {
+    "message": "Apri pagina dello store"
+  },
+  "cmd_open_store_desc": {
+    "message": "Apri la pagina del Chrome Web Store di $1"
+  },
+  "label_unknownChain": {
+    "message": "Catena sconosciuta"
+  },
+  "msg_no_options_page": {
+    "message": "$1 non ha una pagina delle opzioni"
+  },
+  "msg_check_console_for_details": {
+    "message": "Dettagli di $1: controlla la console"
+  },
+  "msg_no_homepage": {
+    "message": "$1 non ha una homepage configurata"
+  },
+  "msg_dev_extension_reloaded": {
+    "message": "Estensione in sviluppo $1 ricaricata"
+  },
+  "msg_not_dev_extension": {
+    "message": "$1 non è un'estensione in sviluppo; impossibile ricaricare"
+  },
+  "msg_app_launched": {
+    "message": "App Chrome $1 avviata"
+  },
+  "msg_not_chrome_app": {
+    "message": "$1 non è un'app Chrome; impossibile avviare"
+  },
+  "toast_chainExecuted": {
+    "message": "Catena eseguita: $1"
+  },
+  "toast_executeFailed": {
+    "message": "Esecuzione non riuscita"
+  },
+  "toast_defaultSet": {
+    "message": "Catena predefinita impostata"
+  },
+  "toast_newChainAdded": {
+    "message": "Nuova catena aggiunta"
+  },
+  "toast_atLeastOne": {
+    "message": "Deve rimanere almeno una catena"
+  },
+  "toast_extensionsRefreshed": {
+    "message": "$1 estensioni aggiornate"
+  },
+  "toast_refreshExtensionsFailed": {
+    "message": "Impossibile aggiornare le estensioni"
+  },
+  "toast_selectExtensionFirst": {
+    "message": "Seleziona prima un'estensione"
+  },
+  "toast_commandsRefreshed": {
+    "message": "Elenco comandi aggiornato"
+  },
+  "toast_refreshCommandsFailed": {
+    "message": "Impossibile aggiornare l'elenco dei comandi"
+  },
+  "toast_chainDuplicated": {
+    "message": "Catena duplicata"
+  },
+  "toast_configExported": {
+    "message": "Configurazione esportata"
+  },
+  "toast_configImported": {
+    "message": "Configurazione importata"
+  },
+  "toast_importFailed": {
+    "message": "Importazione non riuscita: $1"
+  },
+  "toast_saveFailed": {
+    "message": "Salvataggio non riuscito: $1"
+  },
+  "toast_defaultsRestored": {
+    "message": "Catene di azioni predefinite ripristinate"
+  },
+  "toast_restoreDefaultsFailed": {
+    "message": "Impossibile ripristinare i predefiniti"
+  },
+  "confirm_importOverwrite": {
+    "message": "L'importazione sostituirà l'intera configurazione attuale. Continuare?"
+  },
+  "confirm_restoreDefaults": {
+    "message": "Il ripristino dei predefiniti sostituirà tutte le catene di azioni attuali. Continuare?"
+  },
+  "error_invalidConfigFile": {
+    "message": "File di configurazione non valido"
+  },
+  "content_urlCopied": {
+    "message": "URL copiato negli appunti"
+  },
+  "content_titleCopied": {
+    "message": "Titolo copiato negli appunti"
+  },
+  "content_markdownCopied": {
+    "message": "Link Markdown copiato negli appunti"
+  },
+  "content_copyFailed": {
+    "message": "Copia non riuscita, copia manualmente"
+  },
+  "content_bookmarkAdded": {
+    "message": "Pagina aggiunta ai segnalibri"
+  },
+  "content_bookmarkExists": {
+    "message": "Già nei segnalibri"
+  },
+  "content_selectionCopied": {
+    "message": "Selezione copiata negli appunti"
+  },
+  "content_noSelection": {
+    "message": "Nessun testo selezionato"
+  },
+  "content_noMedia": {
+    "message": "Nessun elemento multimediale trovato in questa pagina"
+  },
+  "content_playbackRate": {
+    "message": "Velocità di riproduzione: $1x"
+  },
+  "content_darkModeOn": {
+    "message": "Modalità scura attivata"
+  },
+  "content_darkModeOff": {
+    "message": "Modalità scura disattivata"
+  },
+  "msg_duplicateTabsClosed": {
+    "message": "Chiuse $1 schede duplicate"
+  },
+  "error_incognitoNotAllowed": {
+    "message": "Consenti prima questa estensione in modalità incognito (chrome://extensions)"
+  },
+  "msg_noAudibleTab": {
+    "message": "Nessuna scheda con audio"
+  },
+  "msg_tabsBookmarked": {
+    "message": "$1 schede aggiunte ai segnalibri"
+  },
+  "msg_readLaterAdded": {
+    "message": "Aggiunto all'elenco di lettura"
+  },
+  "msg_readLaterExists": {
+    "message": "Già nell'elenco di lettura"
+  },
+  "msg_readingListUnsupported": {
+    "message": "API elenco di lettura non supportata in questo browser"
+  },
+  "msg_cacheCleared": {
+    "message": "Cache del browser svuotata"
+  },
+  "msg_siteDataCleared": {
+    "message": "Dati del sito cancellati"
+  },
+  "msg_historyDeleted": {
+    "message": "Rimosso dalla cronologia"
+  },
+  "msg_keepAwakeOn": {
+    "message": "Mantieni attivo attivato"
+  },
+  "msg_keepAwakeOff": {
+    "message": "Mantieni attivo disattivato"
+  },
+  "msg_chainErrors": {
+    "message": "Catena $1: $2 azioni non riuscite"
+  },
+  "menu_pageParent": {
+    "message": "Esegui catena di azioni"
+  },
+  "toast_chainExported": {
+    "message": "Catena esportata"
+  },
+  "toast_chainImported": {
+    "message": "Catena importata: $1"
+  },
+  "content_close": {
+    "message": "Chiudi"
+  },
+  "msg_uninstall_requested": {
+    "message": "Disinstallazione richiesta"
+  },
+  "actionName_copy_text": {
+    "message": "Copia testo (formato libero)"
+  },
+  "actionName_confirm": {
+    "message": "Chiedi conferma"
+  },
+  "label_copyText": {
+    "message": "Testo da copiare"
+  },
+  "placeholder_copyText": {
+    "message": "es. {title} — {url}"
+  },
+  "label_confirmText": {
+    "message": "Domanda"
+  },
+  "placeholder_confirmText": {
+    "message": "es. Chiudere tutte le altre schede?"
+  },
+  "hint_confirm": {
+    "message": "Mostra una finestra di dialogo nella pagina. La catena prosegue solo se scegli Continua; Annulla la interrompe. Anche le pagine dove il dialogo non può comparire (pagine chrome://) la interrompono."
+  },
+  "confirm_defaultText": {
+    "message": "Continuare?"
+  },
+  "content_textCopied": {
+    "message": "Copiato negli appunti"
+  },
+  "content_continue": {
+    "message": "Continua"
+  },
+  "content_cancel": {
+    "message": "Annulla"
+  },
+  "tmpl_safeCloseOthers": {
+    "message": "Chiudi altre schede (con conferma)"
+  },
+  "tmpl_safeCloseOthers_ask": {
+    "message": "Chiudere tutte le altre schede?"
+  },
+  "confirm_importChain": {
+    "message": "Importare la catena di azioni «$1»?"
+  },
+  "actions_count_one": {
+    "message": "azione"
+  },
+  "card_addActions": {
+    "message": "Aggiungi azioni"
+  },
+  "actions_remove": {
+    "message": "Rimuovi azione"
+  },
+  "label_msValue": {
+    "message": "$1 ms"
+  },
+  "empty_title": {
+    "message": "Nessuna catena di azioni"
+  },
+  "empty_body": {
+    "message": "Partire da un modello è il modo più rapido, oppure crea una catena vuota e aggiungi le tue azioni."
+  },
+  "footer_source": {
+    "message": "Codice e segnalazioni"
+  },
+  "toolbar_sidePanel": {
+    "message": "Apri pannello laterale"
+  },
+  "ai_notSupported": {
+    "message": "Questo browser non può eseguire l'IA integrata di Chrome (Gemini Nano). Richiede Chrome per desktop (Windows/macOS/Linux/Chromebook Plus), circa 22 GB liberi e oltre 4 GB di VRAM o 16 GB di RAM."
+  },
+  "ai_modelDownloading": {
+    "message": "Il modello Chrome AI è in fase di download sul dispositivo, riprova a breve"
+  },
+  "ai_noTextToProcess": {
+    "message": "Nessun testo selezionato o trovato nella pagina"
+  },
+  "ai_summaryCopied": {
+    "message": "Riepilogo AI (Copiato)"
+  },
+  "ai_noSelection": {
+    "message": "Seleziona prima il testo"
+  },
+  "ai_explanationCopied": {
+    "message": "Spiegazione AI (Copiata)"
+  },
+  "ai_translationCopied": {
+    "message": "Traduzione AI (Copiata)"
+  },
+  "msg_cookiesCleared": {
+    "message": "Tutti i cookie sono stati cancellati"
+  },
+  "msg_downloadsCleared": {
+    "message": "Cronologia download cancellata"
+  },
+  "actionName_open_side_panel": {
+    "message": "Apri pannello laterale"
+  },
+  "actionName_ai_summarize": {
+    "message": "Riassumi contenuto con IA"
+  },
+  "actionName_ai_explain": {
+    "message": "Spiega selezione con IA"
+  },
+  "actionName_ai_translate": {
+    "message": "Traduci selezione con IA"
+  },
+  "actionName_discard_current_tab": {
+    "message": "Sospendi scheda corrente (libera memoria)"
+  },
+  "actionName_duplicate_tab_to_new_window": {
+    "message": "Duplica scheda in una nuova finestra"
+  },
+  "actionName_collapse_all_groups": {
+    "message": "Comprimi tutti i gruppi di schede"
+  },
+  "actionName_expand_all_groups": {
+    "message": "Espandi tutti i gruppi di schede"
+  },
+  "actionName_close_other_windows": {
+    "message": "Chiudi altre finestre"
+  },
+  "actionName_open_options_page": {
+    "message": "Apri pagina opzioni estensione"
+  },
+  "actionName_open_shortcuts_page": {
+    "message": "Apri gestione scorciatoie"
+  },
+  "actionName_reload_extension": {
+    "message": "Ricarica estensione"
+  },
+  "actionName_open_action_popup": {
+    "message": "Apri popup estensione"
+  },
+  "actionName_clear_cookies": {
+    "message": "Cancella tutti i cookie"
+  },
+  "actionName_clear_downloads_history": {
+    "message": "Cancella cronologia download"
+  },
+  "actionName_speak_text": {
+    "message": "Leggi testo personalizzato"
+  },
+  "actionName_toggle_design_mode": {
+    "message": "Attiva/disattiva modalità modifica pagina (in loco)"
+  },
+  "actionName_copy_page_html": {
+    "message": "Copia codice sorgente HTML della pagina"
+  },
+  "actionName_extract_all_links": {
+    "message": "Estrai tutti i link dalla pagina"
+  },
+  "actionName_extract_all_images": {
+    "message": "Estrai tutti gli URL delle immagini"
+  },
+  "label_speakText": {
+    "message": "Testo da pronunciare"
+  },
+  "placeholder_speakText": {
+    "message": "Testo da leggere ad alta voce (supporta variabili es. {title})"
+  },
+  "content_designModeOff": {
+    "message": "Modalità progettazione disattivata"
+  },
+  "content_designModeOn": {
+    "message": "Modalità progettazione attivata (pagina modificabile)"
+  },
+  "content_pageHtmlCopied": {
+    "message": "HTML della pagina copiato negli appunti"
+  },
+  "content_linksExtracted": {
+    "message": "Link estratti negli appunti"
+  },
+  "content_noLinksFound": {
+    "message": "Nessun link trovato nella pagina"
+  },
+  "content_imagesExtracted": {
+    "message": "URL delle immagini estratti negli appunti"
+  },
+  "content_noImagesFound": {
+    "message": "Nessuna immagine trovata nella pagina"
+  },
+  "sidepanel_title": {
+    "message": "Hotkey Chain"
+  },
+  "sidepanel_openSettings": {
+    "message": "Impostazioni"
+  },
+  "sidepanel_searchPlaceholder": {
+    "message": "Cerca catene..."
+  },
+  "sidepanel_noChainsFound": {
+    "message": "Nessuna catena trovata"
+  },
+  "sidepanel_manageChains": {
+    "message": "+ Gestisci catene"
+  },
+  "sidepanel_chainsSuffix": {
+    "message": "catene"
+  },
+  "sidepanel_actionsSuffix": {
+    "message": "azioni"
+  },
+  "sidepanel_runChain": {
+    "message": "Esegui"
+  },
+  "sidepanel_executedPrefix": {
+    "message": "Eseguito:"
+  },
+  "sidepanel_executionFailed": {
+    "message": "Esecuzione non riuscita"
+  },
+  "tmpl_cat_all": {
+    "message": "Tutti i modelli"
+  },
+  "tmpl_cat_ai": {
+    "message": "IA & Smart"
+  },
+  "tmpl_cat_tabs": {
+    "message": "Schede e memoria"
+  },
+  "tmpl_cat_reading": {
+    "message": "Lettura e media"
+  },
+  "tmpl_cat_developer": {
+    "message": "Web e strumenti"
+  },
+  "tmpl_cat_privacy": {
+    "message": "Privacy e pulizia"
+  },
+  "tmpl_cat_workflow": {
+    "message": "Flusso di lavoro"
+  },
+  "tmpl_gallery_title": {
+    "message": "Galleria di modelli di catena"
+  },
+  "tmpl_gallery_subtitle": {
+    "message": "Scegli flussi di lavoro di automazione pronti all'uso e aggiungili con un clic"
+  },
+  "tmpl_gallery_search_placeholder": {
+    "message": "Cerca modelli per nome, descrizione o azione..."
+  },
+  "tmpl_gallery_use": {
+    "message": "Usa modello"
+  },
+  "tmpl_gallery_actions_count": {
+    "message": "$1 azioni"
+  },
+  "tmpl_gallery_empty_title": {
+    "message": "Nessun modello corrispondente trovato"
+  },
+  "tmpl_gallery_empty_desc": {
+    "message": "Prova con altre parole chiave o cambia la categoria sopra"
+  },
+  "tmpl_gallery_empty_reset": {
+    "message": "Ripristina ricerca"
+  },
+  "tmpl_aiSummarize": {
+    "message": "Riassunto pagina intelligente IA"
+  },
+  "tmpl_aiExplain": {
+    "message": "Spiegazione approfondita selezione IA"
+  },
+  "tmpl_aiTranslate": {
+    "message": "Traduzione e lettura vocale IA"
+  },
+  "tmpl_tabHibernateClean": {
+    "message": "Libera memoria e organizza schede"
+  },
+  "tmpl_webEditor": {
+    "message": "Modifica diretta pagina web"
+  },
+  "tmpl_extractMedia": {
+    "message": "Estrai link e immagini dalla pagina"
+  },
+  "tmpl_cinemaMode": {
+    "message": "Riproduci video e schermo intero"
+  },
+  "tmpl_privacyWipe": {
+    "message": "Pulizia rapida dati personali"
+  },
+  "tmpl_copyMarkdown": {
+    "message": "Copia come link Markdown"
+  },
+  "tmpl_sidePanelCompanion": {
+    "message": "Compagno pannello laterale"
+  },
+  "tmpl_focusMode_desc": {
+    "message": "Disattiva l'audio di tutte le schede, attiva la modalità scura ed entra a schermo intero"
+  },
+  "tmpl_tabCleanup_desc": {
+    "message": "Chiudi schede duplicate, ordina per URL e raggruppa per dominio"
+  },
+  "tmpl_safeCloseOthers_desc": {
+    "message": "Mostra una conferma prima di chiudere tutte le altre schede"
+  },
+  "tmpl_aiSummarize_desc": {
+    "message": "Estrai il riassunto della pagina con Gemini Nano IA locale e visualizzalo nel pannello laterale"
+  },
+  "tmpl_aiExplain_desc": {
+    "message": "Seleziona del testo per ricevere spiegazioni istantanee dall'IA nel pannello laterale"
+  },
+  "tmpl_aiTranslate_desc": {
+    "message": "Traduci il testo selezionato con l'IA e ascoltalo tramite sintesi vocale"
+  },
+  "tmpl_tabHibernateClean_desc": {
+    "message": "Chiudi i duplicati, iberna le schede inattive per liberare RAM e raggruppale per dominio"
+  },
+  "tmpl_webEditor_desc": {
+    "message": "Attiva la modalità design per modificare liberamente testi e layout come in un editor di testo"
+  },
+  "tmpl_extractMedia_desc": {
+    "message": "Analizza la pagina per estrarre tutti i link e le immagini multimediali"
+  },
+  "tmpl_cinemaMode_desc": {
+    "message": "Assicura che il video della pagina sia in riproduzione, poi passa a schermo intero per una visione senza interruzioni"
+  },
+  "tmpl_readAloud_desc": {
+    "message": "Usa il sintetizzatore vocale nativo per leggere ad alta voce il testo selezionato"
+  },
+  "tmpl_privacyWipe_desc": {
+    "message": "Chiede conferma, poi cancella TUTTI i cookie e TUTTA la cronologia dei download — di tutti i siti, non solo quello corrente"
+  },
+  "tmpl_copyMarkdown_desc": {
+    "message": "Formatta titolo e URL in Markdown standard e copiali negli appunti"
+  },
+  "tmpl_snapshot_desc": {
+    "message": "Cattura l'area visibile della schermata e aggiungi la pagina ai segnalibri"
+  },
+  "tmpl_wrapUp_desc": {
+    "message": "Salva nei preferiti, disattiva l'audio e riduci a icona la finestra a fine giornata"
+  },
+  "tmpl_sidePanelCompanion_desc": {
+    "message": "Apri il pannello laterale di Hotkey Chain per eseguire catene accanto alla pagina"
+  },
+  "tmpl_privacyWipe_ask": {
+    "message": "Questo cancella cookie e cronologia download di TUTTI i siti, non solo di questo. Continuare?"
+  },
+  "tmpl_gallery_footer_hint": {
+    "message": "Fai clic su qualsiasi modello per crearlo e personalizzarlo. Tutti i parametri sono regolabili liberamente."
+  },
+  "actionPicker_title": {
+    "message": "Aggiungi azione"
+  },
+  "actionPicker_subtitle": {
+    "message": "Cerca o esplora per categoria, fai clic per aggiungere alla catena"
+  },
+  "actionPicker_searchPlaceholder": {
+    "message": "Cerca azioni (es. scuro, scheda, IA, muto, screenshot)..."
+  },
+  "actionPicker_allCategories": {
+    "message": "Tutti"
+  },
+  "actionPicker_noResults": {
+    "message": "Nessuna azione corrispondente trovata. Prova con un'altra parola chiave."
+  },
+  "shortcut_badge_omnibox": {
+    "message": "Barra indirizzi: hc + nome"
+  },
+  "shortcut_hint_click": {
+    "message": "Fai clic per aprire le impostazioni delle scorciatoie di Chrome"
+  },
+  "empty_cta_templates": {
+    "message": "Esplora galleria modelli"
+  },
+  "empty_cta_blank": {
+    "message": "Crea catena vuota"
+  },
+  "tmpl_gallery_add_direct": {
+    "message": "Aggiungi alle mie catene"
+  },
+  "tmpl_gallery_add_and_edit": {
+    "message": "Aggiungi e personalizza"
+  },
+  "toast_chainAdded_actionRun": {
+    "message": "Esegui ora"
+  },
+  "workflow_title": {
+    "message": "Automazione del Flusso di Lavoro (Pipeline)"
+  },
+  "workflow_subtitle": {
+    "message": "Concatena automaticamente alla fase successiva trasferendo i dati a valle"
+  },
+  "workflow_nextChain": {
+    "message": "In caso di successo: Passa alla catena successiva"
+  },
+  "workflow_fallbackChain": {
+    "message": "In caso di errore: Catena di fallback"
+  },
+  "workflow_noNextChain": {
+    "message": "(Nessuna - Termina flusso)"
+  },
+  "workflow_noFallbackChain": {
+    "message": "(Nessuna - Arresta in errore)"
+  },
+  "workflow_passOutput": {
+    "message": "Trasferisci i dati di output a valle ({{output}} / selezione)"
+  },
+  "workflow_chipTooltip": {
+    "message": "Flusso: Passa automaticamente a $1 al termine"
+  },
+  "workflow_elseChain": {
+    "message": "Ramo alternativo se la condizione non è soddisfatta (opzionale)"
+  },
+  "workflow_noElseChain": {
+    "message": "(Nessuna - Interrompi azioni successive)"
+  },
+  "workflow_incomingTooltip": {
+    "message": "Nodo a valle del flusso: Attivato da un'altra catena"
+  },
+  "workflow_step_current": {
+    "message": "Catena corrente"
+  },
+  "workflow_step_next": {
+    "message": "Fase successiva: Fai clic per modificare"
+  },
+  "workflow_step_incoming": {
+    "message": "Fase precedente: Fai clic per modificare"
+  },
+  "workflow_fallback_label": {
+    "message": "Fallback"
+  },
+  "workflow_pipeline_active": {
+    "message": "Pipeline attiva: $1 nodi collegati"
+  },
+  "workflow_pipeline_single": {
+    "message": "Catena singola (nessun collegamento a valle)"
+  },
+  "workflow_step_end": {
+    "message": "Fine"
+  },
+  "hint_hasSelection": {
+    "message": "Continua se è selezionato del testo, passando il testo selezionato come {{output}} alle azioni successive."
+  },
+  "tmpl_workflowAiResearch": {
+    "message": "Flusso di lavoro di estrazione e riassunto con IA"
+  },
+  "tmpl_workflowAiResearch_desc": {
+    "message": "Estrae link, genera un riassunto con l'IA e copia il markdown formattato negli appunti"
+  },
+  "tmpl_workflowReadLater": {
+    "message": "Pipeline Leggi più tardi e archiviazione"
+  },
+  "tmpl_workflowReadLater_desc": {
+    "message": "Estrae Markdown pulito negli appunti e aggiunge la pagina ai preferiti"
+  },
+  "tmpl_aiKnowledgeCard": {
+    "message": "Scheda di conoscenza con IA"
+  },
+  "tmpl_aiKnowledgeCard_desc": {
+    "message": "Estrai i punti chiave con l'IA sul dispositivo e copia una scheda Markdown negli appunti"
+  },
+  "tmpl_workflowDevClean": {
+    "message": "Ripristino rapido per sviluppatori frontend"
+  },
+  "tmpl_workflowDevClean_desc": {
+    "message": "Cancella i dati del sito, svuota la cache e ricarica per un debug pulito senza cache"
+  },
+  "tmpl_workflowCleanWorkspace": {
+    "message": "Spazio di lavoro isolato per la concentrazione"
+  },
+  "tmpl_workflowCleanWorkspace_desc": {
+    "message": "Sposta la scheda in una nuova finestra ingrandita e sospendi le altre per liberare memoria"
+  },
+  "tmpl_incognitoHandoff": {
+    "message": "Passaggio in incognito e pulizia cronologia"
+  },
+  "tmpl_incognitoHandoff_desc": {
+    "message": "Apri la pagina in incognito, chiudi la scheda attuale e cancella l'URL dalla cronologia"
+  },
+  "actionName_toggle_site_javascript": {
+    "message": "Attiva/disattiva JavaScript su questo sito"
+  },
+  "actionName_toggle_site_images": {
+    "message": "Attiva/disattiva immagini su questo sito"
+  },
+  "actionName_toggle_site_popups": {
+    "message": "Attiva/disattiva popup su questo sito"
+  },
+  "actionName_open_top_sites": {
+    "message": "Apri i siti più visitati"
+  },
+  "actionName_wait_for_navigation": {
+    "message": "Attendi completamento navigazione"
+  },
+  "msg_jsBlocked": {
+    "message": "JavaScript disattivato per questo sito"
+  },
+  "msg_jsAllowed": {
+    "message": "JavaScript attivato per questo sito"
+  },
+  "msg_imagesBlocked": {
+    "message": "Immagini disattivate per questo sito"
+  },
+  "msg_imagesAllowed": {
+    "message": "Immagini attivate per questo sito"
+  },
+  "msg_popupsBlocked": {
+    "message": "Popup bloccati per questo sito"
+  },
+  "msg_popupsAllowed": {
+    "message": "Popup consentiti per questo sito"
+  },
+  "badge_requiresAi": {
+    "message": "Richiede IA sul dispositivo"
+  },
+  "hint_aiRequirement": {
+    "message": "Funziona sul Gemini Nano integrato in Chrome: tutto resta sul tuo dispositivo. Richiede Chrome per desktop con GPU o RAM sufficienti; nessuna chiave API e nessun flag."
+  },
+  "btn_checkAiStatus": {
+    "message": "Verifica stato IA locale"
+  },
+  "ai_statusReady": {
+    "message": "L'IA locale di Chrome (Gemini Nano) è pronta e disponibile in questo browser."
+  },
+  "ai_statusGuide": {
+    "message": "Requisiti:\n1. Chrome per desktop su Windows, macOS, Linux o Chromebook Plus (non Android/iOS)\n2. Circa 22 GB liberi sull'unità del profilo; oltre 4 GB di VRAM, oppure 16 GB di RAM con 4+ core\n3. Il modello si scarica al primo utilizzo: controlla l'avanzamento su chrome://on-device-internals\n4. Connessione non a consumo per quel primo download; poi nulla viene inviato a un server"
+  },
+  "msg_noTopSites": {
+    "message": "Nessun sito visitato di frequente trovato nella cronologia"
+  },
+  "msg_topSitesOpened": {
+    "message": "Aperti  siti frequenti in schede in background"
+  },
+  "tmpl_pureReader": {
+    "message": "Lettura pura senza distrazioni"
+  },
+  "tmpl_pureReader_desc": {
+    "message": "Blocca i popup, disattiva le immagini e attiva la modalità scura per leggere il testo pulito"
+  },
+  "tmpl_siteScriptShield": {
+    "message": "Scudo per script e popup"
+  },
+  "tmpl_siteScriptShield_desc": {
+    "message": "Disattiva JavaScript e blocca i popup per eliminare script invasivi"
+  },
+  "tmpl_workstationLaunch": {
+    "message": "Pipeline di avvio postazione di lavoro"
+  },
+  "tmpl_workstationLaunch_desc": {
+    "message": "Apri i siti frequenti in background, rimuovi i duplicati e raggruppali per dominio"
+  },
+  "defaultChain_workstation": {
+    "message": "Postazione mattutina"
+  },
+  "defaultChain_workstation_note": {
+    "message": "Postazione pronta: siti aperti e organizzati"
+  },
+  "defaultChain_aiKnowledge": {
+    "message": "Scheda di conoscenza IA"
+  },
+  "defaultChain_aiKnowledge_note": {
+    "message": "Scheda di conoscenza IA generata e copiata"
+  },
+  "defaultChain_pureReader": {
+    "message": "Lettura pura senza distrazioni"
+  },
+  "defaultChain_devReset": {
+    "message": "Pipeline di ripristino dev"
+  },
+  "defaultChain_focusSandbox": {
+    "message": "Sandbox di concentrazione"
+  },
+  "label_targetLang": {
+    "message": "Lingua di destinazione"
+  },
+  "label_translateStyle": {
+    "message": "Stile di traduzione"
+  },
+  "label_summaryLang": {
+    "message": "Lingua del riassunto"
+  },
+  "label_summaryFormat": {
+    "message": "Formato del riassunto"
+  },
+  "label_explainLang": {
+    "message": "Lingua della spiegazione"
+  },
+  "label_explainStyle": {
+    "message": "Profondità e stile"
+  },
+  "label_ttsLang": {
+    "message": "Lingua della voce"
+  },
+  "label_ttsSpeed": {
+    "message": "Velocità della voce"
+  },
+  "label_preferOutput": {
+    "message": "Preferisci l'output dell'azione precedente (es. traduzione IA)"
+  },
+  "opt_lang_auto": {
+    "message": "Automatico (segui la lingua dell'interfaccia del browser)"
+  },
+  "opt_format_bullets": {
+    "message": "Punti elenco chiave (consigliato)"
+  },
+  "opt_format_concise": {
+    "message": "Paragrafo conciso"
+  },
+  "opt_format_detailed": {
+    "message": "Dettagliato e strutturato"
+  },
+  "opt_format_oneSentence": {
+    "message": "Una singola frase"
+  },
+  "opt_style_concise": {
+    "message": "Chiaro e conciso (predefinito)"
+  },
+  "opt_style_simple": {
+    "message": "Semplice e intuitivo (per principianti)"
+  },
+  "opt_style_technical": {
+    "message": "Analisi tecnica approfondita"
+  },
+  "opt_style_analogy": {
+    "message": "Analogia intuitiva"
+  },
+  "opt_trans_natural": {
+    "message": "Naturale e scorrevole (predefinito)"
+  },
+  "opt_trans_formal": {
+    "message": "Formale e professionale"
+  },
+  "opt_trans_literal": {
+    "message": "Letterale e accurato"
+  },
+  "actionName_media_play": {
+    "message": "Riproduci contenuti (senza pausa)"
+  },
+  "label_incognitoCurrent": {
+    "message": "Apri la pagina corrente nella nuova finestra"
+  },
+  "hint_incognitoCurrent": {
+    "message": "Non selezionato apre solo una finestra in incognito vuota. Le catene di passaggio richiedono questa opzione, altrimenti chiudendo la scheda originale la pagina va persa."
+  },
+  "tmpl_pipelineSummarySpeak": {
+    "message": "Pipeline riassunto e lettura ad alta voce"
+  },
+  "tmpl_pipelineSummarySpeak_desc": {
+    "message": "Riassume la pagina o la selezione con l'IA locale, poi passa il risultato a una seconda catena che lo legge ad alta voce"
+  },
+  "tmpl_pipelineSummarySpeak_next": {
+    "message": "Leggi il riepilogo ad alta voce (fase 2 della pipeline)"
+  },
+  "tmpl_pipelineSummarySpeak_next_desc": {
+    "message": "Attivata automaticamente dalla prima catena: legge ad alta voce il riepilogo del passo precedente"
+  },
+  "tmpl_selectionSearch": {
+    "message": "Cerca la selezione (condizionale)"
+  },
+  "tmpl_selectionSearch_desc": {
+    "message": "Controlla prima se c'è una selezione: se c'è cerca, altrimenti una seconda catena invita a selezionare del testo"
+  },
+  "tmpl_selectionSearch_else": {
+    "message": "Chiedi di selezionare del testo (ramo)"
+  },
+  "tmpl_selectionSearch_else_desc": {
+    "message": "Attivata dall'azione condizione quando non c'è selezione: invita l'utente a selezionare prima del testo"
+  },
+  "tmpl_selectionSearch_elseMsg": {
+    "message": "Seleziona prima del testo sulla pagina"
+  },
+  "tmpl_reloadThenExtract": {
+    "message": "Estrai i link dopo il caricamento completo"
+  },
+  "tmpl_reloadThenExtract_desc": {
+    "message": "Ricarica la pagina e attende il completamento reale del caricamento (utile per le SPA), poi estrae e copia tutti i link in uscita"
+  },
+  "ai_contentTooLong": {
+    "message": "Il contenuto è troppo lungo per il modello locale. Seleziona un passaggio più breve e riprova."
+  },
+  "progress_starting": {
+    "message": "Avvio…"
+  },
+  "progress_done": {
+    "message": "Fatto"
+  },
+  "progress_failed": {
+    "message": "Terminato con errori"
+  },
+  "label_noCopy": {
+    "message": "Non copiare automaticamente negli appunti (lascia il risultato all'azione successiva)"
+  },
+  "hint_extractNoCopy": {
+    "message": "Attiva quando una catena combina più estrazioni e copia una sola volta; altrimenti ogni risultato intermedio occupa gli appunti e mostra un avviso «copiato» fuorviante."
+  },
+  "ai_diag_language": {
+    "message": "Lingua di output dell'IA"
+  },
+  "hint_actionLangOverrides": {
+    "message": "Una lingua impostata sull'azione sostituisce la lingua globale dell'interfaccia; scegliendo Automatico vale la lingua dell'interfaccia (vedi la diagnostica dietro l'icona CPU nella barra degli strumenti)."
+  },
+  "shortcut_badge_withKey": {
+    "message": "Scorciatoia: {key}"
+  },
+  "shortcut_badge_unset": {
+    "message": "Nessuna scorciatoia"
+  }
 }

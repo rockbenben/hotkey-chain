@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hotkey Chain Side Panel</title>
+    <link rel="stylesheet" href="assets/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/bootstrap-icons.css" />
+    <link rel="stylesheet" href="sidepanel.css" />
+  </head>
+  <body>
+    <div class="sidepanel-container">
+      <header class="sidepanel-header">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <div class="d-flex align-items-center gap-2">
+            <span class="fs-5">🔗</span>
+            <h1 class="h6 mb-0 fw-bold" data-i18n="sidepanel_title">Hotkey Chain</h1>
+          </div>
+          <button id="openOptionsBtn" class="btn btn-sm btn-icon" data-i18n-title="sidepanel_openSettings" title="Settings" aria-label="Settings">
+            <i class="bi bi-gear"></i>
+          </button>
+        </div>
+        <div class="search-box">
+          <i class="bi bi-search search-icon"></i>
+          <input type="text" id="searchInput" class="form-control form-control-sm" placeholder="Search chains..." data-i18n-placeholder="sidepanel_searchPlaceholder" />
+          <button id="clearSearchBtn" class="btn-clear d-none" aria-label="Clear search">&times;</button>
+        </div>
+      </header>
+
+      <main class="sidepanel-main">
+        <div id="chainsList" class="chains-list">
+          <!-- Populated by JavaScript -->
+        </div>
+        <div id="emptyState" class="empty-state d-none">
+          <i class="bi bi-inboxes text-muted fs-1 mb-2"></i>
+          <p class="text-muted small mb-0" data-i18n="sidepanel_noChainsFound">No chains found</p>
+        </div>
+      </main>
+
+      <footer class="sidepanel-footer">
+        <div id="statusToast" class="status-toast d-none">
+          <span id="statusText"></span>
+        </div>
+        <div class="d-flex justify-content-between align-items-center text-muted small">
+          <span id="chainCount">0 chains</span>
+          <button id="addChainLink" class="btn btn-link btn-sm p-0 text-decoration-none" data-i18n="sidepanel_manageChains">+ Manage Chains</button>
+        </div>
+      </footer>
+    </div>
+    <script src="sidepanel.js"></script>
+  </body>
+</html>

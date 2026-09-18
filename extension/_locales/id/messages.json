@@ -1,358 +1,1613 @@
 {
-  "extName": { "message": "Hotkey Chain" },
-  "extDescription": { "message": "Pintasan untuk browser Anda: rangkai 75+ tindakan dan jalankan melalui hotkey, bilah alamat, klik kanan, jadwal, atau pencocokan URL." },
-  "appName": { "message": "Hotkey Chain" },
-  "thisExtension": { "message": "ekstensi ini" },
-
-  "appTitle": { "message": "Pengaturan Hotkey Chain" },
-  "appSubtitle": { "message": "Rangkai aksi browser dan jalankan dengan satu pintasan" },
-
-  "toolbar_add": { "message": "Rangkaian Baru" },
-  "toolbar_export": { "message": "Ekspor" },
-  "toolbar_import": { "message": "Impor" },
-  "toolbar_restoreDefaults": { "message": "Pulihkan default" },
-  "toolbar_shortcuts": { "message": "Pintasan keyboard" },
-  "toolbar_templates": { "message": "Baru dari templat" },
-
-  "tmpl_focusMode": { "message": "Mode fokus" },
-  "tmpl_tabCleanup": { "message": "Bersihkan tab" },
-  "tmpl_videoMode": { "message": "Mode video" },
-  "tmpl_snapshot": { "message": "Tangkap & simpan" },
-  "tmpl_snapshot_done": { "message": "Tangkapan layar disimpan dan halaman ditandai" },
-  "tmpl_readAloud": { "message": "Bacakan" },
-  "tmpl_translate": { "message": "Terjemahkan halaman ini" },
-  "tmpl_wrapUp": { "message": "Mode penutup" },
-
-  "extTmpl_genericName": { "message": "Ekstensi umum" },
-  "extTmpl_toggleAdblock": { "message": "Alihkan pemblokiran iklan" },
-  "extTmpl_pauseBlocking": { "message": "Jeda pemblokiran" },
-  "extTmpl_resumeBlocking": { "message": "Lanjutkan pemblokiran" },
-  "extTmpl_toggleBlocker": { "message": "Alihkan pemblokir" },
-  "extTmpl_reloadFilters": { "message": "Muat ulang filter" },
-  "extTmpl_fillForm": { "message": "Isi formulir" },
-  "extTmpl_openVault": { "message": "Buka brankas" },
-  "extTmpl_generatePassword": { "message": "Buat kata sandi" },
-  "extTmpl_autofill": { "message": "Isi otomatis" },
-  "extTmpl_openPopup": { "message": "Buka popup" },
-  "extTmpl_captureRequest": { "message": "Tangkap permintaan" },
-  "extTmpl_importRequest": { "message": "Impor permintaan" },
-  "extTmpl_showRuler": { "message": "Tampilkan penggaris" },
-  "extTmpl_disableCss": { "message": "Nonaktifkan CSS" },
-  "extTmpl_translatePage": { "message": "Terjemahkan halaman" },
-  "extTmpl_translateSelection": { "message": "Terjemahkan pilihan" },
-  "extTmpl_captureFullPage": { "message": "Tangkap seluruh halaman" },
-  "extTmpl_captureVisible": { "message": "Tangkap area terlihat" },
-  "extTmpl_toggleFeature": { "message": "Alihkan fitur" },
-  "extTmpl_runMain": { "message": "Jalankan tindakan utama" },
-  "extTmpl_refresh": { "message": "Segarkan" },
-  "extTmpl_reset": { "message": "Atur ulang" },
-
-  "help_title": { "message": "Tindakan yang tersedia" },
-
-  "edit_title": { "message": "Edit Rangkaian" },
-  "edit_back": { "message": "Kembali" },
-  "edit_test": { "message": "Uji Jalankan" },
-  "edit_exportChain": { "message": "Ekspor rangkaian ini" },
-  "info_triggers": { "message": "Pemicu otomatis" },
-  "info_schedule": { "message": "Jalankan setiap (menit, 0 = nonaktif)" },
-  "info_autoRun": { "message": "Jalankan otomatis saat halaman dimuat (pola URL)" },
-  "info_autoRun_placeholder": { "message": "mis. *://github.com/*; pisahkan beberapa pola dengan koma atau baris baru" },
-
-  "info_basic": { "message": "Info Dasar" },
-  "info_name": { "message": "Nama Rangkaian" },
-  "info_name_placeholder": { "message": "Masukkan nama rangkaian" },
-  "info_desc": { "message": "Deskripsi" },
-  "info_desc_placeholder": { "message": "Opsional: jelaskan tujuan rangkaian ini" },
-  "info_default": { "message": "Tetapkan sebagai rangkaian default" },
-
-  "actions_title": { "message": "Tindakan" },
-  "actions_add": { "message": "Tambah Tindakan" },
-  "actions_none": { "message": "Belum ada tindakan" },
-  "actions_more": { "message": "tindakan lainnya" },
-  "actions_count": { "message": "tindakan" },
-
-  "card_exec": { "message": "Jalankan" },
-  "card_edit": { "message": "Edit" },
-  "card_duplicate": { "message": "Duplikat" },
-  "card_delete": { "message": "Hapus" },
-  "suffix_copy": { "message": "(salinan)" },
-  "action_defaultTitle": { "message": "Hotkey Chain - Klik untuk menjalankan tindakan default" },
-  "cmd_execute_action": { "message": "Jalankan rangkaian tindakan default" },
-  "cmd_execute_chain_1": { "message": "Rangkaian tindakan 1" },
-  "cmd_execute_chain_2": { "message": "Rangkaian tindakan 2" },
-  "cmd_execute_chain_3": { "message": "Rangkaian tindakan 3" },
-  "cmd_execute_chain_4": { "message": "Rangkaian tindakan 4" },
-  "cmd_execute_chain_5": { "message": "Rangkaian tindakan 5" },
-  "cmd_execute_chain_6": { "message": "Rangkaian tindakan 6" },
-  "cmd_execute_chain_7": { "message": "Rangkaian tindakan 7" },
-  "cmd_execute_chain_8": { "message": "Rangkaian tindakan 8" },
-  "cmd_execute_chain_9": { "message": "Rangkaian tindakan 9" },
-  "menu_executeDefault": { "message": "Jalankan rangkaian tindakan default" },
-  "menu_executeChain": { "message": "Jalankan rangkaian tindakan $1" },
-  "menu_options": { "message": "Buka pengaturan" },
-
-  "settings_language": { "message": "Bahasa" },
-  "language_auto": { "message": "Otomatis (Browser)" },
-  "language_en": { "message": "English" },
-  "language_zh_CN": { "message": "简体中文" },
-
-  "defaultChain_reading": { "message": "Mode membaca" },
-  "defaultChain_tidyTabs": { "message": "Rapikan tab" },
-  "defaultChain_readLater": { "message": "Baca nanti" },
-  "defaultChain_readLater_note": { "message": "Disimpan ke daftar bacaan: {title}" },
-  "defaultChain_searchSelection": { "message": "Cari pilihan" },
-  "defaultChain_cinema": { "message": "Mode bioskop" },
-  "defaultChain_copyMarkdown": { "message": "Salin sebagai Markdown" },
-  "defaultChain_hardRefresh": { "message": "Segarkan paksa" },
-  "defaultChain_morningRoutine": { "message": "Rutinitas pagi" },
-  "defaultChain_morningRoutine_note": { "message": "Ruang kerja siap" },
-
-  "actionName_scroll_to_top": { "message": "Gulir ke atas" },
-  "actionName_scroll_to_bottom": { "message": "Gulir ke bawah" },
-  "actionName_reload_page": { "message": "Muat ulang halaman" },
-  "actionName_close_tab": { "message": "Tutup tab" },
-  "actionName_new_tab": { "message": "Tab baru" },
-  "actionName_copy_url": { "message": "Salin URL" },
-  "actionName_copy_title": { "message": "Salin judul" },
-  "actionName_toggle_fullscreen": { "message": "Alihkan layar penuh" },
-  "actionName_zoom_in": { "message": "Perbesar" },
-  "actionName_zoom_out": { "message": "Perkecil" },
-  "actionName_zoom_reset": { "message": "Atur ulang zoom" },
-  "actionName_go_back": { "message": "Mundur" },
-  "actionName_go_forward": { "message": "Maju" },
-  "actionName_bookmark_page": { "message": "Tandai halaman" },
-  "actionName_copy_as_markdown": { "message": "Salin sebagai tautan Markdown" },
-  "actionName_clear_cache": { "message": "Segarkan paksa (lewati cache)" },
-  "actionName_duplicate_tab": { "message": "Duplikat tab" },
-  "actionName_pin_tab": { "message": "Sematkan/Lepas sematan tab" },
-  "actionName_mute_tab": { "message": "Bisukan/Bunyikan tab" },
-  "actionName_close_other_tabs": { "message": "Tutup tab lainnya" },
-  "actionName_move_tab_left": { "message": "Pindahkan tab ke kiri" },
-  "actionName_move_tab_right": { "message": "Pindahkan tab ke kanan" },
-  "actionName_prev_tab": { "message": "Tab sebelumnya" },
-  "actionName_next_tab": { "message": "Tab berikutnya" },
-  "actionName_new_window": { "message": "Jendela baru" },
-  "actionName_reopen_closed_tab": { "message": "Buka kembali tab yang ditutup" },
-  "actionName_print_page": { "message": "Cetak halaman" },
-  "actionName_open_url": { "message": "Buka URL" },
-  "actionName_wait": { "message": "Tunggu" },
-  "actionName_scroll_page_up": { "message": "Gulir satu layar ke atas" },
-  "actionName_scroll_page_down": { "message": "Gulir satu layar ke bawah" },
-  "actionName_close_tabs_right": { "message": "Tutup tab di sebelah kanan" },
-  "actionName_close_window": { "message": "Tutup jendela" },
-  "actionName_toggle_dark_mode": { "message": "Alihkan mode gelap" },
-  "actionName_translate_page": { "message": "Terjemahkan halaman" },
-  "actionName_media_play_pause": { "message": "Putar/Jeda media" },
-  "actionName_media_speed_up": { "message": "Percepat pemutaran" },
-  "actionName_media_speed_down": { "message": "Perlambat pemutaran" },
-  "actionName_media_speed_reset": { "message": "Atur ulang kecepatan pemutaran" },
-  "actionName_close_left_tabs": { "message": "Tutup tab di sebelah kiri" },
-  "actionName_close_duplicate_tabs": { "message": "Tutup tab duplikat" },
-  "actionName_sort_tabs_by_url": { "message": "Urutkan tab berdasarkan URL" },
-  "actionName_group_tabs_by_domain": { "message": "Kelompokkan tab berdasarkan domain" },
-  "actionName_ungroup_all_tabs": { "message": "Lepas kelompok semua tab" },
-  "actionName_mute_all_tabs": { "message": "Bisukan semua tab" },
-  "actionName_unmute_all_tabs": { "message": "Bunyikan semua tab" },
-  "actionName_reload_all_tabs": { "message": "Muat ulang semua tab" },
-  "actionName_move_tab_first": { "message": "Pindahkan tab ke awal" },
-  "actionName_move_tab_last": { "message": "Pindahkan tab ke akhir" },
-  "actionName_move_tab_to_new_window": { "message": "Pindahkan tab ke jendela baru" },
-  "actionName_minimize_window": { "message": "Minimalkan jendela" },
-  "actionName_maximize_window": { "message": "Maksimalkan jendela" },
-  "actionName_open_incognito_window": { "message": "Buka jendela penyamaran" },
-  "actionName_copy_selected_text": { "message": "Salin teks yang dipilih" },
-  "actionName_search_selection": { "message": "Cari teks yang dipilih" },
-  "actionName_speak_selection": { "message": "Bacakan pilihan" },
-  "actionName_stop_speaking": { "message": "Hentikan pembacaan" },
-  "actionName_capture_screenshot": { "message": "Tangkap layar (area terlihat)" },
-  "actionName_show_notification": { "message": "Tampilkan notifikasi" },
-  "actionName_open_browser_page": { "message": "Buka halaman browser" },
-  "actionName_discard_other_tabs": { "message": "Buang tab lainnya (bebaskan memori)" },
-  "actionName_goto_audible_tab": { "message": "Lompat ke tab bersuara" },
-  "actionName_bookmark_all_tabs": { "message": "Tandai semua tab" },
-  "actionName_read_later": { "message": "Tambahkan ke daftar bacaan" },
-  "actionName_clear_browsing_cache": { "message": "Hapus cache browser" },
-  "actionName_clear_site_data": { "message": "Hapus data situs ini" },
-  "actionName_delete_url_from_history": { "message": "Hapus halaman dari riwayat" },
-  "actionName_toggle_keep_awake": { "message": "Alihkan jaga tetap aktif" },
-  "actionName_show_downloads_folder": { "message": "Tampilkan folder unduhan" },
-  "actionName_save_page_mhtml": { "message": "Simpan halaman (MHTML)" },
-  "actionName_if_url_matches": { "message": "Kondisi: lanjutkan jika URL cocok" },
-  "actionName_if_has_selection": { "message": "Kondisi: lanjutkan jika ada teks yang dipilih" },
-  "actionName_run_chain": { "message": "Jalankan rangkaian lain" },
-  "actionName_execute_command": { "message": "Jalankan perintah" },
-  "actionName_call_extension": { "message": "Panggil ekstensi" },
-
-  "category_execute_command": { "message": "Jalankan perintah" },
-  "category_flow": { "message": "Kontrol alur" },
-  "category_page_ops": { "message": "Operasi halaman" },
-  "category_tab_mgmt": { "message": "Manajemen tab" },
-  "category_window": { "message": "Manajemen jendela" },
-  "category_media": { "message": "Kontrol media" },
-  "category_zoom": { "message": "Kontrol zoom" },
-  "category_content": { "message": "Operasi konten" },
-  "category_advanced": { "message": "Lanjutan" },
-  "category_extension": { "message": "Panggilan ekstensi" },
-
-  "label_delay": { "message": "Tunda" },
-  "label_ms": { "message": "ms" },
-  "label_selectExtension": { "message": "Pilih ekstensi" },
-  "placeholder_selectInstalledExtension": { "message": "-- Pilih ekstensi terpasang --" },
-  "option_manualInputExtensionId": { "message": "Masukkan ID ekstensi secara manual" },
-  "label_extensionId": { "message": "ID Ekstensi" },
-  "placeholder_extensionIdExample": { "message": "ID Ekstensi (mis. nfgcnddoajoekfpacfkehomkgmpndhob)" },
-  "label_url": { "message": "URL" },
-  "placeholder_urlExample": { "message": "URL (mis. https://example.com)" },
-  "label_openIn": { "message": "Buka di" },
-  "option_openIn_new": { "message": "Tab baru" },
-  "option_openIn_current": { "message": "Tab saat ini" },
-  "label_notifyText": { "message": "Teks notifikasi" },
-  "placeholder_notifyText": { "message": "Teks yang ditampilkan dalam notifikasi" },
-  "label_browserPage": { "message": "Halaman browser" },
-  "browserPage_downloads": { "message": "Unduhan" },
-  "browserPage_history": { "message": "Riwayat" },
-  "browserPage_bookmarks": { "message": "Pengelola markah" },
-  "browserPage_extensions": { "message": "Ekstensi" },
-  "browserPage_settings": { "message": "Pengaturan" },
-  "browserPage_shortcuts": { "message": "Pintasan keyboard" },
-  "browserPage_clear_browsing_data": { "message": "Hapus data penjelajahan" },
-  "label_pattern": { "message": "Pola URL" },
-  "placeholder_pattern": { "message": "mis. *://github.com/* atau kata kunci; pisahkan dengan koma" },
-  "label_runChain": { "message": "Rangkaian yang dijalankan" },
-  "placeholder_selectChain": { "message": "-- Pilih rangkaian --" },
-  "hint_templateVars": { "message": "Variabel: {url} {title} {selection} {clipboard} {date} {time}" },
-  "hint_executeCommand": { "message": "Pilih ekstensi ini untuk menjalankan rangkaian tindakan Anda sendiri; memilih ekstensi lain akan melakukan tindakan pengelolaan padanya (aktifkan/nonaktifkan, copot, buka opsi…), bukan pintasannya sendiri." },
-  "hint_callExtension": { "message": "Mengirim pesan ke ekstensi lain. Hanya berfungsi jika ekstensi tersebut menerima pesan eksternal (externally_connectable) — kebanyakan tidak, jadi mungkin tidak melakukan apa pun." },
-  "label_presetAction": { "message": "Tindakan preset" },
-  "placeholder_selectActionTemplate": { "message": "-- Pilih templat tindakan --" },
-  "option_customMessage": { "message": "Pesan khusus" },
-  "label_messageContent": { "message": "Isi pesan" },
-  "placeholder_messageJson": { "message": "Isi pesan (JSON, mis. {\"action\": \"toggle\"})" },
-  "label_selectCommand": { "message": "Pilih perintah" },
-  "placeholder_selectCommand": { "message": "-- Pilih perintah --" },
-  "tooltip_refreshCommands": { "message": "Segarkan perintah" },
-  "tooltip_setDefaultChain": { "message": "Tetapkan sebagai rangkaian default" },
-  "tooltip_defaultChain": { "message": "Rangkaian default" },
-  "newChain_defaultName": { "message": "Rangkaian baru" },
-  "msg_extension_toggled": { "message": "$1 sekarang $2" },
-  "state_enabled": { "message": "aktif" },
-  "state_disabled": { "message": "nonaktif" },
-  "label_extension": { "message": "Ekstensi" },
-  "error_toggle_extension_failed": { "message": "Gagal mengalihkan ekstensi" },
-  "error_uninstall_extension_failed": { "message": "Gagal mencopot ekstensi" },
-  "label_extension_name": { "message": "Nama ekstensi" },
-  "label_version": { "message": "Versi" },
-  "label_description": { "message": "Deskripsi" },
-  "label_type": { "message": "Tipe" },
-  "label_install_type": { "message": "Tipe pemasangan" },
-  "label_permissions": { "message": "Izin" },
-  "label_none": { "message": "Tidak ada" },
-  "label_homepage": { "message": "Beranda" },
-  "label_error": { "message": "Kesalahan" },
-  "error_get_extension_info_failed": { "message": "Gagal mendapatkan info ekstensi" },
-  "label_app": { "message": "Aplikasi" },
-  "error_launch_app_failed": { "message": "Gagal meluncurkan aplikasi" },
-  "label_command": { "message": "Perintah" },
-  "error_unknown_command": { "message": "Perintah tidak dikenal: $1" },
-  "error_execute_command_failed": { "message": "Eksekusi perintah gagal" },
-  "cmd_toggle_extension_name": { "message": "Aktifkan/Nonaktifkan ekstensi" },
-  "cmd_toggle_extension_desc": { "message": "Alihkan status aktif $1" },
-  "cmd_uninstall_extension_name": { "message": "Copot ekstensi" },
-  "cmd_uninstall_extension_desc": { "message": "Copot $1 (perlu konfirmasi)" },
-  "cmd_open_options_name": { "message": "Buka opsi" },
-  "cmd_open_options_desc": { "message": "Buka halaman opsi $1" },
-  "cmd_open_details_name": { "message": "Buka detail" },
-  "cmd_open_details_desc": { "message": "Lihat $1 di halaman ekstensi" },
-  "cmd_show_info_name": { "message": "Tampilkan info ekstensi" },
-  "cmd_show_info_desc": { "message": "Tampilkan info detail $1" },
-  "cmd_open_homepage_name": { "message": "Buka beranda" },
-  "cmd_open_homepage_desc": { "message": "Kunjungi beranda $1" },
-  "cmd_reload_dev_name": { "message": "Muat ulang ekstensi dev" },
-  "cmd_reload_dev_desc": { "message": "Muat ulang ekstensi pengembangan $1" },
-  "cmd_launch_app_name": { "message": "Luncurkan aplikasi" },
-  "cmd_launch_app_desc": { "message": "Luncurkan aplikasi Chrome $1" },
-  "cmd_open_store_name": { "message": "Buka halaman toko" },
-  "cmd_open_store_desc": { "message": "Buka halaman Chrome Web Store $1" },
-  "label_unknownChain": { "message": "Rangkaian tidak dikenal" },
-  "msg_no_options_page": { "message": "$1 tidak memiliki halaman opsi" },
-  "msg_check_console_for_details": { "message": "Detail $1: periksa konsol" },
-  "msg_no_homepage": { "message": "$1 tidak memiliki beranda yang dikonfigurasi" },
-  "msg_dev_extension_reloaded": { "message": "Ekstensi pengembangan $1 dimuat ulang" },
-  "msg_not_dev_extension": { "message": "$1 bukan ekstensi pengembangan; tidak dapat dimuat ulang" },
-  "msg_app_launched": { "message": "Aplikasi Chrome $1 diluncurkan" },
-  "msg_not_chrome_app": { "message": "$1 bukan aplikasi Chrome; tidak dapat diluncurkan" },
-
-  "toast_chainExecuted": { "message": "Rangkaian dijalankan: $1" },
-  "toast_executeFailed": { "message": "Eksekusi gagal" },
-  "toast_defaultSet": { "message": "Rangkaian default ditetapkan" },
-  "toast_newChainAdded": { "message": "Rangkaian baru ditambahkan" },
-  "toast_atLeastOne": { "message": "Minimal satu rangkaian harus tetap ada" },
-  "toast_extensionsRefreshed": { "message": "$1 ekstensi disegarkan" },
-  "toast_refreshExtensionsFailed": { "message": "Gagal menyegarkan ekstensi" },
-  "toast_selectExtensionFirst": { "message": "Silakan pilih ekstensi terlebih dahulu" },
-  "toast_commandsRefreshed": { "message": "Daftar perintah disegarkan" },
-  "toast_refreshCommandsFailed": { "message": "Gagal menyegarkan daftar perintah" },
-  "toast_chainDuplicated": { "message": "Rangkaian diduplikat" },
-  "toast_configExported": { "message": "Konfigurasi diekspor" },
-  "toast_configImported": { "message": "Konfigurasi diimpor" },
-  "toast_importFailed": { "message": "Impor gagal: $1" },
-  "toast_saveFailed": { "message": "Penyimpanan gagal: $1" },
-  "toast_defaultsRestored": { "message": "Rangkaian tindakan default dipulihkan" },
-  "toast_restoreDefaultsFailed": { "message": "Gagal memulihkan default" },
-  "confirm_importOverwrite": { "message": "Mengimpor akan menggantikan seluruh konfigurasi Anda saat ini. Lanjutkan?" },
-  "confirm_restoreDefaults": { "message": "Memulihkan default akan menggantikan semua rangkaian tindakan saat ini. Lanjutkan?" },
-  "error_invalidConfigFile": { "message": "File konfigurasi tidak valid" },
-
-  "content_urlCopied": { "message": "URL disalin ke clipboard" },
-  "content_titleCopied": { "message": "Judul disalin ke clipboard" },
-  "content_markdownCopied": { "message": "Tautan Markdown disalin ke clipboard" },
-  "content_copyFailed": { "message": "Penyalinan gagal, silakan salin secara manual" },
-  "content_bookmarkAdded": { "message": "Halaman ditandai" },
-  "content_bookmarkExists": { "message": "Sudah ditandai" },
-  "content_selectionCopied": { "message": "Pilihan disalin ke clipboard" },
-  "content_noSelection": { "message": "Tidak ada teks yang dipilih" },
-  "content_noMedia": { "message": "Tidak ada media ditemukan di halaman ini" },
-  "content_playbackRate": { "message": "Kecepatan pemutaran: $1x" },
-  "content_darkModeOn": { "message": "Mode gelap aktif" },
-  "content_darkModeOff": { "message": "Mode gelap nonaktif" },
-  "msg_duplicateTabsClosed": { "message": "$1 tab duplikat ditutup" },
-  "error_incognitoNotAllowed": { "message": "Izinkan ekstensi ini di mode penyamaran terlebih dahulu (chrome://extensions)" },
-  "msg_noAudibleTab": { "message": "Tidak ada tab bersuara" },
-  "msg_tabsBookmarked": { "message": "$1 tab ditandai" },
-  "msg_readLaterAdded": { "message": "Ditambahkan ke daftar bacaan" },
-  "msg_readLaterExists": { "message": "Sudah ada di daftar bacaan" },
-  "msg_readingListUnsupported": { "message": "API daftar bacaan tidak didukung di browser ini" },
-  "msg_cacheCleared": { "message": "Cache browser dihapus" },
-  "msg_siteDataCleared": { "message": "Data situs dihapus" },
-  "msg_historyDeleted": { "message": "Dihapus dari riwayat" },
-  "msg_keepAwakeOn": { "message": "Jaga tetap aktif: aktif" },
-  "msg_keepAwakeOff": { "message": "Jaga tetap aktif: nonaktif" },
-  "msg_chainErrors": { "message": "Rangkaian $1: $2 tindakan gagal" },
-  "menu_pageParent": { "message": "Jalankan rangkaian tindakan" },
-  "toast_chainExported": { "message": "Rangkaian diekspor" },
-  "toast_chainImported": { "message": "Rangkaian diimpor: $1" },
-  "content_close": { "message": "Tutup" },
-  "msg_uninstall_requested": { "message": "Pencopotan diminta" },
-  "actionName_copy_text": { "message": "Salin teks (format sendiri)" },
-  "actionName_confirm": { "message": "Minta konfirmasi" },
-  "label_copyText": { "message": "Teks yang disalin" },
-  "placeholder_copyText": { "message": "mis. {title} — {url}" },
-  "label_confirmText": { "message": "Pertanyaan" },
-  "placeholder_confirmText": { "message": "mis. Tutup semua tab lainnya?" },
-  "hint_confirm": { "message": "Menampilkan dialog di halaman. Rantai hanya lanjut jika kamu memilih Lanjutkan; Batal menghentikannya. Halaman yang tidak bisa menampilkan dialog (halaman chrome://) juga menghentikannya." },
-  "confirm_defaultText": { "message": "Lanjutkan?" },
-  "content_textCopied": { "message": "Disalin ke papan klip" },
-  "content_continue": { "message": "Lanjutkan" },
-  "content_cancel": { "message": "Batal" },
-  "tmpl_copyPageInfo": { "message": "Salin info halaman" },
-  "tmpl_safeCloseOthers": { "message": "Tutup tab lainnya (dengan konfirmasi)" },
-  "tmpl_safeCloseOthers_ask": { "message": "Tutup semua tab lainnya?" },
-  "confirm_importChain": { "message": "Impor rangkaian aksi \"$1\"?" },
-  "actions_count_one": { "message": "tindakan" },
-  "card_addActions": { "message": "Tambah tindakan" },
-  "actions_remove": { "message": "Hapus tindakan" },
-  "label_msValue": { "message": "$1 ms" },
-  "empty_title": { "message": "Belum ada rangkaian aksi" },
-  "empty_body": { "message": "Mulai dari templat paling cepat, atau buat rangkaian kosong dan tambahkan aksi sendiri." },
-  "footer_source": { "message": "Kode sumber & masukan" }
+  "extName": {
+    "message": "Hotkey Chain"
+  },
+  "extDescription": {
+    "message": "Pintasan untuk browser Anda: rangkai 103+ tindakan dan jalankan via hotkey, bilah alamat, klik kanan, jadwal, atau pencocokan URL."
+  },
+  "appName": {
+    "message": "Hotkey Chain"
+  },
+  "thisExtension": {
+    "message": "ekstensi ini"
+  },
+  "appTitle": {
+    "message": "Pengaturan Hotkey Chain"
+  },
+  "appSubtitle": {
+    "message": "Rangkai aksi browser dan jalankan dengan satu pintasan"
+  },
+  "toolbar_add": {
+    "message": "Rangkaian Baru"
+  },
+  "toolbar_export": {
+    "message": "Ekspor"
+  },
+  "toolbar_import": {
+    "message": "Impor"
+  },
+  "toolbar_restoreDefaults": {
+    "message": "Pulihkan default"
+  },
+  "toolbar_shortcuts": {
+    "message": "Pintasan keyboard"
+  },
+  "toolbar_templates": {
+    "message": "Baru dari templat"
+  },
+  "tmpl_focusMode": {
+    "message": "Mode fokus"
+  },
+  "tmpl_tabCleanup": {
+    "message": "Bersihkan tab"
+  },
+  "tmpl_snapshot": {
+    "message": "Tangkap & simpan"
+  },
+  "tmpl_readAloud": {
+    "message": "Bacakan"
+  },
+  "tmpl_wrapUp": {
+    "message": "Mode penutup"
+  },
+  "extTmpl_genericName": {
+    "message": "Ekstensi umum"
+  },
+  "extTmpl_toggleAdblock": {
+    "message": "Alihkan pemblokiran iklan"
+  },
+  "extTmpl_pauseBlocking": {
+    "message": "Jeda pemblokiran"
+  },
+  "extTmpl_resumeBlocking": {
+    "message": "Lanjutkan pemblokiran"
+  },
+  "extTmpl_toggleBlocker": {
+    "message": "Alihkan pemblokir"
+  },
+  "extTmpl_reloadFilters": {
+    "message": "Muat ulang filter"
+  },
+  "extTmpl_fillForm": {
+    "message": "Isi formulir"
+  },
+  "extTmpl_openVault": {
+    "message": "Buka brankas"
+  },
+  "extTmpl_generatePassword": {
+    "message": "Buat kata sandi"
+  },
+  "extTmpl_autofill": {
+    "message": "Isi otomatis"
+  },
+  "extTmpl_openPopup": {
+    "message": "Buka popup"
+  },
+  "extTmpl_captureRequest": {
+    "message": "Tangkap permintaan"
+  },
+  "extTmpl_importRequest": {
+    "message": "Impor permintaan"
+  },
+  "extTmpl_showRuler": {
+    "message": "Tampilkan penggaris"
+  },
+  "extTmpl_disableCss": {
+    "message": "Nonaktifkan CSS"
+  },
+  "extTmpl_translatePage": {
+    "message": "Terjemahkan halaman"
+  },
+  "extTmpl_translateSelection": {
+    "message": "Terjemahkan pilihan"
+  },
+  "extTmpl_captureFullPage": {
+    "message": "Tangkap seluruh halaman"
+  },
+  "extTmpl_captureVisible": {
+    "message": "Tangkap area terlihat"
+  },
+  "extTmpl_toggleFeature": {
+    "message": "Alihkan fitur"
+  },
+  "extTmpl_runMain": {
+    "message": "Jalankan tindakan utama"
+  },
+  "extTmpl_refresh": {
+    "message": "Segarkan"
+  },
+  "extTmpl_reset": {
+    "message": "Atur ulang"
+  },
+  "help_title": {
+    "message": "Tindakan yang tersedia"
+  },
+  "edit_title": {
+    "message": "Edit Rangkaian"
+  },
+  "edit_back": {
+    "message": "Kembali"
+  },
+  "edit_test": {
+    "message": "Uji Jalankan"
+  },
+  "edit_exportChain": {
+    "message": "Ekspor rangkaian ini"
+  },
+  "info_triggers": {
+    "message": "Pemicu otomatis"
+  },
+  "info_schedule": {
+    "message": "Jalankan setiap (menit, 0 = nonaktif)"
+  },
+  "info_autoRun": {
+    "message": "Jalankan otomatis saat halaman dimuat (pola URL)"
+  },
+  "info_autoRun_placeholder": {
+    "message": "mis. *://github.com/*; pisahkan beberapa pola dengan koma atau baris baru"
+  },
+  "info_basic": {
+    "message": "Info Dasar"
+  },
+  "info_name": {
+    "message": "Nama Rangkaian"
+  },
+  "info_name_placeholder": {
+    "message": "Masukkan nama rangkaian"
+  },
+  "info_desc": {
+    "message": "Deskripsi"
+  },
+  "info_desc_placeholder": {
+    "message": "Opsional: jelaskan tujuan rangkaian ini"
+  },
+  "info_default": {
+    "message": "Tetapkan sebagai rangkaian default"
+  },
+  "actions_title": {
+    "message": "Tindakan"
+  },
+  "actions_add": {
+    "message": "Tambah Tindakan"
+  },
+  "actions_none": {
+    "message": "Belum ada tindakan"
+  },
+  "actions_more": {
+    "message": "tindakan lainnya"
+  },
+  "actions_count": {
+    "message": "tindakan"
+  },
+  "card_exec": {
+    "message": "Jalankan"
+  },
+  "card_edit": {
+    "message": "Edit"
+  },
+  "card_duplicate": {
+    "message": "Duplikat"
+  },
+  "card_delete": {
+    "message": "Hapus"
+  },
+  "suffix_copy": {
+    "message": "(salinan)"
+  },
+  "action_defaultTitle": {
+    "message": "Hotkey Chain - Klik untuk menjalankan tindakan default"
+  },
+  "cmd_execute_action": {
+    "message": "Jalankan rangkaian tindakan default"
+  },
+  "cmd_execute_chain_1": {
+    "message": "Rangkaian tindakan 1"
+  },
+  "cmd_execute_chain_2": {
+    "message": "Rangkaian tindakan 2"
+  },
+  "cmd_execute_chain_3": {
+    "message": "Rangkaian tindakan 3"
+  },
+  "cmd_execute_chain_4": {
+    "message": "Rangkaian tindakan 4"
+  },
+  "cmd_execute_chain_5": {
+    "message": "Rangkaian tindakan 5"
+  },
+  "cmd_execute_chain_6": {
+    "message": "Rangkaian tindakan 6"
+  },
+  "cmd_execute_chain_7": {
+    "message": "Rangkaian tindakan 7"
+  },
+  "cmd_execute_chain_8": {
+    "message": "Rangkaian tindakan 8"
+  },
+  "cmd_execute_chain_9": {
+    "message": "Rangkaian tindakan 9"
+  },
+  "menu_executeDefault": {
+    "message": "Jalankan rangkaian tindakan default"
+  },
+  "menu_options": {
+    "message": "Buka pengaturan"
+  },
+  "settings_language": {
+    "message": "Bahasa"
+  },
+  "language_auto": {
+    "message": "Otomatis (Browser)"
+  },
+  "defaultChain_reading": {
+    "message": "Mode membaca"
+  },
+  "defaultChain_tidyTabs": {
+    "message": "Rapikan tab"
+  },
+  "defaultChain_copyMarkdown": {
+    "message": "Salin sebagai Markdown"
+  },
+  "actionName_scroll_to_top": {
+    "message": "Gulir ke atas"
+  },
+  "actionName_scroll_to_bottom": {
+    "message": "Gulir ke bawah"
+  },
+  "actionName_reload_page": {
+    "message": "Muat ulang halaman"
+  },
+  "actionName_close_tab": {
+    "message": "Tutup tab"
+  },
+  "actionName_new_tab": {
+    "message": "Tab baru"
+  },
+  "actionName_copy_url": {
+    "message": "Salin URL"
+  },
+  "actionName_copy_title": {
+    "message": "Salin judul"
+  },
+  "actionName_toggle_fullscreen": {
+    "message": "Alihkan layar penuh"
+  },
+  "actionName_zoom_in": {
+    "message": "Perbesar"
+  },
+  "actionName_zoom_out": {
+    "message": "Perkecil"
+  },
+  "actionName_zoom_reset": {
+    "message": "Atur ulang zoom"
+  },
+  "actionName_go_back": {
+    "message": "Mundur"
+  },
+  "actionName_go_forward": {
+    "message": "Maju"
+  },
+  "actionName_bookmark_page": {
+    "message": "Tandai halaman"
+  },
+  "actionName_copy_as_markdown": {
+    "message": "Salin sebagai tautan Markdown"
+  },
+  "actionName_clear_cache": {
+    "message": "Segarkan paksa (lewati cache)"
+  },
+  "actionName_duplicate_tab": {
+    "message": "Duplikat tab"
+  },
+  "actionName_pin_tab": {
+    "message": "Sematkan/Lepas sematan tab"
+  },
+  "actionName_mute_tab": {
+    "message": "Bisukan/Bunyikan tab"
+  },
+  "actionName_close_other_tabs": {
+    "message": "Tutup tab lainnya"
+  },
+  "actionName_move_tab_left": {
+    "message": "Pindahkan tab ke kiri"
+  },
+  "actionName_move_tab_right": {
+    "message": "Pindahkan tab ke kanan"
+  },
+  "actionName_prev_tab": {
+    "message": "Tab sebelumnya"
+  },
+  "actionName_next_tab": {
+    "message": "Tab berikutnya"
+  },
+  "actionName_new_window": {
+    "message": "Jendela baru"
+  },
+  "actionName_reopen_closed_tab": {
+    "message": "Buka kembali tab yang ditutup"
+  },
+  "actionName_print_page": {
+    "message": "Cetak halaman"
+  },
+  "actionName_open_url": {
+    "message": "Buka URL"
+  },
+  "actionName_wait": {
+    "message": "Tunggu"
+  },
+  "actionName_scroll_page_up": {
+    "message": "Gulir satu layar ke atas"
+  },
+  "actionName_scroll_page_down": {
+    "message": "Gulir satu layar ke bawah"
+  },
+  "actionName_close_tabs_right": {
+    "message": "Tutup tab di sebelah kanan"
+  },
+  "actionName_close_window": {
+    "message": "Tutup jendela"
+  },
+  "actionName_toggle_dark_mode": {
+    "message": "Alihkan mode gelap"
+  },
+  "actionName_translate_page": {
+    "message": "Terjemahkan halaman"
+  },
+  "actionName_media_play_pause": {
+    "message": "Putar/Jeda media"
+  },
+  "actionName_media_speed_up": {
+    "message": "Percepat pemutaran"
+  },
+  "actionName_media_speed_down": {
+    "message": "Perlambat pemutaran"
+  },
+  "actionName_media_speed_reset": {
+    "message": "Atur ulang kecepatan pemutaran"
+  },
+  "actionName_close_left_tabs": {
+    "message": "Tutup tab di sebelah kiri"
+  },
+  "actionName_close_duplicate_tabs": {
+    "message": "Tutup tab duplikat"
+  },
+  "actionName_sort_tabs_by_url": {
+    "message": "Urutkan tab berdasarkan URL"
+  },
+  "actionName_group_tabs_by_domain": {
+    "message": "Kelompokkan tab berdasarkan domain"
+  },
+  "actionName_ungroup_all_tabs": {
+    "message": "Lepas kelompok semua tab"
+  },
+  "actionName_mute_all_tabs": {
+    "message": "Bisukan semua tab"
+  },
+  "actionName_unmute_all_tabs": {
+    "message": "Bunyikan semua tab"
+  },
+  "actionName_reload_all_tabs": {
+    "message": "Muat ulang semua tab"
+  },
+  "actionName_move_tab_first": {
+    "message": "Pindahkan tab ke awal"
+  },
+  "actionName_move_tab_last": {
+    "message": "Pindahkan tab ke akhir"
+  },
+  "actionName_move_tab_to_new_window": {
+    "message": "Pindahkan tab ke jendela baru"
+  },
+  "actionName_minimize_window": {
+    "message": "Minimalkan jendela"
+  },
+  "actionName_maximize_window": {
+    "message": "Maksimalkan jendela"
+  },
+  "actionName_open_incognito_window": {
+    "message": "Buka jendela penyamaran"
+  },
+  "actionName_copy_selected_text": {
+    "message": "Salin teks yang dipilih"
+  },
+  "actionName_search_selection": {
+    "message": "Cari teks yang dipilih"
+  },
+  "actionName_speak_selection": {
+    "message": "Bacakan pilihan"
+  },
+  "actionName_stop_speaking": {
+    "message": "Hentikan pembacaan"
+  },
+  "actionName_capture_screenshot": {
+    "message": "Tangkap layar (area terlihat)"
+  },
+  "actionName_show_notification": {
+    "message": "Tampilkan notifikasi"
+  },
+  "actionName_open_browser_page": {
+    "message": "Buka halaman browser"
+  },
+  "actionName_discard_other_tabs": {
+    "message": "Buang tab lainnya (bebaskan memori)"
+  },
+  "actionName_goto_audible_tab": {
+    "message": "Lompat ke tab bersuara"
+  },
+  "actionName_bookmark_all_tabs": {
+    "message": "Tandai semua tab"
+  },
+  "actionName_read_later": {
+    "message": "Tambahkan ke daftar bacaan"
+  },
+  "actionName_clear_browsing_cache": {
+    "message": "Hapus cache browser"
+  },
+  "actionName_clear_site_data": {
+    "message": "Hapus data situs ini"
+  },
+  "actionName_delete_url_from_history": {
+    "message": "Hapus halaman dari riwayat"
+  },
+  "actionName_toggle_keep_awake": {
+    "message": "Alihkan jaga tetap aktif"
+  },
+  "actionName_show_downloads_folder": {
+    "message": "Tampilkan folder unduhan"
+  },
+  "actionName_save_page_mhtml": {
+    "message": "Simpan halaman (MHTML)"
+  },
+  "actionName_if_url_matches": {
+    "message": "Kondisi: lanjutkan jika URL cocok"
+  },
+  "actionName_if_has_selection": {
+    "message": "Kondisi: lanjutkan jika ada teks yang dipilih"
+  },
+  "actionName_run_chain": {
+    "message": "Jalankan rangkaian lain"
+  },
+  "actionName_execute_command": {
+    "message": "Jalankan perintah"
+  },
+  "actionName_call_extension": {
+    "message": "Panggil ekstensi"
+  },
+  "category_execute_command": {
+    "message": "Jalankan perintah"
+  },
+  "category_flow": {
+    "message": "Kontrol alur"
+  },
+  "category_page_ops": {
+    "message": "Operasi halaman"
+  },
+  "category_tab_mgmt": {
+    "message": "Manajemen tab"
+  },
+  "category_window": {
+    "message": "Manajemen jendela"
+  },
+  "category_media": {
+    "message": "Kontrol media"
+  },
+  "category_zoom": {
+    "message": "Kontrol zoom"
+  },
+  "category_content": {
+    "message": "Operasi konten"
+  },
+  "category_advanced": {
+    "message": "Lanjutan"
+  },
+  "category_extension": {
+    "message": "Panggilan ekstensi"
+  },
+  "label_delay": {
+    "message": "Tunda"
+  },
+  "label_ms": {
+    "message": "ms"
+  },
+  "label_selectExtension": {
+    "message": "Pilih ekstensi"
+  },
+  "placeholder_selectInstalledExtension": {
+    "message": "-- Pilih ekstensi terpasang --"
+  },
+  "option_manualInputExtensionId": {
+    "message": "Masukkan ID ekstensi secara manual"
+  },
+  "label_extensionId": {
+    "message": "ID Ekstensi"
+  },
+  "placeholder_extensionIdExample": {
+    "message": "ID Ekstensi (mis. nfgcnddoajoekfpacfkehomkgmpndhob)"
+  },
+  "label_url": {
+    "message": "URL"
+  },
+  "placeholder_urlExample": {
+    "message": "URL (mis. https://example.com)"
+  },
+  "label_openIn": {
+    "message": "Buka di"
+  },
+  "option_openIn_new": {
+    "message": "Tab baru"
+  },
+  "option_openIn_current": {
+    "message": "Tab saat ini"
+  },
+  "label_notifyText": {
+    "message": "Teks notifikasi"
+  },
+  "placeholder_notifyText": {
+    "message": "Teks yang ditampilkan dalam notifikasi"
+  },
+  "label_browserPage": {
+    "message": "Halaman browser"
+  },
+  "browserPage_downloads": {
+    "message": "Unduhan"
+  },
+  "browserPage_history": {
+    "message": "Riwayat"
+  },
+  "browserPage_bookmarks": {
+    "message": "Pengelola markah"
+  },
+  "browserPage_extensions": {
+    "message": "Ekstensi"
+  },
+  "browserPage_settings": {
+    "message": "Pengaturan"
+  },
+  "browserPage_shortcuts": {
+    "message": "Pintasan keyboard"
+  },
+  "browserPage_clear_browsing_data": {
+    "message": "Hapus data penjelajahan"
+  },
+  "label_pattern": {
+    "message": "Pola URL"
+  },
+  "placeholder_pattern": {
+    "message": "mis. *://github.com/* atau kata kunci; pisahkan dengan koma"
+  },
+  "label_runChain": {
+    "message": "Rangkaian yang dijalankan"
+  },
+  "placeholder_selectChain": {
+    "message": "-- Pilih rangkaian --"
+  },
+  "hint_templateVars": {
+    "message": "Variabel: {url} {title} {selection} {clipboard} {date} {time}"
+  },
+  "hint_executeCommand": {
+    "message": "Pilih ekstensi ini untuk menjalankan rangkaian tindakan Anda sendiri; memilih ekstensi lain akan melakukan tindakan pengelolaan padanya (aktifkan/nonaktifkan, copot, buka opsi…), bukan pintasannya sendiri."
+  },
+  "hint_callExtension": {
+    "message": "Mengirim pesan ke ekstensi lain. Hanya berfungsi jika ekstensi tersebut menerima pesan eksternal (externally_connectable) — kebanyakan tidak, jadi mungkin tidak melakukan apa pun."
+  },
+  "label_presetAction": {
+    "message": "Tindakan preset"
+  },
+  "placeholder_selectActionTemplate": {
+    "message": "-- Pilih templat tindakan --"
+  },
+  "option_customMessage": {
+    "message": "Pesan khusus"
+  },
+  "label_messageContent": {
+    "message": "Isi pesan"
+  },
+  "placeholder_messageJson": {
+    "message": "Isi pesan (JSON, mis. {\"action\": \"toggle\"})"
+  },
+  "label_selectCommand": {
+    "message": "Pilih perintah"
+  },
+  "placeholder_selectCommand": {
+    "message": "-- Pilih perintah --"
+  },
+  "tooltip_refreshCommands": {
+    "message": "Segarkan perintah"
+  },
+  "tooltip_setDefaultChain": {
+    "message": "Tetapkan sebagai rangkaian default"
+  },
+  "tooltip_defaultChain": {
+    "message": "Rangkaian default"
+  },
+  "newChain_defaultName": {
+    "message": "Rangkaian baru"
+  },
+  "msg_extension_toggled": {
+    "message": "$1 sekarang $2"
+  },
+  "state_enabled": {
+    "message": "aktif"
+  },
+  "state_disabled": {
+    "message": "nonaktif"
+  },
+  "label_extension": {
+    "message": "Ekstensi"
+  },
+  "error_toggle_extension_failed": {
+    "message": "Gagal mengalihkan ekstensi"
+  },
+  "error_uninstall_extension_failed": {
+    "message": "Gagal mencopot ekstensi"
+  },
+  "label_extension_name": {
+    "message": "Nama ekstensi"
+  },
+  "label_version": {
+    "message": "Versi"
+  },
+  "label_description": {
+    "message": "Deskripsi"
+  },
+  "label_type": {
+    "message": "Tipe"
+  },
+  "label_install_type": {
+    "message": "Tipe pemasangan"
+  },
+  "label_permissions": {
+    "message": "Izin"
+  },
+  "label_none": {
+    "message": "Tidak ada"
+  },
+  "label_homepage": {
+    "message": "Beranda"
+  },
+  "label_error": {
+    "message": "Kesalahan"
+  },
+  "error_get_extension_info_failed": {
+    "message": "Gagal mendapatkan info ekstensi"
+  },
+  "label_app": {
+    "message": "Aplikasi"
+  },
+  "error_launch_app_failed": {
+    "message": "Gagal meluncurkan aplikasi"
+  },
+  "label_command": {
+    "message": "Perintah"
+  },
+  "error_unknown_command": {
+    "message": "Perintah tidak dikenal: $1"
+  },
+  "error_execute_command_failed": {
+    "message": "Eksekusi perintah gagal"
+  },
+  "cmd_toggle_extension_name": {
+    "message": "Aktifkan/Nonaktifkan ekstensi"
+  },
+  "cmd_toggle_extension_desc": {
+    "message": "Alihkan status aktif $1"
+  },
+  "cmd_uninstall_extension_name": {
+    "message": "Copot ekstensi"
+  },
+  "cmd_uninstall_extension_desc": {
+    "message": "Copot $1 (perlu konfirmasi)"
+  },
+  "cmd_open_options_name": {
+    "message": "Buka opsi"
+  },
+  "cmd_open_options_desc": {
+    "message": "Buka halaman opsi $1"
+  },
+  "cmd_open_details_name": {
+    "message": "Buka detail"
+  },
+  "cmd_open_details_desc": {
+    "message": "Lihat $1 di halaman ekstensi"
+  },
+  "cmd_show_info_name": {
+    "message": "Tampilkan info ekstensi"
+  },
+  "cmd_show_info_desc": {
+    "message": "Tampilkan info detail $1"
+  },
+  "cmd_open_homepage_name": {
+    "message": "Buka beranda"
+  },
+  "cmd_open_homepage_desc": {
+    "message": "Kunjungi beranda $1"
+  },
+  "cmd_reload_dev_name": {
+    "message": "Muat ulang ekstensi dev"
+  },
+  "cmd_reload_dev_desc": {
+    "message": "Muat ulang ekstensi pengembangan $1"
+  },
+  "cmd_launch_app_name": {
+    "message": "Luncurkan aplikasi"
+  },
+  "cmd_launch_app_desc": {
+    "message": "Luncurkan aplikasi Chrome $1"
+  },
+  "cmd_open_store_name": {
+    "message": "Buka halaman toko"
+  },
+  "cmd_open_store_desc": {
+    "message": "Buka halaman Chrome Web Store $1"
+  },
+  "label_unknownChain": {
+    "message": "Rangkaian tidak dikenal"
+  },
+  "msg_no_options_page": {
+    "message": "$1 tidak memiliki halaman opsi"
+  },
+  "msg_check_console_for_details": {
+    "message": "Detail $1: periksa konsol"
+  },
+  "msg_no_homepage": {
+    "message": "$1 tidak memiliki beranda yang dikonfigurasi"
+  },
+  "msg_dev_extension_reloaded": {
+    "message": "Ekstensi pengembangan $1 dimuat ulang"
+  },
+  "msg_not_dev_extension": {
+    "message": "$1 bukan ekstensi pengembangan; tidak dapat dimuat ulang"
+  },
+  "msg_app_launched": {
+    "message": "Aplikasi Chrome $1 diluncurkan"
+  },
+  "msg_not_chrome_app": {
+    "message": "$1 bukan aplikasi Chrome; tidak dapat diluncurkan"
+  },
+  "toast_chainExecuted": {
+    "message": "Rangkaian dijalankan: $1"
+  },
+  "toast_executeFailed": {
+    "message": "Eksekusi gagal"
+  },
+  "toast_defaultSet": {
+    "message": "Rangkaian default ditetapkan"
+  },
+  "toast_newChainAdded": {
+    "message": "Rangkaian baru ditambahkan"
+  },
+  "toast_atLeastOne": {
+    "message": "Minimal satu rangkaian harus tetap ada"
+  },
+  "toast_extensionsRefreshed": {
+    "message": "$1 ekstensi disegarkan"
+  },
+  "toast_refreshExtensionsFailed": {
+    "message": "Gagal menyegarkan ekstensi"
+  },
+  "toast_selectExtensionFirst": {
+    "message": "Silakan pilih ekstensi terlebih dahulu"
+  },
+  "toast_commandsRefreshed": {
+    "message": "Daftar perintah disegarkan"
+  },
+  "toast_refreshCommandsFailed": {
+    "message": "Gagal menyegarkan daftar perintah"
+  },
+  "toast_chainDuplicated": {
+    "message": "Rangkaian diduplikat"
+  },
+  "toast_configExported": {
+    "message": "Konfigurasi diekspor"
+  },
+  "toast_configImported": {
+    "message": "Konfigurasi diimpor"
+  },
+  "toast_importFailed": {
+    "message": "Impor gagal: $1"
+  },
+  "toast_saveFailed": {
+    "message": "Penyimpanan gagal: $1"
+  },
+  "toast_defaultsRestored": {
+    "message": "Rangkaian tindakan default dipulihkan"
+  },
+  "toast_restoreDefaultsFailed": {
+    "message": "Gagal memulihkan default"
+  },
+  "confirm_importOverwrite": {
+    "message": "Mengimpor akan menggantikan seluruh konfigurasi Anda saat ini. Lanjutkan?"
+  },
+  "confirm_restoreDefaults": {
+    "message": "Memulihkan default akan menggantikan semua rangkaian tindakan saat ini. Lanjutkan?"
+  },
+  "error_invalidConfigFile": {
+    "message": "File konfigurasi tidak valid"
+  },
+  "content_urlCopied": {
+    "message": "URL disalin ke clipboard"
+  },
+  "content_titleCopied": {
+    "message": "Judul disalin ke clipboard"
+  },
+  "content_markdownCopied": {
+    "message": "Tautan Markdown disalin ke clipboard"
+  },
+  "content_copyFailed": {
+    "message": "Penyalinan gagal, silakan salin secara manual"
+  },
+  "content_bookmarkAdded": {
+    "message": "Halaman ditandai"
+  },
+  "content_bookmarkExists": {
+    "message": "Sudah ditandai"
+  },
+  "content_selectionCopied": {
+    "message": "Pilihan disalin ke clipboard"
+  },
+  "content_noSelection": {
+    "message": "Tidak ada teks yang dipilih"
+  },
+  "content_noMedia": {
+    "message": "Tidak ada media ditemukan di halaman ini"
+  },
+  "content_playbackRate": {
+    "message": "Kecepatan pemutaran: $1x"
+  },
+  "content_darkModeOn": {
+    "message": "Mode gelap aktif"
+  },
+  "content_darkModeOff": {
+    "message": "Mode gelap nonaktif"
+  },
+  "msg_duplicateTabsClosed": {
+    "message": "$1 tab duplikat ditutup"
+  },
+  "error_incognitoNotAllowed": {
+    "message": "Izinkan ekstensi ini di mode penyamaran terlebih dahulu (chrome://extensions)"
+  },
+  "msg_noAudibleTab": {
+    "message": "Tidak ada tab bersuara"
+  },
+  "msg_tabsBookmarked": {
+    "message": "$1 tab ditandai"
+  },
+  "msg_readLaterAdded": {
+    "message": "Ditambahkan ke daftar bacaan"
+  },
+  "msg_readLaterExists": {
+    "message": "Sudah ada di daftar bacaan"
+  },
+  "msg_readingListUnsupported": {
+    "message": "API daftar bacaan tidak didukung di browser ini"
+  },
+  "msg_cacheCleared": {
+    "message": "Cache browser dihapus"
+  },
+  "msg_siteDataCleared": {
+    "message": "Data situs dihapus"
+  },
+  "msg_historyDeleted": {
+    "message": "Dihapus dari riwayat"
+  },
+  "msg_keepAwakeOn": {
+    "message": "Jaga tetap aktif: aktif"
+  },
+  "msg_keepAwakeOff": {
+    "message": "Jaga tetap aktif: nonaktif"
+  },
+  "msg_chainErrors": {
+    "message": "Rangkaian $1: $2 tindakan gagal"
+  },
+  "menu_pageParent": {
+    "message": "Jalankan rangkaian tindakan"
+  },
+  "toast_chainExported": {
+    "message": "Rangkaian diekspor"
+  },
+  "toast_chainImported": {
+    "message": "Rangkaian diimpor: $1"
+  },
+  "content_close": {
+    "message": "Tutup"
+  },
+  "msg_uninstall_requested": {
+    "message": "Pencopotan diminta"
+  },
+  "actionName_copy_text": {
+    "message": "Salin teks (format sendiri)"
+  },
+  "actionName_confirm": {
+    "message": "Minta konfirmasi"
+  },
+  "label_copyText": {
+    "message": "Teks yang disalin"
+  },
+  "placeholder_copyText": {
+    "message": "mis. {title} — {url}"
+  },
+  "label_confirmText": {
+    "message": "Pertanyaan"
+  },
+  "placeholder_confirmText": {
+    "message": "mis. Tutup semua tab lainnya?"
+  },
+  "hint_confirm": {
+    "message": "Menampilkan dialog di halaman. Rantai hanya lanjut jika kamu memilih Lanjutkan; Batal menghentikannya. Halaman yang tidak bisa menampilkan dialog (halaman chrome://) juga menghentikannya."
+  },
+  "confirm_defaultText": {
+    "message": "Lanjutkan?"
+  },
+  "content_textCopied": {
+    "message": "Disalin ke papan klip"
+  },
+  "content_continue": {
+    "message": "Lanjutkan"
+  },
+  "content_cancel": {
+    "message": "Batal"
+  },
+  "tmpl_safeCloseOthers": {
+    "message": "Tutup tab lainnya (dengan konfirmasi)"
+  },
+  "tmpl_safeCloseOthers_ask": {
+    "message": "Tutup semua tab lainnya?"
+  },
+  "confirm_importChain": {
+    "message": "Impor rangkaian aksi \"$1\"?"
+  },
+  "actions_count_one": {
+    "message": "tindakan"
+  },
+  "card_addActions": {
+    "message": "Tambah tindakan"
+  },
+  "actions_remove": {
+    "message": "Hapus tindakan"
+  },
+  "label_msValue": {
+    "message": "$1 ms"
+  },
+  "empty_title": {
+    "message": "Belum ada rangkaian aksi"
+  },
+  "empty_body": {
+    "message": "Mulai dari templat paling cepat, atau buat rangkaian kosong dan tambahkan aksi sendiri."
+  },
+  "footer_source": {
+    "message": "Kode sumber & masukan"
+  },
+  "toolbar_sidePanel": {
+    "message": "Buka panel samping"
+  },
+  "ai_notSupported": {
+    "message": "Browser ini tidak dapat menjalankan AI bawaan Chrome (Gemini Nano). Diperlukan Chrome desktop (Windows/macOS/Linux/Chromebook Plus), sekitar 22 GB ruang kosong, dan VRAM di atas 4 GB atau RAM 16 GB."
+  },
+  "ai_modelDownloading": {
+    "message": "Model Chrome AI sedang diunduh di perangkat, silakan coba lagi sebentar lagi"
+  },
+  "ai_noTextToProcess": {
+    "message": "Tidak ada teks yang dipilih atau ditemukan di halaman"
+  },
+  "ai_summaryCopied": {
+    "message": "Ringkasan AI (Disalin)"
+  },
+  "ai_noSelection": {
+    "message": "Silakan pilih teks terlebih dahulu"
+  },
+  "ai_explanationCopied": {
+    "message": "Penjelasan AI (Disalin)"
+  },
+  "ai_translationCopied": {
+    "message": "Terjemahan AI (Disalin)"
+  },
+  "msg_cookiesCleared": {
+    "message": "Semua cookie dibersihkan"
+  },
+  "msg_downloadsCleared": {
+    "message": "Riwayat unduhan dibersihkan"
+  },
+  "actionName_open_side_panel": {
+    "message": "Buka panel samping"
+  },
+  "actionName_ai_summarize": {
+    "message": "Ringkas konten dengan AI"
+  },
+  "actionName_ai_explain": {
+    "message": "Jelaskan pilihan dengan AI"
+  },
+  "actionName_ai_translate": {
+    "message": "Terjemahkan pilihan dengan AI"
+  },
+  "actionName_discard_current_tab": {
+    "message": "Bekukan tab saat ini (bebaskan memori)"
+  },
+  "actionName_duplicate_tab_to_new_window": {
+    "message": "Duplikatkan tab ke jendela baru"
+  },
+  "actionName_collapse_all_groups": {
+    "message": "Ciutkan semua grup tab"
+  },
+  "actionName_expand_all_groups": {
+    "message": "Perluas semua grup tab"
+  },
+  "actionName_close_other_windows": {
+    "message": "Tutup jendela lain"
+  },
+  "actionName_open_options_page": {
+    "message": "Buka halaman opsi ekstensi"
+  },
+  "actionName_open_shortcuts_page": {
+    "message": "Buka manajemen pintasan"
+  },
+  "actionName_reload_extension": {
+    "message": "Muat ulang ekstensi"
+  },
+  "actionName_open_action_popup": {
+    "message": "Buka popup ekstensi"
+  },
+  "actionName_clear_cookies": {
+    "message": "Hapus semua cookie"
+  },
+  "actionName_clear_downloads_history": {
+    "message": "Hapus riwayat unduhan"
+  },
+  "actionName_speak_text": {
+    "message": "Bacakan teks kustom"
+  },
+  "actionName_toggle_design_mode": {
+    "message": "Alihkan mode edit halaman langsung"
+  },
+  "actionName_copy_page_html": {
+    "message": "Salin kode sumber HTML halaman"
+  },
+  "actionName_extract_all_links": {
+    "message": "Ekstrak semua tautan di halaman"
+  },
+  "actionName_extract_all_images": {
+    "message": "Ekstrak semua URL gambar"
+  },
+  "label_speakText": {
+    "message": "Teks untuk dibacakan"
+  },
+  "placeholder_speakText": {
+    "message": "Teks untuk dibaca dengan keras (mendukung variabel mis. {title})"
+  },
+  "content_designModeOff": {
+    "message": "Mode edit dinonaktifkan"
+  },
+  "content_designModeOn": {
+    "message": "Mode edit diaktifkan (halaman dapat diedit langsung)"
+  },
+  "content_pageHtmlCopied": {
+    "message": "HTML halaman disalin ke papan klip"
+  },
+  "content_linksExtracted": {
+    "message": "Tautan yang diekstrak disalin ke papan klip"
+  },
+  "content_noLinksFound": {
+    "message": "Tidak ada tautan yang ditemukan di halaman"
+  },
+  "content_imagesExtracted": {
+    "message": "URL gambar yang diekstrak disalin ke papan klip"
+  },
+  "content_noImagesFound": {
+    "message": "Tidak ada gambar yang ditemukan di halaman"
+  },
+  "sidepanel_title": {
+    "message": "Hotkey Chain"
+  },
+  "sidepanel_openSettings": {
+    "message": "Pengaturan"
+  },
+  "sidepanel_searchPlaceholder": {
+    "message": "Cari rantai aksi..."
+  },
+  "sidepanel_noChainsFound": {
+    "message": "Tidak ada rantai yang ditemukan"
+  },
+  "sidepanel_manageChains": {
+    "message": "+ Kelola Rantai"
+  },
+  "sidepanel_chainsSuffix": {
+    "message": "rantai"
+  },
+  "sidepanel_actionsSuffix": {
+    "message": "aksi"
+  },
+  "sidepanel_runChain": {
+    "message": "Jalankan"
+  },
+  "sidepanel_executedPrefix": {
+    "message": "Dijalankan:"
+  },
+  "sidepanel_executionFailed": {
+    "message": "Eksekusi gagal"
+  },
+  "tmpl_cat_all": {
+    "message": "Semua Templat"
+  },
+  "tmpl_cat_ai": {
+    "message": "AI & Pintar"
+  },
+  "tmpl_cat_tabs": {
+    "message": "Tab & Memori"
+  },
+  "tmpl_cat_reading": {
+    "message": "Membaca & Media"
+  },
+  "tmpl_cat_developer": {
+    "message": "Web & Alat"
+  },
+  "tmpl_cat_privacy": {
+    "message": "Privasi & Pembersihan"
+  },
+  "tmpl_cat_workflow": {
+    "message": "Alur Kerja Harian"
+  },
+  "tmpl_gallery_title": {
+    "message": "Galeri Templat Rantai Tindakan"
+  },
+  "tmpl_gallery_subtitle": {
+    "message": "Pilih alur kerja otomatisasi siap pakai dan tambahkan dengan satu klik"
+  },
+  "tmpl_gallery_search_placeholder": {
+    "message": "Cari templat berdasarkan nama, deskripsi, atau tindakan..."
+  },
+  "tmpl_gallery_use": {
+    "message": "Gunakan Templat"
+  },
+  "tmpl_gallery_actions_count": {
+    "message": "$1 tindakan"
+  },
+  "tmpl_gallery_empty_title": {
+    "message": "Tidak ada templat yang cocok ditemukan"
+  },
+  "tmpl_gallery_empty_desc": {
+    "message": "Coba cari dengan kata kunci lain atau ubah kategori di atas"
+  },
+  "tmpl_gallery_empty_reset": {
+    "message": "Atur Ulang Pencarian"
+  },
+  "tmpl_aiSummarize": {
+    "message": "Ringkasan Halaman Cerdas AI"
+  },
+  "tmpl_aiExplain": {
+    "message": "Penjelasan Mendalam Pilihan Teks AI"
+  },
+  "tmpl_aiTranslate": {
+    "message": "Terjemahan & Baca Suara AI"
+  },
+  "tmpl_tabHibernateClean": {
+    "message": "Bebaskan Memori & Atur Tab"
+  },
+  "tmpl_webEditor": {
+    "message": "Editor Halaman Web Langsung"
+  },
+  "tmpl_extractMedia": {
+    "message": "Ekstrak Tautan & Gambar Halaman"
+  },
+  "tmpl_cinemaMode": {
+    "message": "Putar video & layar penuh"
+  },
+  "tmpl_privacyWipe": {
+    "message": "Pembersihan Cepat Privasi"
+  },
+  "tmpl_copyMarkdown": {
+    "message": "Salin sebagai Tautan Markdown"
+  },
+  "tmpl_sidePanelCompanion": {
+    "message": "Pendamping Panel Samping"
+  },
+  "tmpl_focusMode_desc": {
+    "message": "Bisukan semua tab, beralih ke mode gelap, dan masuk ke layar penuh"
+  },
+  "tmpl_tabCleanup_desc": {
+    "message": "Tutup tab duplikat, urutkan berdasarkan URL, dan kelompokkan berdasarkan domain"
+  },
+  "tmpl_safeCloseOthers_desc": {
+    "message": "Tampilkan konfirmasi sebelum menutup semua tab lain untuk mencegah kehilangan data"
+  },
+  "tmpl_aiSummarize_desc": {
+    "message": "Ekstrak ringkasan inti halaman menggunakan AI Gemini Nano lokal dan tampilkan di panel samping"
+  },
+  "tmpl_aiExplain_desc": {
+    "message": "Pilih teks untuk mendapatkan penjelasan instan dari AI dan simpan di panel samping"
+  },
+  "tmpl_aiTranslate_desc": {
+    "message": "Terjemahkan teks terpilih dengan AI dan dengarkan dengan pembaca suara"
+  },
+  "tmpl_tabHibernateClean_desc": {
+    "message": "Tutup duplikat, hibernasikan tab tidak aktif untuk menghemat RAM, dan kelompokkan per domain"
+  },
+  "tmpl_webEditor_desc": {
+    "message": "Beralih ke Mode Desain untuk mengedit teks dan tata letak secara bebas"
+  },
+  "tmpl_extractMedia_desc": {
+    "message": "Pindai halaman web saat ini untuk mengekstrak semua gambar dan tautan sekaligus"
+  },
+  "tmpl_cinemaMode_desc": {
+    "message": "Memastikan video di halaman sedang diputar, lalu beralih ke layar penuh agar menonton tanpa gangguan"
+  },
+  "tmpl_readAloud_desc": {
+    "message": "Gunakan sintesis suara bawaan browser untuk membaca teks yang disorot"
+  },
+  "tmpl_privacyWipe_desc": {
+    "message": "Meminta konfirmasi, lalu menghapus SEMUA cookie dan SELURUH riwayat unduhan — semua situs, bukan hanya situs saat ini"
+  },
+  "tmpl_copyMarkdown_desc": {
+    "message": "Salin judul dan URL halaman saat ini dalam format Markdown standar"
+  },
+  "tmpl_snapshot_desc": {
+    "message": "Ambil tangkapan layar area yang terlihat dan tambahkan ke bookmark"
+  },
+  "tmpl_wrapUp_desc": {
+    "message": "Simpan bookmark, bisukan semua audio, dan minimalkan jendela saat selesai"
+  },
+  "tmpl_sidePanelCompanion_desc": {
+    "message": "Buka panel samping Hotkey Chain untuk menjalankan rantai di samping halaman"
+  },
+  "tmpl_privacyWipe_ask": {
+    "message": "Ini menghapus cookie dan riwayat unduhan SEMUA situs, bukan hanya situs ini. Lanjutkan?"
+  },
+  "tmpl_gallery_footer_hint": {
+    "message": "Klik templat mana saja untuk membuat dan menyesuaikan. Semua parameter dapat diatur bebas."
+  },
+  "actionPicker_title": {
+    "message": "Tambah Tindakan"
+  },
+  "actionPicker_subtitle": {
+    "message": "Cari atau jelajahi berdasarkan kategori, klik untuk menambahkan ke rantai"
+  },
+  "actionPicker_searchPlaceholder": {
+    "message": "Cari tindakan (misal gelap, tab, ai, bisu, tangkapan layar)..."
+  },
+  "actionPicker_allCategories": {
+    "message": "Semua"
+  },
+  "actionPicker_noResults": {
+    "message": "Tidak ada tindakan yang cocok ditemukan. Coba kata kunci lain."
+  },
+  "shortcut_badge_omnibox": {
+    "message": "Bilah alamat: hc + nama"
+  },
+  "shortcut_hint_click": {
+    "message": "Klik untuk membuka pengaturan pintasan Chrome"
+  },
+  "empty_cta_templates": {
+    "message": "Jelajahi Galeri Templat"
+  },
+  "empty_cta_blank": {
+    "message": "Buat Rantai Kosong"
+  },
+  "tmpl_gallery_add_direct": {
+    "message": "Tambah ke Rantai Saya"
+  },
+  "tmpl_gallery_add_and_edit": {
+    "message": "Tambah & Sesuaikan"
+  },
+  "toast_chainAdded_actionRun": {
+    "message": "Jalankan Sekarang"
+  },
+  "workflow_title": {
+    "message": "Otomasi Alur Kerja (Pipeline)"
+  },
+  "workflow_subtitle": {
+    "message": "Hubungkan otomatis ke tahap berikutnya dengan data mengalir ke bawah"
+  },
+  "workflow_nextChain": {
+    "message": "Saat berhasil: Lanjutkan ke rantai berikutnya"
+  },
+  "workflow_fallbackChain": {
+    "message": "Saat gagal: Beralih ke rantai cadangan"
+  },
+  "workflow_noNextChain": {
+    "message": "(Tidak ada - Akhiri alur kerja)"
+  },
+  "workflow_noFallbackChain": {
+    "message": "(Tidak ada - Berhenti jika error)"
+  },
+  "workflow_passOutput": {
+    "message": "Teruskan data output ke tahap selanjutnya ({{output}} / seleksi)"
+  },
+  "workflow_chipTooltip": {
+    "message": "Alur kerja: Otomatis berlanjut ke $1 setelah selesai"
+  },
+  "workflow_elseChain": {
+    "message": "Cabang jika kondisi tidak terpenuhi (opsional)"
+  },
+  "workflow_noElseChain": {
+    "message": "(Tidak ada - Hentikan aksi selanjutnya)"
+  },
+  "workflow_incomingTooltip": {
+    "message": "Node hilir alur kerja: Dipicu oleh rantai lain"
+  },
+  "workflow_step_current": {
+    "message": "Rantai saat ini"
+  },
+  "workflow_step_next": {
+    "message": "Tahap berikutnya: Klik untuk mengedit"
+  },
+  "workflow_step_incoming": {
+    "message": "Tahap sebelumnya: Klik untuk mengedit"
+  },
+  "workflow_fallback_label": {
+    "message": "Cadangan"
+  },
+  "workflow_pipeline_active": {
+    "message": "Pipeline aktif: $1 node terhubung"
+  },
+  "workflow_pipeline_single": {
+    "message": "Rantai tunggal (tanpa tautan hilir)"
+  },
+  "workflow_step_end": {
+    "message": "Selesai"
+  },
+  "hint_hasSelection": {
+    "message": "Lanjutkan jika ada teks yang dipilih, meneruskan teks yang dipilih sebagai {{output}} ke aksi berikutnya."
+  },
+  "tmpl_workflowAiResearch": {
+    "message": "Alur Kerja Ekstraksi & Ringkasan AI"
+  },
+  "tmpl_workflowAiResearch_desc": {
+    "message": "Ekstrak tautan, buat ringkasan dengan AI, dan salin markdown berformat ke papan klip"
+  },
+  "tmpl_workflowReadLater": {
+    "message": "Pipeline Baca Nanti & Pengarsipan"
+  },
+  "tmpl_workflowReadLater_desc": {
+    "message": "Ekstrak Markdown bersih ke papan klip dan tambahkan ke bookmark sekaligus"
+  },
+  "tmpl_aiKnowledgeCard": {
+    "message": "Kartu Pengetahuan AI"
+  },
+  "tmpl_aiKnowledgeCard_desc": {
+    "message": "Ekstrak poin penting dengan AI lokal dan salin sebagai kartu catatan Markdown ke papan klip"
+  },
+  "tmpl_workflowDevClean": {
+    "message": "Pipa Reset Cepat Pengembang Frontend"
+  },
+  "tmpl_workflowDevClean_desc": {
+    "message": "Hapus data situs, bersihkan cache browser, dan muat ulang paksa untuk debugging bersih"
+  },
+  "tmpl_workflowCleanWorkspace": {
+    "message": "Ruang Kerja Fokus Terisolasi"
+  },
+  "tmpl_workflowCleanWorkspace_desc": {
+    "message": "Pindahkan tab aktif ke jendela baru yang dimaksimalkan dan bekukan tab lain untuk hemat memori"
+  },
+  "tmpl_incognitoHandoff": {
+    "message": "Alihkan ke Mode Penyamaran & Hapus Riwayat"
+  },
+  "tmpl_incognitoHandoff_desc": {
+    "message": "Buka halaman saat ini di jendela penyamaran, tutup tab, dan hapus URL dari riwayat"
+  },
+  "actionName_toggle_site_javascript": {
+    "message": "Aktifkan/nonaktifkan JavaScript untuk situs ini"
+  },
+  "actionName_toggle_site_images": {
+    "message": "Aktifkan/nonaktifkan gambar untuk situs ini"
+  },
+  "actionName_toggle_site_popups": {
+    "message": "Aktifkan/nonaktifkan pop-up untuk situs ini"
+  },
+  "actionName_open_top_sites": {
+    "message": "Buka situs yang sering dikunjungi"
+  },
+  "actionName_wait_for_navigation": {
+    "message": "Tunggu navigasi/pemuatan halaman selesai"
+  },
+  "msg_jsBlocked": {
+    "message": "JavaScript dinonaktifkan untuk situs ini"
+  },
+  "msg_jsAllowed": {
+    "message": "JavaScript diaktifkan untuk situs ini"
+  },
+  "msg_imagesBlocked": {
+    "message": "Gambar dinonaktifkan untuk situs ini"
+  },
+  "msg_imagesAllowed": {
+    "message": "Gambar diaktifkan untuk situs ini"
+  },
+  "msg_popupsBlocked": {
+    "message": "Pop-up diblokir untuk situs ini"
+  },
+  "msg_popupsAllowed": {
+    "message": "Pop-up diizinkan untuk situs ini"
+  },
+  "badge_requiresAi": {
+    "message": "Memerlukan AI di Perangkat"
+  },
+  "hint_aiRequirement": {
+    "message": "Berjalan di Gemini Nano bawaan Chrome — semuanya tetap di perangkat Anda. Perlu Chrome desktop dengan GPU atau RAM yang memadai; tanpa API key dan tanpa flag."
+  },
+  "btn_checkAiStatus": {
+    "message": "Periksa Status AI di Perangkat"
+  },
+  "ai_statusReady": {
+    "message": "AI di perangkat Chrome (Gemini Nano) sudah siap dan dapat digunakan."
+  },
+  "ai_statusGuide": {
+    "message": "Persyaratan:\n1. Chrome desktop di Windows, macOS, Linux, atau Chromebook Plus (bukan Android/iOS)\n2. Sekitar 22 GB kosong di drive profil; VRAM di atas 4 GB, atau RAM 16 GB dengan 4+ inti\n3. Model diunduh saat pertama dipakai — pantau di chrome://on-device-internals\n4. Koneksi tanpa batas kuota untuk unduhan pertama itu; setelahnya tidak ada data yang dikirim ke server"
+  },
+  "msg_noTopSites": {
+    "message": "Tidak ada situs yang sering dikunjungi di riwayat penelusuran"
+  },
+  "msg_topSitesOpened": {
+    "message": "Membuka  situs populer di tab latar belakang"
+  },
+  "tmpl_pureReader": {
+    "message": "Mode Pembaca Murni Tanpa Gangguan"
+  },
+  "tmpl_pureReader_desc": {
+    "message": "Blokir pop-up, nonaktifkan gambar, dan aktifkan mode gelap untuk fokus teks"
+  },
+  "tmpl_siteScriptShield": {
+    "message": "Perisai Skrip & Pop-up"
+  },
+  "tmpl_siteScriptShield_desc": {
+    "message": "Matikan JavaScript dan blokir pop-up untuk menghentikan skrip mengganggu"
+  },
+  "tmpl_workstationLaunch": {
+    "message": "Saluran Peluncuran Ruang Kerja"
+  },
+  "tmpl_workstationLaunch_desc": {
+    "message": "Buka situs yang sering dikunjungi di latar belakang, bersihkan duplikat, dan kelompokkan per domain"
+  },
+  "defaultChain_workstation": {
+    "message": "Ruang kerja pagi"
+  },
+  "defaultChain_workstation_note": {
+    "message": "Ruang kerja siap: situs dibuka dan ditata"
+  },
+  "defaultChain_aiKnowledge": {
+    "message": "Kartu pengetahuan AI"
+  },
+  "defaultChain_aiKnowledge_note": {
+    "message": "Kartu pengetahuan AI dibuat dan disalin"
+  },
+  "defaultChain_pureReader": {
+    "message": "Membaca murni bebas gangguan"
+  },
+  "defaultChain_devReset": {
+    "message": "Saluran reset pengembang"
+  },
+  "defaultChain_focusSandbox": {
+    "message": "Kotak pasir fokus"
+  },
+  "label_targetLang": {
+    "message": "Bahasa target"
+  },
+  "label_translateStyle": {
+    "message": "Gaya terjemahan"
+  },
+  "label_summaryLang": {
+    "message": "Bahasa ringkasan"
+  },
+  "label_summaryFormat": {
+    "message": "Format ringkasan"
+  },
+  "label_explainLang": {
+    "message": "Bahasa penjelasan"
+  },
+  "label_explainStyle": {
+    "message": "Kedalaman dan gaya"
+  },
+  "label_ttsLang": {
+    "message": "Bahasa suara"
+  },
+  "label_ttsSpeed": {
+    "message": "Kecepatan suara"
+  },
+  "label_preferOutput": {
+    "message": "Utamakan output langkah sebelumnya (mis. terjemahan AI)"
+  },
+  "opt_lang_auto": {
+    "message": "Otomatis (ikuti bahasa antarmuka browser)"
+  },
+  "opt_format_bullets": {
+    "message": "Poin-poin utama (disarankan)"
+  },
+  "opt_format_concise": {
+    "message": "Paragraf ringkas"
+  },
+  "opt_format_detailed": {
+    "message": "Rinci & terstruktur"
+  },
+  "opt_format_oneSentence": {
+    "message": "Satu kalimat kunci"
+  },
+  "opt_style_concise": {
+    "message": "Jelas & ringkas (default)"
+  },
+  "opt_style_simple": {
+    "message": "Mudah dipahami (pemula)"
+  },
+  "opt_style_technical": {
+    "message": "Analisis teknis mendalam"
+  },
+  "opt_style_analogy": {
+    "message": "Analogi kehidupan nyata"
+  },
+  "opt_trans_natural": {
+    "message": "Alami & lancar (default)"
+  },
+  "opt_trans_formal": {
+    "message": "Formal & profesional"
+  },
+  "opt_trans_literal": {
+    "message": "Harfiah & presisi"
+  },
+  "actionName_media_play": {
+    "message": "Putar media (tanpa jeda)"
+  },
+  "label_incognitoCurrent": {
+    "message": "Buka halaman saat ini di jendela baru"
+  },
+  "hint_incognitoCurrent": {
+    "message": "Jika tidak dicentang hanya membuka jendela penyamaran kosong. Rantai serah-terima memerlukan ini, jika tidak menutup tab asal akan menghilangkan halaman."
+  },
+  "tmpl_pipelineSummarySpeak": {
+    "message": "Pipeline ringkas & bacakan teks panjang"
+  },
+  "tmpl_pipelineSummarySpeak_desc": {
+    "message": "Ringkas halaman atau pilihan dengan AI di perangkat, lalu teruskan hasilnya ke rantai kedua untuk dibacakan"
+  },
+  "tmpl_pipelineSummarySpeak_next": {
+    "message": "Bacakan ringkasan (tahap 2 pipeline)"
+  },
+  "tmpl_pipelineSummarySpeak_next_desc": {
+    "message": "Dipicu otomatis oleh rantai pertama: membacakan ringkasan langkah sebelumnya"
+  },
+  "tmpl_selectionSearch": {
+    "message": "Cari teks terpilih (bersyarat)"
+  },
+  "tmpl_selectionSearch_desc": {
+    "message": "Memeriksa dulu apakah ada teks terpilih: jika ada akan mencari, jika tidak rantai kedua meminta Anda memilih teks"
+  },
+  "tmpl_selectionSearch_else": {
+    "message": "Minta pilih teks (cabang)"
+  },
+  "tmpl_selectionSearch_else_desc": {
+    "message": "Dipicu oleh tindakan kondisi saat tidak ada pilihan: meminta pengguna memilih teks terlebih dahulu"
+  },
+  "tmpl_selectionSearch_elseMsg": {
+    "message": "Pilih dulu teks di halaman"
+  },
+  "tmpl_reloadThenExtract": {
+    "message": "Ekstrak tautan setelah muat penuh"
+  },
+  "tmpl_reloadThenExtract_desc": {
+    "message": "Muat ulang halaman dan tunggu pemuatan benar-benar selesai (cocok untuk SPA), lalu ekstrak dan salin semua tautan keluar"
+  },
+  "ai_contentTooLong": {
+    "message": "Konten terlalu panjang untuk model di perangkat. Pilih bagian yang lebih pendek lalu coba lagi."
+  },
+  "progress_starting": {
+    "message": "Memulai…"
+  },
+  "progress_done": {
+    "message": "Selesai"
+  },
+  "progress_failed": {
+    "message": "Selesai dengan error"
+  },
+  "label_noCopy": {
+    "message": "Jangan salin otomatis ke papan klip (serahkan hasil ke tindakan berikutnya)"
+  },
+  "hint_extractNoCopy": {
+    "message": "Aktifkan saat rantai menggabungkan beberapa ekstraksi lalu menyalin sekali; jika tidak, setiap hasil antara mengambil papan klip dan menampilkan pemberitahuan “tersalin” yang menyesatkan."
+  },
+  "ai_diag_language": {
+    "message": "Bahasa keluaran AI"
+  },
+  "hint_actionLangOverrides": {
+    "message": "Bahasa yang disetel pada tindakan akan menimpa bahasa antarmuka global; memilih Otomatis berarti mengikuti bahasa antarmuka (lihat diagnostik di ikon CPU bilah alat)."
+  },
+  "shortcut_badge_withKey": {
+    "message": "Pintasan: {key}"
+  },
+  "shortcut_badge_unset": {
+    "message": "Tanpa pintasan"
+  }
 }

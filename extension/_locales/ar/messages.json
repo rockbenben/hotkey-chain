@@ -1,358 +1,1613 @@
 {
-  "extName": { "message": "Hotkey Chain" },
-  "extDescription": { "message": "اختصارات لمتصفحك: اربط أكثر من 75 إجراءً ونفّذها عبر مفتاح اختصار أو شريط العنوان أو النقر بالزر الأيمن أو الجدولة أو مطابقة عنوان URL." },
-  "appName": { "message": "Hotkey Chain" },
-  "thisExtension": { "message": "هذه الإضافة" },
-
-  "appTitle": { "message": "إعدادات Hotkey Chain" },
-  "appSubtitle": { "message": "اربط إجراءات المتصفح ونفّذها باختصار واحد" },
-
-  "toolbar_add": { "message": "سلسلة جديدة" },
-  "toolbar_export": { "message": "تصدير" },
-  "toolbar_import": { "message": "استيراد" },
-  "toolbar_restoreDefaults": { "message": "استعادة الإعدادات الافتراضية" },
-  "toolbar_shortcuts": { "message": "اختصارات لوحة المفاتيح" },
-  "toolbar_templates": { "message": "جديد من قالب" },
-
-  "tmpl_focusMode": { "message": "وضع التركيز" },
-  "tmpl_tabCleanup": { "message": "تنظيف علامات التبويب" },
-  "tmpl_videoMode": { "message": "وضع الفيديو" },
-  "tmpl_snapshot": { "message": "لقطة وحفظ" },
-  "tmpl_snapshot_done": { "message": "تم حفظ لقطة الشاشة وإضافة الصفحة إلى المفضّلة" },
-  "tmpl_readAloud": { "message": "قراءة بصوت عالٍ" },
-  "tmpl_translate": { "message": "ترجمة هذه الصفحة" },
-  "tmpl_wrapUp": { "message": "وضع الإنهاء" },
-
-  "extTmpl_genericName": { "message": "إضافة عامة" },
-  "extTmpl_toggleAdblock": { "message": "تبديل حظر الإعلانات" },
-  "extTmpl_pauseBlocking": { "message": "إيقاف الحظر مؤقتًا" },
-  "extTmpl_resumeBlocking": { "message": "استئناف الحظر" },
-  "extTmpl_toggleBlocker": { "message": "تبديل المانع" },
-  "extTmpl_reloadFilters": { "message": "إعادة تحميل عوامل التصفية" },
-  "extTmpl_fillForm": { "message": "تعبئة النموذج" },
-  "extTmpl_openVault": { "message": "فتح الخزنة" },
-  "extTmpl_generatePassword": { "message": "إنشاء كلمة مرور" },
-  "extTmpl_autofill": { "message": "تعبئة تلقائية" },
-  "extTmpl_openPopup": { "message": "فتح النافذة المنبثقة" },
-  "extTmpl_captureRequest": { "message": "التقاط الطلب" },
-  "extTmpl_importRequest": { "message": "استيراد الطلب" },
-  "extTmpl_showRuler": { "message": "إظهار المسطرة" },
-  "extTmpl_disableCss": { "message": "تعطيل CSS" },
-  "extTmpl_translatePage": { "message": "ترجمة الصفحة" },
-  "extTmpl_translateSelection": { "message": "ترجمة النص المحدّد" },
-  "extTmpl_captureFullPage": { "message": "التقاط الصفحة كاملة" },
-  "extTmpl_captureVisible": { "message": "التقاط المنطقة المرئية" },
-  "extTmpl_toggleFeature": { "message": "تبديل الميزة" },
-  "extTmpl_runMain": { "message": "تشغيل الإجراء الرئيسي" },
-  "extTmpl_refresh": { "message": "تحديث" },
-  "extTmpl_reset": { "message": "إعادة تعيين" },
-
-  "help_title": { "message": "الإجراءات المتاحة" },
-
-  "edit_title": { "message": "تحرير السلسلة" },
-  "edit_back": { "message": "رجوع" },
-  "edit_test": { "message": "تشغيل تجريبي" },
-  "edit_exportChain": { "message": "تصدير هذه السلسلة" },
-  "info_triggers": { "message": "المشغّلات التلقائية" },
-  "info_schedule": { "message": "التشغيل كل (دقائق، 0 = إيقاف)" },
-  "info_autoRun": { "message": "التشغيل التلقائي عند تحميل الصفحة (أنماط URL)" },
-  "info_autoRun_placeholder": { "message": "مثال: *://github.com/*؛ افصل بين الأنماط المتعددة بفواصل أو أسطر جديدة" },
-
-  "info_basic": { "message": "المعلومات الأساسية" },
-  "info_name": { "message": "اسم السلسلة" },
-  "info_name_placeholder": { "message": "أدخل اسم السلسلة" },
-  "info_desc": { "message": "الوصف" },
-  "info_desc_placeholder": { "message": "اختياري: صِف الغرض من هذه السلسلة" },
-  "info_default": { "message": "تعيين كسلسلة افتراضية" },
-
-  "actions_title": { "message": "الإجراءات" },
-  "actions_add": { "message": "إضافة إجراء" },
-  "actions_none": { "message": "لا توجد إجراءات بعد" },
-  "actions_more": { "message": "إجراءات إضافية" },
-  "actions_count": { "message": "إجراءات" },
-
-  "card_exec": { "message": "تشغيل" },
-  "card_edit": { "message": "تحرير" },
-  "card_duplicate": { "message": "تكرار" },
-  "card_delete": { "message": "حذف" },
-  "suffix_copy": { "message": "(نسخة)" },
-  "action_defaultTitle": { "message": "Hotkey Chain - انقر لتنفيذ الإجراء الافتراضي" },
-  "cmd_execute_action": { "message": "تنفيذ سلسلة الإجراءات الافتراضية" },
-  "cmd_execute_chain_1": { "message": "سلسلة الإجراءات 1" },
-  "cmd_execute_chain_2": { "message": "سلسلة الإجراءات 2" },
-  "cmd_execute_chain_3": { "message": "سلسلة الإجراءات 3" },
-  "cmd_execute_chain_4": { "message": "سلسلة الإجراءات 4" },
-  "cmd_execute_chain_5": { "message": "سلسلة الإجراءات 5" },
-  "cmd_execute_chain_6": { "message": "سلسلة الإجراءات 6" },
-  "cmd_execute_chain_7": { "message": "سلسلة الإجراءات 7" },
-  "cmd_execute_chain_8": { "message": "سلسلة الإجراءات 8" },
-  "cmd_execute_chain_9": { "message": "سلسلة الإجراءات 9" },
-  "menu_executeDefault": { "message": "تشغيل سلسلة الإجراءات الافتراضية" },
-  "menu_executeChain": { "message": "تشغيل سلسلة الإجراءات $1" },
-  "menu_options": { "message": "فتح الإعدادات" },
-
-  "settings_language": { "message": "اللغة" },
-  "language_auto": { "message": "تلقائي (المتصفح)" },
-  "language_en": { "message": "English" },
-  "language_zh_CN": { "message": "简体中文" },
-
-  "defaultChain_reading": { "message": "وضع القراءة" },
-  "defaultChain_tidyTabs": { "message": "ترتيب علامات التبويب" },
-  "defaultChain_readLater": { "message": "القراءة لاحقًا" },
-  "defaultChain_readLater_note": { "message": "تم الحفظ في قائمة القراءة: {title}" },
-  "defaultChain_searchSelection": { "message": "البحث عن النص المحدّد" },
-  "defaultChain_cinema": { "message": "وضع السينما" },
-  "defaultChain_copyMarkdown": { "message": "نسخ كـ Markdown" },
-  "defaultChain_hardRefresh": { "message": "تحديث كامل" },
-  "defaultChain_morningRoutine": { "message": "روتين الصباح" },
-  "defaultChain_morningRoutine_note": { "message": "مساحة العمل جاهزة" },
-
-  "actionName_scroll_to_top": { "message": "التمرير إلى الأعلى" },
-  "actionName_scroll_to_bottom": { "message": "التمرير إلى الأسفل" },
-  "actionName_reload_page": { "message": "إعادة تحميل الصفحة" },
-  "actionName_close_tab": { "message": "إغلاق علامة التبويب" },
-  "actionName_new_tab": { "message": "علامة تبويب جديدة" },
-  "actionName_copy_url": { "message": "نسخ عنوان URL" },
-  "actionName_copy_title": { "message": "نسخ العنوان" },
-  "actionName_toggle_fullscreen": { "message": "تبديل وضع ملء الشاشة" },
-  "actionName_zoom_in": { "message": "تكبير" },
-  "actionName_zoom_out": { "message": "تصغير" },
-  "actionName_zoom_reset": { "message": "إعادة تعيين التكبير/التصغير" },
-  "actionName_go_back": { "message": "رجوع" },
-  "actionName_go_forward": { "message": "تقدّم للأمام" },
-  "actionName_bookmark_page": { "message": "إضافة الصفحة إلى المفضّلة" },
-  "actionName_copy_as_markdown": { "message": "نسخ كرابط Markdown" },
-  "actionName_clear_cache": { "message": "تحديث كامل (تجاوز ذاكرة التخزين المؤقت)" },
-  "actionName_duplicate_tab": { "message": "تكرار علامة التبويب" },
-  "actionName_pin_tab": { "message": "تثبيت/إلغاء تثبيت علامة التبويب" },
-  "actionName_mute_tab": { "message": "كتم/إلغاء كتم علامة التبويب" },
-  "actionName_close_other_tabs": { "message": "إغلاق علامات التبويب الأخرى" },
-  "actionName_move_tab_left": { "message": "نقل علامة التبويب لليسار" },
-  "actionName_move_tab_right": { "message": "نقل علامة التبويب لليمين" },
-  "actionName_prev_tab": { "message": "علامة التبويب السابقة" },
-  "actionName_next_tab": { "message": "علامة التبويب التالية" },
-  "actionName_new_window": { "message": "نافذة جديدة" },
-  "actionName_reopen_closed_tab": { "message": "إعادة فتح علامة التبويب المغلقة" },
-  "actionName_print_page": { "message": "طباعة الصفحة" },
-  "actionName_open_url": { "message": "فتح عنوان URL" },
-  "actionName_wait": { "message": "انتظار" },
-  "actionName_scroll_page_up": { "message": "التمرير شاشة واحدة للأعلى" },
-  "actionName_scroll_page_down": { "message": "التمرير شاشة واحدة للأسفل" },
-  "actionName_close_tabs_right": { "message": "إغلاق علامات التبويب الموجودة على اليمين" },
-  "actionName_close_window": { "message": "إغلاق النافذة" },
-  "actionName_toggle_dark_mode": { "message": "تبديل الوضع الداكن" },
-  "actionName_translate_page": { "message": "ترجمة الصفحة" },
-  "actionName_media_play_pause": { "message": "تشغيل/إيقاف الوسائط مؤقتًا" },
-  "actionName_media_speed_up": { "message": "تسريع التشغيل" },
-  "actionName_media_speed_down": { "message": "إبطاء التشغيل" },
-  "actionName_media_speed_reset": { "message": "إعادة تعيين سرعة التشغيل" },
-  "actionName_close_left_tabs": { "message": "إغلاق علامات التبويب الموجودة على اليسار" },
-  "actionName_close_duplicate_tabs": { "message": "إغلاق علامات التبويب المكرّرة" },
-  "actionName_sort_tabs_by_url": { "message": "ترتيب علامات التبويب حسب عنوان URL" },
-  "actionName_group_tabs_by_domain": { "message": "تجميع علامات التبويب حسب النطاق" },
-  "actionName_ungroup_all_tabs": { "message": "إلغاء تجميع كل علامات التبويب" },
-  "actionName_mute_all_tabs": { "message": "كتم كل علامات التبويب" },
-  "actionName_unmute_all_tabs": { "message": "إلغاء كتم كل علامات التبويب" },
-  "actionName_reload_all_tabs": { "message": "إعادة تحميل كل علامات التبويب" },
-  "actionName_move_tab_first": { "message": "نقل علامة التبويب إلى البداية" },
-  "actionName_move_tab_last": { "message": "نقل علامة التبويب إلى النهاية" },
-  "actionName_move_tab_to_new_window": { "message": "نقل علامة التبويب إلى نافذة جديدة" },
-  "actionName_minimize_window": { "message": "تصغير النافذة" },
-  "actionName_maximize_window": { "message": "تكبير النافذة" },
-  "actionName_open_incognito_window": { "message": "فتح نافذة تصفّح متخفّ" },
-  "actionName_copy_selected_text": { "message": "نسخ النص المحدّد" },
-  "actionName_search_selection": { "message": "البحث عن النص المحدّد" },
-  "actionName_speak_selection": { "message": "قراءة النص المحدّد بصوت عالٍ" },
-  "actionName_stop_speaking": { "message": "إيقاف القراءة" },
-  "actionName_capture_screenshot": { "message": "التقاط لقطة شاشة (المنطقة المرئية)" },
-  "actionName_show_notification": { "message": "إظهار إشعار" },
-  "actionName_open_browser_page": { "message": "فتح صفحة المتصفح" },
-  "actionName_discard_other_tabs": { "message": "إلغاء تحميل علامات التبويب الأخرى (تحرير الذاكرة)" },
-  "actionName_goto_audible_tab": { "message": "الانتقال إلى علامة التبويب التي تصدر صوتًا" },
-  "actionName_bookmark_all_tabs": { "message": "إضافة كل علامات التبويب إلى المفضّلة" },
-  "actionName_read_later": { "message": "الإضافة إلى قائمة القراءة" },
-  "actionName_clear_browsing_cache": { "message": "مسح ذاكرة التخزين المؤقت للمتصفح" },
-  "actionName_clear_site_data": { "message": "مسح بيانات هذا الموقع" },
-  "actionName_delete_url_from_history": { "message": "إزالة الصفحة من السجل" },
-  "actionName_toggle_keep_awake": { "message": "تبديل إبقاء الجهاز نشطًا" },
-  "actionName_show_downloads_folder": { "message": "إظهار مجلد التنزيلات" },
-  "actionName_save_page_mhtml": { "message": "حفظ الصفحة (MHTML)" },
-  "actionName_if_url_matches": { "message": "شرط: المتابعة إذا تطابق عنوان URL" },
-  "actionName_if_has_selection": { "message": "شرط: المتابعة إذا كان هناك نص محدّد" },
-  "actionName_run_chain": { "message": "تشغيل سلسلة أخرى" },
-  "actionName_execute_command": { "message": "تنفيذ أمر" },
-  "actionName_call_extension": { "message": "استدعاء إضافة" },
-
-  "category_execute_command": { "message": "تنفيذ أمر" },
-  "category_flow": { "message": "التحكم في التدفّق" },
-  "category_page_ops": { "message": "عمليات الصفحة" },
-  "category_tab_mgmt": { "message": "إدارة علامات التبويب" },
-  "category_window": { "message": "إدارة النوافذ" },
-  "category_media": { "message": "عناصر التحكم في الوسائط" },
-  "category_zoom": { "message": "عناصر التحكم في التكبير/التصغير" },
-  "category_content": { "message": "عمليات المحتوى" },
-  "category_advanced": { "message": "متقدّم" },
-  "category_extension": { "message": "استدعاءات الإضافات" },
-
-  "label_delay": { "message": "تأخير" },
-  "label_ms": { "message": "مللي ثانية" },
-  "label_selectExtension": { "message": "اختر إضافة" },
-  "placeholder_selectInstalledExtension": { "message": "-- اختر إضافة مثبّتة --" },
-  "option_manualInputExtensionId": { "message": "إدخال معرّف الإضافة يدويًا" },
-  "label_extensionId": { "message": "معرّف الإضافة" },
-  "placeholder_extensionIdExample": { "message": "معرّف الإضافة (مثال: nfgcnddoajoekfpacfkehomkgmpndhob)" },
-  "label_url": { "message": "عنوان URL" },
-  "placeholder_urlExample": { "message": "عنوان URL (مثال: https://example.com)" },
-  "label_openIn": { "message": "فتح في" },
-  "option_openIn_new": { "message": "علامة تبويب جديدة" },
-  "option_openIn_current": { "message": "علامة التبويب الحالية" },
-  "label_notifyText": { "message": "نص الإشعار" },
-  "placeholder_notifyText": { "message": "النص المراد عرضه في الإشعار" },
-  "label_browserPage": { "message": "صفحة المتصفح" },
-  "browserPage_downloads": { "message": "التنزيلات" },
-  "browserPage_history": { "message": "السجل" },
-  "browserPage_bookmarks": { "message": "مدير المفضّلة" },
-  "browserPage_extensions": { "message": "الإضافات" },
-  "browserPage_settings": { "message": "الإعدادات" },
-  "browserPage_shortcuts": { "message": "اختصارات لوحة المفاتيح" },
-  "browserPage_clear_browsing_data": { "message": "مسح بيانات التصفح" },
-  "label_pattern": { "message": "أنماط URL" },
-  "placeholder_pattern": { "message": "مثال: *://github.com/* أو كلمة مفتاحية؛ افصل بفواصل" },
-  "label_runChain": { "message": "السلسلة المراد تشغيلها" },
-  "placeholder_selectChain": { "message": "-- اختر سلسلة --" },
-  "hint_templateVars": { "message": "المتغيرات: {url} {title} {selection} {clipboard} {date} {time}" },
-  "hint_executeCommand": { "message": "اختر هذه الإضافة لتشغيل سلاسل الإجراءات الخاصة بك؛ اختيار إضافة أخرى يؤدي إجراءات إدارة عليها (تمكين/تعطيل، إلغاء التثبيت، فتح الخيارات…)، وليس اختصاراتها الخاصة." },
-  "hint_callExtension": { "message": "يرسل رسالة إلى إضافة أخرى. يعمل فقط إذا كانت تلك الإضافة تقبل الرسائل الخارجية (externally_connectable) — ومعظمها لا يقبلها، لذا قد لا يحدث شيء." },
-  "label_presetAction": { "message": "إجراء معدّ مسبقًا" },
-  "placeholder_selectActionTemplate": { "message": "-- اختر قالب إجراء --" },
-  "option_customMessage": { "message": "رسالة مخصّصة" },
-  "label_messageContent": { "message": "محتوى الرسالة" },
-  "placeholder_messageJson": { "message": "محتوى الرسالة (JSON، مثال: {\"action\": \"toggle\"})" },
-  "label_selectCommand": { "message": "اختر أمرًا" },
-  "placeholder_selectCommand": { "message": "-- اختر أمرًا --" },
-  "tooltip_refreshCommands": { "message": "تحديث الأوامر" },
-  "tooltip_setDefaultChain": { "message": "تعيين كسلسلة افتراضية" },
-  "tooltip_defaultChain": { "message": "السلسلة الافتراضية" },
-  "newChain_defaultName": { "message": "سلسلة جديدة" },
-  "msg_extension_toggled": { "message": "$1 الآن $2" },
-  "state_enabled": { "message": "مُمكّنة" },
-  "state_disabled": { "message": "مُعطّلة" },
-  "label_extension": { "message": "الإضافة" },
-  "error_toggle_extension_failed": { "message": "فشل تبديل حالة الإضافة" },
-  "error_uninstall_extension_failed": { "message": "فشل إلغاء تثبيت الإضافة" },
-  "label_extension_name": { "message": "اسم الإضافة" },
-  "label_version": { "message": "الإصدار" },
-  "label_description": { "message": "الوصف" },
-  "label_type": { "message": "النوع" },
-  "label_install_type": { "message": "نوع التثبيت" },
-  "label_permissions": { "message": "الأذونات" },
-  "label_none": { "message": "لا شيء" },
-  "label_homepage": { "message": "الصفحة الرئيسية" },
-  "label_error": { "message": "خطأ" },
-  "error_get_extension_info_failed": { "message": "فشل الحصول على معلومات الإضافة" },
-  "label_app": { "message": "التطبيق" },
-  "error_launch_app_failed": { "message": "فشل تشغيل التطبيق" },
-  "label_command": { "message": "الأمر" },
-  "error_unknown_command": { "message": "أمر غير معروف: $1" },
-  "error_execute_command_failed": { "message": "فشل تنفيذ الأمر" },
-  "cmd_toggle_extension_name": { "message": "تمكين/تعطيل الإضافة" },
-  "cmd_toggle_extension_desc": { "message": "تبديل حالة تمكين $1" },
-  "cmd_uninstall_extension_name": { "message": "إلغاء تثبيت الإضافة" },
-  "cmd_uninstall_extension_desc": { "message": "إلغاء تثبيت $1 (يتطلب تأكيدًا)" },
-  "cmd_open_options_name": { "message": "فتح الخيارات" },
-  "cmd_open_options_desc": { "message": "فتح صفحة خيارات $1" },
-  "cmd_open_details_name": { "message": "فتح التفاصيل" },
-  "cmd_open_details_desc": { "message": "عرض $1 في صفحة الإضافات" },
-  "cmd_show_info_name": { "message": "عرض معلومات الإضافة" },
-  "cmd_show_info_desc": { "message": "عرض المعلومات التفصيلية لـ $1" },
-  "cmd_open_homepage_name": { "message": "فتح الصفحة الرئيسية" },
-  "cmd_open_homepage_desc": { "message": "زيارة الصفحة الرئيسية لـ $1" },
-  "cmd_reload_dev_name": { "message": "إعادة تحميل إضافة التطوير" },
-  "cmd_reload_dev_desc": { "message": "إعادة تحميل إضافة التطوير $1" },
-  "cmd_launch_app_name": { "message": "تشغيل التطبيق" },
-  "cmd_launch_app_desc": { "message": "تشغيل تطبيق Chrome ‏$1" },
-  "cmd_open_store_name": { "message": "فتح صفحة المتجر" },
-  "cmd_open_store_desc": { "message": "فتح صفحة متجر Chrome الإلكتروني لـ $1" },
-  "label_unknownChain": { "message": "سلسلة غير معروفة" },
-  "msg_no_options_page": { "message": "‏$1 لا تحتوي على صفحة خيارات" },
-  "msg_check_console_for_details": { "message": "تفاصيل $1: تحقق من وحدة التحكم" },
-  "msg_no_homepage": { "message": "‏$1 لا تحتوي على صفحة رئيسية مُهيّأة" },
-  "msg_dev_extension_reloaded": { "message": "تمت إعادة تحميل إضافة التطوير $1" },
-  "msg_not_dev_extension": { "message": "‏$1 ليست إضافة تطوير؛ تعذّرت إعادة التحميل" },
-  "msg_app_launched": { "message": "تم تشغيل تطبيق Chrome ‏$1" },
-  "msg_not_chrome_app": { "message": "‏$1 ليس تطبيق Chrome؛ تعذّر التشغيل" },
-
-  "toast_chainExecuted": { "message": "تم تنفيذ السلسلة: $1" },
-  "toast_executeFailed": { "message": "فشل التنفيذ" },
-  "toast_defaultSet": { "message": "تم تعيين السلسلة الافتراضية" },
-  "toast_newChainAdded": { "message": "تمت إضافة سلسلة جديدة" },
-  "toast_atLeastOne": { "message": "يجب أن تبقى سلسلة واحدة على الأقل" },
-  "toast_extensionsRefreshed": { "message": "تم تحديث $1 إضافة" },
-  "toast_refreshExtensionsFailed": { "message": "فشل تحديث الإضافات" },
-  "toast_selectExtensionFirst": { "message": "يرجى اختيار إضافة أولاً" },
-  "toast_commandsRefreshed": { "message": "تم تحديث قائمة الأوامر" },
-  "toast_refreshCommandsFailed": { "message": "فشل تحديث قائمة الأوامر" },
-  "toast_chainDuplicated": { "message": "تم تكرار السلسلة" },
-  "toast_configExported": { "message": "تم تصدير الإعدادات" },
-  "toast_configImported": { "message": "تم استيراد الإعدادات" },
-  "toast_importFailed": { "message": "فشل الاستيراد: $1" },
-  "toast_saveFailed": { "message": "فشل الحفظ: $1" },
-  "toast_defaultsRestored": { "message": "تمت استعادة سلاسل الإجراءات الافتراضية" },
-  "toast_restoreDefaultsFailed": { "message": "فشلت استعادة الإعدادات الافتراضية" },
-  "confirm_importOverwrite": { "message": "سيؤدي الاستيراد إلى استبدال إعداداتك الحالية بالكامل. هل تريد المتابعة؟" },
-  "confirm_restoreDefaults": { "message": "ستؤدي استعادة الإعدادات الافتراضية إلى استبدال جميع سلاسل الإجراءات الحالية. هل تريد المتابعة؟" },
-  "error_invalidConfigFile": { "message": "ملف إعدادات غير صالح" },
-
-  "content_urlCopied": { "message": "تم نسخ عنوان URL إلى الحافظة" },
-  "content_titleCopied": { "message": "تم نسخ العنوان إلى الحافظة" },
-  "content_markdownCopied": { "message": "تم نسخ رابط Markdown إلى الحافظة" },
-  "content_copyFailed": { "message": "فشل النسخ، يرجى النسخ يدويًا" },
-  "content_bookmarkAdded": { "message": "تمت إضافة الصفحة إلى المفضّلة" },
-  "content_bookmarkExists": { "message": "موجودة بالفعل في المفضّلة" },
-  "content_selectionCopied": { "message": "تم نسخ النص المحدّد إلى الحافظة" },
-  "content_noSelection": { "message": "لم يتم تحديد أي نص" },
-  "content_noMedia": { "message": "لم يتم العثور على وسائط في هذه الصفحة" },
-  "content_playbackRate": { "message": "سرعة التشغيل: $1x" },
-  "content_darkModeOn": { "message": "الوضع الداكن مُفعّل" },
-  "content_darkModeOff": { "message": "الوضع الداكن معطّل" },
-  "msg_duplicateTabsClosed": { "message": "تم إغلاق $1 من علامات التبويب المكرّرة" },
-  "error_incognitoNotAllowed": { "message": "اسمح أولاً بهذه الإضافة في وضع التصفح المتخفّي (chrome://extensions)" },
-  "msg_noAudibleTab": { "message": "لا توجد علامة تبويب تصدر صوتًا" },
-  "msg_tabsBookmarked": { "message": "تمت إضافة $1 من علامات التبويب إلى المفضّلة" },
-  "msg_readLaterAdded": { "message": "تمت الإضافة إلى قائمة القراءة" },
-  "msg_readLaterExists": { "message": "موجودة بالفعل في قائمة القراءة" },
-  "msg_readingListUnsupported": { "message": "واجهة برمجة تطبيقات قائمة القراءة غير مدعومة في هذا المتصفح" },
-  "msg_cacheCleared": { "message": "تم مسح ذاكرة التخزين المؤقت للمتصفح" },
-  "msg_siteDataCleared": { "message": "تم مسح بيانات الموقع" },
-  "msg_historyDeleted": { "message": "تمت الإزالة من السجل" },
-  "msg_keepAwakeOn": { "message": "إبقاء الجهاز نشطًا مُفعّل" },
-  "msg_keepAwakeOff": { "message": "إبقاء الجهاز نشطًا معطّل" },
-  "msg_chainErrors": { "message": "السلسلة $1: فشل $2 من الإجراءات" },
-  "menu_pageParent": { "message": "تشغيل سلسلة الإجراءات" },
-  "toast_chainExported": { "message": "تم تصدير السلسلة" },
-  "toast_chainImported": { "message": "تم استيراد السلسلة: $1" },
-  "content_close": { "message": "إغلاق" },
-  "msg_uninstall_requested": { "message": "تم طلب إلغاء التثبيت" },
-  "actionName_copy_text": { "message": "نسخ نص (بتنسيق مخصص)" },
-  "actionName_confirm": { "message": "طلب التأكيد" },
-  "label_copyText": { "message": "النص المراد نسخه" },
-  "placeholder_copyText": { "message": "مثال: {title} — {url}" },
-  "label_confirmText": { "message": "نص السؤال" },
-  "placeholder_confirmText": { "message": "مثال: هل تريد إغلاق كل علامات التبويب الأخرى؟" },
-  "hint_confirm": { "message": "يعرض مربع حوار في الصفحة. تستمر السلسلة فقط عند اختيار «متابعة»، أما «إلغاء» فيوقفها. كما تتوقف في الصفحات التي لا يمكن عرض الحوار فيها (صفحات chrome://)." },
-  "confirm_defaultText": { "message": "هل تريد المتابعة؟" },
-  "content_textCopied": { "message": "تم النسخ إلى الحافظة" },
-  "content_continue": { "message": "متابعة" },
-  "content_cancel": { "message": "إلغاء" },
-  "tmpl_copyPageInfo": { "message": "نسخ معلومات الصفحة" },
-  "tmpl_safeCloseOthers": { "message": "إغلاق علامات التبويب الأخرى (مع تأكيد)" },
-  "tmpl_safeCloseOthers_ask": { "message": "هل تريد إغلاق كل علامات التبويب الأخرى؟" },
-  "confirm_importChain": { "message": "هل تريد استيراد سلسلة الإجراءات «$1»؟" },
-  "actions_count_one": { "message": "إجراء" },
-  "card_addActions": { "message": "إضافة إجراءات" },
-  "actions_remove": { "message": "حذف الإجراء" },
-  "label_msValue": { "message": "$1 مللي ثانية" },
-  "empty_title": { "message": "لا توجد سلاسل إجراءات بعد" },
-  "empty_body": { "message": "البدء من قالب هو الأسرع، أو أنشئ سلسلة فارغة وأضف إجراءاتك بنفسك." },
-  "footer_source": { "message": "المصدر والملاحظات" }
+  "extName": {
+    "message": "Hotkey Chain"
+  },
+  "extDescription": {
+    "message": "اختصارات لمتصفحك: اربط 103+ إجراءً ونفّذها عبر مفتاح اختصار أو شريط العنوان أو النقر بالزر الأيمن أو الجدولة أو مطابقة عنوان URL."
+  },
+  "appName": {
+    "message": "Hotkey Chain"
+  },
+  "thisExtension": {
+    "message": "هذه الإضافة"
+  },
+  "appTitle": {
+    "message": "إعدادات Hotkey Chain"
+  },
+  "appSubtitle": {
+    "message": "اربط إجراءات المتصفح ونفّذها باختصار واحد"
+  },
+  "toolbar_add": {
+    "message": "سلسلة جديدة"
+  },
+  "toolbar_export": {
+    "message": "تصدير"
+  },
+  "toolbar_import": {
+    "message": "استيراد"
+  },
+  "toolbar_restoreDefaults": {
+    "message": "استعادة الإعدادات الافتراضية"
+  },
+  "toolbar_shortcuts": {
+    "message": "اختصارات لوحة المفاتيح"
+  },
+  "toolbar_templates": {
+    "message": "جديد من قالب"
+  },
+  "tmpl_focusMode": {
+    "message": "وضع التركيز"
+  },
+  "tmpl_tabCleanup": {
+    "message": "تنظيف علامات التبويب"
+  },
+  "tmpl_snapshot": {
+    "message": "لقطة وحفظ"
+  },
+  "tmpl_readAloud": {
+    "message": "قراءة بصوت عالٍ"
+  },
+  "tmpl_wrapUp": {
+    "message": "وضع الإنهاء"
+  },
+  "extTmpl_genericName": {
+    "message": "إضافة عامة"
+  },
+  "extTmpl_toggleAdblock": {
+    "message": "تبديل حظر الإعلانات"
+  },
+  "extTmpl_pauseBlocking": {
+    "message": "إيقاف الحظر مؤقتًا"
+  },
+  "extTmpl_resumeBlocking": {
+    "message": "استئناف الحظر"
+  },
+  "extTmpl_toggleBlocker": {
+    "message": "تبديل المانع"
+  },
+  "extTmpl_reloadFilters": {
+    "message": "إعادة تحميل عوامل التصفية"
+  },
+  "extTmpl_fillForm": {
+    "message": "تعبئة النموذج"
+  },
+  "extTmpl_openVault": {
+    "message": "فتح الخزنة"
+  },
+  "extTmpl_generatePassword": {
+    "message": "إنشاء كلمة مرور"
+  },
+  "extTmpl_autofill": {
+    "message": "تعبئة تلقائية"
+  },
+  "extTmpl_openPopup": {
+    "message": "فتح النافذة المنبثقة"
+  },
+  "extTmpl_captureRequest": {
+    "message": "التقاط الطلب"
+  },
+  "extTmpl_importRequest": {
+    "message": "استيراد الطلب"
+  },
+  "extTmpl_showRuler": {
+    "message": "إظهار المسطرة"
+  },
+  "extTmpl_disableCss": {
+    "message": "تعطيل CSS"
+  },
+  "extTmpl_translatePage": {
+    "message": "ترجمة الصفحة"
+  },
+  "extTmpl_translateSelection": {
+    "message": "ترجمة النص المحدّد"
+  },
+  "extTmpl_captureFullPage": {
+    "message": "التقاط الصفحة كاملة"
+  },
+  "extTmpl_captureVisible": {
+    "message": "التقاط المنطقة المرئية"
+  },
+  "extTmpl_toggleFeature": {
+    "message": "تبديل الميزة"
+  },
+  "extTmpl_runMain": {
+    "message": "تشغيل الإجراء الرئيسي"
+  },
+  "extTmpl_refresh": {
+    "message": "تحديث"
+  },
+  "extTmpl_reset": {
+    "message": "إعادة تعيين"
+  },
+  "help_title": {
+    "message": "الإجراءات المتاحة"
+  },
+  "edit_title": {
+    "message": "تحرير السلسلة"
+  },
+  "edit_back": {
+    "message": "رجوع"
+  },
+  "edit_test": {
+    "message": "تشغيل تجريبي"
+  },
+  "edit_exportChain": {
+    "message": "تصدير هذه السلسلة"
+  },
+  "info_triggers": {
+    "message": "المشغّلات التلقائية"
+  },
+  "info_schedule": {
+    "message": "التشغيل كل (دقائق، 0 = إيقاف)"
+  },
+  "info_autoRun": {
+    "message": "التشغيل التلقائي عند تحميل الصفحة (أنماط URL)"
+  },
+  "info_autoRun_placeholder": {
+    "message": "مثال: *://github.com/*؛ افصل بين الأنماط المتعددة بفواصل أو أسطر جديدة"
+  },
+  "info_basic": {
+    "message": "المعلومات الأساسية"
+  },
+  "info_name": {
+    "message": "اسم السلسلة"
+  },
+  "info_name_placeholder": {
+    "message": "أدخل اسم السلسلة"
+  },
+  "info_desc": {
+    "message": "الوصف"
+  },
+  "info_desc_placeholder": {
+    "message": "اختياري: صِف الغرض من هذه السلسلة"
+  },
+  "info_default": {
+    "message": "تعيين كسلسلة افتراضية"
+  },
+  "actions_title": {
+    "message": "الإجراءات"
+  },
+  "actions_add": {
+    "message": "إضافة إجراء"
+  },
+  "actions_none": {
+    "message": "لا توجد إجراءات بعد"
+  },
+  "actions_more": {
+    "message": "إجراءات إضافية"
+  },
+  "actions_count": {
+    "message": "إجراءات"
+  },
+  "card_exec": {
+    "message": "تشغيل"
+  },
+  "card_edit": {
+    "message": "تحرير"
+  },
+  "card_duplicate": {
+    "message": "تكرار"
+  },
+  "card_delete": {
+    "message": "حذف"
+  },
+  "suffix_copy": {
+    "message": "(نسخة)"
+  },
+  "action_defaultTitle": {
+    "message": "Hotkey Chain - انقر لتنفيذ الإجراء الافتراضي"
+  },
+  "cmd_execute_action": {
+    "message": "تنفيذ سلسلة الإجراءات الافتراضية"
+  },
+  "cmd_execute_chain_1": {
+    "message": "سلسلة الإجراءات 1"
+  },
+  "cmd_execute_chain_2": {
+    "message": "سلسلة الإجراءات 2"
+  },
+  "cmd_execute_chain_3": {
+    "message": "سلسلة الإجراءات 3"
+  },
+  "cmd_execute_chain_4": {
+    "message": "سلسلة الإجراءات 4"
+  },
+  "cmd_execute_chain_5": {
+    "message": "سلسلة الإجراءات 5"
+  },
+  "cmd_execute_chain_6": {
+    "message": "سلسلة الإجراءات 6"
+  },
+  "cmd_execute_chain_7": {
+    "message": "سلسلة الإجراءات 7"
+  },
+  "cmd_execute_chain_8": {
+    "message": "سلسلة الإجراءات 8"
+  },
+  "cmd_execute_chain_9": {
+    "message": "سلسلة الإجراءات 9"
+  },
+  "menu_executeDefault": {
+    "message": "تشغيل سلسلة الإجراءات الافتراضية"
+  },
+  "menu_options": {
+    "message": "فتح الإعدادات"
+  },
+  "settings_language": {
+    "message": "اللغة"
+  },
+  "language_auto": {
+    "message": "تلقائي (المتصفح)"
+  },
+  "defaultChain_reading": {
+    "message": "وضع القراءة"
+  },
+  "defaultChain_tidyTabs": {
+    "message": "ترتيب علامات التبويب"
+  },
+  "defaultChain_copyMarkdown": {
+    "message": "نسخ كـ Markdown"
+  },
+  "actionName_scroll_to_top": {
+    "message": "التمرير إلى الأعلى"
+  },
+  "actionName_scroll_to_bottom": {
+    "message": "التمرير إلى الأسفل"
+  },
+  "actionName_reload_page": {
+    "message": "إعادة تحميل الصفحة"
+  },
+  "actionName_close_tab": {
+    "message": "إغلاق علامة التبويب"
+  },
+  "actionName_new_tab": {
+    "message": "علامة تبويب جديدة"
+  },
+  "actionName_copy_url": {
+    "message": "نسخ عنوان URL"
+  },
+  "actionName_copy_title": {
+    "message": "نسخ العنوان"
+  },
+  "actionName_toggle_fullscreen": {
+    "message": "تبديل وضع ملء الشاشة"
+  },
+  "actionName_zoom_in": {
+    "message": "تكبير"
+  },
+  "actionName_zoom_out": {
+    "message": "تصغير"
+  },
+  "actionName_zoom_reset": {
+    "message": "إعادة تعيين التكبير/التصغير"
+  },
+  "actionName_go_back": {
+    "message": "رجوع"
+  },
+  "actionName_go_forward": {
+    "message": "تقدّم للأمام"
+  },
+  "actionName_bookmark_page": {
+    "message": "إضافة الصفحة إلى المفضّلة"
+  },
+  "actionName_copy_as_markdown": {
+    "message": "نسخ كرابط Markdown"
+  },
+  "actionName_clear_cache": {
+    "message": "تحديث كامل (تجاوز ذاكرة التخزين المؤقت)"
+  },
+  "actionName_duplicate_tab": {
+    "message": "تكرار علامة التبويب"
+  },
+  "actionName_pin_tab": {
+    "message": "تثبيت/إلغاء تثبيت علامة التبويب"
+  },
+  "actionName_mute_tab": {
+    "message": "كتم/إلغاء كتم علامة التبويب"
+  },
+  "actionName_close_other_tabs": {
+    "message": "إغلاق علامات التبويب الأخرى"
+  },
+  "actionName_move_tab_left": {
+    "message": "نقل علامة التبويب لليسار"
+  },
+  "actionName_move_tab_right": {
+    "message": "نقل علامة التبويب لليمين"
+  },
+  "actionName_prev_tab": {
+    "message": "علامة التبويب السابقة"
+  },
+  "actionName_next_tab": {
+    "message": "علامة التبويب التالية"
+  },
+  "actionName_new_window": {
+    "message": "نافذة جديدة"
+  },
+  "actionName_reopen_closed_tab": {
+    "message": "إعادة فتح علامة التبويب المغلقة"
+  },
+  "actionName_print_page": {
+    "message": "طباعة الصفحة"
+  },
+  "actionName_open_url": {
+    "message": "فتح عنوان URL"
+  },
+  "actionName_wait": {
+    "message": "انتظار"
+  },
+  "actionName_scroll_page_up": {
+    "message": "التمرير شاشة واحدة للأعلى"
+  },
+  "actionName_scroll_page_down": {
+    "message": "التمرير شاشة واحدة للأسفل"
+  },
+  "actionName_close_tabs_right": {
+    "message": "إغلاق علامات التبويب الموجودة على اليمين"
+  },
+  "actionName_close_window": {
+    "message": "إغلاق النافذة"
+  },
+  "actionName_toggle_dark_mode": {
+    "message": "تبديل الوضع الداكن"
+  },
+  "actionName_translate_page": {
+    "message": "ترجمة الصفحة"
+  },
+  "actionName_media_play_pause": {
+    "message": "تشغيل/إيقاف الوسائط مؤقتًا"
+  },
+  "actionName_media_speed_up": {
+    "message": "تسريع التشغيل"
+  },
+  "actionName_media_speed_down": {
+    "message": "إبطاء التشغيل"
+  },
+  "actionName_media_speed_reset": {
+    "message": "إعادة تعيين سرعة التشغيل"
+  },
+  "actionName_close_left_tabs": {
+    "message": "إغلاق علامات التبويب الموجودة على اليسار"
+  },
+  "actionName_close_duplicate_tabs": {
+    "message": "إغلاق علامات التبويب المكرّرة"
+  },
+  "actionName_sort_tabs_by_url": {
+    "message": "ترتيب علامات التبويب حسب عنوان URL"
+  },
+  "actionName_group_tabs_by_domain": {
+    "message": "تجميع علامات التبويب حسب النطاق"
+  },
+  "actionName_ungroup_all_tabs": {
+    "message": "إلغاء تجميع كل علامات التبويب"
+  },
+  "actionName_mute_all_tabs": {
+    "message": "كتم كل علامات التبويب"
+  },
+  "actionName_unmute_all_tabs": {
+    "message": "إلغاء كتم كل علامات التبويب"
+  },
+  "actionName_reload_all_tabs": {
+    "message": "إعادة تحميل كل علامات التبويب"
+  },
+  "actionName_move_tab_first": {
+    "message": "نقل علامة التبويب إلى البداية"
+  },
+  "actionName_move_tab_last": {
+    "message": "نقل علامة التبويب إلى النهاية"
+  },
+  "actionName_move_tab_to_new_window": {
+    "message": "نقل علامة التبويب إلى نافذة جديدة"
+  },
+  "actionName_minimize_window": {
+    "message": "تصغير النافذة"
+  },
+  "actionName_maximize_window": {
+    "message": "تكبير النافذة"
+  },
+  "actionName_open_incognito_window": {
+    "message": "فتح نافذة تصفّح متخفّ"
+  },
+  "actionName_copy_selected_text": {
+    "message": "نسخ النص المحدّد"
+  },
+  "actionName_search_selection": {
+    "message": "البحث عن النص المحدّد"
+  },
+  "actionName_speak_selection": {
+    "message": "قراءة النص المحدّد بصوت عالٍ"
+  },
+  "actionName_stop_speaking": {
+    "message": "إيقاف القراءة"
+  },
+  "actionName_capture_screenshot": {
+    "message": "التقاط لقطة شاشة (المنطقة المرئية)"
+  },
+  "actionName_show_notification": {
+    "message": "إظهار إشعار"
+  },
+  "actionName_open_browser_page": {
+    "message": "فتح صفحة المتصفح"
+  },
+  "actionName_discard_other_tabs": {
+    "message": "إلغاء تحميل علامات التبويب الأخرى (تحرير الذاكرة)"
+  },
+  "actionName_goto_audible_tab": {
+    "message": "الانتقال إلى علامة التبويب التي تصدر صوتًا"
+  },
+  "actionName_bookmark_all_tabs": {
+    "message": "إضافة كل علامات التبويب إلى المفضّلة"
+  },
+  "actionName_read_later": {
+    "message": "الإضافة إلى قائمة القراءة"
+  },
+  "actionName_clear_browsing_cache": {
+    "message": "مسح ذاكرة التخزين المؤقت للمتصفح"
+  },
+  "actionName_clear_site_data": {
+    "message": "مسح بيانات هذا الموقع"
+  },
+  "actionName_delete_url_from_history": {
+    "message": "إزالة الصفحة من السجل"
+  },
+  "actionName_toggle_keep_awake": {
+    "message": "تبديل إبقاء الجهاز نشطًا"
+  },
+  "actionName_show_downloads_folder": {
+    "message": "إظهار مجلد التنزيلات"
+  },
+  "actionName_save_page_mhtml": {
+    "message": "حفظ الصفحة (MHTML)"
+  },
+  "actionName_if_url_matches": {
+    "message": "شرط: المتابعة إذا تطابق عنوان URL"
+  },
+  "actionName_if_has_selection": {
+    "message": "شرط: المتابعة إذا كان هناك نص محدّد"
+  },
+  "actionName_run_chain": {
+    "message": "تشغيل سلسلة أخرى"
+  },
+  "actionName_execute_command": {
+    "message": "تنفيذ أمر"
+  },
+  "actionName_call_extension": {
+    "message": "استدعاء إضافة"
+  },
+  "category_execute_command": {
+    "message": "تنفيذ أمر"
+  },
+  "category_flow": {
+    "message": "التحكم في التدفّق"
+  },
+  "category_page_ops": {
+    "message": "عمليات الصفحة"
+  },
+  "category_tab_mgmt": {
+    "message": "إدارة علامات التبويب"
+  },
+  "category_window": {
+    "message": "إدارة النوافذ"
+  },
+  "category_media": {
+    "message": "عناصر التحكم في الوسائط"
+  },
+  "category_zoom": {
+    "message": "عناصر التحكم في التكبير/التصغير"
+  },
+  "category_content": {
+    "message": "عمليات المحتوى"
+  },
+  "category_advanced": {
+    "message": "متقدّم"
+  },
+  "category_extension": {
+    "message": "استدعاءات الإضافات"
+  },
+  "label_delay": {
+    "message": "تأخير"
+  },
+  "label_ms": {
+    "message": "مللي ثانية"
+  },
+  "label_selectExtension": {
+    "message": "اختر إضافة"
+  },
+  "placeholder_selectInstalledExtension": {
+    "message": "-- اختر إضافة مثبّتة --"
+  },
+  "option_manualInputExtensionId": {
+    "message": "إدخال معرّف الإضافة يدويًا"
+  },
+  "label_extensionId": {
+    "message": "معرّف الإضافة"
+  },
+  "placeholder_extensionIdExample": {
+    "message": "معرّف الإضافة (مثال: nfgcnddoajoekfpacfkehomkgmpndhob)"
+  },
+  "label_url": {
+    "message": "عنوان URL"
+  },
+  "placeholder_urlExample": {
+    "message": "عنوان URL (مثال: https://example.com)"
+  },
+  "label_openIn": {
+    "message": "فتح في"
+  },
+  "option_openIn_new": {
+    "message": "علامة تبويب جديدة"
+  },
+  "option_openIn_current": {
+    "message": "علامة التبويب الحالية"
+  },
+  "label_notifyText": {
+    "message": "نص الإشعار"
+  },
+  "placeholder_notifyText": {
+    "message": "النص المراد عرضه في الإشعار"
+  },
+  "label_browserPage": {
+    "message": "صفحة المتصفح"
+  },
+  "browserPage_downloads": {
+    "message": "التنزيلات"
+  },
+  "browserPage_history": {
+    "message": "السجل"
+  },
+  "browserPage_bookmarks": {
+    "message": "مدير المفضّلة"
+  },
+  "browserPage_extensions": {
+    "message": "الإضافات"
+  },
+  "browserPage_settings": {
+    "message": "الإعدادات"
+  },
+  "browserPage_shortcuts": {
+    "message": "اختصارات لوحة المفاتيح"
+  },
+  "browserPage_clear_browsing_data": {
+    "message": "مسح بيانات التصفح"
+  },
+  "label_pattern": {
+    "message": "أنماط URL"
+  },
+  "placeholder_pattern": {
+    "message": "مثال: *://github.com/* أو كلمة مفتاحية؛ افصل بفواصل"
+  },
+  "label_runChain": {
+    "message": "السلسلة المراد تشغيلها"
+  },
+  "placeholder_selectChain": {
+    "message": "-- اختر سلسلة --"
+  },
+  "hint_templateVars": {
+    "message": "المتغيرات: {url} {title} {selection} {clipboard} {date} {time}"
+  },
+  "hint_executeCommand": {
+    "message": "اختر هذه الإضافة لتشغيل سلاسل الإجراءات الخاصة بك؛ اختيار إضافة أخرى يؤدي إجراءات إدارة عليها (تمكين/تعطيل، إلغاء التثبيت، فتح الخيارات…)، وليس اختصاراتها الخاصة."
+  },
+  "hint_callExtension": {
+    "message": "يرسل رسالة إلى إضافة أخرى. يعمل فقط إذا كانت تلك الإضافة تقبل الرسائل الخارجية (externally_connectable) — ومعظمها لا يقبلها، لذا قد لا يحدث شيء."
+  },
+  "label_presetAction": {
+    "message": "إجراء معدّ مسبقًا"
+  },
+  "placeholder_selectActionTemplate": {
+    "message": "-- اختر قالب إجراء --"
+  },
+  "option_customMessage": {
+    "message": "رسالة مخصّصة"
+  },
+  "label_messageContent": {
+    "message": "محتوى الرسالة"
+  },
+  "placeholder_messageJson": {
+    "message": "محتوى الرسالة (JSON، مثال: {\"action\": \"toggle\"})"
+  },
+  "label_selectCommand": {
+    "message": "اختر أمرًا"
+  },
+  "placeholder_selectCommand": {
+    "message": "-- اختر أمرًا --"
+  },
+  "tooltip_refreshCommands": {
+    "message": "تحديث الأوامر"
+  },
+  "tooltip_setDefaultChain": {
+    "message": "تعيين كسلسلة افتراضية"
+  },
+  "tooltip_defaultChain": {
+    "message": "السلسلة الافتراضية"
+  },
+  "newChain_defaultName": {
+    "message": "سلسلة جديدة"
+  },
+  "msg_extension_toggled": {
+    "message": "$1 الآن $2"
+  },
+  "state_enabled": {
+    "message": "مُمكّنة"
+  },
+  "state_disabled": {
+    "message": "مُعطّلة"
+  },
+  "label_extension": {
+    "message": "الإضافة"
+  },
+  "error_toggle_extension_failed": {
+    "message": "فشل تبديل حالة الإضافة"
+  },
+  "error_uninstall_extension_failed": {
+    "message": "فشل إلغاء تثبيت الإضافة"
+  },
+  "label_extension_name": {
+    "message": "اسم الإضافة"
+  },
+  "label_version": {
+    "message": "الإصدار"
+  },
+  "label_description": {
+    "message": "الوصف"
+  },
+  "label_type": {
+    "message": "النوع"
+  },
+  "label_install_type": {
+    "message": "نوع التثبيت"
+  },
+  "label_permissions": {
+    "message": "الأذونات"
+  },
+  "label_none": {
+    "message": "لا شيء"
+  },
+  "label_homepage": {
+    "message": "الصفحة الرئيسية"
+  },
+  "label_error": {
+    "message": "خطأ"
+  },
+  "error_get_extension_info_failed": {
+    "message": "فشل الحصول على معلومات الإضافة"
+  },
+  "label_app": {
+    "message": "التطبيق"
+  },
+  "error_launch_app_failed": {
+    "message": "فشل تشغيل التطبيق"
+  },
+  "label_command": {
+    "message": "الأمر"
+  },
+  "error_unknown_command": {
+    "message": "أمر غير معروف: $1"
+  },
+  "error_execute_command_failed": {
+    "message": "فشل تنفيذ الأمر"
+  },
+  "cmd_toggle_extension_name": {
+    "message": "تمكين/تعطيل الإضافة"
+  },
+  "cmd_toggle_extension_desc": {
+    "message": "تبديل حالة تمكين $1"
+  },
+  "cmd_uninstall_extension_name": {
+    "message": "إلغاء تثبيت الإضافة"
+  },
+  "cmd_uninstall_extension_desc": {
+    "message": "إلغاء تثبيت $1 (يتطلب تأكيدًا)"
+  },
+  "cmd_open_options_name": {
+    "message": "فتح الخيارات"
+  },
+  "cmd_open_options_desc": {
+    "message": "فتح صفحة خيارات $1"
+  },
+  "cmd_open_details_name": {
+    "message": "فتح التفاصيل"
+  },
+  "cmd_open_details_desc": {
+    "message": "عرض $1 في صفحة الإضافات"
+  },
+  "cmd_show_info_name": {
+    "message": "عرض معلومات الإضافة"
+  },
+  "cmd_show_info_desc": {
+    "message": "عرض المعلومات التفصيلية لـ $1"
+  },
+  "cmd_open_homepage_name": {
+    "message": "فتح الصفحة الرئيسية"
+  },
+  "cmd_open_homepage_desc": {
+    "message": "زيارة الصفحة الرئيسية لـ $1"
+  },
+  "cmd_reload_dev_name": {
+    "message": "إعادة تحميل إضافة التطوير"
+  },
+  "cmd_reload_dev_desc": {
+    "message": "إعادة تحميل إضافة التطوير $1"
+  },
+  "cmd_launch_app_name": {
+    "message": "تشغيل التطبيق"
+  },
+  "cmd_launch_app_desc": {
+    "message": "تشغيل تطبيق Chrome ‏$1"
+  },
+  "cmd_open_store_name": {
+    "message": "فتح صفحة المتجر"
+  },
+  "cmd_open_store_desc": {
+    "message": "فتح صفحة متجر Chrome الإلكتروني لـ $1"
+  },
+  "label_unknownChain": {
+    "message": "سلسلة غير معروفة"
+  },
+  "msg_no_options_page": {
+    "message": "‏$1 لا تحتوي على صفحة خيارات"
+  },
+  "msg_check_console_for_details": {
+    "message": "تفاصيل $1: تحقق من وحدة التحكم"
+  },
+  "msg_no_homepage": {
+    "message": "‏$1 لا تحتوي على صفحة رئيسية مُهيّأة"
+  },
+  "msg_dev_extension_reloaded": {
+    "message": "تمت إعادة تحميل إضافة التطوير $1"
+  },
+  "msg_not_dev_extension": {
+    "message": "‏$1 ليست إضافة تطوير؛ تعذّرت إعادة التحميل"
+  },
+  "msg_app_launched": {
+    "message": "تم تشغيل تطبيق Chrome ‏$1"
+  },
+  "msg_not_chrome_app": {
+    "message": "‏$1 ليس تطبيق Chrome؛ تعذّر التشغيل"
+  },
+  "toast_chainExecuted": {
+    "message": "تم تنفيذ السلسلة: $1"
+  },
+  "toast_executeFailed": {
+    "message": "فشل التنفيذ"
+  },
+  "toast_defaultSet": {
+    "message": "تم تعيين السلسلة الافتراضية"
+  },
+  "toast_newChainAdded": {
+    "message": "تمت إضافة سلسلة جديدة"
+  },
+  "toast_atLeastOne": {
+    "message": "يجب أن تبقى سلسلة واحدة على الأقل"
+  },
+  "toast_extensionsRefreshed": {
+    "message": "تم تحديث $1 إضافة"
+  },
+  "toast_refreshExtensionsFailed": {
+    "message": "فشل تحديث الإضافات"
+  },
+  "toast_selectExtensionFirst": {
+    "message": "يرجى اختيار إضافة أولاً"
+  },
+  "toast_commandsRefreshed": {
+    "message": "تم تحديث قائمة الأوامر"
+  },
+  "toast_refreshCommandsFailed": {
+    "message": "فشل تحديث قائمة الأوامر"
+  },
+  "toast_chainDuplicated": {
+    "message": "تم تكرار السلسلة"
+  },
+  "toast_configExported": {
+    "message": "تم تصدير الإعدادات"
+  },
+  "toast_configImported": {
+    "message": "تم استيراد الإعدادات"
+  },
+  "toast_importFailed": {
+    "message": "فشل الاستيراد: $1"
+  },
+  "toast_saveFailed": {
+    "message": "فشل الحفظ: $1"
+  },
+  "toast_defaultsRestored": {
+    "message": "تمت استعادة سلاسل الإجراءات الافتراضية"
+  },
+  "toast_restoreDefaultsFailed": {
+    "message": "فشلت استعادة الإعدادات الافتراضية"
+  },
+  "confirm_importOverwrite": {
+    "message": "سيؤدي الاستيراد إلى استبدال إعداداتك الحالية بالكامل. هل تريد المتابعة؟"
+  },
+  "confirm_restoreDefaults": {
+    "message": "ستؤدي استعادة الإعدادات الافتراضية إلى استبدال جميع سلاسل الإجراءات الحالية. هل تريد المتابعة؟"
+  },
+  "error_invalidConfigFile": {
+    "message": "ملف إعدادات غير صالح"
+  },
+  "content_urlCopied": {
+    "message": "تم نسخ عنوان URL إلى الحافظة"
+  },
+  "content_titleCopied": {
+    "message": "تم نسخ العنوان إلى الحافظة"
+  },
+  "content_markdownCopied": {
+    "message": "تم نسخ رابط Markdown إلى الحافظة"
+  },
+  "content_copyFailed": {
+    "message": "فشل النسخ، يرجى النسخ يدويًا"
+  },
+  "content_bookmarkAdded": {
+    "message": "تمت إضافة الصفحة إلى المفضّلة"
+  },
+  "content_bookmarkExists": {
+    "message": "موجودة بالفعل في المفضّلة"
+  },
+  "content_selectionCopied": {
+    "message": "تم نسخ النص المحدّد إلى الحافظة"
+  },
+  "content_noSelection": {
+    "message": "لم يتم تحديد أي نص"
+  },
+  "content_noMedia": {
+    "message": "لم يتم العثور على وسائط في هذه الصفحة"
+  },
+  "content_playbackRate": {
+    "message": "سرعة التشغيل: $1x"
+  },
+  "content_darkModeOn": {
+    "message": "الوضع الداكن مُفعّل"
+  },
+  "content_darkModeOff": {
+    "message": "الوضع الداكن معطّل"
+  },
+  "msg_duplicateTabsClosed": {
+    "message": "تم إغلاق $1 من علامات التبويب المكرّرة"
+  },
+  "error_incognitoNotAllowed": {
+    "message": "اسمح أولاً بهذه الإضافة في وضع التصفح المتخفّي (chrome://extensions)"
+  },
+  "msg_noAudibleTab": {
+    "message": "لا توجد علامة تبويب تصدر صوتًا"
+  },
+  "msg_tabsBookmarked": {
+    "message": "تمت إضافة $1 من علامات التبويب إلى المفضّلة"
+  },
+  "msg_readLaterAdded": {
+    "message": "تمت الإضافة إلى قائمة القراءة"
+  },
+  "msg_readLaterExists": {
+    "message": "موجودة بالفعل في قائمة القراءة"
+  },
+  "msg_readingListUnsupported": {
+    "message": "واجهة برمجة تطبيقات قائمة القراءة غير مدعومة في هذا المتصفح"
+  },
+  "msg_cacheCleared": {
+    "message": "تم مسح ذاكرة التخزين المؤقت للمتصفح"
+  },
+  "msg_siteDataCleared": {
+    "message": "تم مسح بيانات الموقع"
+  },
+  "msg_historyDeleted": {
+    "message": "تمت الإزالة من السجل"
+  },
+  "msg_keepAwakeOn": {
+    "message": "إبقاء الجهاز نشطًا مُفعّل"
+  },
+  "msg_keepAwakeOff": {
+    "message": "إبقاء الجهاز نشطًا معطّل"
+  },
+  "msg_chainErrors": {
+    "message": "السلسلة $1: فشل $2 من الإجراءات"
+  },
+  "menu_pageParent": {
+    "message": "تشغيل سلسلة الإجراءات"
+  },
+  "toast_chainExported": {
+    "message": "تم تصدير السلسلة"
+  },
+  "toast_chainImported": {
+    "message": "تم استيراد السلسلة: $1"
+  },
+  "content_close": {
+    "message": "إغلاق"
+  },
+  "msg_uninstall_requested": {
+    "message": "تم طلب إلغاء التثبيت"
+  },
+  "actionName_copy_text": {
+    "message": "نسخ نص (بتنسيق مخصص)"
+  },
+  "actionName_confirm": {
+    "message": "طلب التأكيد"
+  },
+  "label_copyText": {
+    "message": "النص المراد نسخه"
+  },
+  "placeholder_copyText": {
+    "message": "مثال: {title} — {url}"
+  },
+  "label_confirmText": {
+    "message": "نص السؤال"
+  },
+  "placeholder_confirmText": {
+    "message": "مثال: هل تريد إغلاق كل علامات التبويب الأخرى؟"
+  },
+  "hint_confirm": {
+    "message": "يعرض مربع حوار في الصفحة. تستمر السلسلة فقط عند اختيار «متابعة»، أما «إلغاء» فيوقفها. كما تتوقف في الصفحات التي لا يمكن عرض الحوار فيها (صفحات chrome://)."
+  },
+  "confirm_defaultText": {
+    "message": "هل تريد المتابعة؟"
+  },
+  "content_textCopied": {
+    "message": "تم النسخ إلى الحافظة"
+  },
+  "content_continue": {
+    "message": "متابعة"
+  },
+  "content_cancel": {
+    "message": "إلغاء"
+  },
+  "tmpl_safeCloseOthers": {
+    "message": "إغلاق علامات التبويب الأخرى (مع تأكيد)"
+  },
+  "tmpl_safeCloseOthers_ask": {
+    "message": "هل تريد إغلاق كل علامات التبويب الأخرى؟"
+  },
+  "confirm_importChain": {
+    "message": "هل تريد استيراد سلسلة الإجراءات «$1»؟"
+  },
+  "actions_count_one": {
+    "message": "إجراء"
+  },
+  "card_addActions": {
+    "message": "إضافة إجراءات"
+  },
+  "actions_remove": {
+    "message": "حذف الإجراء"
+  },
+  "label_msValue": {
+    "message": "$1 مللي ثانية"
+  },
+  "empty_title": {
+    "message": "لا توجد سلاسل إجراءات بعد"
+  },
+  "empty_body": {
+    "message": "البدء من قالب هو الأسرع، أو أنشئ سلسلة فارغة وأضف إجراءاتك بنفسك."
+  },
+  "footer_source": {
+    "message": "المصدر والملاحظات"
+  },
+  "toolbar_sidePanel": {
+    "message": "فتح اللوحة الجانبية"
+  },
+  "ai_notSupported": {
+    "message": "لا يستطيع هذا المتصفح تشغيل الذكاء الاصطناعي المدمج في Chrome (Gemini Nano). يتطلب Chrome لسطح المكتب (Windows/macOS/Linux/Chromebook Plus) وحوالي 22 غيغابايت مساحة حرة، وذاكرة رسوميات أكبر من 4 غيغابايت أو ذاكرة عشوائية 16 غيغابايت."
+  },
+  "ai_modelDownloading": {
+    "message": "نموذج Chrome AI قيد التنزيل على الجهاز، يرجى إعادة المحاولة قريبًا"
+  },
+  "ai_noTextToProcess": {
+    "message": "لم يتم تحديد أي نص أو العثور عليه في الصفحة"
+  },
+  "ai_summaryCopied": {
+    "message": "ملخص الذكاء الاصطناعي (تم النسخ)"
+  },
+  "ai_noSelection": {
+    "message": "يرجى تحديد النص أولاً"
+  },
+  "ai_explanationCopied": {
+    "message": "شرح الذكاء الاصطناعي (تم النسخ)"
+  },
+  "ai_translationCopied": {
+    "message": "ترجمة الذكاء الاصطناعي (تم النسخ)"
+  },
+  "msg_cookiesCleared": {
+    "message": "تم مسح جميع ملفات تعريف الارتباط"
+  },
+  "msg_downloadsCleared": {
+    "message": "تم مسح سجل التنزيلات"
+  },
+  "actionName_open_side_panel": {
+    "message": "فتح اللوحة الجانبية"
+  },
+  "actionName_ai_summarize": {
+    "message": "تلخيص المحتوى بالذكاء الاصطناعي"
+  },
+  "actionName_ai_explain": {
+    "message": "شرح التحديد بالذكاء الاصطناعي"
+  },
+  "actionName_ai_translate": {
+    "message": "ترجمة التحديد بالذكاء الاصطناعي"
+  },
+  "actionName_discard_current_tab": {
+    "message": "تجميد علامة التبويب الحالية (تحرير الذاكرة)"
+  },
+  "actionName_duplicate_tab_to_new_window": {
+    "message": "تكرار علامة التبويب في نافذة جديدة"
+  },
+  "actionName_collapse_all_groups": {
+    "message": "طي جميع مجموعات علامات التبويب"
+  },
+  "actionName_expand_all_groups": {
+    "message": "توسيع جميع مجموعات علامات التبويب"
+  },
+  "actionName_close_other_windows": {
+    "message": "إغلاق النوافذ الأخرى"
+  },
+  "actionName_open_options_page": {
+    "message": "فتح صفحة خيارات الإضافة"
+  },
+  "actionName_open_shortcuts_page": {
+    "message": "فتح إدارة الاختصارات"
+  },
+  "actionName_reload_extension": {
+    "message": "إعادة تحميل الإضافة"
+  },
+  "actionName_open_action_popup": {
+    "message": "فتح نافذة الإضافة المنبثقة"
+  },
+  "actionName_clear_cookies": {
+    "message": "مسح جميع ملفات تعريف الارتباط"
+  },
+  "actionName_clear_downloads_history": {
+    "message": "مسح سجل التنزيلات"
+  },
+  "actionName_speak_text": {
+    "message": "قراءة نص مخصص"
+  },
+  "actionName_toggle_design_mode": {
+    "message": "تبديل وضع تعديل الصفحة (تعديل فوري)"
+  },
+  "actionName_copy_page_html": {
+    "message": "نسخ كود HTML المصدري للصفحة"
+  },
+  "actionName_extract_all_links": {
+    "message": "استخراج جميع روابط الصفحة"
+  },
+  "actionName_extract_all_images": {
+    "message": "استخراج جميع روابط الصور"
+  },
+  "label_speakText": {
+    "message": "النص المراد قراءته"
+  },
+  "placeholder_speakText": {
+    "message": "نص للقراءة بصوت عالٍ (يدعم متغيرات مثل {title})"
+  },
+  "content_designModeOff": {
+    "message": "تم تعطيل وضع التعديل"
+  },
+  "content_designModeOn": {
+    "message": "تم تفعيل وضع التعديل (الصفحة قابلة للتحرير الآن)"
+  },
+  "content_pageHtmlCopied": {
+    "message": "تم نسخ كود HTML للصفحة إلى الحافظة"
+  },
+  "content_linksExtracted": {
+    "message": "تم نسخ الروابط المستخرجة إلى الحافظة"
+  },
+  "content_noLinksFound": {
+    "message": "لم يتم العثور على أي روابط في الصفحة"
+  },
+  "content_imagesExtracted": {
+    "message": "تم نسخ روابط الصور المستخرجة إلى الحافظة"
+  },
+  "content_noImagesFound": {
+    "message": "لم يتم العثور على أي صور في الصفحة"
+  },
+  "sidepanel_title": {
+    "message": "Hotkey Chain"
+  },
+  "sidepanel_openSettings": {
+    "message": "الإعدادات"
+  },
+  "sidepanel_searchPlaceholder": {
+    "message": "البحث في السلاسل..."
+  },
+  "sidepanel_noChainsFound": {
+    "message": "لم يتم العثور على سلاسل"
+  },
+  "sidepanel_manageChains": {
+    "message": "+ إدارة السلاسل"
+  },
+  "sidepanel_chainsSuffix": {
+    "message": "سلسلة"
+  },
+  "sidepanel_actionsSuffix": {
+    "message": "إجراء"
+  },
+  "sidepanel_runChain": {
+    "message": "تشغيل"
+  },
+  "sidepanel_executedPrefix": {
+    "message": "تم التشغيل:"
+  },
+  "sidepanel_executionFailed": {
+    "message": "فشل التشغيل"
+  },
+  "tmpl_cat_all": {
+    "message": "جميع القوالب"
+  },
+  "tmpl_cat_ai": {
+    "message": "الذكاء الاصطناعي والذكي"
+  },
+  "tmpl_cat_tabs": {
+    "message": "علامات التبويب والذاكرة"
+  },
+  "tmpl_cat_reading": {
+    "message": "القراءة والوسائط"
+  },
+  "tmpl_cat_developer": {
+    "message": "الويب والأدوات"
+  },
+  "tmpl_cat_privacy": {
+    "message": "الخصوصية والتنظيف"
+  },
+  "tmpl_cat_workflow": {
+    "message": "سير العمل اليومي"
+  },
+  "tmpl_gallery_title": {
+    "message": "معرض قوالب سلاسل الإجراءات"
+  },
+  "tmpl_gallery_subtitle": {
+    "message": "اختر مسارات عمل تلقائية جاهزة للاستخدام وأضفها بنقرة واحدة"
+  },
+  "tmpl_gallery_search_placeholder": {
+    "message": "البحث في القوالب بالاسم أو الوصف أو الإجراء..."
+  },
+  "tmpl_gallery_use": {
+    "message": "استخدام هذا القالب"
+  },
+  "tmpl_gallery_actions_count": {
+    "message": "$1 إجراءات"
+  },
+  "tmpl_gallery_empty_title": {
+    "message": "لم يتم العثور على قوالب مطابقة"
+  },
+  "tmpl_gallery_empty_desc": {
+    "message": "جرب البحث بكلمات رئيسية مختلفة أو تبديل الفئة أعلاه"
+  },
+  "tmpl_gallery_empty_reset": {
+    "message": "إعادة تعيين البحث"
+  },
+  "tmpl_aiSummarize": {
+    "message": "ملخص الصفحة الذكي بالذكاء الاصطناعي"
+  },
+  "tmpl_aiExplain": {
+    "message": "تحليل معمق للنص المحدد بالذكاء الاصطناعي"
+  },
+  "tmpl_aiTranslate": {
+    "message": "ترجمة وقراءة صوتية بالذكاء الاصطناعي"
+  },
+  "tmpl_tabHibernateClean": {
+    "message": "تحرير الذاكرة وتنظيم علامات التبويب"
+  },
+  "tmpl_webEditor": {
+    "message": "تحرير صفحة الويب في مكانها"
+  },
+  "tmpl_extractMedia": {
+    "message": "استخراج روابط وصور الصفحة"
+  },
+  "tmpl_cinemaMode": {
+    "message": "تشغيل الفيديو وملء الشاشة"
+  },
+  "tmpl_privacyWipe": {
+    "message": "مسح سريع لبيانات الخصوصية"
+  },
+  "tmpl_copyMarkdown": {
+    "message": "نسخ كرابط Markdown"
+  },
+  "tmpl_sidePanelCompanion": {
+    "message": "مساعد اللوحة الجانبية"
+  },
+  "tmpl_focusMode_desc": {
+    "message": "كتم صوت جميع علامات التبويب، والتبديل للوضع الداكن والدخول في وضع ملء الشاشة"
+  },
+  "tmpl_tabCleanup_desc": {
+    "message": "إغلاق التبويبات المكررة وترتيبها حسب الرابط وتجميعها حسب النطاق"
+  },
+  "tmpl_safeCloseOthers_desc": {
+    "message": "عرض رسالة تأكيد قبل إغلاق جميع علامات التبويب الأخرى"
+  },
+  "tmpl_aiSummarize_desc": {
+    "message": "استخراج ملخص الصفحة الأساسي باستخدام ذكاء Gemini Nano وعرضه في اللوحة الجانبية"
+  },
+  "tmpl_aiExplain_desc": {
+    "message": "حدد أي نص للحصول على تفسير فوري بالذكاء الاصطناعي في اللوحة الجانبية"
+  },
+  "tmpl_aiTranslate_desc": {
+    "message": "ترجمة النص المحدد بالذكاء الاصطناعي وقراءته بصوت عالٍ بمحرك الصوت"
+  },
+  "tmpl_tabHibernateClean_desc": {
+    "message": "إغلاق التكرارات وإسبات التبويبات غير النشطة لتوفير الذاكرة وتجميعها حسب النطاق"
+  },
+  "tmpl_webEditor_desc": {
+    "message": "تبديل وضع التصميم لتعديل نصوص الصفحة وتنسيقها بحرية مثل مستند Word"
+  },
+  "tmpl_extractMedia_desc": {
+    "message": "فحص الصفحة الحالية واستخراج جميع الصور والروابط دفعة واحدة"
+  },
+  "tmpl_cinemaMode_desc": {
+    "message": "يتأكد من أن فيديو الصفحة قيد التشغيل، ثم ينتقل إلى ملء الشاشة للمشاهدة دون مقاطعة"
+  },
+  "tmpl_readAloud_desc": {
+    "message": "استخدام محرك تحويل النص إلى كلام الأصلي بالمتصفح لقراءة النص المحدد"
+  },
+  "tmpl_privacyWipe_desc": {
+    "message": "يطلب التأكيد ثم يمسح جميع ملفات تعريف الارتباط وسجل التنزيلات بالكامل — لكل المواقع وليس الموقع الحالي فقط"
+  },
+  "tmpl_copyMarkdown_desc": {
+    "message": "تنسيق عنوان الصفحة والرابط بصيغة Markdown ونسخهما إلى الحافظة"
+  },
+  "tmpl_snapshot_desc": {
+    "message": "التقاط لقطة شاشة للمنطقة المرئية وإضافة الصفحة إلى الإشارات المرجعية"
+  },
+  "tmpl_wrapUp_desc": {
+    "message": "حفظ الإشارة المرجعية وكتم الأصوات وتصغير النافذة في نهاية اليوم"
+  },
+  "tmpl_sidePanelCompanion_desc": {
+    "message": "فتح اللوحة الجانبية لـ Hotkey Chain لتشغيل السلاسل بجانب صفحتك"
+  },
+  "tmpl_privacyWipe_ask": {
+    "message": "سيؤدي هذا إلى مسح ملفات تعريف الارتباط وسجل التنزيلات لجميع المواقع، وليس هذا الموقع فقط. هل تريد المتابعة؟"
+  },
+  "tmpl_gallery_footer_hint": {
+    "message": "انقر فوق أي قالب لإنشائه وبدء تخصيصه. يمكن تعديل جميع المعلمات بحرية."
+  },
+  "actionPicker_title": {
+    "message": "إضافة إجراء"
+  },
+  "actionPicker_subtitle": {
+    "message": "ابحث أو تصفح حسب الفئة، انقر للإضافة إلى نهاية السلسلة"
+  },
+  "actionPicker_searchPlaceholder": {
+    "message": "البحث في الإجراءات (مثل الوضع الداكن، تبويب، ذكاء، كتم، لقطة شاشة)..."
+  },
+  "actionPicker_allCategories": {
+    "message": "الكل"
+  },
+  "actionPicker_noResults": {
+    "message": "لم يتم العثور على إجراءات مطابقة. جرب كلمة رئيسية أخرى."
+  },
+  "shortcut_badge_omnibox": {
+    "message": "شريط العناوين: hc + اسم السلسلة"
+  },
+  "shortcut_hint_click": {
+    "message": "انقر لفتح إعدادات اختصارات Chrome"
+  },
+  "empty_cta_templates": {
+    "message": "تصفح معرض القوالب"
+  },
+  "empty_cta_blank": {
+    "message": "إنشاء سلسلة فارغة"
+  },
+  "tmpl_gallery_add_direct": {
+    "message": "إضافة إلى سلاسلي"
+  },
+  "tmpl_gallery_add_and_edit": {
+    "message": "إضافة وتخصيص"
+  },
+  "toast_chainAdded_actionRun": {
+    "message": "تشغيل الآن"
+  },
+  "workflow_title": {
+    "message": "أتمتة سير العمل (Pipeline)"
+  },
+  "workflow_subtitle": {
+    "message": "الربط التلقائي بالمرحلة التالية مع تمرير البيانات في المسار"
+  },
+  "workflow_nextChain": {
+    "message": "عند النجاح: الانتقال إلى السلسلة التالية"
+  },
+  "workflow_fallbackChain": {
+    "message": "عند الفشل: السلسلة الاحتياطية"
+  },
+  "workflow_noNextChain": {
+    "message": "(لا يوجد - إنهاء سير العمل)"
+  },
+  "workflow_noFallbackChain": {
+    "message": "(لا يوجد - إيقاف عند الخطأ)"
+  },
+  "workflow_passOutput": {
+    "message": "تمرير مخرجات البيانات للمراحل التالية ({{output}} / النص المحدد)"
+  },
+  "workflow_chipTooltip": {
+    "message": "سير العمل: يتابع تلقائيًا إلى $1 بعد الاكتمال"
+  },
+  "workflow_elseChain": {
+    "message": "فرع بديل عند عدم تحقق الشرط (اختياري)"
+  },
+  "workflow_noElseChain": {
+    "message": "(لا يوجد - إيقاف الإجراءات اللاحقة)"
+  },
+  "workflow_incomingTooltip": {
+    "message": "عقدة تابعة لسير العمل: يتم تشغيلها بواسطة سلسلة أخرى"
+  },
+  "workflow_step_current": {
+    "message": "السلسلة الحالية"
+  },
+  "workflow_step_next": {
+    "message": "المرحلة التالية: انقر للتعديل"
+  },
+  "workflow_step_incoming": {
+    "message": "المرحلة السابقة: انقر للتعديل"
+  },
+  "workflow_fallback_label": {
+    "message": "احتياطي"
+  },
+  "workflow_pipeline_active": {
+    "message": "خط الأنابيب نشط: $1 عقد مرتبطة"
+  },
+  "workflow_pipeline_single": {
+    "message": "سلسلة مفردة (بدون روابط تالية)"
+  },
+  "workflow_step_end": {
+    "message": "نهاية"
+  },
+  "hint_hasSelection": {
+    "message": "يتابع إذا كان هناك نص محدد، ويمرره كـ {{output}} للإجراءات التالية."
+  },
+  "tmpl_workflowAiResearch": {
+    "message": "سير عمل استخراج وتلخيص الذكاء الاصطناعي"
+  },
+  "tmpl_workflowAiResearch_desc": {
+    "message": "استخراج الروابط وإنشاء ملخص بالذكاء الاصطناعي ونسخ ماركداون إلى الحافظة"
+  },
+  "tmpl_workflowReadLater": {
+    "message": "مسار القراءة لاحقاً والأرشفة"
+  },
+  "tmpl_workflowReadLater_desc": {
+    "message": "استخراج ماركداون نظيف إلى الحافظة وإضافة الصفحة إلى الإشارات المرجعية"
+  },
+  "tmpl_aiKnowledgeCard": {
+    "message": "بطاقة المعرفة بالذكاء الاصطناعي"
+  },
+  "tmpl_aiKnowledgeCard_desc": {
+    "message": "استخرج النقاط الأساسية بالذكاء الاصطناعي على الجهاز وانسخها كبطاقة Markdown إلى الحافظة"
+  },
+  "tmpl_workflowDevClean": {
+    "message": "إعادة تعيين سريعة لمطوري الويب"
+  },
+  "tmpl_workflowDevClean_desc": {
+    "message": "امسح بيانات الموقع وذاكرة التخزين المؤقت وأعد التحميل الإجباري لاختبار خالٍ من المشكلات"
+  },
+  "tmpl_workflowCleanWorkspace": {
+    "message": "مساحة تركيز مستقلة للمهام"
+  },
+  "tmpl_workflowCleanWorkspace_desc": {
+    "message": "انقل علامة التبويب الحالية إلى نافذة جديدة مكبرة وجمّد البقية لتوفير الذاكرة"
+  },
+  "tmpl_incognitoHandoff": {
+    "message": "التحويل للوضع المتخفي ومحو السجل"
+  },
+  "tmpl_incognitoHandoff_desc": {
+    "message": "افتح الصفحة الحالية في نافذة متخفية، وأغلق التبويب واحذفه تمامًا من سجل التصفح"
+  },
+  "actionName_toggle_site_javascript": {
+    "message": "تبديل تشغيل JavaScript لهذا الموقع"
+  },
+  "actionName_toggle_site_images": {
+    "message": "تبديل تحميل الصور لهذا الموقع"
+  },
+  "actionName_toggle_site_popups": {
+    "message": "تبديل النوافذ المنبثقة لهذا الموقع"
+  },
+  "actionName_open_top_sites": {
+    "message": "فتح المواقع الأكثر زيارة"
+  },
+  "actionName_wait_for_navigation": {
+    "message": "انتظار اكتمال تحميل الصفحة/التنقل"
+  },
+  "msg_jsBlocked": {
+    "message": "تم تعطيل JavaScript لهذا الموقع"
+  },
+  "msg_jsAllowed": {
+    "message": "تم تفعيل JavaScript لهذا الموقع"
+  },
+  "msg_imagesBlocked": {
+    "message": "تم تعطيل تحميل الصور لهذا الموقع"
+  },
+  "msg_imagesAllowed": {
+    "message": "تم تفعيل تحميل الصور لهذا الموقع"
+  },
+  "msg_popupsBlocked": {
+    "message": "تم حظر النوافذ المنبثقة لهذا الموقع"
+  },
+  "msg_popupsAllowed": {
+    "message": "تم السماح بالنوافذ المنبثقة لهذا الموقع"
+  },
+  "badge_requiresAi": {
+    "message": "يتطلب ذكاءً اصطناعيًا محليًا"
+  },
+  "hint_aiRequirement": {
+    "message": "يعمل على Gemini Nano المدمج في Chrome، وكل شيء يبقى على جهازك. يتطلب Chrome لسطح المكتب بذاكرة رسوميات أو ذاكرة عشوائية كافية؛ دون مفتاح API ودون أي علامات."
+  },
+  "btn_checkAiStatus": {
+    "message": "فحص حالة الذكاء الاصطناعي المحلي"
+  },
+  "ai_statusReady": {
+    "message": "الذكاء الاصطناعي المحلي في Chrome (Gemini Nano) جاهز ومتاح في هذا المتصفح."
+  },
+  "ai_statusGuide": {
+    "message": "المتطلبات:\n1. Chrome لسطح المكتب على Windows أو macOS أو Linux أو Chromebook Plus (ليس Android/iOS)\n2. نحو 22 غيغابايت مساحة حرة على قرص الملف الشخصي؛ ذاكرة رسوميات أكبر من 4 غيغابايت أو 16 غيغابايت ذاكرة عشوائية مع 4 أنوية فأكثر\n3. يُنزَّل النموذج عند أول استخدام — تابع التقدم على chrome://on-device-internals\n4. اتصال غير محدود ببيانات لهذا التنزيل الأول؛ بعد ذلك لا تُرسل أي بيانات إلى أي خادم"
+  },
+  "msg_noTopSites": {
+    "message": "لم يتم العثور على مواقع مزارة بشكل متكرر في سجل التصفح"
+  },
+  "msg_topSitesOpened": {
+    "message": "تم فتح  من المواقع الأكثر زيارة في علامات تبويب بالخلفية"
+  },
+  "tmpl_pureReader": {
+    "message": "وضع القراءة الخالصة بدون تشتيت"
+  },
+  "tmpl_pureReader_desc": {
+    "message": "حظر النوافذ المنبثقة وتعطيل الصور وتفعيل الوضع الداكن للقراءة النصية"
+  },
+  "tmpl_siteScriptShield": {
+    "message": "درع البرمجيات النصية والنوافذ المنبثقة"
+  },
+  "tmpl_siteScriptShield_desc": {
+    "message": "تبديل تشغيل JavaScript وحظر جميع النوافذ المنبثقة في الموقع الحالي"
+  },
+  "tmpl_workstationLaunch": {
+    "message": "مسار إطلاق مساحة العمل"
+  },
+  "tmpl_workstationLaunch_desc": {
+    "message": "فتح المواقع الأكثر زيارة في علامات تبويب بالخلفية وإزالة التكرار والتجميع حسب النطاق"
+  },
+  "defaultChain_workstation": {
+    "message": "مساحة عمل الصباح"
+  },
+  "defaultChain_workstation_note": {
+    "message": "مساحة العمل جاهزة: المواقع فُتحت وتم تنظيمها"
+  },
+  "defaultChain_aiKnowledge": {
+    "message": "بطاقة معرفة الذكاء الاصطناعي"
+  },
+  "defaultChain_aiKnowledge_note": {
+    "message": "تم إنشاء بطاقة معرفة الذكاء الاصطناعي ونسخها"
+  },
+  "defaultChain_pureReader": {
+    "message": "قراءة نقية بدون تشتيت"
+  },
+  "defaultChain_devReset": {
+    "message": "مسار إعادة تعيين المطور"
+  },
+  "defaultChain_focusSandbox": {
+    "message": "صندوق تركيز معزول"
+  },
+  "label_targetLang": {
+    "message": "اللغة المستهدفة"
+  },
+  "label_translateStyle": {
+    "message": "أسلوب الترجمة"
+  },
+  "label_summaryLang": {
+    "message": "لغة الملخص"
+  },
+  "label_summaryFormat": {
+    "message": "تنسيق الملخص"
+  },
+  "label_explainLang": {
+    "message": "لغة الشرح"
+  },
+  "label_explainStyle": {
+    "message": "عمق الشرح وأسلوبه"
+  },
+  "label_ttsLang": {
+    "message": "لغة الصوت"
+  },
+  "label_ttsSpeed": {
+    "message": "سرعة القراءة"
+  },
+  "label_preferOutput": {
+    "message": "تفضيل مخرجات الخطوة السابقة (مثل ترجمة الذكاء الاصطناعي)"
+  },
+  "opt_lang_auto": {
+    "message": "تلقائي (اتّباع لغة واجهة المتصفح)"
+  },
+  "opt_format_bullets": {
+    "message": "نقاط رئيسية (موصى به)"
+  },
+  "opt_format_concise": {
+    "message": "فقرة موجزة"
+  },
+  "opt_format_detailed": {
+    "message": "ملخص مفصل ومنظم"
+  },
+  "opt_format_oneSentence": {
+    "message": "جملة واحدة ملخصة"
+  },
+  "opt_style_concise": {
+    "message": "واضح وموجز (افتراضي)"
+  },
+  "opt_style_simple": {
+    "message": "بسيط للمبتدئين"
+  },
+  "opt_style_technical": {
+    "message": "تحليل تقني متعمق"
+  },
+  "opt_style_analogy": {
+    "message": "تشبيه واقعي مبسط"
+  },
+  "opt_trans_natural": {
+    "message": "طبيعي وسلس (افتراضي)"
+  },
+  "opt_trans_formal": {
+    "message": "رسمي ومهني"
+  },
+  "opt_trans_literal": {
+    "message": "دقيق وحرفي"
+  },
+  "actionName_media_play": {
+    "message": "تشغيل الوسائط (دون إيقاف مؤقت)"
+  },
+  "label_incognitoCurrent": {
+    "message": "فتح الصفحة الحالية في النافذة الجديدة"
+  },
+  "hint_incognitoCurrent": {
+    "message": "عند عدم التحديد تُفتح نافذة تصفح متخفٍ فارغة فقط. تحتاج سلاسل التسليم إلى هذا الخيار، وإلا فُقدت الصفحة عند إغلاق التبويب الأصلي."
+  },
+  "tmpl_pipelineSummarySpeak": {
+    "message": "مسار تلخيص النصوص الطويلة والقراءة بصوت عالٍ"
+  },
+  "tmpl_pipelineSummarySpeak_desc": {
+    "message": "يلخّص الصفحة أو التحديد بالذكاء الاصطناعي المحلي، ثم يمرّر النتيجة إلى سلسلة ثانية تقرأها بصوت عالٍ"
+  },
+  "tmpl_pipelineSummarySpeak_next": {
+    "message": "قراءة الملخص بصوت عالٍ (المرحلة الثانية)"
+  },
+  "tmpl_pipelineSummarySpeak_next_desc": {
+    "message": "تُشغَّل تلقائيًا من السلسلة الأولى: تقرأ ملخص الخطوة السابقة بصوت عالٍ"
+  },
+  "tmpl_selectionSearch": {
+    "message": "البحث عن التحديد (بشرط)"
+  },
+  "tmpl_selectionSearch_desc": {
+    "message": "يتحقق أولًا مما إذا كان هناك تحديد: إن وُجد يبحث، وإلا فسلسلة ثانية تطلب تحديد نص"
+  },
+  "tmpl_selectionSearch_else": {
+    "message": "طلب تحديد نص (فرع)"
+  },
+  "tmpl_selectionSearch_else_desc": {
+    "message": "تُشغَّل من إجراء الشرط عند عدم التحديد: تطلب من المستخدم تحديد نص أولًا"
+  },
+  "tmpl_selectionSearch_elseMsg": {
+    "message": "حدِّد أولًا نصًا على الصفحة"
+  },
+  "tmpl_reloadThenExtract": {
+    "message": "استخراج الروابط بعد اكتمال التحميل"
+  },
+  "tmpl_reloadThenExtract_desc": {
+    "message": "يعيد تحميل الصفحة وينتظر انتهاء التحميل فعليًا (مناسب لتطبيقات الصفحة الواحدة)، ثم يستخرج جميع الروابط الخارجية وينسخها"
+  },
+  "ai_contentTooLong": {
+    "message": "المحتوى أطول من الحد الذي يستطيع النموذج المحلي معالجته. حدِّد مقطعًا أقصر ثم أعد المحاولة."
+  },
+  "progress_starting": {
+    "message": "جارٍ البدء…"
+  },
+  "progress_done": {
+    "message": "تم"
+  },
+  "progress_failed": {
+    "message": "انتهى مع وجود أخطاء"
+  },
+  "label_noCopy": {
+    "message": "عدم النسخ تلقائيًا إلى الحافظة (اترك النتيجة للإجراء التالي)"
+  },
+  "hint_extractNoCopy": {
+    "message": "شغِّل هذا الخيار عندما تجمع سلسلة عدة عمليات استخراج وتنسخ مرة واحدة؛ وإلا فإن كل نتيجة وسيطة تحتل الحافظة وتظهر إشعار «تم النسخ» مضللًا."
+  },
+  "ai_diag_language": {
+    "message": "لغة مخرجات الذكاء الاصطناعي"
+  },
+  "hint_actionLangOverrides": {
+    "message": "اللغة المحددة في الإجراء تلغي لغة الواجهة العامة؛ واختيار «تلقائي» يتبع لغة الواجهة (راجع التشخيص خلف أيقونة المعالج في شريط الأدوات)."
+  },
+  "shortcut_badge_withKey": {
+    "message": "اختصار: {key}"
+  },
+  "shortcut_badge_unset": {
+    "message": "لا يوجد اختصار"
+  }
 }

@@ -1,358 +1,1613 @@
 {
-  "extName": { "message": "Hotkey Chain" },
-  "extDescription": { "message": "आपके ब्राउज़र के लिए शॉर्टकट: 75+ क्रियाओं को चेन करें और उन्हें हॉटकी, एड्रेस बार, राइट-क्लिक, शेड्यूल या URL मैच से चलाएँ।" },
-  "appName": { "message": "Hotkey Chain" },
-  "thisExtension": { "message": "यह एक्सटेंशन" },
-
-  "appTitle": { "message": "Hotkey Chain सेटिंग्स" },
-  "appSubtitle": { "message": "ब्राउज़र क्रियाओं को जोड़ें और एक शॉर्टकट से चलाएँ" },
-
-  "toolbar_add": { "message": "नई चेन" },
-  "toolbar_export": { "message": "निर्यात करें" },
-  "toolbar_import": { "message": "आयात करें" },
-  "toolbar_restoreDefaults": { "message": "डिफ़ॉल्ट पुनर्स्थापित करें" },
-  "toolbar_shortcuts": { "message": "कीबोर्ड शॉर्टकट" },
-  "toolbar_templates": { "message": "टेम्पलेट से नई बनाएँ" },
-
-  "tmpl_focusMode": { "message": "फ़ोकस मोड" },
-  "tmpl_tabCleanup": { "message": "टैब सफ़ाई" },
-  "tmpl_videoMode": { "message": "वीडियो मोड" },
-  "tmpl_snapshot": { "message": "स्नैपशॉट और सहेजें" },
-  "tmpl_snapshot_done": { "message": "स्क्रीनशॉट सहेजा गया और पेज बुकमार्क किया गया" },
-  "tmpl_readAloud": { "message": "ज़ोर से पढ़ें" },
-  "tmpl_translate": { "message": "इस पेज का अनुवाद करें" },
-  "tmpl_wrapUp": { "message": "समापन मोड" },
-
-  "extTmpl_genericName": { "message": "सामान्य एक्सटेंशन" },
-  "extTmpl_toggleAdblock": { "message": "विज्ञापन अवरोधन टॉगल करें" },
-  "extTmpl_pauseBlocking": { "message": "अवरोधन रोकें" },
-  "extTmpl_resumeBlocking": { "message": "अवरोधन फिर से शुरू करें" },
-  "extTmpl_toggleBlocker": { "message": "ब्लॉकर टॉगल करें" },
-  "extTmpl_reloadFilters": { "message": "फ़िल्टर पुनः लोड करें" },
-  "extTmpl_fillForm": { "message": "फ़ॉर्म भरें" },
-  "extTmpl_openVault": { "message": "वॉल्ट खोलें" },
-  "extTmpl_generatePassword": { "message": "पासवर्ड जनरेट करें" },
-  "extTmpl_autofill": { "message": "ऑटोफ़िल" },
-  "extTmpl_openPopup": { "message": "पॉपअप खोलें" },
-  "extTmpl_captureRequest": { "message": "रिक्वेस्ट कैप्चर करें" },
-  "extTmpl_importRequest": { "message": "रिक्वेस्ट आयात करें" },
-  "extTmpl_showRuler": { "message": "रूलर दिखाएँ" },
-  "extTmpl_disableCss": { "message": "CSS अक्षम करें" },
-  "extTmpl_translatePage": { "message": "पेज का अनुवाद करें" },
-  "extTmpl_translateSelection": { "message": "चयन का अनुवाद करें" },
-  "extTmpl_captureFullPage": { "message": "पूरा पेज कैप्चर करें" },
-  "extTmpl_captureVisible": { "message": "दृश्यमान क्षेत्र कैप्चर करें" },
-  "extTmpl_toggleFeature": { "message": "सुविधा टॉगल करें" },
-  "extTmpl_runMain": { "message": "मुख्य क्रिया चलाएँ" },
-  "extTmpl_refresh": { "message": "रिफ़्रेश करें" },
-  "extTmpl_reset": { "message": "रीसेट करें" },
-
-  "help_title": { "message": "उपलब्ध क्रियाएँ" },
-
-  "edit_title": { "message": "चेन संपादित करें" },
-  "edit_back": { "message": "वापस" },
-  "edit_test": { "message": "टेस्ट रन" },
-  "edit_exportChain": { "message": "इस चेन को निर्यात करें" },
-  "info_triggers": { "message": "स्वचालित ट्रिगर" },
-  "info_schedule": { "message": "हर कितने मिनट में चलाएँ (0 = बंद)" },
-  "info_autoRun": { "message": "पेज लोड होने पर ऑटो-रन (URL पैटर्न)" },
-  "info_autoRun_placeholder": { "message": "उदा. *://github.com/*; एकाधिक पैटर्न को कॉमा या नई पंक्तियों से अलग करें" },
-
-  "info_basic": { "message": "बुनियादी जानकारी" },
-  "info_name": { "message": "चेन नाम" },
-  "info_name_placeholder": { "message": "चेन का नाम दर्ज करें" },
-  "info_desc": { "message": "विवरण" },
-  "info_desc_placeholder": { "message": "वैकल्पिक: इस चेन के उद्देश्य का वर्णन करें" },
-  "info_default": { "message": "डिफ़ॉल्ट चेन के रूप में सेट करें" },
-
-  "actions_title": { "message": "क्रियाएँ" },
-  "actions_add": { "message": "क्रिया जोड़ें" },
-  "actions_none": { "message": "अभी तक कोई क्रिया नहीं" },
-  "actions_more": { "message": "और क्रियाएँ" },
-  "actions_count": { "message": "क्रियाएँ" },
-
-  "card_exec": { "message": "चलाएँ" },
-  "card_edit": { "message": "संपादित करें" },
-  "card_duplicate": { "message": "डुप्लिकेट करें" },
-  "card_delete": { "message": "हटाएँ" },
-  "suffix_copy": { "message": "(कॉपी)" },
-  "action_defaultTitle": { "message": "Hotkey Chain - डिफ़ॉल्ट क्रिया चलाने के लिए क्लिक करें" },
-  "cmd_execute_action": { "message": "डिफ़ॉल्ट क्रिया चेन निष्पादित करें" },
-  "cmd_execute_chain_1": { "message": "क्रिया चेन 1" },
-  "cmd_execute_chain_2": { "message": "क्रिया चेन 2" },
-  "cmd_execute_chain_3": { "message": "क्रिया चेन 3" },
-  "cmd_execute_chain_4": { "message": "क्रिया चेन 4" },
-  "cmd_execute_chain_5": { "message": "क्रिया चेन 5" },
-  "cmd_execute_chain_6": { "message": "क्रिया चेन 6" },
-  "cmd_execute_chain_7": { "message": "क्रिया चेन 7" },
-  "cmd_execute_chain_8": { "message": "क्रिया चेन 8" },
-  "cmd_execute_chain_9": { "message": "क्रिया चेन 9" },
-  "menu_executeDefault": { "message": "डिफ़ॉल्ट क्रिया चेन चलाएँ" },
-  "menu_executeChain": { "message": "क्रिया चेन $1 चलाएँ" },
-  "menu_options": { "message": "सेटिंग्स खोलें" },
-
-  "settings_language": { "message": "भाषा" },
-  "language_auto": { "message": "स्वतः (ब्राउज़र)" },
-  "language_en": { "message": "English" },
-  "language_zh_CN": { "message": "简体中文" },
-
-  "defaultChain_reading": { "message": "रीडिंग मोड" },
-  "defaultChain_tidyTabs": { "message": "टैब व्यवस्थित करें" },
-  "defaultChain_readLater": { "message": "बाद में पढ़ें" },
-  "defaultChain_readLater_note": { "message": "रीडिंग सूची में सहेजा गया: {title}" },
-  "defaultChain_searchSelection": { "message": "चयन खोजें" },
-  "defaultChain_cinema": { "message": "सिनेमा मोड" },
-  "defaultChain_copyMarkdown": { "message": "Markdown के रूप में कॉपी करें" },
-  "defaultChain_hardRefresh": { "message": "हार्ड रिफ़्रेश" },
-  "defaultChain_morningRoutine": { "message": "सुबह की दिनचर्या" },
-  "defaultChain_morningRoutine_note": { "message": "वर्कस्पेस तैयार है" },
-
-  "actionName_scroll_to_top": { "message": "ऊपर स्क्रॉल करें" },
-  "actionName_scroll_to_bottom": { "message": "नीचे स्क्रॉल करें" },
-  "actionName_reload_page": { "message": "पेज पुनः लोड करें" },
-  "actionName_close_tab": { "message": "टैब बंद करें" },
-  "actionName_new_tab": { "message": "नया टैब" },
-  "actionName_copy_url": { "message": "URL कॉपी करें" },
-  "actionName_copy_title": { "message": "शीर्षक कॉपी करें" },
-  "actionName_toggle_fullscreen": { "message": "फ़ुलस्क्रीन टॉगल करें" },
-  "actionName_zoom_in": { "message": "ज़ूम इन" },
-  "actionName_zoom_out": { "message": "ज़ूम आउट" },
-  "actionName_zoom_reset": { "message": "ज़ूम रीसेट करें" },
-  "actionName_go_back": { "message": "पीछे जाएँ" },
-  "actionName_go_forward": { "message": "आगे जाएँ" },
-  "actionName_bookmark_page": { "message": "पेज बुकमार्क करें" },
-  "actionName_copy_as_markdown": { "message": "Markdown लिंक के रूप में कॉपी करें" },
-  "actionName_clear_cache": { "message": "हार्ड रिफ़्रेश (कैश बायपास करें)" },
-  "actionName_duplicate_tab": { "message": "टैब डुप्लिकेट करें" },
-  "actionName_pin_tab": { "message": "टैब पिन/अनपिन करें" },
-  "actionName_mute_tab": { "message": "टैब म्यूट/अनम्यूट करें" },
-  "actionName_close_other_tabs": { "message": "अन्य टैब बंद करें" },
-  "actionName_move_tab_left": { "message": "टैब बाएँ ले जाएँ" },
-  "actionName_move_tab_right": { "message": "टैब दाएँ ले जाएँ" },
-  "actionName_prev_tab": { "message": "पिछला टैब" },
-  "actionName_next_tab": { "message": "अगला टैब" },
-  "actionName_new_window": { "message": "नई विंडो" },
-  "actionName_reopen_closed_tab": { "message": "बंद किया गया टैब फिर से खोलें" },
-  "actionName_print_page": { "message": "पेज प्रिंट करें" },
-  "actionName_open_url": { "message": "URL खोलें" },
-  "actionName_wait": { "message": "प्रतीक्षा करें" },
-  "actionName_scroll_page_up": { "message": "एक स्क्रीन ऊपर स्क्रॉल करें" },
-  "actionName_scroll_page_down": { "message": "एक स्क्रीन नीचे स्क्रॉल करें" },
-  "actionName_close_tabs_right": { "message": "दाईं ओर के टैब बंद करें" },
-  "actionName_close_window": { "message": "विंडो बंद करें" },
-  "actionName_toggle_dark_mode": { "message": "डार्क मोड टॉगल करें" },
-  "actionName_translate_page": { "message": "पेज का अनुवाद करें" },
-  "actionName_media_play_pause": { "message": "मीडिया चलाएँ/रोकें" },
-  "actionName_media_speed_up": { "message": "प्लेबैक तेज़ करें" },
-  "actionName_media_speed_down": { "message": "प्लेबैक धीमा करें" },
-  "actionName_media_speed_reset": { "message": "प्लेबैक गति रीसेट करें" },
-  "actionName_close_left_tabs": { "message": "बाईं ओर के टैब बंद करें" },
-  "actionName_close_duplicate_tabs": { "message": "डुप्लिकेट टैब बंद करें" },
-  "actionName_sort_tabs_by_url": { "message": "URL के अनुसार टैब क्रमबद्ध करें" },
-  "actionName_group_tabs_by_domain": { "message": "डोमेन के अनुसार टैब समूहित करें" },
-  "actionName_ungroup_all_tabs": { "message": "सभी टैब असमूहित करें" },
-  "actionName_mute_all_tabs": { "message": "सभी टैब म्यूट करें" },
-  "actionName_unmute_all_tabs": { "message": "सभी टैब अनम्यूट करें" },
-  "actionName_reload_all_tabs": { "message": "सभी टैब पुनः लोड करें" },
-  "actionName_move_tab_first": { "message": "टैब को शुरुआत में ले जाएँ" },
-  "actionName_move_tab_last": { "message": "टैब को अंत में ले जाएँ" },
-  "actionName_move_tab_to_new_window": { "message": "टैब को नई विंडो में ले जाएँ" },
-  "actionName_minimize_window": { "message": "विंडो मिनिमाइज़ करें" },
-  "actionName_maximize_window": { "message": "विंडो मैक्सिमाइज़ करें" },
-  "actionName_open_incognito_window": { "message": "इन्कॉग्निटो विंडो खोलें" },
-  "actionName_copy_selected_text": { "message": "चयनित टेक्स्ट कॉपी करें" },
-  "actionName_search_selection": { "message": "चयनित टेक्स्ट खोजें" },
-  "actionName_speak_selection": { "message": "चयनित टेक्स्ट ज़ोर से पढ़ें" },
-  "actionName_stop_speaking": { "message": "पढ़ना रोकें" },
-  "actionName_capture_screenshot": { "message": "स्क्रीनशॉट कैप्चर करें (दृश्यमान क्षेत्र)" },
-  "actionName_show_notification": { "message": "सूचना दिखाएँ" },
-  "actionName_open_browser_page": { "message": "ब्राउज़र पेज खोलें" },
-  "actionName_discard_other_tabs": { "message": "अन्य टैब अनलोड करें (मेमोरी खाली करें)" },
-  "actionName_goto_audible_tab": { "message": "ध्वनि वाले टैब पर जाएँ" },
-  "actionName_bookmark_all_tabs": { "message": "सभी टैब बुकमार्क करें" },
-  "actionName_read_later": { "message": "रीडिंग सूची में जोड़ें" },
-  "actionName_clear_browsing_cache": { "message": "ब्राउज़र कैश साफ़ करें" },
-  "actionName_clear_site_data": { "message": "इस साइट का डेटा साफ़ करें" },
-  "actionName_delete_url_from_history": { "message": "इतिहास से पेज हटाएँ" },
-  "actionName_toggle_keep_awake": { "message": "स्क्रीन जगाए रखना टॉगल करें" },
-  "actionName_show_downloads_folder": { "message": "डाउनलोड फ़ोल्डर दिखाएँ" },
-  "actionName_save_page_mhtml": { "message": "पेज सहेजें (MHTML)" },
-  "actionName_if_url_matches": { "message": "शर्त: यदि URL मैच हो तो जारी रखें" },
-  "actionName_if_has_selection": { "message": "शर्त: यदि टेक्स्ट चयनित हो तो जारी रखें" },
-  "actionName_run_chain": { "message": "अन्य चेन चलाएँ" },
-  "actionName_execute_command": { "message": "कमांड निष्पादित करें" },
-  "actionName_call_extension": { "message": "एक्सटेंशन कॉल करें" },
-
-  "category_execute_command": { "message": "कमांड निष्पादित करें" },
-  "category_flow": { "message": "फ़्लो नियंत्रण" },
-  "category_page_ops": { "message": "पेज संचालन" },
-  "category_tab_mgmt": { "message": "टैब प्रबंधन" },
-  "category_window": { "message": "विंडो प्रबंधन" },
-  "category_media": { "message": "मीडिया नियंत्रण" },
-  "category_zoom": { "message": "ज़ूम नियंत्रण" },
-  "category_content": { "message": "सामग्री संचालन" },
-  "category_advanced": { "message": "उन्नत" },
-  "category_extension": { "message": "एक्सटेंशन कॉल" },
-
-  "label_delay": { "message": "विलंब" },
-  "label_ms": { "message": "ms" },
-  "label_selectExtension": { "message": "एक्सटेंशन चुनें" },
-  "placeholder_selectInstalledExtension": { "message": "-- इंस्टॉल किया गया एक्सटेंशन चुनें --" },
-  "option_manualInputExtensionId": { "message": "एक्सटेंशन ID मैन्युअल रूप से दर्ज करें" },
-  "label_extensionId": { "message": "एक्सटेंशन ID" },
-  "placeholder_extensionIdExample": { "message": "एक्सटेंशन ID (उदा. nfgcnddoajoekfpacfkehomkgmpndhob)" },
-  "label_url": { "message": "URL" },
-  "placeholder_urlExample": { "message": "URL (उदा. https://example.com)" },
-  "label_openIn": { "message": "इसमें खोलें" },
-  "option_openIn_new": { "message": "नया टैब" },
-  "option_openIn_current": { "message": "वर्तमान टैब" },
-  "label_notifyText": { "message": "सूचना टेक्स्ट" },
-  "placeholder_notifyText": { "message": "सूचना में दिखाने के लिए टेक्स्ट" },
-  "label_browserPage": { "message": "ब्राउज़र पेज" },
-  "browserPage_downloads": { "message": "डाउनलोड" },
-  "browserPage_history": { "message": "इतिहास" },
-  "browserPage_bookmarks": { "message": "बुकमार्क प्रबंधक" },
-  "browserPage_extensions": { "message": "एक्सटेंशन" },
-  "browserPage_settings": { "message": "सेटिंग्स" },
-  "browserPage_shortcuts": { "message": "कीबोर्ड शॉर्टकट" },
-  "browserPage_clear_browsing_data": { "message": "ब्राउज़िंग डेटा साफ़ करें" },
-  "label_pattern": { "message": "URL पैटर्न" },
-  "placeholder_pattern": { "message": "उदा. *://github.com/* या एक कीवर्ड; कॉमा से अलग करें" },
-  "label_runChain": { "message": "चलाने के लिए चेन" },
-  "placeholder_selectChain": { "message": "-- एक चेन चुनें --" },
-  "hint_templateVars": { "message": "वेरिएबल्स: {url} {title} {selection} {clipboard} {date} {time}" },
-  "hint_executeCommand": { "message": "अपनी क्रिया चेन चलाने के लिए इस एक्सटेंशन को चुनें; किसी अन्य एक्सटेंशन को चुनने पर उस पर प्रबंधन क्रियाएँ की जाती हैं (सक्षम/अक्षम करें, अनइंस्टॉल करें, विकल्प खोलें…), न कि उसके अपने शॉर्टकट।" },
-  "hint_callExtension": { "message": "किसी अन्य एक्सटेंशन को संदेश भेजता है। यह केवल तभी काम करता है जब वह एक्सटेंशन बाहरी संदेश स्वीकार करता है (externally_connectable) — अधिकांश नहीं करते, इसलिए यह कुछ न भी करे।" },
-  "label_presetAction": { "message": "प्रीसेट क्रिया" },
-  "placeholder_selectActionTemplate": { "message": "-- क्रिया टेम्पलेट चुनें --" },
-  "option_customMessage": { "message": "कस्टम संदेश" },
-  "label_messageContent": { "message": "संदेश सामग्री" },
-  "placeholder_messageJson": { "message": "संदेश सामग्री (JSON, उदा. {\"action\": \"toggle\"})" },
-  "label_selectCommand": { "message": "कमांड चुनें" },
-  "placeholder_selectCommand": { "message": "-- कमांड चुनें --" },
-  "tooltip_refreshCommands": { "message": "कमांड रिफ़्रेश करें" },
-  "tooltip_setDefaultChain": { "message": "डिफ़ॉल्ट चेन के रूप में सेट करें" },
-  "tooltip_defaultChain": { "message": "डिफ़ॉल्ट चेन" },
-  "newChain_defaultName": { "message": "नई चेन" },
-  "msg_extension_toggled": { "message": "$1 अब $2 है" },
-  "state_enabled": { "message": "सक्षम" },
-  "state_disabled": { "message": "अक्षम" },
-  "label_extension": { "message": "एक्सटेंशन" },
-  "error_toggle_extension_failed": { "message": "एक्सटेंशन टॉगल करने में विफल" },
-  "error_uninstall_extension_failed": { "message": "एक्सटेंशन अनइंस्टॉल करने में विफल" },
-  "label_extension_name": { "message": "एक्सटेंशन नाम" },
-  "label_version": { "message": "संस्करण" },
-  "label_description": { "message": "विवरण" },
-  "label_type": { "message": "प्रकार" },
-  "label_install_type": { "message": "इंस्टॉल प्रकार" },
-  "label_permissions": { "message": "अनुमतियाँ" },
-  "label_none": { "message": "कोई नहीं" },
-  "label_homepage": { "message": "होमपेज" },
-  "label_error": { "message": "त्रुटि" },
-  "error_get_extension_info_failed": { "message": "एक्सटेंशन जानकारी प्राप्त करने में विफल" },
-  "label_app": { "message": "ऐप" },
-  "error_launch_app_failed": { "message": "ऐप लॉन्च करने में विफल" },
-  "label_command": { "message": "कमांड" },
-  "error_unknown_command": { "message": "अज्ञात कमांड: $1" },
-  "error_execute_command_failed": { "message": "कमांड निष्पादन विफल" },
-  "cmd_toggle_extension_name": { "message": "एक्सटेंशन सक्षम/अक्षम करें" },
-  "cmd_toggle_extension_desc": { "message": "$1 की सक्षम स्थिति टॉगल करें" },
-  "cmd_uninstall_extension_name": { "message": "एक्सटेंशन अनइंस्टॉल करें" },
-  "cmd_uninstall_extension_desc": { "message": "$1 अनइंस्टॉल करें (पुष्टि आवश्यक)" },
-  "cmd_open_options_name": { "message": "विकल्प खोलें" },
-  "cmd_open_options_desc": { "message": "$1 का विकल्प पेज खोलें" },
-  "cmd_open_details_name": { "message": "विवरण खोलें" },
-  "cmd_open_details_desc": { "message": "एक्सटेंशन पेज में $1 देखें" },
-  "cmd_show_info_name": { "message": "एक्सटेंशन जानकारी दिखाएँ" },
-  "cmd_show_info_desc": { "message": "$1 की विस्तृत जानकारी दिखाएँ" },
-  "cmd_open_homepage_name": { "message": "होमपेज खोलें" },
-  "cmd_open_homepage_desc": { "message": "$1 के होमपेज पर जाएँ" },
-  "cmd_reload_dev_name": { "message": "डेव एक्सटेंशन पुनः लोड करें" },
-  "cmd_reload_dev_desc": { "message": "डेवलपमेंट एक्सटेंशन $1 पुनः लोड करें" },
-  "cmd_launch_app_name": { "message": "ऐप लॉन्च करें" },
-  "cmd_launch_app_desc": { "message": "Chrome ऐप $1 लॉन्च करें" },
-  "cmd_open_store_name": { "message": "स्टोर पेज खोलें" },
-  "cmd_open_store_desc": { "message": "$1 का Chrome वेब स्टोर पेज खोलें" },
-  "label_unknownChain": { "message": "अज्ञात चेन" },
-  "msg_no_options_page": { "message": "$1 का कोई विकल्प पेज नहीं है" },
-  "msg_check_console_for_details": { "message": "$1 विवरण: कंसोल देखें" },
-  "msg_no_homepage": { "message": "$1 का कोई होमपेज कॉन्फ़िगर नहीं है" },
-  "msg_dev_extension_reloaded": { "message": "डेवलपमेंट एक्सटेंशन $1 पुनः लोड किया गया" },
-  "msg_not_dev_extension": { "message": "$1 डेवलपमेंट एक्सटेंशन नहीं है; पुनः लोड नहीं किया जा सकता" },
-  "msg_app_launched": { "message": "Chrome ऐप $1 लॉन्च किया गया" },
-  "msg_not_chrome_app": { "message": "$1 Chrome ऐप नहीं है; लॉन्च नहीं किया जा सकता" },
-
-  "toast_chainExecuted": { "message": "चेन निष्पादित: $1" },
-  "toast_executeFailed": { "message": "निष्पादन विफल" },
-  "toast_defaultSet": { "message": "डिफ़ॉल्ट चेन सेट की गई" },
-  "toast_newChainAdded": { "message": "नई चेन जोड़ी गई" },
-  "toast_atLeastOne": { "message": "कम से कम एक चेन बनी रहनी चाहिए" },
-  "toast_extensionsRefreshed": { "message": "$1 एक्सटेंशन रिफ़्रेश किए गए" },
-  "toast_refreshExtensionsFailed": { "message": "एक्सटेंशन रिफ़्रेश करने में विफल" },
-  "toast_selectExtensionFirst": { "message": "कृपया पहले एक एक्सटेंशन चुनें" },
-  "toast_commandsRefreshed": { "message": "कमांड सूची रिफ़्रेश की गई" },
-  "toast_refreshCommandsFailed": { "message": "कमांड सूची रिफ़्रेश करने में विफल" },
-  "toast_chainDuplicated": { "message": "चेन डुप्लिकेट की गई" },
-  "toast_configExported": { "message": "कॉन्फ़िगरेशन निर्यात की गई" },
-  "toast_configImported": { "message": "कॉन्फ़िगरेशन आयात की गई" },
-  "toast_importFailed": { "message": "आयात विफल: $1" },
-  "toast_saveFailed": { "message": "सहेजना विफल: $1" },
-  "toast_defaultsRestored": { "message": "डिफ़ॉल्ट क्रिया चेन पुनर्स्थापित की गईं" },
-  "toast_restoreDefaultsFailed": { "message": "डिफ़ॉल्ट पुनर्स्थापित करने में विफल" },
-  "confirm_importOverwrite": { "message": "आयात करने से आपकी पूरी वर्तमान कॉन्फ़िगरेशन बदल जाएगी। जारी रखें?" },
-  "confirm_restoreDefaults": { "message": "डिफ़ॉल्ट पुनर्स्थापित करने से सभी वर्तमान क्रिया चेन बदल जाएँगी। जारी रखें?" },
-  "error_invalidConfigFile": { "message": "अमान्य कॉन्फ़िगरेशन फ़ाइल" },
-
-  "content_urlCopied": { "message": "URL क्लिपबोर्ड पर कॉपी किया गया" },
-  "content_titleCopied": { "message": "शीर्षक क्लिपबोर्ड पर कॉपी किया गया" },
-  "content_markdownCopied": { "message": "Markdown लिंक क्लिपबोर्ड पर कॉपी किया गया" },
-  "content_copyFailed": { "message": "कॉपी विफल, कृपया मैन्युअल रूप से कॉपी करें" },
-  "content_bookmarkAdded": { "message": "पेज बुकमार्क किया गया" },
-  "content_bookmarkExists": { "message": "पहले से बुकमार्क किया गया" },
-  "content_selectionCopied": { "message": "चयन क्लिपबोर्ड पर कॉपी किया गया" },
-  "content_noSelection": { "message": "कोई टेक्स्ट चयनित नहीं" },
-  "content_noMedia": { "message": "इस पेज पर कोई मीडिया नहीं मिला" },
-  "content_playbackRate": { "message": "प्लेबैक गति: $1x" },
-  "content_darkModeOn": { "message": "डार्क मोड चालू" },
-  "content_darkModeOff": { "message": "डार्क मोड बंद" },
-  "msg_duplicateTabsClosed": { "message": "$1 डुप्लिकेट टैब बंद किए गए" },
-  "error_incognitoNotAllowed": { "message": "पहले इस एक्सटेंशन को इन्कॉग्निटो मोड में अनुमति दें (chrome://extensions)" },
-  "msg_noAudibleTab": { "message": "कोई ध्वनि वाला टैब नहीं" },
-  "msg_tabsBookmarked": { "message": "$1 टैब बुकमार्क किए गए" },
-  "msg_readLaterAdded": { "message": "रीडिंग सूची में जोड़ा गया" },
-  "msg_readLaterExists": { "message": "पहले से रीडिंग सूची में है" },
-  "msg_readingListUnsupported": { "message": "इस ब्राउज़र में रीडिंग सूची API समर्थित नहीं है" },
-  "msg_cacheCleared": { "message": "ब्राउज़र कैश साफ़ किया गया" },
-  "msg_siteDataCleared": { "message": "साइट डेटा साफ़ किया गया" },
-  "msg_historyDeleted": { "message": "इतिहास से हटाया गया" },
-  "msg_keepAwakeOn": { "message": "स्क्रीन जगाए रखना चालू" },
-  "msg_keepAwakeOff": { "message": "स्क्रीन जगाए रखना बंद" },
-  "msg_chainErrors": { "message": "चेन $1: $2 क्रियाएँ विफल रहीं" },
-  "menu_pageParent": { "message": "क्रिया चेन चलाएँ" },
-  "toast_chainExported": { "message": "चेन निर्यात की गई" },
-  "toast_chainImported": { "message": "चेन आयात की गई: $1" },
-  "content_close": { "message": "बंद करें" },
-  "msg_uninstall_requested": { "message": "अनइंस्टॉल का अनुरोध किया गया" },
-  "actionName_copy_text": { "message": "टेक्स्ट कॉपी करें (अपना फ़ॉर्मैट)" },
-  "actionName_confirm": { "message": "पुष्टि पूछें" },
-  "label_copyText": { "message": "कॉपी किया जाने वाला टेक्स्ट" },
-  "placeholder_copyText": { "message": "जैसे {title} — {url}" },
-  "label_confirmText": { "message": "सवाल" },
-  "placeholder_confirmText": { "message": "जैसे बाकी सभी टैब बंद करें?" },
-  "hint_confirm": { "message": "पेज पर एक डायलॉग दिखाता है। चेन तभी आगे बढ़ती है जब आप जारी रखें चुनें; रद्द करें चुनने पर रुक जाती है। जिन पेजों पर डायलॉग नहीं दिख सकता (chrome:// पेज), वहाँ भी रुक जाती है।" },
-  "confirm_defaultText": { "message": "जारी रखें?" },
-  "content_textCopied": { "message": "क्लिपबोर्ड पर कॉपी हो गया" },
-  "content_continue": { "message": "जारी रखें" },
-  "content_cancel": { "message": "रद्द करें" },
-  "tmpl_copyPageInfo": { "message": "पेज की जानकारी कॉपी करें" },
-  "tmpl_safeCloseOthers": { "message": "बाकी टैब बंद करें (पुष्टि के साथ)" },
-  "tmpl_safeCloseOthers_ask": { "message": "बाकी सभी टैब बंद करें?" },
-  "confirm_importChain": { "message": "\"$1\" चेन आयात करें?" },
-  "actions_count_one": { "message": "क्रिया" },
-  "card_addActions": { "message": "क्रियाएँ जोड़ें" },
-  "actions_remove": { "message": "क्रिया हटाएँ" },
-  "label_msValue": { "message": "$1 ms" },
-  "empty_title": { "message": "अभी तक कोई ऐक्शन चेन नहीं" },
-  "empty_body": { "message": "टेम्पलेट से शुरू करना सबसे तेज़ है, या खाली चेन बनाकर खुद क्रियाएँ जोड़ें।" },
-  "footer_source": { "message": "सोर्स और फ़ीडबैक" }
+  "extName": {
+    "message": "Hotkey Chain"
+  },
+  "extDescription": {
+    "message": "आपके ब्राउज़र के लिए शॉर्टकट: 103+ क्रियाओं को चेन करें और उन्हें हॉटकी, एड्रेस बार, राइट-क्लिक, शेड्यूल या URL मैच से चलाएँ।"
+  },
+  "appName": {
+    "message": "Hotkey Chain"
+  },
+  "thisExtension": {
+    "message": "यह एक्सटेंशन"
+  },
+  "appTitle": {
+    "message": "Hotkey Chain सेटिंग्स"
+  },
+  "appSubtitle": {
+    "message": "ब्राउज़र क्रियाओं को जोड़ें और एक शॉर्टकट से चलाएँ"
+  },
+  "toolbar_add": {
+    "message": "नई चेन"
+  },
+  "toolbar_export": {
+    "message": "निर्यात करें"
+  },
+  "toolbar_import": {
+    "message": "आयात करें"
+  },
+  "toolbar_restoreDefaults": {
+    "message": "डिफ़ॉल्ट पुनर्स्थापित करें"
+  },
+  "toolbar_shortcuts": {
+    "message": "कीबोर्ड शॉर्टकट"
+  },
+  "toolbar_templates": {
+    "message": "टेम्पलेट से नई बनाएँ"
+  },
+  "tmpl_focusMode": {
+    "message": "फ़ोकस मोड"
+  },
+  "tmpl_tabCleanup": {
+    "message": "टैब सफ़ाई"
+  },
+  "tmpl_snapshot": {
+    "message": "स्नैपशॉट और सहेजें"
+  },
+  "tmpl_readAloud": {
+    "message": "ज़ोर से पढ़ें"
+  },
+  "tmpl_wrapUp": {
+    "message": "समापन मोड"
+  },
+  "extTmpl_genericName": {
+    "message": "सामान्य एक्सटेंशन"
+  },
+  "extTmpl_toggleAdblock": {
+    "message": "विज्ञापन अवरोधन टॉगल करें"
+  },
+  "extTmpl_pauseBlocking": {
+    "message": "अवरोधन रोकें"
+  },
+  "extTmpl_resumeBlocking": {
+    "message": "अवरोधन फिर से शुरू करें"
+  },
+  "extTmpl_toggleBlocker": {
+    "message": "ब्लॉकर टॉगल करें"
+  },
+  "extTmpl_reloadFilters": {
+    "message": "फ़िल्टर पुनः लोड करें"
+  },
+  "extTmpl_fillForm": {
+    "message": "फ़ॉर्म भरें"
+  },
+  "extTmpl_openVault": {
+    "message": "वॉल्ट खोलें"
+  },
+  "extTmpl_generatePassword": {
+    "message": "पासवर्ड जनरेट करें"
+  },
+  "extTmpl_autofill": {
+    "message": "ऑटोफ़िल"
+  },
+  "extTmpl_openPopup": {
+    "message": "पॉपअप खोलें"
+  },
+  "extTmpl_captureRequest": {
+    "message": "रिक्वेस्ट कैप्चर करें"
+  },
+  "extTmpl_importRequest": {
+    "message": "रिक्वेस्ट आयात करें"
+  },
+  "extTmpl_showRuler": {
+    "message": "रूलर दिखाएँ"
+  },
+  "extTmpl_disableCss": {
+    "message": "CSS अक्षम करें"
+  },
+  "extTmpl_translatePage": {
+    "message": "पेज का अनुवाद करें"
+  },
+  "extTmpl_translateSelection": {
+    "message": "चयन का अनुवाद करें"
+  },
+  "extTmpl_captureFullPage": {
+    "message": "पूरा पेज कैप्चर करें"
+  },
+  "extTmpl_captureVisible": {
+    "message": "दृश्यमान क्षेत्र कैप्चर करें"
+  },
+  "extTmpl_toggleFeature": {
+    "message": "सुविधा टॉगल करें"
+  },
+  "extTmpl_runMain": {
+    "message": "मुख्य क्रिया चलाएँ"
+  },
+  "extTmpl_refresh": {
+    "message": "रिफ़्रेश करें"
+  },
+  "extTmpl_reset": {
+    "message": "रीसेट करें"
+  },
+  "help_title": {
+    "message": "उपलब्ध क्रियाएँ"
+  },
+  "edit_title": {
+    "message": "चेन संपादित करें"
+  },
+  "edit_back": {
+    "message": "वापस"
+  },
+  "edit_test": {
+    "message": "टेस्ट रन"
+  },
+  "edit_exportChain": {
+    "message": "इस चेन को निर्यात करें"
+  },
+  "info_triggers": {
+    "message": "स्वचालित ट्रिगर"
+  },
+  "info_schedule": {
+    "message": "हर कितने मिनट में चलाएँ (0 = बंद)"
+  },
+  "info_autoRun": {
+    "message": "पेज लोड होने पर ऑटो-रन (URL पैटर्न)"
+  },
+  "info_autoRun_placeholder": {
+    "message": "उदा. *://github.com/*; एकाधिक पैटर्न को कॉमा या नई पंक्तियों से अलग करें"
+  },
+  "info_basic": {
+    "message": "बुनियादी जानकारी"
+  },
+  "info_name": {
+    "message": "चेन नाम"
+  },
+  "info_name_placeholder": {
+    "message": "चेन का नाम दर्ज करें"
+  },
+  "info_desc": {
+    "message": "विवरण"
+  },
+  "info_desc_placeholder": {
+    "message": "वैकल्पिक: इस चेन के उद्देश्य का वर्णन करें"
+  },
+  "info_default": {
+    "message": "डिफ़ॉल्ट चेन के रूप में सेट करें"
+  },
+  "actions_title": {
+    "message": "क्रियाएँ"
+  },
+  "actions_add": {
+    "message": "क्रिया जोड़ें"
+  },
+  "actions_none": {
+    "message": "अभी तक कोई क्रिया नहीं"
+  },
+  "actions_more": {
+    "message": "और क्रियाएँ"
+  },
+  "actions_count": {
+    "message": "क्रियाएँ"
+  },
+  "card_exec": {
+    "message": "चलाएँ"
+  },
+  "card_edit": {
+    "message": "संपादित करें"
+  },
+  "card_duplicate": {
+    "message": "डुप्लिकेट करें"
+  },
+  "card_delete": {
+    "message": "हटाएँ"
+  },
+  "suffix_copy": {
+    "message": "(कॉपी)"
+  },
+  "action_defaultTitle": {
+    "message": "Hotkey Chain - डिफ़ॉल्ट क्रिया चलाने के लिए क्लिक करें"
+  },
+  "cmd_execute_action": {
+    "message": "डिफ़ॉल्ट क्रिया चेन निष्पादित करें"
+  },
+  "cmd_execute_chain_1": {
+    "message": "क्रिया चेन 1"
+  },
+  "cmd_execute_chain_2": {
+    "message": "क्रिया चेन 2"
+  },
+  "cmd_execute_chain_3": {
+    "message": "क्रिया चेन 3"
+  },
+  "cmd_execute_chain_4": {
+    "message": "क्रिया चेन 4"
+  },
+  "cmd_execute_chain_5": {
+    "message": "क्रिया चेन 5"
+  },
+  "cmd_execute_chain_6": {
+    "message": "क्रिया चेन 6"
+  },
+  "cmd_execute_chain_7": {
+    "message": "क्रिया चेन 7"
+  },
+  "cmd_execute_chain_8": {
+    "message": "क्रिया चेन 8"
+  },
+  "cmd_execute_chain_9": {
+    "message": "क्रिया चेन 9"
+  },
+  "menu_executeDefault": {
+    "message": "डिफ़ॉल्ट क्रिया चेन चलाएँ"
+  },
+  "menu_options": {
+    "message": "सेटिंग्स खोलें"
+  },
+  "settings_language": {
+    "message": "भाषा"
+  },
+  "language_auto": {
+    "message": "स्वतः (ब्राउज़र)"
+  },
+  "defaultChain_reading": {
+    "message": "रीडिंग मोड"
+  },
+  "defaultChain_tidyTabs": {
+    "message": "टैब व्यवस्थित करें"
+  },
+  "defaultChain_copyMarkdown": {
+    "message": "Markdown के रूप में कॉपी करें"
+  },
+  "actionName_scroll_to_top": {
+    "message": "ऊपर स्क्रॉल करें"
+  },
+  "actionName_scroll_to_bottom": {
+    "message": "नीचे स्क्रॉल करें"
+  },
+  "actionName_reload_page": {
+    "message": "पेज पुनः लोड करें"
+  },
+  "actionName_close_tab": {
+    "message": "टैब बंद करें"
+  },
+  "actionName_new_tab": {
+    "message": "नया टैब"
+  },
+  "actionName_copy_url": {
+    "message": "URL कॉपी करें"
+  },
+  "actionName_copy_title": {
+    "message": "शीर्षक कॉपी करें"
+  },
+  "actionName_toggle_fullscreen": {
+    "message": "फ़ुलस्क्रीन टॉगल करें"
+  },
+  "actionName_zoom_in": {
+    "message": "ज़ूम इन"
+  },
+  "actionName_zoom_out": {
+    "message": "ज़ूम आउट"
+  },
+  "actionName_zoom_reset": {
+    "message": "ज़ूम रीसेट करें"
+  },
+  "actionName_go_back": {
+    "message": "पीछे जाएँ"
+  },
+  "actionName_go_forward": {
+    "message": "आगे जाएँ"
+  },
+  "actionName_bookmark_page": {
+    "message": "पेज बुकमार्क करें"
+  },
+  "actionName_copy_as_markdown": {
+    "message": "Markdown लिंक के रूप में कॉपी करें"
+  },
+  "actionName_clear_cache": {
+    "message": "हार्ड रिफ़्रेश (कैश बायपास करें)"
+  },
+  "actionName_duplicate_tab": {
+    "message": "टैब डुप्लिकेट करें"
+  },
+  "actionName_pin_tab": {
+    "message": "टैब पिन/अनपिन करें"
+  },
+  "actionName_mute_tab": {
+    "message": "टैब म्यूट/अनम्यूट करें"
+  },
+  "actionName_close_other_tabs": {
+    "message": "अन्य टैब बंद करें"
+  },
+  "actionName_move_tab_left": {
+    "message": "टैब बाएँ ले जाएँ"
+  },
+  "actionName_move_tab_right": {
+    "message": "टैब दाएँ ले जाएँ"
+  },
+  "actionName_prev_tab": {
+    "message": "पिछला टैब"
+  },
+  "actionName_next_tab": {
+    "message": "अगला टैब"
+  },
+  "actionName_new_window": {
+    "message": "नई विंडो"
+  },
+  "actionName_reopen_closed_tab": {
+    "message": "बंद किया गया टैब फिर से खोलें"
+  },
+  "actionName_print_page": {
+    "message": "पेज प्रिंट करें"
+  },
+  "actionName_open_url": {
+    "message": "URL खोलें"
+  },
+  "actionName_wait": {
+    "message": "प्रतीक्षा करें"
+  },
+  "actionName_scroll_page_up": {
+    "message": "एक स्क्रीन ऊपर स्क्रॉल करें"
+  },
+  "actionName_scroll_page_down": {
+    "message": "एक स्क्रीन नीचे स्क्रॉल करें"
+  },
+  "actionName_close_tabs_right": {
+    "message": "दाईं ओर के टैब बंद करें"
+  },
+  "actionName_close_window": {
+    "message": "विंडो बंद करें"
+  },
+  "actionName_toggle_dark_mode": {
+    "message": "डार्क मोड टॉगल करें"
+  },
+  "actionName_translate_page": {
+    "message": "पेज का अनुवाद करें"
+  },
+  "actionName_media_play_pause": {
+    "message": "मीडिया चलाएँ/रोकें"
+  },
+  "actionName_media_speed_up": {
+    "message": "प्लेबैक तेज़ करें"
+  },
+  "actionName_media_speed_down": {
+    "message": "प्लेबैक धीमा करें"
+  },
+  "actionName_media_speed_reset": {
+    "message": "प्लेबैक गति रीसेट करें"
+  },
+  "actionName_close_left_tabs": {
+    "message": "बाईं ओर के टैब बंद करें"
+  },
+  "actionName_close_duplicate_tabs": {
+    "message": "डुप्लिकेट टैब बंद करें"
+  },
+  "actionName_sort_tabs_by_url": {
+    "message": "URL के अनुसार टैब क्रमबद्ध करें"
+  },
+  "actionName_group_tabs_by_domain": {
+    "message": "डोमेन के अनुसार टैब समूहित करें"
+  },
+  "actionName_ungroup_all_tabs": {
+    "message": "सभी टैब असमूहित करें"
+  },
+  "actionName_mute_all_tabs": {
+    "message": "सभी टैब म्यूट करें"
+  },
+  "actionName_unmute_all_tabs": {
+    "message": "सभी टैब अनम्यूट करें"
+  },
+  "actionName_reload_all_tabs": {
+    "message": "सभी टैब पुनः लोड करें"
+  },
+  "actionName_move_tab_first": {
+    "message": "टैब को शुरुआत में ले जाएँ"
+  },
+  "actionName_move_tab_last": {
+    "message": "टैब को अंत में ले जाएँ"
+  },
+  "actionName_move_tab_to_new_window": {
+    "message": "टैब को नई विंडो में ले जाएँ"
+  },
+  "actionName_minimize_window": {
+    "message": "विंडो मिनिमाइज़ करें"
+  },
+  "actionName_maximize_window": {
+    "message": "विंडो मैक्सिमाइज़ करें"
+  },
+  "actionName_open_incognito_window": {
+    "message": "इन्कॉग्निटो विंडो खोलें"
+  },
+  "actionName_copy_selected_text": {
+    "message": "चयनित टेक्स्ट कॉपी करें"
+  },
+  "actionName_search_selection": {
+    "message": "चयनित टेक्स्ट खोजें"
+  },
+  "actionName_speak_selection": {
+    "message": "चयनित टेक्स्ट ज़ोर से पढ़ें"
+  },
+  "actionName_stop_speaking": {
+    "message": "पढ़ना रोकें"
+  },
+  "actionName_capture_screenshot": {
+    "message": "स्क्रीनशॉट कैप्चर करें (दृश्यमान क्षेत्र)"
+  },
+  "actionName_show_notification": {
+    "message": "सूचना दिखाएँ"
+  },
+  "actionName_open_browser_page": {
+    "message": "ब्राउज़र पेज खोलें"
+  },
+  "actionName_discard_other_tabs": {
+    "message": "अन्य टैब अनलोड करें (मेमोरी खाली करें)"
+  },
+  "actionName_goto_audible_tab": {
+    "message": "ध्वनि वाले टैब पर जाएँ"
+  },
+  "actionName_bookmark_all_tabs": {
+    "message": "सभी टैब बुकमार्क करें"
+  },
+  "actionName_read_later": {
+    "message": "रीडिंग सूची में जोड़ें"
+  },
+  "actionName_clear_browsing_cache": {
+    "message": "ब्राउज़र कैश साफ़ करें"
+  },
+  "actionName_clear_site_data": {
+    "message": "इस साइट का डेटा साफ़ करें"
+  },
+  "actionName_delete_url_from_history": {
+    "message": "इतिहास से पेज हटाएँ"
+  },
+  "actionName_toggle_keep_awake": {
+    "message": "स्क्रीन जगाए रखना टॉगल करें"
+  },
+  "actionName_show_downloads_folder": {
+    "message": "डाउनलोड फ़ोल्डर दिखाएँ"
+  },
+  "actionName_save_page_mhtml": {
+    "message": "पेज सहेजें (MHTML)"
+  },
+  "actionName_if_url_matches": {
+    "message": "शर्त: यदि URL मैच हो तो जारी रखें"
+  },
+  "actionName_if_has_selection": {
+    "message": "शर्त: यदि टेक्स्ट चयनित हो तो जारी रखें"
+  },
+  "actionName_run_chain": {
+    "message": "अन्य चेन चलाएँ"
+  },
+  "actionName_execute_command": {
+    "message": "कमांड निष्पादित करें"
+  },
+  "actionName_call_extension": {
+    "message": "एक्सटेंशन कॉल करें"
+  },
+  "category_execute_command": {
+    "message": "कमांड निष्पादित करें"
+  },
+  "category_flow": {
+    "message": "फ़्लो नियंत्रण"
+  },
+  "category_page_ops": {
+    "message": "पेज संचालन"
+  },
+  "category_tab_mgmt": {
+    "message": "टैब प्रबंधन"
+  },
+  "category_window": {
+    "message": "विंडो प्रबंधन"
+  },
+  "category_media": {
+    "message": "मीडिया नियंत्रण"
+  },
+  "category_zoom": {
+    "message": "ज़ूम नियंत्रण"
+  },
+  "category_content": {
+    "message": "सामग्री संचालन"
+  },
+  "category_advanced": {
+    "message": "उन्नत"
+  },
+  "category_extension": {
+    "message": "एक्सटेंशन कॉल"
+  },
+  "label_delay": {
+    "message": "विलंब"
+  },
+  "label_ms": {
+    "message": "ms"
+  },
+  "label_selectExtension": {
+    "message": "एक्सटेंशन चुनें"
+  },
+  "placeholder_selectInstalledExtension": {
+    "message": "-- इंस्टॉल किया गया एक्सटेंशन चुनें --"
+  },
+  "option_manualInputExtensionId": {
+    "message": "एक्सटेंशन ID मैन्युअल रूप से दर्ज करें"
+  },
+  "label_extensionId": {
+    "message": "एक्सटेंशन ID"
+  },
+  "placeholder_extensionIdExample": {
+    "message": "एक्सटेंशन ID (उदा. nfgcnddoajoekfpacfkehomkgmpndhob)"
+  },
+  "label_url": {
+    "message": "URL"
+  },
+  "placeholder_urlExample": {
+    "message": "URL (उदा. https://example.com)"
+  },
+  "label_openIn": {
+    "message": "इसमें खोलें"
+  },
+  "option_openIn_new": {
+    "message": "नया टैब"
+  },
+  "option_openIn_current": {
+    "message": "वर्तमान टैब"
+  },
+  "label_notifyText": {
+    "message": "सूचना टेक्स्ट"
+  },
+  "placeholder_notifyText": {
+    "message": "सूचना में दिखाने के लिए टेक्स्ट"
+  },
+  "label_browserPage": {
+    "message": "ब्राउज़र पेज"
+  },
+  "browserPage_downloads": {
+    "message": "डाउनलोड"
+  },
+  "browserPage_history": {
+    "message": "इतिहास"
+  },
+  "browserPage_bookmarks": {
+    "message": "बुकमार्क प्रबंधक"
+  },
+  "browserPage_extensions": {
+    "message": "एक्सटेंशन"
+  },
+  "browserPage_settings": {
+    "message": "सेटिंग्स"
+  },
+  "browserPage_shortcuts": {
+    "message": "कीबोर्ड शॉर्टकट"
+  },
+  "browserPage_clear_browsing_data": {
+    "message": "ब्राउज़िंग डेटा साफ़ करें"
+  },
+  "label_pattern": {
+    "message": "URL पैटर्न"
+  },
+  "placeholder_pattern": {
+    "message": "उदा. *://github.com/* या एक कीवर्ड; कॉमा से अलग करें"
+  },
+  "label_runChain": {
+    "message": "चलाने के लिए चेन"
+  },
+  "placeholder_selectChain": {
+    "message": "-- एक चेन चुनें --"
+  },
+  "hint_templateVars": {
+    "message": "वेरिएबल्स: {url} {title} {selection} {clipboard} {date} {time}"
+  },
+  "hint_executeCommand": {
+    "message": "अपनी क्रिया चेन चलाने के लिए इस एक्सटेंशन को चुनें; किसी अन्य एक्सटेंशन को चुनने पर उस पर प्रबंधन क्रियाएँ की जाती हैं (सक्षम/अक्षम करें, अनइंस्टॉल करें, विकल्प खोलें…), न कि उसके अपने शॉर्टकट।"
+  },
+  "hint_callExtension": {
+    "message": "किसी अन्य एक्सटेंशन को संदेश भेजता है। यह केवल तभी काम करता है जब वह एक्सटेंशन बाहरी संदेश स्वीकार करता है (externally_connectable) — अधिकांश नहीं करते, इसलिए यह कुछ न भी करे।"
+  },
+  "label_presetAction": {
+    "message": "प्रीसेट क्रिया"
+  },
+  "placeholder_selectActionTemplate": {
+    "message": "-- क्रिया टेम्पलेट चुनें --"
+  },
+  "option_customMessage": {
+    "message": "कस्टम संदेश"
+  },
+  "label_messageContent": {
+    "message": "संदेश सामग्री"
+  },
+  "placeholder_messageJson": {
+    "message": "संदेश सामग्री (JSON, उदा. {\"action\": \"toggle\"})"
+  },
+  "label_selectCommand": {
+    "message": "कमांड चुनें"
+  },
+  "placeholder_selectCommand": {
+    "message": "-- कमांड चुनें --"
+  },
+  "tooltip_refreshCommands": {
+    "message": "कमांड रिफ़्रेश करें"
+  },
+  "tooltip_setDefaultChain": {
+    "message": "डिफ़ॉल्ट चेन के रूप में सेट करें"
+  },
+  "tooltip_defaultChain": {
+    "message": "डिफ़ॉल्ट चेन"
+  },
+  "newChain_defaultName": {
+    "message": "नई चेन"
+  },
+  "msg_extension_toggled": {
+    "message": "$1 अब $2 है"
+  },
+  "state_enabled": {
+    "message": "सक्षम"
+  },
+  "state_disabled": {
+    "message": "अक्षम"
+  },
+  "label_extension": {
+    "message": "एक्सटेंशन"
+  },
+  "error_toggle_extension_failed": {
+    "message": "एक्सटेंशन टॉगल करने में विफल"
+  },
+  "error_uninstall_extension_failed": {
+    "message": "एक्सटेंशन अनइंस्टॉल करने में विफल"
+  },
+  "label_extension_name": {
+    "message": "एक्सटेंशन नाम"
+  },
+  "label_version": {
+    "message": "संस्करण"
+  },
+  "label_description": {
+    "message": "विवरण"
+  },
+  "label_type": {
+    "message": "प्रकार"
+  },
+  "label_install_type": {
+    "message": "इंस्टॉल प्रकार"
+  },
+  "label_permissions": {
+    "message": "अनुमतियाँ"
+  },
+  "label_none": {
+    "message": "कोई नहीं"
+  },
+  "label_homepage": {
+    "message": "होमपेज"
+  },
+  "label_error": {
+    "message": "त्रुटि"
+  },
+  "error_get_extension_info_failed": {
+    "message": "एक्सटेंशन जानकारी प्राप्त करने में विफल"
+  },
+  "label_app": {
+    "message": "ऐप"
+  },
+  "error_launch_app_failed": {
+    "message": "ऐप लॉन्च करने में विफल"
+  },
+  "label_command": {
+    "message": "कमांड"
+  },
+  "error_unknown_command": {
+    "message": "अज्ञात कमांड: $1"
+  },
+  "error_execute_command_failed": {
+    "message": "कमांड निष्पादन विफल"
+  },
+  "cmd_toggle_extension_name": {
+    "message": "एक्सटेंशन सक्षम/अक्षम करें"
+  },
+  "cmd_toggle_extension_desc": {
+    "message": "$1 की सक्षम स्थिति टॉगल करें"
+  },
+  "cmd_uninstall_extension_name": {
+    "message": "एक्सटेंशन अनइंस्टॉल करें"
+  },
+  "cmd_uninstall_extension_desc": {
+    "message": "$1 अनइंस्टॉल करें (पुष्टि आवश्यक)"
+  },
+  "cmd_open_options_name": {
+    "message": "विकल्प खोलें"
+  },
+  "cmd_open_options_desc": {
+    "message": "$1 का विकल्प पेज खोलें"
+  },
+  "cmd_open_details_name": {
+    "message": "विवरण खोलें"
+  },
+  "cmd_open_details_desc": {
+    "message": "एक्सटेंशन पेज में $1 देखें"
+  },
+  "cmd_show_info_name": {
+    "message": "एक्सटेंशन जानकारी दिखाएँ"
+  },
+  "cmd_show_info_desc": {
+    "message": "$1 की विस्तृत जानकारी दिखाएँ"
+  },
+  "cmd_open_homepage_name": {
+    "message": "होमपेज खोलें"
+  },
+  "cmd_open_homepage_desc": {
+    "message": "$1 के होमपेज पर जाएँ"
+  },
+  "cmd_reload_dev_name": {
+    "message": "डेव एक्सटेंशन पुनः लोड करें"
+  },
+  "cmd_reload_dev_desc": {
+    "message": "डेवलपमेंट एक्सटेंशन $1 पुनः लोड करें"
+  },
+  "cmd_launch_app_name": {
+    "message": "ऐप लॉन्च करें"
+  },
+  "cmd_launch_app_desc": {
+    "message": "Chrome ऐप $1 लॉन्च करें"
+  },
+  "cmd_open_store_name": {
+    "message": "स्टोर पेज खोलें"
+  },
+  "cmd_open_store_desc": {
+    "message": "$1 का Chrome वेब स्टोर पेज खोलें"
+  },
+  "label_unknownChain": {
+    "message": "अज्ञात चेन"
+  },
+  "msg_no_options_page": {
+    "message": "$1 का कोई विकल्प पेज नहीं है"
+  },
+  "msg_check_console_for_details": {
+    "message": "$1 विवरण: कंसोल देखें"
+  },
+  "msg_no_homepage": {
+    "message": "$1 का कोई होमपेज कॉन्फ़िगर नहीं है"
+  },
+  "msg_dev_extension_reloaded": {
+    "message": "डेवलपमेंट एक्सटेंशन $1 पुनः लोड किया गया"
+  },
+  "msg_not_dev_extension": {
+    "message": "$1 डेवलपमेंट एक्सटेंशन नहीं है; पुनः लोड नहीं किया जा सकता"
+  },
+  "msg_app_launched": {
+    "message": "Chrome ऐप $1 लॉन्च किया गया"
+  },
+  "msg_not_chrome_app": {
+    "message": "$1 Chrome ऐप नहीं है; लॉन्च नहीं किया जा सकता"
+  },
+  "toast_chainExecuted": {
+    "message": "चेन निष्पादित: $1"
+  },
+  "toast_executeFailed": {
+    "message": "निष्पादन विफल"
+  },
+  "toast_defaultSet": {
+    "message": "डिफ़ॉल्ट चेन सेट की गई"
+  },
+  "toast_newChainAdded": {
+    "message": "नई चेन जोड़ी गई"
+  },
+  "toast_atLeastOne": {
+    "message": "कम से कम एक चेन बनी रहनी चाहिए"
+  },
+  "toast_extensionsRefreshed": {
+    "message": "$1 एक्सटेंशन रिफ़्रेश किए गए"
+  },
+  "toast_refreshExtensionsFailed": {
+    "message": "एक्सटेंशन रिफ़्रेश करने में विफल"
+  },
+  "toast_selectExtensionFirst": {
+    "message": "कृपया पहले एक एक्सटेंशन चुनें"
+  },
+  "toast_commandsRefreshed": {
+    "message": "कमांड सूची रिफ़्रेश की गई"
+  },
+  "toast_refreshCommandsFailed": {
+    "message": "कमांड सूची रिफ़्रेश करने में विफल"
+  },
+  "toast_chainDuplicated": {
+    "message": "चेन डुप्लिकेट की गई"
+  },
+  "toast_configExported": {
+    "message": "कॉन्फ़िगरेशन निर्यात की गई"
+  },
+  "toast_configImported": {
+    "message": "कॉन्फ़िगरेशन आयात की गई"
+  },
+  "toast_importFailed": {
+    "message": "आयात विफल: $1"
+  },
+  "toast_saveFailed": {
+    "message": "सहेजना विफल: $1"
+  },
+  "toast_defaultsRestored": {
+    "message": "डिफ़ॉल्ट क्रिया चेन पुनर्स्थापित की गईं"
+  },
+  "toast_restoreDefaultsFailed": {
+    "message": "डिफ़ॉल्ट पुनर्स्थापित करने में विफल"
+  },
+  "confirm_importOverwrite": {
+    "message": "आयात करने से आपकी पूरी वर्तमान कॉन्फ़िगरेशन बदल जाएगी। जारी रखें?"
+  },
+  "confirm_restoreDefaults": {
+    "message": "डिफ़ॉल्ट पुनर्स्थापित करने से सभी वर्तमान क्रिया चेन बदल जाएँगी। जारी रखें?"
+  },
+  "error_invalidConfigFile": {
+    "message": "अमान्य कॉन्फ़िगरेशन फ़ाइल"
+  },
+  "content_urlCopied": {
+    "message": "URL क्लिपबोर्ड पर कॉपी किया गया"
+  },
+  "content_titleCopied": {
+    "message": "शीर्षक क्लिपबोर्ड पर कॉपी किया गया"
+  },
+  "content_markdownCopied": {
+    "message": "Markdown लिंक क्लिपबोर्ड पर कॉपी किया गया"
+  },
+  "content_copyFailed": {
+    "message": "कॉपी विफल, कृपया मैन्युअल रूप से कॉपी करें"
+  },
+  "content_bookmarkAdded": {
+    "message": "पेज बुकमार्क किया गया"
+  },
+  "content_bookmarkExists": {
+    "message": "पहले से बुकमार्क किया गया"
+  },
+  "content_selectionCopied": {
+    "message": "चयन क्लिपबोर्ड पर कॉपी किया गया"
+  },
+  "content_noSelection": {
+    "message": "कोई टेक्स्ट चयनित नहीं"
+  },
+  "content_noMedia": {
+    "message": "इस पेज पर कोई मीडिया नहीं मिला"
+  },
+  "content_playbackRate": {
+    "message": "प्लेबैक गति: $1x"
+  },
+  "content_darkModeOn": {
+    "message": "डार्क मोड चालू"
+  },
+  "content_darkModeOff": {
+    "message": "डार्क मोड बंद"
+  },
+  "msg_duplicateTabsClosed": {
+    "message": "$1 डुप्लिकेट टैब बंद किए गए"
+  },
+  "error_incognitoNotAllowed": {
+    "message": "पहले इस एक्सटेंशन को इन्कॉग्निटो मोड में अनुमति दें (chrome://extensions)"
+  },
+  "msg_noAudibleTab": {
+    "message": "कोई ध्वनि वाला टैब नहीं"
+  },
+  "msg_tabsBookmarked": {
+    "message": "$1 टैब बुकमार्क किए गए"
+  },
+  "msg_readLaterAdded": {
+    "message": "रीडिंग सूची में जोड़ा गया"
+  },
+  "msg_readLaterExists": {
+    "message": "पहले से रीडिंग सूची में है"
+  },
+  "msg_readingListUnsupported": {
+    "message": "इस ब्राउज़र में रीडिंग सूची API समर्थित नहीं है"
+  },
+  "msg_cacheCleared": {
+    "message": "ब्राउज़र कैश साफ़ किया गया"
+  },
+  "msg_siteDataCleared": {
+    "message": "साइट डेटा साफ़ किया गया"
+  },
+  "msg_historyDeleted": {
+    "message": "इतिहास से हटाया गया"
+  },
+  "msg_keepAwakeOn": {
+    "message": "स्क्रीन जगाए रखना चालू"
+  },
+  "msg_keepAwakeOff": {
+    "message": "स्क्रीन जगाए रखना बंद"
+  },
+  "msg_chainErrors": {
+    "message": "चेन $1: $2 क्रियाएँ विफल रहीं"
+  },
+  "menu_pageParent": {
+    "message": "क्रिया चेन चलाएँ"
+  },
+  "toast_chainExported": {
+    "message": "चेन निर्यात की गई"
+  },
+  "toast_chainImported": {
+    "message": "चेन आयात की गई: $1"
+  },
+  "content_close": {
+    "message": "बंद करें"
+  },
+  "msg_uninstall_requested": {
+    "message": "अनइंस्टॉल का अनुरोध किया गया"
+  },
+  "actionName_copy_text": {
+    "message": "टेक्स्ट कॉपी करें (अपना फ़ॉर्मैट)"
+  },
+  "actionName_confirm": {
+    "message": "पुष्टि पूछें"
+  },
+  "label_copyText": {
+    "message": "कॉपी किया जाने वाला टेक्स्ट"
+  },
+  "placeholder_copyText": {
+    "message": "जैसे {title} — {url}"
+  },
+  "label_confirmText": {
+    "message": "सवाल"
+  },
+  "placeholder_confirmText": {
+    "message": "जैसे बाकी सभी टैब बंद करें?"
+  },
+  "hint_confirm": {
+    "message": "पेज पर एक डायलॉग दिखाता है। चेन तभी आगे बढ़ती है जब आप जारी रखें चुनें; रद्द करें चुनने पर रुक जाती है। जिन पेजों पर डायलॉग नहीं दिख सकता (chrome:// पेज), वहाँ भी रुक जाती है।"
+  },
+  "confirm_defaultText": {
+    "message": "जारी रखें?"
+  },
+  "content_textCopied": {
+    "message": "क्लिपबोर्ड पर कॉपी हो गया"
+  },
+  "content_continue": {
+    "message": "जारी रखें"
+  },
+  "content_cancel": {
+    "message": "रद्द करें"
+  },
+  "tmpl_safeCloseOthers": {
+    "message": "बाकी टैब बंद करें (पुष्टि के साथ)"
+  },
+  "tmpl_safeCloseOthers_ask": {
+    "message": "बाकी सभी टैब बंद करें?"
+  },
+  "confirm_importChain": {
+    "message": "\"$1\" चेन आयात करें?"
+  },
+  "actions_count_one": {
+    "message": "क्रिया"
+  },
+  "card_addActions": {
+    "message": "क्रियाएँ जोड़ें"
+  },
+  "actions_remove": {
+    "message": "क्रिया हटाएँ"
+  },
+  "label_msValue": {
+    "message": "$1 ms"
+  },
+  "empty_title": {
+    "message": "अभी तक कोई ऐक्शन चेन नहीं"
+  },
+  "empty_body": {
+    "message": "टेम्पलेट से शुरू करना सबसे तेज़ है, या खाली चेन बनाकर खुद क्रियाएँ जोड़ें।"
+  },
+  "footer_source": {
+    "message": "सोर्स और फ़ीडबैक"
+  },
+  "toolbar_sidePanel": {
+    "message": "साइड पैनल खोलें"
+  },
+  "ai_notSupported": {
+    "message": "यह ब्राउज़र Chrome के अंतर्निहित AI (Gemini Nano) को नहीं चला सकता। इसके लिए डेस्कटॉप Chrome (Windows/macOS/Linux/Chromebook Plus), लगभग 22 GB खाली जगह, और 4 GB से अधिक VRAM या 16 GB RAM चाहिए।"
+  },
+  "ai_modelDownloading": {
+    "message": "Chrome AI मॉडल डिवाइस पर डाउनलोड हो रहा है, कृपया कुछ देर बाद पुन: प्रयास करें"
+  },
+  "ai_noTextToProcess": {
+    "message": "कोई टेक्स्ट चयनित नहीं है या पृष्ठ पर नहीं मिला"
+  },
+  "ai_summaryCopied": {
+    "message": "AI सारांश (कॉपी किया गया)"
+  },
+  "ai_noSelection": {
+    "message": "कृपया पहले टेक्स्ट का चयन करें"
+  },
+  "ai_explanationCopied": {
+    "message": "AI व्याख्या (कॉपी की गई)"
+  },
+  "ai_translationCopied": {
+    "message": "AI अनुवाद (कॉपी किया गया)"
+  },
+  "msg_cookiesCleared": {
+    "message": "सभी कुकी साफ़ कर दी गईं"
+  },
+  "msg_downloadsCleared": {
+    "message": "डाउनलोड इतिहास साफ़ कर दिया गया"
+  },
+  "actionName_open_side_panel": {
+    "message": "साइड पैनल खोलें"
+  },
+  "actionName_ai_summarize": {
+    "message": "AI सामग्री सारांश"
+  },
+  "actionName_ai_explain": {
+    "message": "AI चयन की व्याख्या"
+  },
+  "actionName_ai_translate": {
+    "message": "AI चयन का अनुवाद"
+  },
+  "actionName_discard_current_tab": {
+    "message": "वर्तमान टैब को त्यागें (मेमोरी मुक्त करें)"
+  },
+  "actionName_duplicate_tab_to_new_window": {
+    "message": "नई विंडो में टैब की प्रतिलिपि बनाएँ"
+  },
+  "actionName_collapse_all_groups": {
+    "message": "सभी टैब समूह संक्षिप्त करें"
+  },
+  "actionName_expand_all_groups": {
+    "message": "सभी टैब समूह विस्तृत करें"
+  },
+  "actionName_close_other_windows": {
+    "message": "अन्य विंडो बंद करें"
+  },
+  "actionName_open_options_page": {
+    "message": "एक्सटेंशन विकल्प पृष्ठ खोलें"
+  },
+  "actionName_open_shortcuts_page": {
+    "message": "शॉर्टकट प्रबंधन खोलें"
+  },
+  "actionName_reload_extension": {
+    "message": "एक्सटेंशन पुनः लोड करें"
+  },
+  "actionName_open_action_popup": {
+    "message": "एक्सटेंशन पॉपअप खोलें"
+  },
+  "actionName_clear_cookies": {
+    "message": "सभी कुकी साफ़ करें"
+  },
+  "actionName_clear_downloads_history": {
+    "message": "डाउनलोड इतिहास साफ़ करें"
+  },
+  "actionName_speak_text": {
+    "message": "कस्टम टेक्स्ट पढ़ें"
+  },
+  "actionName_toggle_design_mode": {
+    "message": "पृष्ठ डिज़ाइन मोड टॉगल करें (सीधे संपादित करें)"
+  },
+  "actionName_copy_page_html": {
+    "message": "पृष्ठ HTML स्रोत कॉपी करें"
+  },
+  "actionName_extract_all_links": {
+    "message": "पृष्ठ के सभी लिंक निकालें"
+  },
+  "actionName_extract_all_images": {
+    "message": "सभी छवि URL निकालें"
+  },
+  "label_speakText": {
+    "message": "बोलने के लिए टेक्स्ट"
+  },
+  "placeholder_speakText": {
+    "message": "ज़ोर से पढ़ने के लिए टेक्स्ट ({title} जैसे चर का समर्थन करता है)"
+  },
+  "content_designModeOff": {
+    "message": "डिज़ाइन मोड अक्षम किया गया"
+  },
+  "content_designModeOn": {
+    "message": "डिज़ाइन मोड सक्षम (पृष्ठ संपादन योग्य है)"
+  },
+  "content_pageHtmlCopied": {
+    "message": "पृष्ठ HTML क्लिपबोर्ड पर कॉपी किया गया"
+  },
+  "content_linksExtracted": {
+    "message": "निकाले गए लिंक क्लिपबोर्ड पर कॉपी किए गए"
+  },
+  "content_noLinksFound": {
+    "message": "पृष्ठ पर कोई लिंक नहीं मिला"
+  },
+  "content_imagesExtracted": {
+    "message": "छवि URL क्लिपबोर्ड पर कॉपी किए गए"
+  },
+  "content_noImagesFound": {
+    "message": "पृष्ठ पर कोई छवि नहीं मिली"
+  },
+  "sidepanel_title": {
+    "message": "Hotkey Chain"
+  },
+  "sidepanel_openSettings": {
+    "message": "सेटिंग्स"
+  },
+  "sidepanel_searchPlaceholder": {
+    "message": "चेन खोजें..."
+  },
+  "sidepanel_noChainsFound": {
+    "message": "कोई चेन नहीं मिली"
+  },
+  "sidepanel_manageChains": {
+    "message": "+ चेन प्रबंधित करें"
+  },
+  "sidepanel_chainsSuffix": {
+    "message": "चेन"
+  },
+  "sidepanel_actionsSuffix": {
+    "message": "कार्रवाइयां"
+  },
+  "sidepanel_runChain": {
+    "message": "चलाएं"
+  },
+  "sidepanel_executedPrefix": {
+    "message": "निष्पादित:"
+  },
+  "sidepanel_executionFailed": {
+    "message": "निष्पादन विफल"
+  },
+  "tmpl_cat_all": {
+    "message": "सभी टेम्पलेट"
+  },
+  "tmpl_cat_ai": {
+    "message": "एआई और स्मार्ट"
+  },
+  "tmpl_cat_tabs": {
+    "message": "टैब और मेमोरी"
+  },
+  "tmpl_cat_reading": {
+    "message": "पढ़ना और मीडिया"
+  },
+  "tmpl_cat_developer": {
+    "message": "वेब और उपकरण"
+  },
+  "tmpl_cat_privacy": {
+    "message": "गोपनीयता और सफाई"
+  },
+  "tmpl_cat_workflow": {
+    "message": "दैनिक कार्यप्रवाह"
+  },
+  "tmpl_gallery_title": {
+    "message": "एक्शन चेन टेम्पलेट गैलरी"
+  },
+  "tmpl_gallery_subtitle": {
+    "message": "उपयोग के लिए तैयार ऑटोमेशन वर्कफ़्लो चुनें और एक क्लिक में जोड़ें"
+  },
+  "tmpl_gallery_search_placeholder": {
+    "message": "नाम, विवरण या क्रिया द्वारा टेम्पलेट खोजें..."
+  },
+  "tmpl_gallery_use": {
+    "message": "इस टेम्पलेट का उपयोग करें"
+  },
+  "tmpl_gallery_actions_count": {
+    "message": "$1 क्रियाएं"
+  },
+  "tmpl_gallery_empty_title": {
+    "message": "कोई मेल खाता टेम्पलेट नहीं मिला"
+  },
+  "tmpl_gallery_empty_desc": {
+    "message": "अन्य कीवर्ड के साथ खोजें या ऊपर दी गई श्रेणी बदलें"
+  },
+  "tmpl_gallery_empty_reset": {
+    "message": "खोज रीसेट करें"
+  },
+  "tmpl_aiSummarize": {
+    "message": "एआई स्मार्ट पेज सारांश"
+  },
+  "tmpl_aiExplain": {
+    "message": "एआई चयन गहन व्याख्या"
+  },
+  "tmpl_aiTranslate": {
+    "message": "एआई अनुवाद और बोलकर सुनाना"
+  },
+  "tmpl_tabHibernateClean": {
+    "message": "मेमोरी खाली करें और टैब व्यवस्थित करें"
+  },
+  "tmpl_webEditor": {
+    "message": "वेबपेज प्रत्यक्ष संपादन"
+  },
+  "tmpl_extractMedia": {
+    "message": "पेज लिंक और छवियां निकालें"
+  },
+  "tmpl_cinemaMode": {
+    "message": "वीडियो चलाएँ और पूर्ण स्क्रीन"
+  },
+  "tmpl_privacyWipe": {
+    "message": "त्वरित गोपनीयता सफाई"
+  },
+  "tmpl_copyMarkdown": {
+    "message": "मार्कडाउन लिंक के रूप में कॉपी करें"
+  },
+  "tmpl_sidePanelCompanion": {
+    "message": "साइड पैनल सहायक"
+  },
+  "tmpl_focusMode_desc": {
+    "message": "सभी शोर वाले टैब म्यूट करें, डार्क मोड चालू करें और फ़ुलस्क्रीन में ध्यान केंद्रित करें"
+  },
+  "tmpl_tabCleanup_desc": {
+    "message": "डुप्लिकेट टैब बंद करें, URL द्वारा क्रमबद्ध करें और डोमेन द्वारा समूहित करें"
+  },
+  "tmpl_safeCloseOthers_desc": {
+    "message": "अन्य सभी टैब बंद करने से पहले पुष्टि करने का संकेत दिखाएं"
+  },
+  "tmpl_aiSummarize_desc": {
+    "message": "डिवाइस पर Gemini Nano AI से मुख्य सारांश निकालें और साइड पैनल में देखें"
+  },
+  "tmpl_aiExplain_desc": {
+    "message": "साइड पैनल में तत्काल एआई स्पष्टीकरण प्राप्त करने के लिए कोई भी टेक्स्ट चुनें"
+  },
+  "tmpl_aiTranslate_desc": {
+    "message": "चयनित टेक्स्ट को एआई से अनुवाद करें और वॉइस इंजन से सुनें"
+  },
+  "tmpl_tabHibernateClean_desc": {
+    "message": "डुप्लिकेट बंद करें, निष्क्रिय टैब को हाइबरनेट करें और डोमेन द्वारा समूहित करें"
+  },
+  "tmpl_webEditor_desc": {
+    "message": "वर्ड दस्तावेज़ की तरह टेक्स्ट और लेआउट संपादित करने के लिए डिज़ाइन मोड टॉगल करें"
+  },
+  "tmpl_extractMedia_desc": {
+    "message": "वर्तमान वेबपेज से सभी मीडिया छवियां और लिंक एक साथ निकालें"
+  },
+  "tmpl_cinemaMode_desc": {
+    "message": "सुनिश्चित करता है कि पृष्ठ का वीडियो चल रहा हो, फिर बिना रुकावट देखने के लिए पूर्ण स्क्रीन पर जाता है"
+  },
+  "tmpl_readAloud_desc": {
+    "message": "हाइलाइट किए गए टेक्स्ट को जोर से पढ़ने के लिए ब्राउज़र के स्पीच सिंथेसाइज़र का उपयोग करें"
+  },
+  "tmpl_privacyWipe_desc": {
+    "message": "पुष्टि माँगता है, फिर सभी साइटों के सभी कुकीज़ और पूरा डाउनलोड इतिहास मिटा देता है — केवल वर्तमान साइट नहीं"
+  },
+  "tmpl_copyMarkdown_desc": {
+    "message": "वर्तमान पेज शीर्षक और URL को मानक मार्कडाउन में कॉपी करें"
+  },
+  "tmpl_snapshot_desc": {
+    "message": "दिखने वाले क्षेत्र का स्क्रीनशॉट लें और पेज को बुकमार्क करें"
+  },
+  "tmpl_wrapUp_desc": {
+    "message": "बुकमार्क सहेजें, सभी ऑडियो म्यूट करें और काम समेटते समय विंडो छोटी करें"
+  },
+  "tmpl_sidePanelCompanion_desc": {
+    "message": "पेज के साथ चेन चलाने के लिए Hotkey Chain साइड पैनल खोलें"
+  },
+  "tmpl_privacyWipe_ask": {
+    "message": "यह केवल इस साइट का नहीं, बल्कि सभी साइटों के कुकीज़ और डाउनलोड इतिहास को मिटा देगा। जारी रखें?"
+  },
+  "tmpl_gallery_footer_hint": {
+    "message": "बनाने और कस्टमाइज़ करने के लिए किसी भी टेम्पलेट पर क्लिक करें। सभी पैरामीटर स्वतंत्र रूप से समायोजित किए जा सकते हैं।"
+  },
+  "actionPicker_title": {
+    "message": "क्रिया जोड़ें"
+  },
+  "actionPicker_subtitle": {
+    "message": "खोजें या श्रेणी से चुनें, चेन के अंत में जोड़ने के लिए क्लिक करें"
+  },
+  "actionPicker_searchPlaceholder": {
+    "message": "क्रियाएँ खोजें (जैसे डार्क, टैब, एआई, म्यूट, स्क्रीनशॉट, बंद)..."
+  },
+  "actionPicker_allCategories": {
+    "message": "सभी"
+  },
+  "actionPicker_noResults": {
+    "message": "कोई मेल खाती क्रिया नहीं मिली। अन्य कीवर्ड आज़माएं।"
+  },
+  "shortcut_badge_omnibox": {
+    "message": "एड्रेस बार: hc + चेन नाम"
+  },
+  "shortcut_hint_click": {
+    "message": "Chrome शॉर्टकट सेटिंग्स खोलने के लिए क्लिक करें"
+  },
+  "empty_cta_templates": {
+    "message": "टेम्पलेट गैलरी देखें"
+  },
+  "empty_cta_blank": {
+    "message": "खाली चेन बनाएँ"
+  },
+  "tmpl_gallery_add_direct": {
+    "message": "मेरी चेन में जोड़ें"
+  },
+  "tmpl_gallery_add_and_edit": {
+    "message": "जोड़ें और कस्टमाइज़ करें"
+  },
+  "toast_chainAdded_actionRun": {
+    "message": "अभी चलाएं"
+  },
+  "workflow_title": {
+    "message": "वर्कफ़्लो स्वचालन (Pipeline)"
+  },
+  "workflow_subtitle": {
+    "message": "अगले चरण से स्वचालित रूप से जुड़ें और डेटा आगे प्रवाहित करें"
+  },
+  "workflow_nextChain": {
+    "message": "सफलता पर: अगली श्रृंखला पर जाएं"
+  },
+  "workflow_fallbackChain": {
+    "message": "विफलता पर: फ़ॉलबैक श्रृंखला"
+  },
+  "workflow_noNextChain": {
+    "message": "(कोई नहीं - समाप्त करें)"
+  },
+  "workflow_noFallbackChain": {
+    "message": "(कोई नहीं - त्रुटि पर रोकें)"
+  },
+  "workflow_passOutput": {
+    "message": "आउटपुट डेटा आगे भेजें ({{output}} / चयन)"
+  },
+  "workflow_chipTooltip": {
+    "message": "वर्कफ़्लो: पूरा होने पर $1 पर स्वचालित रूप से जारी रहता है"
+  },
+  "workflow_elseChain": {
+    "message": "शर्त पूरी न होने पर वैकल्पिक शाखा (वैकल्पिक)"
+  },
+  "workflow_noElseChain": {
+    "message": "(कोई नहीं - आगे की क्रियाएं रोकें)"
+  },
+  "workflow_incomingTooltip": {
+    "message": "वर्कफ़्लो अगला नोड: किसी अन्य श्रृंखला द्वारा ट्रिगर किया गया"
+  },
+  "workflow_step_current": {
+    "message": "वर्तमान श्रृंखला"
+  },
+  "workflow_step_next": {
+    "message": "अगला चरण: संपादित करने के लिए क्लिक करें"
+  },
+  "workflow_step_incoming": {
+    "message": "पिछला चरण: संपादित करने के लिए क्लिक करें"
+  },
+  "workflow_fallback_label": {
+    "message": "फ़ॉलबैक"
+  },
+  "workflow_pipeline_active": {
+    "message": "पाइपलाइन सक्रिय: $1 लिंक किए गए नोड"
+  },
+  "workflow_pipeline_single": {
+    "message": "एकल श्रृंखला (कोई अगला लिंक नहीं)"
+  },
+  "workflow_step_end": {
+    "message": "समाप्त"
+  },
+  "hint_hasSelection": {
+    "message": "यदि पाठ चयनित है तो जारी रहता है, और चयनित पाठ को {{output}} के रूप में आगे भेजता है।"
+  },
+  "tmpl_workflowAiResearch": {
+    "message": "एआई निष्कर्षण और सारांश वर्कफ़्लो"
+  },
+  "tmpl_workflowAiResearch_desc": {
+    "message": "लिंक निकालें, एआई के साथ सारांश उत्पन्न करें और स्वरूपित मार्कडाउन क्लिपबोर्ड में कॉपी करें"
+  },
+  "tmpl_workflowReadLater": {
+    "message": "बाद में पढ़ें और पुरालेख पाइपलाइन"
+  },
+  "tmpl_workflowReadLater_desc": {
+    "message": "साफ मार्कडाउन क्लिपबोर्ड में निकालें और एक ही चरण में बुकमार्क जोड़ें"
+  },
+  "tmpl_aiKnowledgeCard": {
+    "message": "AI ज्ञान कार्ड क्लिपर"
+  },
+  "tmpl_aiKnowledgeCard_desc": {
+    "message": "ऑन-डिवाइस AI से मुख्य बिंदु निकालें और Markdown नोट कार्ड के रूप में क्लिपबोर्ड पर कॉपी करें"
+  },
+  "tmpl_workflowDevClean": {
+    "message": "फ़्रंटएंड डेवलपर रीसेट पाइपलाइन"
+  },
+  "tmpl_workflowDevClean_desc": {
+    "message": "साइट डेटा मिटाएँ, ब्राउज़र कैश साफ़ करें और साफ़ डिबगिंग के लिए हार्ड रीलोड करें"
+  },
+  "tmpl_workflowCleanWorkspace": {
+    "message": "आइसोलेटेड फ़ोकस वर्कस्पेस सैंडबॉक्स"
+  },
+  "tmpl_workflowCleanWorkspace_desc": {
+    "message": "सक्रिय टैब को नई अधिकतम विंडो में ले जाएँ और मेमोरी बचाने के लिए बाकी टैब को स्लीप करें"
+  },
+  "tmpl_incognitoHandoff": {
+    "message": "गुप्त मोड ट्रांसफर और हिस्ट्री मिटाना"
+  },
+  "tmpl_incognitoHandoff_desc": {
+    "message": "वर्तमान पेज को गुप्त विंडो में खोलें, टैब बंद करें और इतिहास से URL पूरी तरह हटाएँ"
+  },
+  "actionName_toggle_site_javascript": {
+    "message": "इस साइट के लिए JavaScript टॉगल करें"
+  },
+  "actionName_toggle_site_images": {
+    "message": "इस साइट के लिए चित्र टॉगल करें"
+  },
+  "actionName_toggle_site_popups": {
+    "message": "इस साइट के लिए पॉपअप टॉगल करें"
+  },
+  "actionName_open_top_sites": {
+    "message": "शीर्ष साइटें खोलें"
+  },
+  "actionName_wait_for_navigation": {
+    "message": "नेविगेशन पूरा होने की प्रतीक्षा करें"
+  },
+  "msg_jsBlocked": {
+    "message": "इस साइट के लिए JavaScript अक्षम कर दिया गया"
+  },
+  "msg_jsAllowed": {
+    "message": "इस साइट के लिए JavaScript सक्षम कर दिया गया"
+  },
+  "msg_imagesBlocked": {
+    "message": "इस साइट के लिए चित्र अक्षम किए गए"
+  },
+  "msg_imagesAllowed": {
+    "message": "इस साइट के लिए चित्र सक्षम किए गए"
+  },
+  "msg_popupsBlocked": {
+    "message": "इस साइट के लिए पॉपअप ब्लॉक किए गए"
+  },
+  "msg_popupsAllowed": {
+    "message": "इस साइट के लिए पॉपअप की अनुमति दी गई"
+  },
+  "badge_requiresAi": {
+    "message": "ऑन-डिवाइस AI आवश्यक है"
+  },
+  "hint_aiRequirement": {
+    "message": "Chrome के अंतर्निहित Gemini Nano (Prompt API) पर चलता है — सब कुछ आपके डिवाइस पर ही रहता है। पर्याप्त GPU या RAM वाला डेस्कटॉप Chrome चाहिए; न API key और न कोई flag।"
+  },
+  "btn_checkAiStatus": {
+    "message": "ऑन-डिवाइस AI स्थिति जांचें"
+  },
+  "ai_statusReady": {
+    "message": "Chrome ऑन-डिवाइस AI (Gemini Nano) तैयार है और इस ब्राउज़र में उपलब्ध है।"
+  },
+  "ai_statusGuide": {
+    "message": "आवश्यकताएँ:\n1. Windows, macOS, Linux या Chromebook Plus पर डेस्कटॉप Chrome (Android/iOS नहीं)\n2. प्रोफ़ाइल ड्राइव पर लगभग 22 GB खाली जगह; 4 GB से अधिक VRAM, या 4+ कोर के साथ 16 GB RAM\n3. मॉडल पहले उपयोग पर डाउनलोड होता है — प्रगति chrome://on-device-internals पर देखें\n4. उस पहले डाउनलोड के लिए अनमीटर्ड कनेक्शन; उसके बाद किसी सर्वर पर कुछ नहीं भेजा जाता"
+  },
+  "msg_noTopSites": {
+    "message": "ब्राउज़िंग इतिहास में अक्सर देखी जाने वाली कोई साइट नहीं मिली"
+  },
+  "msg_topSitesOpened": {
+    "message": "बैकग्राउंड टैब में  शीर्ष साइटें खोली गईं"
+  },
+  "tmpl_pureReader": {
+    "message": "शुद्ध ध्यान-मुक्त रीडर"
+  },
+  "tmpl_pureReader_desc": {
+    "message": "पॉपअप और छवियों को ब्लॉक करें और डार्क मोड में केवल टेक्स्ट पढ़ें"
+  },
+  "tmpl_siteScriptShield": {
+    "message": "स्क्रिप्ट और पॉपअप शील्ड"
+  },
+  "tmpl_siteScriptShield_desc": {
+    "message": "अवांछित स्क्रिप्ट रोकने के लिए JavaScript और पॉपअप बंद करें"
+  },
+  "tmpl_workstationLaunch": {
+    "message": "वर्कस्टेशन लॉन्च पाइपलाइन"
+  },
+  "tmpl_workstationLaunch_desc": {
+    "message": "बार-बार देखी जाने वाली साइटों को बैकग्राउंड में खोलें और डोमेन के अनुसार व्यवस्थित करें"
+  },
+  "defaultChain_workstation": {
+    "message": "सुबह का वर्कस्टेशन"
+  },
+  "defaultChain_workstation_note": {
+    "message": "वर्कस्टेशन तैयार: साइटें खुली और व्यवस्थित हैं"
+  },
+  "defaultChain_aiKnowledge": {
+    "message": "AI ज्ञान कार्ड"
+  },
+  "defaultChain_aiKnowledge_note": {
+    "message": "AI ज्ञान कार्ड तैयार और कॉपी किया गया"
+  },
+  "defaultChain_pureReader": {
+    "message": "शुद्ध व्याकुलता-मुक्त पढ़ना"
+  },
+  "defaultChain_devReset": {
+    "message": "डेव रीसेट पाइपलाइन"
+  },
+  "defaultChain_focusSandbox": {
+    "message": "फ़ोकस सैंडबॉक्स"
+  },
+  "label_targetLang": {
+    "message": "लक्षित भाषा"
+  },
+  "label_translateStyle": {
+    "message": "अनुवाद शैली"
+  },
+  "label_summaryLang": {
+    "message": "सारांश की भाषा"
+  },
+  "label_summaryFormat": {
+    "message": "सारांश का प्रारूप"
+  },
+  "label_explainLang": {
+    "message": "व्याख्या की भाषा"
+  },
+  "label_explainStyle": {
+    "message": "व्याख्या की गहराई और शैली"
+  },
+  "label_ttsLang": {
+    "message": "आवाज़ की भाषा"
+  },
+  "label_ttsSpeed": {
+    "message": "बोलने की गति"
+  },
+  "label_preferOutput": {
+    "message": "पिछले चरण के आउटपुट (जैसे AI अनुवाद) को प्राथमिकता दें"
+  },
+  "opt_lang_auto": {
+    "message": "स्वतः (ब्राउज़र UI भाषा का पालन करें)"
+  },
+  "opt_format_bullets": {
+    "message": "मुख्य बिंदु (अनुशंसित)"
+  },
+  "opt_format_concise": {
+    "message": "संक्षिप्त पैराग्राफ"
+  },
+  "opt_format_detailed": {
+    "message": "विस्तृत और संरचित"
+  },
+  "opt_format_oneSentence": {
+    "message": "एक वाक्य का निष्कर्ष"
+  },
+  "opt_style_concise": {
+    "message": "स्पष्ट और संक्षिप्त (डिफ़ॉल्ट)"
+  },
+  "opt_style_simple": {
+    "message": "सरल और आसान (शुरुआती लोगों के लिए)"
+  },
+  "opt_style_technical": {
+    "message": "गहरा तकनीकी विश्लेषण"
+  },
+  "opt_style_analogy": {
+    "message": "सहज उपमा / उदाहरण"
+  },
+  "opt_trans_natural": {
+    "message": "सहज और स्वाभाविक (डिफ़ॉल्ट)"
+  },
+  "opt_trans_formal": {
+    "message": "औपचारिक और व्यावसायिक"
+  },
+  "opt_trans_literal": {
+    "message": "सटीक और शाब्दिक"
+  },
+  "actionName_media_play": {
+    "message": "मीडिया चलाएँ (बिना रोके)"
+  },
+  "label_incognitoCurrent": {
+    "message": "नई विंडो में वर्तमान पृष्ठ खोलें"
+  },
+  "hint_incognitoCurrent": {
+    "message": "बिना चयनित केवल खाली गुप्त विंडो खुलती है। हैंडऑफ़ चेन के लिए यह आवश्यक है, वरना मूल टैब बंद करने पर पृष्ठ खो जाएगा।"
+  },
+  "tmpl_pipelineSummarySpeak": {
+    "message": "लंबे पाठ का सारांश और पठन पाइपलाइन"
+  },
+  "tmpl_pipelineSummarySpeak_desc": {
+    "message": "ऑन-डिवाइस AI से पृष्ठ या चयन का सारांश बनाएँ, फिर परिणाम दूसरी चेन को सौंपें जो उसे पढ़कर सुनाए"
+  },
+  "tmpl_pipelineSummarySpeak_next": {
+    "message": "सारांश पढ़कर सुनाएँ (पाइपलाइन चरण 2)"
+  },
+  "tmpl_pipelineSummarySpeak_next_desc": {
+    "message": "पहली चेन द्वारा स्वतः चलाई जाती है: पिछले चरण का सारांश पढ़कर सुनाती है"
+  },
+  "tmpl_selectionSearch": {
+    "message": "चयन को खोजें (शर्त सहित)"
+  },
+  "tmpl_selectionSearch_desc": {
+    "message": "पहले जाँचता है कि कुछ चयनित है या नहीं: हो तो खोजता है, वरना दूसरी चेन चयन करने का संकेत देती है"
+  },
+  "tmpl_selectionSearch_else": {
+    "message": "चयन करने का अनुरोध (शाखा)"
+  },
+  "tmpl_selectionSearch_else_desc": {
+    "message": "शर्त पूरी न होने पर शर्त क्रिया द्वारा चलाई जाती है: उपयोगकर्ता से पहले टेक्स्ट चुनने को कहती है"
+  },
+  "tmpl_selectionSearch_elseMsg": {
+    "message": "पहले पृष्ठ पर कुछ टेक्स्ट चुनें"
+  },
+  "tmpl_reloadThenExtract": {
+    "message": "पूर्ण लोड के बाद लिंक निकालें"
+  },
+  "tmpl_reloadThenExtract_desc": {
+    "message": "पृष्ठ को पुनः लोड करता है और लोडिंग वास्तव में पूरी होने तक प्रतीक्षा करता है (SPA के लिए उपयुक्त), फिर सभी बाहरी लिंक निकालकर कॉपी करता है"
+  },
+  "ai_contentTooLong": {
+    "message": "सामग्री ऑन-डिवाइस मॉडल के लिए बहुत लंबी है। छोटा हिस्सा चुनें और फिर प्रयास करें।"
+  },
+  "progress_starting": {
+    "message": "शुरू हो रहा है…"
+  },
+  "progress_done": {
+    "message": "पूर्ण"
+  },
+  "progress_failed": {
+    "message": "त्रुटियों के साथ पूर्ण"
+  },
+  "label_noCopy": {
+    "message": "स्वतः क्लिपबोर्ड पर कॉपी न करें (परिणाम अगली क्रिया को दें)"
+  },
+  "hint_extractNoCopy": {
+    "message": "इसे तब चालू करें जब कोई चेन कई निष्कर्षण जोड़कर एक बार कॉपी करे; वरना हर मध्यवर्ती परिणाम क्लिपबोर्ड ले लेता है और भ्रामक 「कॉपी हो गया」 सूचना दिखाता है।"
+  },
+  "ai_diag_language": {
+    "message": "AI आउटपुट भाषा"
+  },
+  "hint_actionLangOverrides": {
+    "message": "क्रिया में चुनी भाषा वैश्विक इंटरफ़ेस भाषा को ओवरराइड करती है; 「स्वतः」 चुनने पर इंटरफ़ेस भाषा मानी जाती है (टूलबार के CPU आइकन के निदान देखें)।"
+  },
+  "shortcut_badge_withKey": {
+    "message": "शॉर्टकट: {key}"
+  },
+  "shortcut_badge_unset": {
+    "message": "कोई शॉर्टकट नहीं"
+  }
 }

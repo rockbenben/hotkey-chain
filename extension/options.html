@@ -54,6 +54,12 @@
                 <button id="shortcutsBtn" class="btn btn-outline-secondary" data-i18n-title="toolbar_shortcuts" data-i18n-aria="toolbar_shortcuts" title="快捷键设置" aria-label="快捷键设置">
                   <i class="bi bi-keyboard" aria-hidden="true"></i>
                 </button>
+                <button id="sidePanelBtn" class="btn btn-outline-secondary" data-i18n-title="toolbar_sidePanel" data-i18n-aria="toolbar_sidePanel" title="打开侧边栏" aria-label="打开侧边栏">
+                  <i class="bi bi-layout-sidebar-reverse" aria-hidden="true"></i>
+                </button>
+                <button id="checkAiStatusBtn" class="btn btn-outline-secondary" data-i18n-title="btn_checkAiStatus" data-i18n-aria="btn_checkAiStatus" title="检测端侧 AI 状态" aria-label="检测端侧 AI 状态">
+                  <i class="bi bi-cpu" aria-hidden="true"></i>
+                </button>
                 <button id="exportBtn" class="btn btn-outline-secondary"><i class="bi bi-download me-1" aria-hidden="true"></i><span data-i18n="toolbar_export">导出</span></button>
                 <button id="importBtn" class="btn btn-outline-secondary"><i class="bi bi-upload me-1" aria-hidden="true"></i><span data-i18n="toolbar_import">导入</span></button>
                 <input type="file" id="importFileInput" accept=".json,application/json" hidden />
@@ -62,14 +68,9 @@
                 </button>
             </div>
             <div class="toolbar-primary">
-                <div class="btn-group">
-                  <button id="templateBtn" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi bi-stars me-2" aria-hidden="true"></i><span data-i18n="toolbar_templates">从模板新建</span>
-                  </button>
-                  <ul class="dropdown-menu" id="templateMenu">
-                    <!-- Populated by JavaScript -->
-                  </ul>
-                </div>
+                <button id="templateBtn" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#templateGalleryModal">
+                  <i class="bi bi-stars me-2" aria-hidden="true"></i><span data-i18n="toolbar_templates">从模板新建</span>
+                </button>
                 <button id="addChainBtn" class="btn btn-primary"><i class="bi bi-plus-lg me-2" aria-hidden="true"></i><span data-i18n="toolbar_add">新建动作链</span></button>
             </div>
           </div>
@@ -169,6 +170,47 @@
                       placeholder="如 *://github.com/*，多个规则用逗号或换行分隔"
                     ></textarea>
                   </div>
+
+                  <hr />
+                  <div class="d-flex align-items-center justify-content-between mb-2">
+                    <h6 class="mb-0 fw-bold" data-i18n="workflow_title">
+                      <i class="bi bi-diagram-3 me-2 text-primary" aria-hidden="true"></i>工作流自动组合 (Pipeline)
+                    </h6>
+                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle" style="font-size: 0.7rem;">Workflow</span>
+                  </div>
+                  <p class="text-muted small mb-3" data-i18n="workflow_subtitle">
+                    自动衔接下一步工作流，上一步输出数据自动流向下游
+                  </p>
+
+                  <div class="mb-3">
+                    <label class="form-label small fw-semibold" for="chainNextStepSelect" data-i18n="workflow_nextChain">
+                      <i class="bi bi-arrow-right-circle me-1 text-success" aria-hidden="true"></i>执行成功后流转至下一链
+                    </label>
+                    <select class="form-select form-select-sm" id="chainNextStepSelect">
+                      <option value="" data-i18n="workflow_noNextChain">（无 - 执行完毕即终止）</option>
+                    </select>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label small fw-semibold" for="chainFallbackStepSelect" data-i18n="workflow_fallbackChain">
+                      <i class="bi bi-shield-exclamation me-1 text-warning" aria-hidden="true"></i>执行出错时流转至备用链
+                    </label>
+                    <select class="form-select form-select-sm" id="chainFallbackStepSelect">
+                      <option value="" data-i18n="workflow_noFallbackChain">（无 - 遇错停止）</option>
+                    </select>
+                  </div>
+
+                  <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox" id="chainPassOutputCheck" checked />
+                    <label class="form-check-label small" for="chainPassOutputCheck" data-i18n="workflow_passOutput">
+                      向下游传递输出数据（{{output}} / 选中文本）
+                    </label>
+                  </div>
+
+                  <!-- 可视化流水线流转预览框 -->
+                  <div class="workflow-preview-container p-2 rounded" id="workflowMiniPipeline">
+                    <!-- Populated by JavaScript -->
+                  </div>
                 </div>
               </div>
 
@@ -184,6 +226,127 @@
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 模板库模态框 (Template Gallery Modal) -->
+    <div class="modal fade" id="templateGalleryModal" tabindex="-1" aria-labelledby="templateGalleryModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content template-modal-content">
+          <div class="modal-header border-0 pb-2">
+            <div class="d-flex align-items-center gap-3">
+              <div class="template-header-icon" aria-hidden="true">
+                <i class="bi bi-collection-play-fill"></i>
+              </div>
+              <div>
+                <h4 class="modal-title fw-bold" id="templateGalleryModalLabel" data-i18n="tmpl_gallery_title">动作链模板库</h4>
+                <p class="text-muted small mb-0" data-i18n="tmpl_gallery_subtitle">挑选开箱即用的自动化动作链，一键添加并随心定制</p>
+              </div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+          <div class="modal-body pt-2">
+            <!-- 搜索与分类工具栏 -->
+            <div class="template-toolbar mb-4">
+              <div class="row g-3 align-items-center">
+                <div class="col-md-5 col-lg-4">
+                  <div class="input-group">
+                    <span class="input-group-text bg-body-secondary border-end-0">
+                      <i class="bi bi-search text-muted" aria-hidden="true"></i>
+                    </span>
+                    <input
+                      type="text"
+                      class="form-control border-start-0 ps-0"
+                      id="templateSearchInput"
+                      placeholder="搜索模板名称、描述或动作..."
+                      data-i18n-placeholder="tmpl_gallery_search_placeholder"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-7 col-lg-8">
+                  <div class="template-categories d-flex flex-wrap gap-2" id="templateCategoryFilters">
+                    <!-- Populated by JavaScript -->
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 模板卡片网格 -->
+            <div class="row g-3 template-cards-grid" id="templateCardsContainer">
+              <!-- Populated by JavaScript -->
+            </div>
+
+            <!-- 无匹配结果状态 -->
+            <div id="templateEmptyState" class="text-center py-5 d-none">
+              <div class="template-empty-icon mb-3">
+                <i class="bi bi-search text-muted display-5" aria-hidden="true"></i>
+              </div>
+              <h5 class="fw-bold" data-i18n="tmpl_gallery_empty_title">未找到匹配的模板</h5>
+              <p class="text-muted small mb-3" data-i18n="tmpl_gallery_empty_desc">请尝试更换关键词或切换上方分类</p>
+              <button class="btn btn-outline-primary btn-sm" id="templateSearchResetBtn" data-i18n="tmpl_gallery_empty_reset">重置搜索</button>
+            </div>
+          </div>
+
+          <div class="modal-footer border-0 pt-0 text-muted small">
+            <span><i class="bi bi-info-circle me-1" aria-hidden="true"></i><span data-i18n="tmpl_gallery_footer_hint">点击任意模板即可直接创建并进入编辑，所有参数均可根据个人习惯自由调整</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 动作选择器模态框 (Action Picker Modal) -->
+    <div class="modal fade" id="actionPickerModal" tabindex="-1" aria-labelledby="actionPickerModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content action-picker-content">
+          <div class="modal-header border-0 pb-2">
+            <div class="d-flex align-items-center gap-3">
+              <div class="action-picker-header-icon" aria-hidden="true">
+                <i class="bi bi-plus-circle-fill"></i>
+              </div>
+              <div>
+                <h4 class="modal-title fw-bold" id="actionPickerModalLabel" data-i18n="actionPicker_title">添加动作</h4>
+                <p class="text-muted small mb-0" data-i18n="actionPicker_subtitle">搜索或按分类挑选，点击即可直接添加到动作序列末尾</p>
+              </div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+          <div class="modal-body pt-2">
+            <!-- 搜索与分类工具栏 -->
+            <div class="action-picker-toolbar mb-3">
+              <div class="input-group mb-3">
+                <span class="input-group-text bg-body-secondary border-end-0">
+                  <i class="bi bi-search text-muted" aria-hidden="true"></i>
+                </span>
+                <input
+                  type="text"
+                  class="form-control border-start-0 ps-0"
+                  id="actionPickerSearchInput"
+                  placeholder="搜索动作名称（如深色、标签、AI、静音、截图、关闭）..."
+                  data-i18n-placeholder="actionPicker_searchPlaceholder"
+                  autocomplete="off"
+                />
+              </div>
+              <div class="action-picker-categories d-flex flex-wrap gap-2" id="actionPickerCategoryFilters">
+                <!-- Populated by JavaScript -->
+              </div>
+            </div>
+
+            <!-- 动作列表网格容器 -->
+            <div class="action-picker-grid" id="actionPickerListContainer">
+              <!-- Populated by JavaScript -->
+            </div>
+
+            <!-- 无匹配状态 -->
+            <div id="actionPickerEmptyState" class="text-center py-4 d-none">
+              <div class="mb-2">
+                <i class="bi bi-search text-muted fs-2" aria-hidden="true"></i>
+              </div>
+              <p class="text-muted small mb-0" data-i18n="actionPicker_noResults">未找到相关动作，请尝试更换关键词</p>
             </div>
           </div>
         </div>

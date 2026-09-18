@@ -5,6 +5,9 @@ let currentConfig = {};
 let editingChainId = null;
 let userLocale = null; // 'auto' or any _locales/<code> (en, zh_CN, ja, ar, …)
 let i18nCache = {}; // options page override cache
+let currentActionPickerCategory = "all";
+let actionPickerSearchQuery = "";
+let actionPickerTargetChainKey = null;
 
 // Action types mapping (same as background.js)
 const ACTION_TYPES = {
@@ -47,6 +50,7 @@ const ACTION_TYPES = {
   TOGGLE_DARK_MODE: "toggle_dark_mode",
   TRANSLATE_PAGE: "translate_page",
   MEDIA_PLAY_PAUSE: "media_play_pause",
+  MEDIA_PLAY: "media_play",
   MEDIA_SPEED_UP: "media_speed_up",
   MEDIA_SPEED_DOWN: "media_speed_down",
   MEDIA_SPEED_RESET: "media_speed_reset",
@@ -85,10 +89,67 @@ const ACTION_TYPES = {
   IF_HAS_SELECTION: "if_has_selection",
   CONFIRM: "confirm",
   RUN_CHAIN: "run_chain",
+  // Chrome open APIs & tools
+  OPEN_SIDE_PANEL: "open_side_panel",
+  AI_SUMMARIZE: "ai_summarize",
+  AI_EXPLAIN: "ai_explain",
+  AI_TRANSLATE: "ai_translate",
+  DISCARD_CURRENT_TAB: "discard_current_tab",
+  DUPLICATE_TAB_TO_NEW_WINDOW: "duplicate_tab_to_new_window",
+  COLLAPSE_ALL_GROUPS: "collapse_all_groups",
+  EXPAND_ALL_GROUPS: "expand_all_groups",
+  CLOSE_OTHER_WINDOWS: "close_other_windows",
+  OPEN_OPTIONS_PAGE: "open_options_page",
+  OPEN_SHORTCUTS_PAGE: "open_shortcuts_page",
+  RELOAD_EXTENSION: "reload_extension",
+  OPEN_ACTION_POPUP: "open_action_popup",
+  CLEAR_COOKIES: "clear_cookies",
+  CLEAR_DOWNLOADS_HISTORY: "clear_downloads_history",
+  SPEAK_TEXT: "speak_text",
+  TOGGLE_DESIGN_MODE: "toggle_design_mode",
+  COPY_PAGE_HTML: "copy_page_html",
+  EXTRACT_ALL_LINKS: "extract_all_links",
+  EXTRACT_ALL_IMAGES: "extract_all_images",
+  TOGGLE_SITE_JAVASCRIPT: "toggle_site_javascript",
+  TOGGLE_SITE_IMAGES: "toggle_site_images",
+  TOGGLE_SITE_POPUPS: "toggle_site_popups",
+  OPEN_TOP_SITES: "open_top_sites",
+  WAIT_FOR_NAVIGATION: "wait_for_navigation",
 };
 
 // Built-in browser pages selectable for the open_browser_page action
 const BROWSER_PAGE_OPTIONS = ["downloads", "history", "bookmarks", "extensions", "settings", "shortcuts", "clear_browsing_data"];
+
+// Supported languages for AI and TTS configuration
+const SUPPORTED_LANGUAGES = [
+  { code: "auto", labelKey: "opt_lang_auto", defaultLabel: "跟随系统 / 界面语言" },
+  { code: "zh_CN", name: "简体中文" },
+  { code: "zh_TW", name: "繁體中文" },
+  { code: "en", name: "English" },
+  { code: "ja", name: "日本語" },
+  { code: "ko", name: "한국어" },
+  { code: "es", name: "Español" },
+  { code: "fr", name: "Français" },
+  { code: "de", name: "Deutsch" },
+  { code: "pt_BR", name: "Português (Brasil)" },
+  { code: "ru", name: "Русский" },
+  { code: "it", name: "Italiano" },
+  { code: "ar", name: "العربية" },
+  { code: "hi", name: "हिन्दी" },
+  { code: "id", name: "Bahasa Indonesia" },
+  { code: "tr", name: "Türkçe" },
+  { code: "vi", name: "Tiếng Việt" },
+  { code: "th", name: "ไทย" },
+  { code: "pl", name: "Polski" },
+];
+
+function generateLanguageOptions(selectedCode = "auto") {
+  return SUPPORTED_LANGUAGES.map((lang) => {
+    const label = lang.labelKey ? t(lang.labelKey, lang.defaultLabel) : (lang.name || lang.defaultLabel || lang.code);
+    const isSelected = (selectedCode || "auto") === lang.code ? "selected" : "";
+    return `<option value="${lang.code}" ${isSelected}>${escapeHtmlAttr(label)}</option>`;
+  }).join("");
+}
 
 // Action display names (i18n)
 const ACTION_NAMES = {
@@ -131,6 +192,7 @@ const ACTION_NAMES = {
   [ACTION_TYPES.TOGGLE_DARK_MODE]: () => t("actionName_toggle_dark_mode", "深色模式切换"),
   [ACTION_TYPES.TRANSLATE_PAGE]: () => t("actionName_translate_page", "翻译页面"),
   [ACTION_TYPES.MEDIA_PLAY_PAUSE]: () => t("actionName_media_play_pause", "播放/暂停媒体"),
+  [ACTION_TYPES.MEDIA_PLAY]: () => t("actionName_media_play", "播放媒体（不暂停）"),
   [ACTION_TYPES.MEDIA_SPEED_UP]: () => t("actionName_media_speed_up", "加快播放速度"),
   [ACTION_TYPES.MEDIA_SPEED_DOWN]: () => t("actionName_media_speed_down", "减慢播放速度"),
   [ACTION_TYPES.MEDIA_SPEED_RESET]: () => t("actionName_media_speed_reset", "重置播放速度"),
@@ -169,6 +231,31 @@ const ACTION_NAMES = {
   [ACTION_TYPES.IF_HAS_SELECTION]: () => t("actionName_if_has_selection", "条件：有选中文字则继续"),
   [ACTION_TYPES.CONFIRM]: () => t("actionName_confirm", "询问确认后继续"),
   [ACTION_TYPES.RUN_CHAIN]: () => t("actionName_run_chain", "运行另一条动作链"),
+  [ACTION_TYPES.OPEN_SIDE_PANEL]: () => t("actionName_open_side_panel", "打开侧边栏"),
+  [ACTION_TYPES.AI_SUMMARIZE]: () => t("actionName_ai_summarize", "AI 总结内容"),
+  [ACTION_TYPES.AI_EXPLAIN]: () => t("actionName_ai_explain", "AI 解释选中内容"),
+  [ACTION_TYPES.AI_TRANSLATE]: () => t("actionName_ai_translate", "AI 翻译选中内容"),
+  [ACTION_TYPES.DISCARD_CURRENT_TAB]: () => t("actionName_discard_current_tab", "休眠当前标签页（释放内存）"),
+  [ACTION_TYPES.DUPLICATE_TAB_TO_NEW_WINDOW]: () => t("actionName_duplicate_tab_to_new_window", "在新窗口中复制标签页"),
+  [ACTION_TYPES.COLLAPSE_ALL_GROUPS]: () => t("actionName_collapse_all_groups", "折叠所有标签分组"),
+  [ACTION_TYPES.EXPAND_ALL_GROUPS]: () => t("actionName_expand_all_groups", "展开所有标签分组"),
+  [ACTION_TYPES.CLOSE_OTHER_WINDOWS]: () => t("actionName_close_other_windows", "关闭其他窗口"),
+  [ACTION_TYPES.OPEN_OPTIONS_PAGE]: () => t("actionName_open_options_page", "打开扩展设置页"),
+  [ACTION_TYPES.OPEN_SHORTCUTS_PAGE]: () => t("actionName_open_shortcuts_page", "打开快捷键管理"),
+  [ACTION_TYPES.RELOAD_EXTENSION]: () => t("actionName_reload_extension", "重新加载扩展"),
+  [ACTION_TYPES.OPEN_ACTION_POPUP]: () => t("actionName_open_action_popup", "打开扩展弹窗"),
+  [ACTION_TYPES.CLEAR_COOKIES]: () => t("actionName_clear_cookies", "清除所有 Cookie"),
+  [ACTION_TYPES.CLEAR_DOWNLOADS_HISTORY]: () => t("actionName_clear_downloads_history", "清除下载记录"),
+  [ACTION_TYPES.SPEAK_TEXT]: () => t("actionName_speak_text", "朗读指定文本"),
+  [ACTION_TYPES.TOGGLE_DESIGN_MODE]: () => t("actionName_toggle_design_mode", "页面实时编辑开/关"),
+  [ACTION_TYPES.COPY_PAGE_HTML]: () => t("actionName_copy_page_html", "复制页面 HTML 源码"),
+  [ACTION_TYPES.EXTRACT_ALL_LINKS]: () => t("actionName_extract_all_links", "提取页面所有链接"),
+  [ACTION_TYPES.EXTRACT_ALL_IMAGES]: () => t("actionName_extract_all_images", "提取页面所有图片链接"),
+  [ACTION_TYPES.TOGGLE_SITE_JAVASCRIPT]: () => t("actionName_toggle_site_javascript", "当前站点 JavaScript 开/关"),
+  [ACTION_TYPES.TOGGLE_SITE_IMAGES]: () => t("actionName_toggle_site_images", "当前站点图片加载开/关"),
+  [ACTION_TYPES.TOGGLE_SITE_POPUPS]: () => t("actionName_toggle_site_popups", "当前站点弹窗拦截开/关"),
+  [ACTION_TYPES.OPEN_TOP_SITES]: () => t("actionName_open_top_sites", "打开常用工作台站点"),
+  [ACTION_TYPES.WAIT_FOR_NAVIGATION]: () => t("actionName_wait_for_navigation", "等待页面加载/导航完成"),
 };
 
 // Common extension action templates.
@@ -278,7 +365,7 @@ const ACTION_CATEGORY_LABELS = {
 // Action categories for grouped display (do not localize keys here)
 const ACTION_CATEGORIES = {
   execute_command: [ACTION_TYPES.EXECUTE_COMMAND],
-  flow: [ACTION_TYPES.IF_URL_MATCHES, ACTION_TYPES.IF_HAS_SELECTION, ACTION_TYPES.CONFIRM, ACTION_TYPES.RUN_CHAIN, ACTION_TYPES.WAIT],
+  flow: [ACTION_TYPES.IF_URL_MATCHES, ACTION_TYPES.IF_HAS_SELECTION, ACTION_TYPES.CONFIRM, ACTION_TYPES.RUN_CHAIN, ACTION_TYPES.WAIT, ACTION_TYPES.WAIT_FOR_NAVIGATION],
   page_ops: [
     ACTION_TYPES.SCROLL_TO_TOP,
     ACTION_TYPES.SCROLL_TO_BOTTOM,
@@ -287,6 +374,10 @@ const ACTION_CATEGORIES = {
     ACTION_TYPES.RELOAD_PAGE,
     ACTION_TYPES.FULLSCREEN,
     ACTION_TYPES.TOGGLE_DARK_MODE,
+    ACTION_TYPES.TOGGLE_DESIGN_MODE,
+    ACTION_TYPES.TOGGLE_SITE_JAVASCRIPT,
+    ACTION_TYPES.TOGGLE_SITE_IMAGES,
+    ACTION_TYPES.TOGGLE_SITE_POPUPS,
     ACTION_TYPES.TRANSLATE_PAGE,
     ACTION_TYPES.BACK,
     ACTION_TYPES.FORWARD,
@@ -303,6 +394,8 @@ const ACTION_CATEGORIES = {
     ACTION_TYPES.SORT_TABS_BY_URL,
     ACTION_TYPES.GROUP_TABS_BY_DOMAIN,
     ACTION_TYPES.UNGROUP_ALL_TABS,
+    ACTION_TYPES.COLLAPSE_ALL_GROUPS,
+    ACTION_TYPES.EXPAND_ALL_GROUPS,
     ACTION_TYPES.DUPLICATE_TAB,
     ACTION_TYPES.PIN_TAB,
     ACTION_TYPES.MUTE_TAB,
@@ -316,29 +409,40 @@ const ACTION_CATEGORIES = {
     ACTION_TYPES.PREV_TAB,
     ACTION_TYPES.NEXT_TAB,
     ACTION_TYPES.REOPEN_CLOSED_TAB,
+    ACTION_TYPES.DISCARD_CURRENT_TAB,
     ACTION_TYPES.DISCARD_OTHER_TABS,
     ACTION_TYPES.GOTO_AUDIBLE_TAB,
     ACTION_TYPES.BOOKMARK_ALL_TABS,
+    ACTION_TYPES.OPEN_TOP_SITES,
   ],
   window_mgmt: [
     ACTION_TYPES.NEW_WINDOW,
     ACTION_TYPES.CLOSE_WINDOW,
+    ACTION_TYPES.CLOSE_OTHER_WINDOWS,
     ACTION_TYPES.MINIMIZE_WINDOW,
     ACTION_TYPES.MAXIMIZE_WINDOW,
     ACTION_TYPES.OPEN_INCOGNITO_WINDOW,
+    ACTION_TYPES.OPEN_SIDE_PANEL,
     ACTION_TYPES.MOVE_TAB_TO_NEW_WINDOW,
+    ACTION_TYPES.DUPLICATE_TAB_TO_NEW_WINDOW,
   ],
   zoom: [ACTION_TYPES.ZOOM_IN, ACTION_TYPES.ZOOM_OUT, ACTION_TYPES.ZOOM_RESET],
-  media: [ACTION_TYPES.MEDIA_PLAY_PAUSE, ACTION_TYPES.MEDIA_SPEED_UP, ACTION_TYPES.MEDIA_SPEED_DOWN, ACTION_TYPES.MEDIA_SPEED_RESET, ACTION_TYPES.SPEAK_SELECTION, ACTION_TYPES.STOP_SPEAKING],
+  media: [ACTION_TYPES.MEDIA_PLAY_PAUSE, ACTION_TYPES.MEDIA_PLAY, ACTION_TYPES.MEDIA_SPEED_UP, ACTION_TYPES.MEDIA_SPEED_DOWN, ACTION_TYPES.MEDIA_SPEED_RESET, ACTION_TYPES.SPEAK_SELECTION, ACTION_TYPES.STOP_SPEAKING, ACTION_TYPES.SPEAK_TEXT],
   content: [
     ACTION_TYPES.COPY_URL,
     ACTION_TYPES.COPY_TITLE,
     ACTION_TYPES.COPY_AS_MARKDOWN,
+    ACTION_TYPES.COPY_PAGE_HTML,
     ACTION_TYPES.COPY_TEXT,
     ACTION_TYPES.COPY_SELECTED_TEXT,
     ACTION_TYPES.SEARCH_SELECTION,
     ACTION_TYPES.BOOKMARK,
     ACTION_TYPES.READ_LATER,
+    ACTION_TYPES.AI_SUMMARIZE,
+    ACTION_TYPES.AI_EXPLAIN,
+    ACTION_TYPES.AI_TRANSLATE,
+    ACTION_TYPES.EXTRACT_ALL_LINKS,
+    ACTION_TYPES.EXTRACT_ALL_IMAGES,
   ],
   advanced: [
     ACTION_TYPES.CLEAR_CACHE,
@@ -349,8 +453,14 @@ const ACTION_CATEGORIES = {
     ACTION_TYPES.SHOW_DOWNLOADS_FOLDER,
     ACTION_TYPES.CLEAR_BROWSING_CACHE,
     ACTION_TYPES.CLEAR_SITE_DATA,
+    ACTION_TYPES.CLEAR_COOKIES,
+    ACTION_TYPES.CLEAR_DOWNLOADS_HISTORY,
     ACTION_TYPES.DELETE_URL_FROM_HISTORY,
     ACTION_TYPES.TOGGLE_KEEP_AWAKE,
+    ACTION_TYPES.OPEN_OPTIONS_PAGE,
+    ACTION_TYPES.OPEN_SHORTCUTS_PAGE,
+    ACTION_TYPES.RELOAD_EXTENSION,
+    ACTION_TYPES.OPEN_ACTION_POPUP,
   ],
   extension: [ACTION_TYPES.CALL_EXTENSION],
 };
@@ -435,6 +545,13 @@ const ICONS = {
   puzzle: '<path d="M9 4a2 2 0 014 0v1h2a2 2 0 012 2v2h1a2 2 0 010 4h-1v3a2 2 0 01-2 2h-2v-1a2 2 0 00-4 0v1H7a2 2 0 01-2-2v-2H4a2 2 0 010-4h1V7a2 2 0 012-2h2V4z"/>',
   help: '<circle cx="12" cy="12" r="9"/><path d="M9.6 9.2a2.5 2.5 0 014.9.6c0 1.6-2.4 2-2.4 3.4"/><path d="M12 17.2h.01"/>',
   dot: '<circle cx="12" cy="12" r="3"/>',
+  sidebar: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M15 3v18"/>',
+  sparkle: '<path d="M12 3l1.9 5.8a2 2 0 001.3 1.3L21 12l-5.8 1.9a2 2 0 00-1.3 1.3L12 21l-1.9-5.8a2 2 0 00-1.3-1.3L3 12l5.8-1.9a2 2 0 001.3-1.3L12 3z"/>',
+  edit: '<path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>',
+  codeDoc: '<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M10 13l-2 2 2 2"/><path d="M14 13l2 2-2 2"/>',
+  image: '<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>',
+  cookie: '<circle cx="12" cy="12" r="9"/><circle cx="8.5" cy="8.5" r="1.5"/><circle cx="15.5" cy="10" r="1"/><circle cx="11" cy="15" r="1.5"/>',
+  settings: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>',
 };
 
 // Per-action icon key (falls back to a per-category default)
@@ -486,6 +603,7 @@ const ACTION_ICON_KEYS = {
   [ACTION_TYPES.ZOOM_OUT]: "zoomOut",
   [ACTION_TYPES.ZOOM_RESET]: "search",
   [ACTION_TYPES.MEDIA_PLAY_PAUSE]: "play",
+  [ACTION_TYPES.MEDIA_PLAY]: "play",
   [ACTION_TYPES.MEDIA_SPEED_UP]: "fastFwd",
   [ACTION_TYPES.MEDIA_SPEED_DOWN]: "rewind",
   [ACTION_TYPES.MEDIA_SPEED_RESET]: "refresh",
@@ -516,6 +634,31 @@ const ACTION_ICON_KEYS = {
   [ACTION_TYPES.WAIT]: "clock",
   [ACTION_TYPES.EXECUTE_COMMAND]: "command",
   [ACTION_TYPES.CALL_EXTENSION]: "puzzle",
+  [ACTION_TYPES.OPEN_SIDE_PANEL]: "sidebar",
+  [ACTION_TYPES.AI_SUMMARIZE]: "sparkle",
+  [ACTION_TYPES.AI_EXPLAIN]: "sparkle",
+  [ACTION_TYPES.AI_TRANSLATE]: "globe",
+  [ACTION_TYPES.DISCARD_CURRENT_TAB]: "moon",
+  [ACTION_TYPES.DUPLICATE_TAB_TO_NEW_WINDOW]: "window",
+  [ACTION_TYPES.COLLAPSE_ALL_GROUPS]: "chevUp",
+  [ACTION_TYPES.EXPAND_ALL_GROUPS]: "chevDown",
+  [ACTION_TYPES.CLOSE_OTHER_WINDOWS]: "xCircle",
+  [ACTION_TYPES.OPEN_OPTIONS_PAGE]: "settings",
+  [ACTION_TYPES.OPEN_SHORTCUTS_PAGE]: "command",
+  [ACTION_TYPES.RELOAD_EXTENSION]: "refresh",
+  [ACTION_TYPES.OPEN_ACTION_POPUP]: "external",
+  [ACTION_TYPES.CLEAR_COOKIES]: "cookie",
+  [ACTION_TYPES.CLEAR_DOWNLOADS_HISTORY]: "trash",
+  [ACTION_TYPES.SPEAK_TEXT]: "speak",
+  [ACTION_TYPES.TOGGLE_DESIGN_MODE]: "edit",
+  [ACTION_TYPES.COPY_PAGE_HTML]: "codeDoc",
+  [ACTION_TYPES.EXTRACT_ALL_LINKS]: "link",
+  [ACTION_TYPES.EXTRACT_ALL_IMAGES]: "image",
+  [ACTION_TYPES.TOGGLE_SITE_JAVASCRIPT]: "code",
+  [ACTION_TYPES.TOGGLE_SITE_IMAGES]: "image",
+  [ACTION_TYPES.TOGGLE_SITE_POPUPS]: "external",
+  [ACTION_TYPES.OPEN_TOP_SITES]: "globe",
+  [ACTION_TYPES.WAIT_FOR_NAVIGATION]: "clock",
 };
 
 const CATEGORY_DEFAULT_ICON = {
@@ -575,24 +718,84 @@ function renderChainTimeline(actions) {
     .join("");
 }
 
+// Template categories for filtering in the gallery
+const TEMPLATE_CATEGORIES = {
+  all: { icon: "bi-grid-fill", nameKey: "tmpl_cat_all", fallback: "全部模板" },
+  ai: { icon: "bi-cpu-fill", nameKey: "tmpl_cat_ai", fallback: "AI 智能" },
+  tabs: { icon: "bi-window-stack", nameKey: "tmpl_cat_tabs", fallback: "标签与内存" },
+  reading: { icon: "bi-book-half", nameKey: "tmpl_cat_reading", fallback: "阅读与视听" },
+  developer: { icon: "bi-code-slash", nameKey: "tmpl_cat_developer", fallback: "网页与开发" },
+  privacy: { icon: "bi-shield-lock-fill", nameKey: "tmpl_cat_privacy", fallback: "隐私与清理" },
+  workflow: { icon: "bi-lightning-charge-fill", nameKey: "tmpl_cat_workflow", fallback: "日常工作流" },
+};
+
 // Built-in chain templates ("Shortcuts"-style recipes users can add with one click).
 // `build` is a function so action text/names are localized at creation time.
 const CHAIN_TEMPLATES = [
   {
-    key: "focus",
-    nameKey: "tmpl_focusMode",
-    fallback: "专注模式",
-    icon: "bi-moon-stars",
+    key: "aiSummarize",
+    category: "ai",
+    requiresAi: true,
+    nameKey: "tmpl_aiSummarize",
+    fallback: "AI 智能页面速读",
+    descKey: "tmpl_aiSummarize_desc",
+    descFallback: "使用端侧 Gemini Nano AI 提取网页核心摘要，并在侧边栏中整理展示",
+    icon: "bi-robot",
     build: () => [
-      { type: ACTION_TYPES.MUTE_ALL_TABS, delay: 0 },
-      { type: ACTION_TYPES.TOGGLE_DARK_MODE, delay: 200 },
-      { type: ACTION_TYPES.FULLSCREEN, delay: 200 },
+      { type: ACTION_TYPES.AI_SUMMARIZE, delay: 0, summaryLang: "auto", format: "concise" },
+      { type: ACTION_TYPES.OPEN_SIDE_PANEL, delay: 300 },
+    ],
+  },
+  {
+    key: "aiExplain",
+    category: "ai",
+    requiresAi: true,
+    nameKey: "tmpl_aiExplain",
+    fallback: "AI 划词深度解析",
+    descKey: "tmpl_aiExplain_desc",
+    descFallback: "选中网页段落，呼叫端侧 AI 进行逐段答疑解析并在侧边栏记录",
+    icon: "bi-lightbulb",
+    build: () => [
+      { type: ACTION_TYPES.AI_EXPLAIN, delay: 0, explainLang: "auto", style: "concise" },
+      { type: ACTION_TYPES.OPEN_SIDE_PANEL, delay: 200 },
+    ],
+  },
+  {
+    key: "aiTranslate",
+    category: "ai",
+    requiresAi: true,
+    nameKey: "tmpl_aiTranslate",
+    fallback: "AI 选区翻译与朗读",
+    descKey: "tmpl_aiTranslate_desc",
+    descFallback: "通过端侧 AI 将划选文本翻译为目标语言，并调用系统语音引擎朗读",
+    icon: "bi-translate",
+    build: () => [
+      { type: ACTION_TYPES.AI_TRANSLATE, delay: 0, targetLang: "auto", style: "natural" },
+      { type: ACTION_TYPES.SPEAK_SELECTION, delay: 300, preferOutput: true, lang: "auto", rate: 1.0 },
+    ],
+  },
+  {
+    key: "tabHibernateClean",
+    category: "tabs",
+    nameKey: "tmpl_tabHibernateClean",
+    fallback: "内存暴降与标签整理",
+    descKey: "tmpl_tabHibernateClean_desc",
+    descFallback: "关闭重复标签，休眠冻结非活跃标签释放内存，并按域名分组折叠",
+    icon: "bi-battery-charging",
+    build: () => [
+      { type: ACTION_TYPES.CLOSE_DUPLICATE_TABS, delay: 0 },
+      { type: ACTION_TYPES.DISCARD_OTHER_TABS, delay: 300 },
+      { type: ACTION_TYPES.GROUP_TABS_BY_DOMAIN, delay: 300 },
+      { type: ACTION_TYPES.COLLAPSE_ALL_GROUPS, delay: 200 },
     ],
   },
   {
     key: "tabCleanup",
+    category: "tabs",
     nameKey: "tmpl_tabCleanup",
     fallback: "标签大扫除",
+    descKey: "tmpl_tabCleanup_desc",
+    descFallback: "清理重复标签页，按网址排序并按域名自动归类分组",
     icon: "bi-magic",
     build: () => [
       { type: ACTION_TYPES.CLOSE_DUPLICATE_TABS, delay: 0 },
@@ -601,51 +804,12 @@ const CHAIN_TEMPLATES = [
     ],
   },
   {
-    key: "video",
-    nameKey: "tmpl_videoMode",
-    fallback: "视频模式",
-    icon: "bi-play-circle",
-    build: () => [
-      { type: ACTION_TYPES.MEDIA_PLAY_PAUSE, delay: 0 },
-      { type: ACTION_TYPES.FULLSCREEN, delay: 200 },
-    ],
-  },
-  {
-    key: "snapshot",
-    nameKey: "tmpl_snapshot",
-    fallback: "截图存档",
-    icon: "bi-camera",
-    build: () => [
-      { type: ACTION_TYPES.CAPTURE_SCREENSHOT, delay: 0 },
-      { type: ACTION_TYPES.BOOKMARK, delay: 300 },
-      { type: ACTION_TYPES.SHOW_NOTIFICATION, delay: 300, text: t("tmpl_snapshot_done", "已截图并加入书签") },
-    ],
-  },
-  {
-    key: "readAloud",
-    nameKey: "tmpl_readAloud",
-    fallback: "朗读选中内容",
-    icon: "bi-megaphone",
-    build: () => [{ type: ACTION_TYPES.SPEAK_SELECTION, delay: 0 }],
-  },
-  {
-    key: "translate",
-    nameKey: "tmpl_translate",
-    fallback: "翻译当前页面",
-    icon: "bi-translate",
-    build: () => [{ type: ACTION_TYPES.TRANSLATE_PAGE, delay: 0 }],
-  },
-  {
-    key: "copyPageInfo",
-    nameKey: "tmpl_copyPageInfo",
-    fallback: "复制页面信息",
-    icon: "bi-clipboard-check",
-    build: () => [{ type: ACTION_TYPES.COPY_TEXT, delay: 0, text: "{title}\n{url}" }],
-  },
-  {
     key: "safeCloseOthers",
+    category: "tabs",
     nameKey: "tmpl_safeCloseOthers",
-    fallback: "关闭其他标签页（先确认）",
+    fallback: "安全关闭其他标签页",
+    descKey: "tmpl_safeCloseOthers_desc",
+    descFallback: "弹窗安全二次确认，防止误触关闭其他所有标签页",
     icon: "bi-shield-check",
     build: () => [
       { type: ACTION_TYPES.CONFIRM, delay: 0, text: t("tmpl_safeCloseOthers_ask", "确定要关闭其他所有标签页吗？") },
@@ -653,14 +817,329 @@ const CHAIN_TEMPLATES = [
     ],
   },
   {
+    key: "focus",
+    category: "workflow",
+    nameKey: "tmpl_focusMode",
+    fallback: "深度沉浸专注模式",
+    descKey: "tmpl_focusMode_desc",
+    descFallback: "一键静音所有标签页、切换深色保护眼睛并进入全屏专注",
+    icon: "bi-moon-stars",
+    build: () => [
+      { type: ACTION_TYPES.MUTE_ALL_TABS, delay: 0 },
+      { type: ACTION_TYPES.TOGGLE_DARK_MODE, delay: 200 },
+      { type: ACTION_TYPES.FULLSCREEN, delay: 200 },
+    ],
+  },
+  {
+    key: "webEditor",
+    category: "developer",
+    nameKey: "tmpl_webEditor",
+    fallback: "网页原地自由编辑",
+    descKey: "tmpl_webEditor_desc",
+    descFallback: "切换页面 DesignMode，支持像 Word 一样任意修改网页文字与布局用于排版截图",
+    icon: "bi-pencil-square",
+    build: () => [
+      { type: ACTION_TYPES.TOGGLE_DESIGN_MODE, delay: 0 },
+    ],
+  },
+  {
+    key: "extractMedia",
+    category: "developer",
+    nameKey: "tmpl_extractMedia",
+    fallback: "页面链接与图片提取",
+    descKey: "tmpl_extractMedia_desc",
+    descFallback: "从当前页面一键解析并提取全部媒体图片与链接清单",
+    icon: "bi-file-earmark-arrow-down",
+    build: () => [
+      { type: ACTION_TYPES.EXTRACT_ALL_IMAGES, delay: 0, outputVar: "images", noCopy: true },
+      { type: ACTION_TYPES.EXTRACT_ALL_LINKS, delay: 300, outputVar: "links", noCopy: true },
+      // 两个提取动作都会覆盖剪贴板，所以这里必须把两份清单合成一次再写入 ——
+      // 否则后一步的链接清单会把前一步的图片清单顶掉，而通知还说两者都提取了。
+      // （Markdown 载荷按仓库既有做法内联，不走 i18n，见 copyMarkdown / aiKnowledgeCard。）
+      { type: ACTION_TYPES.COPY_TEXT, delay: 200, text: "## Images\n{images}\n\n## Links\n{links}" },
+    ],
+  },
+  {
+    key: "cinema",
+    category: "reading",
+    nameKey: "tmpl_cinemaMode",
+    fallback: "画中画与观影模式",
+    descKey: "tmpl_cinemaMode_desc",
+    descFallback: "弹出网页视频画中画独立浮窗，并开启全屏无干扰观影",
+    icon: "bi-pip",
+    build: () => [
+      { type: ACTION_TYPES.MEDIA_PLAY, delay: 0 },
+      { type: ACTION_TYPES.FULLSCREEN, delay: 200 },
+    ],
+  },
+  {
+    key: "readAloud",
+    category: "reading",
+    nameKey: "tmpl_readAloud",
+    fallback: "语音朗读当前选区",
+    descKey: "tmpl_readAloud_desc",
+    descFallback: "调用浏览器原生语音合成引擎朗读当前高亮选中的文章段落",
+    icon: "bi-megaphone",
+    build: () => [{ type: ACTION_TYPES.SPEAK_SELECTION, delay: 0, lang: "auto", rate: 1.0, preferOutput: false }],
+  },
+  {
+    key: "privacyWipe",
+    category: "privacy",
+    nameKey: "tmpl_privacyWipe",
+    fallback: "隐私数据极速抹除",
+    descKey: "tmpl_privacyWipe_desc",
+    descFallback: "经弹窗确认后，快速清理近期的 Cookie 缓存与下载记录保护隐私",
+    icon: "bi-trash3",
+    build: () => [
+      { type: ACTION_TYPES.CONFIRM, delay: 0, text: t("tmpl_privacyWipe_ask", "确定要清理浏览数据（Cookie与下载历史）吗？") },
+      { type: ACTION_TYPES.CLEAR_COOKIES, delay: 100 },
+      { type: ACTION_TYPES.CLEAR_DOWNLOADS_HISTORY, delay: 100 },
+    ],
+  },
+  {
+    key: "copyMarkdown",
+    category: "workflow",
+    nameKey: "tmpl_copyMarkdown",
+    fallback: "Markdown 引用链接复制",
+    descKey: "tmpl_copyMarkdown_desc",
+    descFallback: "快速提取当前网页标题与网址，按 Markdown 标准格式格式化拷贝到剪贴板",
+    icon: "bi-markdown",
+    build: () => [
+      { type: ACTION_TYPES.COPY_TEXT, delay: 0, text: "[{title}]({url})" },
+    ],
+  },
+  {
+    key: "snapshot",
+    category: "workflow",
+    nameKey: "tmpl_snapshot",
+    fallback: "截图存盘并加入书签",
+    descKey: "tmpl_snapshot_desc",
+    descFallback: "截取可见区域图像，同时将页面添加至书签栏备忘",
+    icon: "bi-camera",
+    build: () => [
+      { type: ACTION_TYPES.CAPTURE_SCREENSHOT, delay: 0 },
+      { type: ACTION_TYPES.BOOKMARK, delay: 300 },
+    ],
+  },
+  {
     key: "wrapUp",
+    category: "workflow",
     nameKey: "tmpl_wrapUp",
-    fallback: "收工模式",
+    fallback: "一键收工模式",
+    descKey: "tmpl_wrapUp_desc",
+    descFallback: "保存书签防丢失，静音所有声音并最小化窗口准备下班",
     icon: "bi-cup-hot",
     build: () => [
       { type: ACTION_TYPES.BOOKMARK, delay: 0 },
       { type: ACTION_TYPES.MUTE_ALL_TABS, delay: 200 },
       { type: ACTION_TYPES.MINIMIZE_WINDOW, delay: 200 },
+    ],
+  },
+  {
+    key: "sidePanelCompanion",
+    category: "workflow",
+    nameKey: "tmpl_sidePanelCompanion",
+    fallback: "侧边栏效率助手",
+    descKey: "tmpl_sidePanelCompanion_desc",
+    descFallback: "一键呼出 Hotkey Chain 侧边栏伴侣，随时执行快捷链与管理配置",
+    icon: "bi-layout-sidebar-reverse",
+    build: () => [
+      { type: ACTION_TYPES.OPEN_SIDE_PANEL, delay: 0 },
+    ],
+  },
+  {
+    key: "workflowAiResearch",
+    category: "workflow",
+    requiresAi: true,
+    nameKey: "tmpl_workflowAiResearch",
+    fallback: "AI 提取与总结工作流",
+    descKey: "tmpl_workflowAiResearch_desc",
+    descFallback: "自动提取网页链接并由端侧 AI 智能总结要点，格式化写入剪贴板",
+    icon: "bi-diagram-3",
+    build: () => [
+      { type: ACTION_TYPES.EXTRACT_ALL_LINKS, delay: 0 },
+      { type: ACTION_TYPES.AI_SUMMARIZE, delay: 300, summaryLang: "auto", format: "bullets", noCopy: true },
+      { type: ACTION_TYPES.COPY_TEXT, delay: 200, text: "## {title}\n{url}\n\n### AI Summary\n{output}" },
+    ],
+  },
+  {
+    key: "workflowReadLater",
+    category: "workflow",
+    nameKey: "tmpl_workflowReadLater",
+    fallback: "稍后读与正文归档流水线",
+    descKey: "tmpl_workflowReadLater_desc",
+    descFallback: "将当前网页提取为干净的 Markdown 存入剪贴板，并加入 Chrome 阅读清单与书签",
+    icon: "bi-journal-bookmark-fill",
+    build: () => [
+      { type: ACTION_TYPES.COPY_AS_MARKDOWN, delay: 0 },
+      // 模板名里的「稍后读」指的是 Chrome 的阅读清单，所以要用 read_later，
+      // 不能只加书签 —— 书签是另一回事，两者一起才叫「稍后读与归档」。
+      { type: ACTION_TYPES.READ_LATER, delay: 300 },
+      { type: ACTION_TYPES.BOOKMARK, delay: 200 },
+    ],
+  },
+  {
+    key: "aiKnowledgeCard",
+    category: "ai",
+    requiresAi: true,
+    nameKey: "tmpl_aiKnowledgeCard",
+    fallback: "AI 知识卡片速记",
+    descKey: "tmpl_aiKnowledgeCard_desc",
+    descFallback: "使用端侧 AI 提炼网页或划选内容的核心要点，格式化为 Markdown 引用卡片存入剪贴板",
+    icon: "bi-journal-richtext",
+    build: () => [
+      { type: ACTION_TYPES.AI_SUMMARIZE, delay: 0, summaryLang: "auto", format: "concise", noCopy: true },
+      { type: ACTION_TYPES.COPY_TEXT, delay: 200, text: "> [!NOTE] {title}\n> 💡 **Core Takeaway**:\n{output}\n\n- 🔗 Source: [{title}]({url})\n- 📅 Archived: {date}" },
+    ],
+  },
+  {
+    key: "workflowDevClean",
+    category: "developer",
+    nameKey: "tmpl_workflowDevClean",
+    fallback: "前端开发极速重置流水线",
+    descKey: "tmpl_workflowDevClean_desc",
+    descFallback: "一键清除当前站点存储数据、清空浏览器缓存并强制硬刷新，前端调试零缓存干扰",
+    icon: "bi-arrow-clockwise",
+    build: () => [
+      { type: ACTION_TYPES.CLEAR_SITE_DATA, delay: 0 },
+      { type: ACTION_TYPES.CLEAR_BROWSING_CACHE, delay: 150 },
+      { type: ACTION_TYPES.RELOAD_PAGE, delay: 200 },
+    ],
+  },
+  {
+    key: "workflowCleanWorkspace",
+    category: "workflow",
+    nameKey: "tmpl_workflowCleanWorkspace",
+    fallback: "独占任务专注沙盒",
+    descKey: "tmpl_workflowCleanWorkspace_desc",
+    descFallback: "将当前标签页移至全新独立窗口并最大化，同时冻结休眠原窗口其余标签释放内存",
+    icon: "bi-window-stack",
+    build: () => [
+      { type: ACTION_TYPES.MOVE_TAB_TO_NEW_WINDOW, delay: 0 },
+      { type: ACTION_TYPES.MAXIMIZE_WINDOW, delay: 200 },
+      { type: ACTION_TYPES.DISCARD_OTHER_TABS, delay: 200 },
+    ],
+  },
+  {
+    key: "incognitoHandoff",
+    category: "privacy",
+    nameKey: "tmpl_incognitoHandoff",
+    fallback: "无痕隐身交接与痕迹抹除",
+    descKey: "tmpl_incognitoHandoff_desc",
+    descFallback: "在无痕窗口中无缝继续浏览当前网页，关闭原标签并从历史记录中彻底抹除访问足迹",
+    icon: "bi-incognito",
+    build: () => [
+      { type: ACTION_TYPES.OPEN_INCOGNITO_WINDOW, delay: 0, openCurrentUrl: true },
+      { type: ACTION_TYPES.DELETE_URL_FROM_HISTORY, delay: 200 },
+      { type: ACTION_TYPES.CLOSE_TAB, delay: 100 },
+    ],
+  },
+  {
+    key: "pureReader",
+    category: "reading",
+    nameKey: "tmpl_pureReader",
+    fallback: "纯净无扰阅读",
+    descKey: "tmpl_pureReader_desc",
+    descFallback: "拦截弹窗并屏蔽图片加载，开启深色模式享受极致沉浸式纯文本阅读",
+    icon: "bi-file-earmark-font",
+    build: () => [
+      { type: ACTION_TYPES.TOGGLE_SITE_POPUPS, delay: 0 },
+      { type: ACTION_TYPES.TOGGLE_SITE_IMAGES, delay: 100 },
+      { type: ACTION_TYPES.TOGGLE_DARK_MODE, delay: 200 },
+    ],
+  },
+  {
+    key: "siteScriptShield",
+    category: "privacy",
+    nameKey: "tmpl_siteScriptShield",
+    fallback: "站点脚本急停防护",
+    descKey: "tmpl_siteScriptShield_desc",
+    descFallback: "一键切换禁用当前站点的 JavaScript 执行并重新加载，阻断恶意弹窗与反复制行为",
+    icon: "bi-shield-slash",
+    build: () => [
+      { type: ACTION_TYPES.TOGGLE_SITE_JAVASCRIPT, delay: 0 },
+      { type: ACTION_TYPES.RELOAD_PAGE, delay: 200 },
+    ],
+  },
+  {
+    key: "workstationLaunch",
+    category: "workflow",
+    nameKey: "tmpl_workstationLaunch",
+    fallback: "每日工作台一键启动",
+    descKey: "tmpl_workstationLaunch_desc",
+    descFallback: "一键打开高频常用网站、整理重复标签页并唤出侧边栏伴侣，迅速进入工作状态",
+    icon: "bi-speedometer2",
+    build: () => [
+      { type: ACTION_TYPES.OPEN_TOP_SITES, delay: 0, count: 5 },
+      { type: ACTION_TYPES.CLOSE_DUPLICATE_TABS, delay: 300 },
+      { type: ACTION_TYPES.OPEN_SIDE_PANEL, delay: 300 },
+    ],
+  },
+  {
+    // 流水线编排示例：主链产出摘要，自动交给伴侣链朗读。
+    // 模板库里此前没有任何一条链用过 nextChainKey —— 旗舰功能零示例。
+    key: "pipelineSummarySpeak",
+    category: "ai",
+    requiresAi: true,
+    nameKey: "tmpl_pipelineSummarySpeak",
+    fallback: "长文提炼与朗读流水线",
+    descKey: "tmpl_pipelineSummarySpeak_desc",
+    descFallback: "端侧 AI 提炼正文摘要，完成后自动流转到第二条链，用系统语音朗读出来",
+    icon: "bi-soundwave",
+    passOutput: true,
+    nextChainKey: "@companion",
+    companion: {
+      nameKey: "tmpl_pipelineSummarySpeak_next",
+      fallback: "朗读摘要（流水线第二段）",
+      descKey: "tmpl_pipelineSummarySpeak_next_desc",
+      descFallback: "由主链自动触发：把上一步的摘要用系统语音朗读出来",
+      build: () => [
+        { type: ACTION_TYPES.SPEAK_SELECTION, delay: 0, preferOutput: true, lang: "auto", rate: 1.0 },
+      ],
+    },
+    build: () => [
+      { type: ACTION_TYPES.AI_SUMMARIZE, delay: 0, summaryLang: "auto", format: "bullets", noCopy: true },
+      { type: ACTION_TYPES.COPY_TEXT, delay: 200, text: "## {title}\n{url}\n\n{output}" },
+    ],
+  },
+  {
+    // 条件分支示例：不满足条件时走 elseChainKey 到伴侣链提示，
+    // 而不是安静地什么都不做。
+    key: "selectionSearch",
+    category: "workflow",
+    nameKey: "tmpl_selectionSearch",
+    fallback: "划词即搜（条件分支）",
+    descKey: "tmpl_selectionSearch_desc",
+    descFallback: "先判断页面上有没有选中文字：有就用默认搜索引擎搜索，没有则提示你先划词",
+    icon: "bi-search",
+    companion: {
+      nameKey: "tmpl_selectionSearch_else",
+      fallback: "提示先划词（分支）",
+      descKey: "tmpl_selectionSearch_else_desc",
+      descFallback: "由条件动作在不满足时触发：提示用户先选中要搜索的文字",
+      build: () => [
+        { type: ACTION_TYPES.SHOW_NOTIFICATION, delay: 0, text: t("tmpl_selectionSearch_elseMsg", "请先在页面上选中要搜索的文字") },
+      ],
+    },
+    build: () => [
+      { type: ACTION_TYPES.IF_HAS_SELECTION, delay: 0, elseChainKey: "@companion" },
+      { type: ACTION_TYPES.SEARCH_SELECTION, delay: 100, preferOutput: true },
+    ],
+  },
+  {
+    // 等待导航示例：SPA 页面往往在 load 之后才渲染出内容，
+    // 先刷新再等加载完成，提取到的链接才是完整的。
+    key: "reloadThenExtract",
+    category: "developer",
+    nameKey: "tmpl_reloadThenExtract",
+    fallback: "加载完成后提取链接",
+    descKey: "tmpl_reloadThenExtract_desc",
+    descFallback: "刷新页面并等待加载真正完成（适合单页应用），再提取全部外链并复制",
+    icon: "bi-arrow-repeat",
+    build: () => [
+      { type: ACTION_TYPES.RELOAD_PAGE, delay: 0 },
+      { type: ACTION_TYPES.WAIT_FOR_NAVIGATION, delay: 200, timeoutMs: 15000 },
+      { type: ACTION_TYPES.EXTRACT_ALL_LINKS, delay: 200 },
     ],
   },
 ];
@@ -734,11 +1213,21 @@ document.addEventListener("DOMContentLoaded", async () => {
   await loadExtensionCommands();
   await loadConfig();
   await loadInstalledExtensions();
+  // 快捷键徽章要显示 Chrome 实际登记的值，所以渲染前先读一次
+  await refreshCommandShortcuts();
   setupEventListeners();
   renderMainView();
   renderActionsHelp();
   populateTemplateMenu();
   renderFooterVersion();
+
+  // 用户可能刚从 chrome://extensions/shortcuts 改完快捷键回来 ——
+  // 回到本页时重读一次并重绘，否则徽章还是旧的。
+  document.addEventListener("visibilitychange", async () => {
+    if (document.visibilityState !== "visible") return;
+    await refreshCommandShortcuts();
+    renderMainView();
+  });
 
   // 初始化 Sortable.js 拖拽功能
   setTimeout(() => {
@@ -839,14 +1328,98 @@ function setupEventListeners() {
     addNewChain();
   });
 
-  // Template gallery dropdown
-  const templateMenu = document.getElementById("templateMenu");
-  if (templateMenu) {
-    templateMenu.addEventListener("click", (e) => {
-      const item = e.target.closest("[data-template-key]");
-      if (item) {
-        e.preventDefault();
-        addChainFromTemplate(item.dataset.templateKey);
+  // Template gallery category filters
+  const categoryFilters = document.getElementById("templateCategoryFilters");
+  if (categoryFilters) {
+    categoryFilters.addEventListener("click", (e) => {
+      const btn = e.target.closest(".category-filter-btn");
+      if (btn && btn.dataset.category) {
+        currentTemplateCategory = btn.dataset.category;
+        renderTemplateGallery();
+      }
+    });
+  }
+
+  // Template gallery search input
+  const searchInput = document.getElementById("templateSearchInput");
+  if (searchInput) {
+    searchInput.addEventListener("input", (e) => {
+      templateSearchQuery = e.target.value;
+      renderTemplateGallery();
+    });
+  }
+
+  // Template search reset button
+  const resetBtn = document.getElementById("templateSearchResetBtn");
+  if (resetBtn) {
+    resetBtn.addEventListener("click", () => {
+      if (searchInput) searchInput.value = "";
+      templateSearchQuery = "";
+      currentTemplateCategory = "all";
+      renderTemplateGallery();
+    });
+  }
+
+  // Template cards container click
+  const cardsContainer = document.getElementById("templateCardsContainer");
+  if (cardsContainer) {
+    cardsContainer.addEventListener("click", (e) => {
+      const customizeBtn = e.target.closest(".template-customize-btn");
+      if (customizeBtn && customizeBtn.dataset.templateKey) {
+        addChainFromTemplate(customizeBtn.dataset.templateKey, true);
+        return;
+      }
+      const addBtn = e.target.closest(".template-add-btn");
+      if (addBtn && addBtn.dataset.templateKey) {
+        addChainFromTemplate(addBtn.dataset.templateKey, false);
+        return;
+      }
+      const target = e.target.closest("[data-template-key]");
+      if (target && target.dataset.templateKey) {
+        addChainFromTemplate(target.dataset.templateKey, false);
+      }
+    });
+  }
+
+  // Action picker category filters
+  const actionCategoryFilters = document.getElementById("actionPickerCategoryFilters");
+  if (actionCategoryFilters) {
+    actionCategoryFilters.addEventListener("click", (e) => {
+      const btn = e.target.closest(".category-filter-btn");
+      if (btn && btn.dataset.category) {
+        currentActionPickerCategory = btn.dataset.category;
+        renderActionPickerCategories();
+        renderActionPickerList();
+      }
+    });
+  }
+
+  // Action picker search input
+  const actionSearchInput = document.getElementById("actionPickerSearchInput");
+  if (actionSearchInput) {
+    actionSearchInput.addEventListener("input", (e) => {
+      actionPickerSearchQuery = e.target.value;
+      renderActionPickerList();
+    });
+  }
+
+  // Action picker list container click & keyboard delegation
+  const actionListContainer = document.getElementById("actionPickerListContainer");
+  if (actionListContainer) {
+    actionListContainer.addEventListener("click", (e) => {
+      const item = e.target.closest(".action-picker-item");
+      if (item && item.dataset.actionType && actionPickerTargetChainKey) {
+        addActionToChain(actionPickerTargetChainKey, item.dataset.actionType);
+      }
+    });
+
+    actionListContainer.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        const item = e.target.closest(".action-picker-item");
+        if (item && item.dataset.actionType && actionPickerTargetChainKey) {
+          e.preventDefault();
+          addActionToChain(actionPickerTargetChainKey, item.dataset.actionType);
+        }
       }
     });
   }
@@ -880,6 +1453,151 @@ function setupEventListeners() {
   if (shortcutsBtn) {
     shortcutsBtn.addEventListener("click", () => {
       chrome.tabs.create({ url: "chrome://extensions/shortcuts" });
+    });
+  }
+
+  // Open side panel
+  const sidePanelBtn = document.getElementById("sidePanelBtn");
+  if (sidePanelBtn) {
+    sidePanelBtn.addEventListener("click", async () => {
+      try {
+        const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+        if (chrome.sidePanel?.open && tab?.windowId) {
+          await chrome.sidePanel.open({ windowId: tab.windowId });
+        }
+      } catch (e) {
+        console.warn("Failed to open side panel:", e);
+      }
+    });
+  }
+
+  // Check on-device AI status (Gemini Nano / Chrome Prompt API)
+  const checkAiStatusBtn = document.getElementById("checkAiStatusBtn");
+  if (checkAiStatusBtn) {
+    // 可用性返回值有两套命名：新 LanguageModel.availability() 用
+    // available / downloadable / downloading / unavailable，
+    // 旧的 ai.languageModel.capabilities() 用 readily / after-download / no。
+    // 只认一套会让另一套全部落进 else —— 最糟的是 unavailable 被报成「已就绪」。
+    const normalizeAiAvailability = (raw) => {
+      switch (raw) {
+        case "available":
+        case "readily":
+          return "ready";
+        case "downloadable":
+        case "after-download":
+          return "downloadable";
+        case "downloading":
+          return "downloading";
+        case "unavailable":
+        case "no":
+          return "unavailable";
+        default:
+          return "unknown";
+      }
+    };
+
+    // 诊断结果每个上下文一行，toast 会把换行压成一行且会自动消失 ——
+    // 用临时 modal + <pre> 展示，用户能慢慢看，也方便直接复制去排查。
+    const showAiReport = (summary, lines, isError) => {
+      document.getElementById("aiStatusReportModal")?.remove();
+      const modal = document.createElement("div");
+      modal.id = "aiStatusReportModal";
+      modal.className = "modal fade";
+      modal.tabIndex = -1;
+      modal.innerHTML = `
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">${escapeHtmlAttr(t("btn_checkAiStatus", "检测端侧 AI 状态"))}</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p class="${isError ? "text-danger" : "text-success"} mb-2" style="white-space:pre-wrap;">${escapeHtmlAttr(summary)}</p>
+              <pre class="small mb-0">${escapeHtmlAttr(lines)}</pre>
+            </div>
+          </div>
+        </div>`;
+      document.body.appendChild(modal);
+      if (window.bootstrap) {
+        new bootstrap.Modal(modal).show();
+      } else {
+        modal.classList.add("show");
+        modal.style.display = "block";
+      }
+      modal.addEventListener("hidden.bs.modal", () => modal.remove());
+    };
+
+    checkAiStatusBtn.addEventListener("click", async () => {
+      try {
+        // 本页就是扩展页面（一个真正的 Window），可以直接问 Chrome
+        const localLm = window.LanguageModel || window.ai?.languageModel;
+        let localRaw = null;
+        if (localLm) {
+          try {
+            localRaw = localLm.capabilities
+              ? (await localLm.capabilities()).available
+              : localLm.availability
+              ? await localLm.availability()
+              : "available";
+          } catch (e) {
+            localRaw = "error: " + String(e?.message || e);
+          }
+        }
+
+        // 后台 SW 与目标标签页的两个世界交给后台去探
+        let probe = {};
+        try {
+          probe = (await chrome.runtime.sendMessage({ action: "probeAiContexts" })) || {};
+        } catch (e) {
+          probe = {};
+        }
+
+        const rows = [
+          ["extension page", localRaw],
+          ["service worker", probe.sw],
+          ["page isolated", probe.isolated],
+          ["page main", probe.main],
+        ];
+        const states = rows.map(([, v]) => normalizeAiAvailability(v));
+        // 原样展示 Chrome 报的值：排查时它比任何转述都有用
+        // 顺带报出探测的是哪个标签页 —— 活动标签页若是本扩展自己的页面或 chrome:// 页，
+        // 两个页面上下文会显示 (n/a)，那是正常情况，不是故障。
+        const lines = [
+          ...rows.map(([name, v]) => `${name.padEnd(16)}${v == null ? "(no API)" : v}`),
+          `${"probed tab".padEnd(16)}${probe.tabUrl || "(none)"}`,
+        ].join("\n");
+
+        // 语言解析链也一并报出来。用户选了「自动」却拿到日语时，
+        // 只有这里能看出是动作写死了、还是界面语言、还是浏览器界面语言。
+        const langLines = [
+          `${t("ai_diag_language", "AI output language").padEnd(16)}${probe.aiLanguage || "(unknown)"}  [${probe.aiLanguageSource || "?"}]`,
+          `${"action setting".padEnd(16)}(auto — 探针按动作未指定计算)`,
+          `${"interface override".padEnd(16)}${probe.interfaceOverride ?? "(unset)"}`,
+          `${"browser UI language".padEnd(16)}${probe.browserUiLanguage || "(unknown)"}`,
+        ].join("\n");
+
+        if (states.includes("ready")) {
+          showAiReport(
+            `✅ ${t("ai_statusReady", "Chrome 内置端侧 AI (Gemini Nano) 已就绪，可直接执行智能操作。")}`,
+            `${lines}\n\n${langLines}`,
+            false,
+          );
+        } else if (states.includes("downloadable") || states.includes("downloading")) {
+          showAiReport(
+            `⏳ ${t("ai_modelDownloading", "Chrome AI model is downloading on device, please retry shortly")}`,
+            `${lines}\n\n${langLines}`,
+            false,
+          );
+        } else {
+          showAiReport(
+            `⚠️ ${t("badge_requiresAi", "需端侧 AI")}: ${t("ai_notSupported", "This browser cannot run Chrome's built-in AI (Gemini Nano).")}\n\n${t("ai_statusGuide", "")}`,
+            `${lines}\n\n${langLines}`,
+            true,
+          );
+        }
+      } catch (err) {
+        showMessage(`${t("label_error", "错误")}: ${err?.message || err}`, true);
+      }
     });
   }
 
@@ -925,6 +1643,45 @@ function setupEventListeners() {
         const chainKey = setDefaultBtn.dataset.chainKey;
         setDefaultChain(chainKey);
         return;
+      }
+
+      const workflowChip = e.target.closest(".workflow-chip");
+      if (workflowChip && workflowChip.dataset.workflowTarget) {
+        editChain(workflowChip.dataset.workflowTarget);
+        return;
+      }
+    });
+  }
+
+  // Workflow pipeline controls in edit view
+  const nextStepSelect = document.getElementById("chainNextStepSelect");
+  if (nextStepSelect) {
+    nextStepSelect.addEventListener("change", async (e) => {
+      if (editingChainId && currentConfig.chains[editingChainId]) {
+        currentConfig.chains[editingChainId].nextChainKey = e.target.value || undefined;
+        await saveConfig();
+        renderWorkflowMiniPipeline(editingChainId);
+      }
+    });
+  }
+
+  const fallbackStepSelect = document.getElementById("chainFallbackStepSelect");
+  if (fallbackStepSelect) {
+    fallbackStepSelect.addEventListener("change", async (e) => {
+      if (editingChainId && currentConfig.chains[editingChainId]) {
+        currentConfig.chains[editingChainId].fallbackChainKey = e.target.value || undefined;
+        await saveConfig();
+        renderWorkflowMiniPipeline(editingChainId);
+      }
+    });
+  }
+
+  const passOutputCheck = document.getElementById("chainPassOutputCheck");
+  if (passOutputCheck) {
+    passOutputCheck.addEventListener("change", async (e) => {
+      if (editingChainId && currentConfig.chains[editingChainId]) {
+        currentConfig.chains[editingChainId].passOutput = e.target.checked;
+        await saveConfig();
       }
     });
   }
@@ -1033,6 +1790,141 @@ function setupEventListeners() {
       saveConfig();
       return;
     }
+
+    if (target.matches(".run-chain-else-select, .condition-else-select")) {
+      const chainKey = target.dataset.chainKey;
+      const index = parseInt(target.dataset.actionIndex, 10);
+      currentConfig.chains[chainKey].actions[index].elseChainKey = target.value || undefined;
+      saveConfig();
+      return;
+    }
+
+    if (target.matches(".run-chain-pass-check")) {
+      const chainKey = target.dataset.chainKey;
+      const index = parseInt(target.dataset.actionIndex, 10);
+      currentConfig.chains[chainKey].actions[index].passOutput = target.checked;
+      saveConfig();
+      return;
+    }
+
+    if (target.matches(".ai-target-lang-select")) {
+      const chainKey = target.dataset.chainKey;
+      const index = parseInt(target.dataset.actionIndex, 10);
+      currentConfig.chains[chainKey].actions[index].targetLang = target.value;
+      saveConfig();
+      return;
+    }
+
+    if (target.matches(".ai-translate-style-select")) {
+      const chainKey = target.dataset.chainKey;
+      const index = parseInt(target.dataset.actionIndex, 10);
+      currentConfig.chains[chainKey].actions[index].style = target.value;
+      saveConfig();
+      return;
+    }
+
+    if (target.matches(".ai-summary-lang-select")) {
+      const chainKey = target.dataset.chainKey;
+      const index = parseInt(target.dataset.actionIndex, 10);
+      currentConfig.chains[chainKey].actions[index].summaryLang = target.value;
+      saveConfig();
+      return;
+    }
+
+    if (target.matches(".ai-summary-format-select")) {
+      const chainKey = target.dataset.chainKey;
+      const index = parseInt(target.dataset.actionIndex, 10);
+      currentConfig.chains[chainKey].actions[index].format = target.value;
+      saveConfig();
+      return;
+    }
+
+    if (target.matches(".ai-summary-nocopy-check")) {
+      const chainKey = target.dataset.chainKey;
+      const index = parseInt(target.dataset.actionIndex, 10);
+      const action = currentConfig.chains[chainKey].actions[index];
+      if (target.checked) action.noCopy = true;
+      else delete action.noCopy;
+      saveConfig();
+      return;
+    }
+
+    if (target.matches(".extract-nocopy-check")) {
+      const chainKey = target.dataset.chainKey;
+      const index = parseInt(target.dataset.actionIndex, 10);
+      const action = currentConfig.chains[chainKey].actions[index];
+      if (target.checked) action.noCopy = true;
+      else delete action.noCopy;
+      saveConfig();
+      return;
+    }
+
+    if (target.matches(".incognito-current-check")) {
+      const chainKey = target.dataset.chainKey;
+      const index = parseInt(target.dataset.actionIndex, 10);
+      const action = currentConfig.chains[chainKey].actions[index];
+      if (target.checked) action.openCurrentUrl = true;
+      else delete action.openCurrentUrl;
+      saveConfig();
+      return;
+    }
+
+    if (target.matches(".ai-explain-lang-select")) {
+      const chainKey = target.dataset.chainKey;
+      const index = parseInt(target.dataset.actionIndex, 10);
+      currentConfig.chains[chainKey].actions[index].explainLang = target.value;
+      saveConfig();
+      return;
+    }
+
+    if (target.matches(".ai-explain-style-select")) {
+      const chainKey = target.dataset.chainKey;
+      const index = parseInt(target.dataset.actionIndex, 10);
+      currentConfig.chains[chainKey].actions[index].style = target.value;
+      saveConfig();
+      return;
+    }
+
+    if (target.matches(".tts-lang-select")) {
+      const chainKey = target.dataset.chainKey;
+      const index = parseInt(target.dataset.actionIndex, 10);
+      currentConfig.chains[chainKey].actions[index].lang = target.value;
+      saveConfig();
+      return;
+    }
+
+    if (target.matches(".tts-rate-input")) {
+      const chainKey = target.dataset.chainKey;
+      const index = parseInt(target.dataset.actionIndex, 10);
+      const val = parseFloat(target.value);
+      currentConfig.chains[chainKey].actions[index].rate = isNaN(val) ? 1.0 : Math.max(0.5, Math.min(2.0, val));
+      saveConfig();
+      return;
+    }
+
+    if (target.matches(".tts-prefer-output-check")) {
+      const chainKey = target.dataset.chainKey;
+      const index = parseInt(target.dataset.actionIndex, 10);
+      currentConfig.chains[chainKey].actions[index].preferOutput = target.checked;
+      saveConfig();
+      return;
+    }
+
+    if (target.matches(".translate-page-lang-select")) {
+      const chainKey = target.dataset.chainKey;
+      const index = parseInt(target.dataset.actionIndex, 10);
+      currentConfig.chains[chainKey].actions[index].targetLang = target.value;
+      saveConfig();
+      return;
+    }
+
+    if (target.matches(".search-prefer-output-check")) {
+      const chainKey = target.dataset.chainKey;
+      const index = parseInt(target.dataset.actionIndex, 10);
+      currentConfig.chains[chainKey].actions[index].preferOutput = target.checked;
+      saveConfig();
+      return;
+    }
   });
 
   chainEditConfigEl.addEventListener("input", (e) => {
@@ -1080,7 +1972,7 @@ function setupEventListeners() {
       return;
     }
 
-    if (target.matches(".copy-text-input, .confirm-text-input")) {
+    if (target.matches(".copy-text-input, .confirm-text-input, .speak-text-input")) {
       const chainKey = target.dataset.chainKey;
       const index = parseInt(target.dataset.actionIndex, 10);
       currentConfig.chains[chainKey].actions[index].text = target.value;
@@ -1092,6 +1984,31 @@ function setupEventListeners() {
       const chainKey = target.dataset.chainKey;
       const index = parseInt(target.dataset.actionIndex, 10);
       currentConfig.chains[chainKey].actions[index].pattern = target.value;
+      saveConfig();
+      return;
+    }
+
+    if (target.matches(".top-sites-count-input")) {
+      const chainKey = target.dataset.chainKey;
+      const index = parseInt(target.dataset.actionIndex, 10);
+      currentConfig.chains[chainKey].actions[index].count = Math.max(1, Math.min(20, parseInt(target.value, 10) || 5));
+      saveConfig();
+      return;
+    }
+
+    if (target.matches(".wait-nav-timeout-input")) {
+      const chainKey = target.dataset.chainKey;
+      const index = parseInt(target.dataset.actionIndex, 10);
+      currentConfig.chains[chainKey].actions[index].timeoutMs = Math.max(500, Math.min(60000, parseInt(target.value, 10) || 10000));
+      saveConfig();
+      return;
+    }
+
+    if (target.matches(".tts-rate-input")) {
+      const chainKey = target.dataset.chainKey;
+      const index = parseInt(target.dataset.actionIndex, 10);
+      const val = parseFloat(target.value);
+      currentConfig.chains[chainKey].actions[index].rate = isNaN(val) ? 1.0 : Math.max(0.5, Math.min(2.0, val));
       saveConfig();
       return;
     }
@@ -1195,6 +2112,7 @@ function editChain(chainKey) {
   showEditView();
   editingChainId = chainKey;
   const chain = currentConfig.chains[chainKey];
+  if (!chain) return;
 
   // Update edit view title
   const editTitle = document.getElementById("editChainTitle");
@@ -1214,8 +2132,108 @@ function editChain(chainKey) {
   if (chainScheduleInput) chainScheduleInput.value = Number(chain.scheduleMinutes) > 0 ? chain.scheduleMinutes : 0;
   if (chainAutoRunInput) chainAutoRunInput.value = chain.autoRunPatterns || "";
 
+  // Populate workflow pipeline options
+  const otherChains = (currentConfig.chainOrder || Object.keys(currentConfig.chains)).filter((k) => currentConfig.chains[k] && k !== chainKey);
+  const nextStepSelect = document.getElementById("chainNextStepSelect");
+  if (nextStepSelect) {
+    nextStepSelect.innerHTML = `<option value="">${t("workflow_noNextChain", "（无 - 执行完毕即终止）")}</option>` +
+      otherChains.map((k) => `<option value="${k}" ${chain.nextChainKey === k ? "selected" : ""}>${escapeHtmlAttr(currentConfig.chains[k].name || k)}</option>`).join("");
+  }
+
+  const fallbackStepSelect = document.getElementById("chainFallbackStepSelect");
+  if (fallbackStepSelect) {
+    fallbackStepSelect.innerHTML = `<option value="">${t("workflow_noFallbackChain", "（无 - 遇错停止）")}</option>` +
+      otherChains.map((k) => `<option value="${k}" ${chain.fallbackChainKey === k ? "selected" : ""}>${escapeHtmlAttr(currentConfig.chains[k].name || k)}</option>`).join("");
+  }
+
+  const passOutputCheck = document.getElementById("chainPassOutputCheck");
+  if (passOutputCheck) {
+    passOutputCheck.checked = chain.passOutput !== false;
+  }
+
+  renderWorkflowMiniPipeline(chainKey);
+
   // Render the chain configuration in edit view
   renderChainEdit(chainKey);
+}
+
+// Render interactive mini pipeline preview in chain editor
+function renderWorkflowMiniPipeline(chainKey) {
+  const container = document.getElementById("workflowMiniPipeline");
+  if (!container) return;
+
+  const chain = currentConfig.chains[chainKey];
+  if (!chain) {
+    container.innerHTML = "";
+    return;
+  }
+
+  // Build the pipeline sequence starting from chainKey
+  const steps = [];
+  const visited = new Set();
+  let currentKey = chainKey;
+
+  while (currentKey && currentConfig.chains[currentKey] && !visited.has(currentKey)) {
+    visited.add(currentKey);
+    steps.push({
+      key: currentKey,
+      name: currentConfig.chains[currentKey].name || currentKey,
+      isCurrent: currentKey === chainKey,
+    });
+    currentKey = currentConfig.chains[currentKey].nextChainKey;
+  }
+
+  // Also find if another chain flows into this one
+  const incomingChains = Object.entries(currentConfig.chains)
+    .filter(([k, c]) => k !== chainKey && c.nextChainKey === chainKey)
+    .map(([k, c]) => ({ key: k, name: c.name || k }));
+
+  const fallbackChain = chain.fallbackChainKey && currentConfig.chains[chain.fallbackChainKey]
+    ? { key: chain.fallbackChainKey, name: currentConfig.chains[chain.fallbackChainKey].name || chain.fallbackChainKey }
+    : null;
+
+  let incomingHtml = "";
+  if (incomingChains.length > 0) {
+    incomingHtml = incomingChains
+      .map((inc) => `<span class="workflow-pipeline-node clickable" data-goto-chain="${inc.key}" title="${t("workflow_step_incoming", "上一环节：点击跳转编辑")}">${escapeHtmlAttr(inc.name)}</span>`)
+      .join(", ") + ` <span class="workflow-pipeline-arrow">➔</span> `;
+  }
+
+  const pipelineHtml = steps
+    .map((step) => {
+      const cls = step.isCurrent ? "current" : "clickable";
+      const title = step.isCurrent ? t("workflow_step_current", "当前动作链") : t("workflow_step_next", "后续环节：点击跳转编辑");
+      return `<span class="workflow-pipeline-node ${cls}" data-goto-chain="${step.key}" title="${title}">${escapeHtmlAttr(step.name)}</span>`;
+    })
+    .join(` <span class="workflow-pipeline-arrow">➔</span> `);
+
+  const fallbackHtml = fallbackChain
+    ? `<div class="mt-2 text-muted small"><i class="bi bi-shield-exclamation text-warning me-1"></i>${t("workflow_fallback_label", "出错备用")}：<span class="workflow-pipeline-node fallback clickable" data-goto-chain="${fallbackChain.key}">${escapeHtmlAttr(fallbackChain.name)}</span></div>`
+    : "";
+
+  const flowNotice = steps.length > 1
+    ? `<div class="text-primary fw-semibold mb-1 small"><i class="bi bi-diagram-3 me-1"></i>${t("workflow_pipeline_active", "流水线模式已激活：$1 个关联节点").replace("$1", steps.length)}</div>`
+    : `<div class="text-muted mb-1 small"><i class="bi bi-info-circle me-1"></i>${t("workflow_pipeline_single", "单动作链（未关联下游）")}</div>`;
+
+  container.innerHTML = `
+    ${flowNotice}
+    <div class="workflow-pipeline-flow">
+      ${incomingHtml}
+      ${pipelineHtml}
+      ${steps[steps.length - 1]?.key !== chain.nextChainKey && !chain.nextChainKey ? ` <span class="workflow-pipeline-arrow text-muted">➔</span> <span class="text-muted small">${t("workflow_step_end", "终点")}</span>` : ""}
+    </div>
+    ${fallbackHtml}
+  `;
+
+  // Jump to that chain upon clicking
+  container.querySelectorAll("[data-goto-chain]").forEach((el) => {
+    el.addEventListener("click", () => {
+      const targetKey = el.dataset.gotoChain;
+      if (targetKey && targetKey !== chainKey && currentConfig.chains[targetKey]) {
+        editChain(targetKey);
+      }
+    });
+  });
 }
 
 // Load configuration from storage
@@ -1236,10 +2254,11 @@ async function loadConfig() {
       chainOrder: ["chain_1"],
       chains: {
         chain_1: {
-          name: "默认链",
+          name: t("defaultChain_reading", "Reading mode"),
           actions: [
-            { type: ACTION_TYPES.SCROLL_TO_TOP, delay: 200 },
-            { type: ACTION_TYPES.RELOAD_PAGE, delay: 500 },
+            { type: ACTION_TYPES.SCROLL_TO_TOP, delay: 0 },
+            { type: ACTION_TYPES.ZOOM_IN, delay: 200 },
+            { type: ACTION_TYPES.FULLSCREEN, delay: 200 },
           ],
         },
       },
@@ -1294,6 +2313,36 @@ async function loadInstalledExtensions() {
   }
 }
 
+// 快捷键徽章必须显示 **Chrome 实际登记的值**，不能按槽位猜。
+// 用户可能在 chrome://extensions/shortcuts 里改过或清空过，
+// 也可能因为冲突（被别的扩展或系统占用）Chrome 压根没给分配 ——
+// 猜出来的徽章会显示一个按不出来的快捷键。
+let commandShortcuts = new Map(); // 命令名 -> 实际快捷键（未分配为空串）
+
+async function refreshCommandShortcuts() {
+  try {
+    const all = await chrome.commands.getAll();
+    commandShortcuts = new Map(all.map((c) => [c.name, c.shortcut || ""]));
+  } catch (e) {
+    console.error("Failed to read registered shortcuts:", e);
+    commandShortcuts = new Map();
+  }
+}
+
+// 一条链由哪个命令触发 —— 必须和 background 的 executeChainByNumber 用同一套解析，
+// 否则徽章会指着一个并不存在的绑定。
+function commandNameForChain(chainKey, orderedKeys, config) {
+  if (chainKey === config.defaultChain) return "_execute_action";
+  const hasSlot = (n) => commandShortcuts.has(`execute_chain_${n}`);
+  const literal = /^chain_(\d+)$/.exec(chainKey);
+  if (literal && hasSlot(Number(literal[1]))) return `execute_chain_${literal[1]}`;
+  const idx = orderedKeys.indexOf(chainKey);
+  const slot = idx + 1;
+  // 只有 chain_<slot> 不存在时，execute_chain_<slot> 才会回退到「显示顺序第 slot 条链」
+  if (idx >= 0 && hasSlot(slot) && !config.chains[`chain_${slot}`]) return `execute_chain_${slot}`;
+  return null;
+}
+
 // Render main view with action chains
 function renderMainView() {
   // Chains grid container
@@ -1318,9 +2367,21 @@ function renderMainView() {
             <span class="action-tile" style="background:${CATEGORY_COLORS.content}"><svg viewBox="0 0 24 24">${ICONS.clipboard}</svg></span>
           </div>
           <h3>${t("empty_title", "还没有动作链")}</h3>
-          <p>${t("empty_body", "从模板开始最快，也可以新建一条空链自己添加动作。")}</p>
+          <p class="mb-4">${t("empty_body", "从模板开始最快，也可以新建一条空链自己添加动作。")}</p>
+          <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#templateGalleryModal">
+              <i class="bi bi-stars me-2" aria-hidden="true"></i>${t("empty_cta_templates", "从模板库挑选")}
+            </button>
+            <button type="button" class="btn btn-outline-secondary" id="emptyAddBtn">
+              <i class="bi bi-plus-lg me-2" aria-hidden="true"></i>${t("empty_cta_blank", "新建空白链")}
+            </button>
+          </div>
         </div>
       `;
+      const emptyAddBtn = document.getElementById("emptyAddBtn");
+      if (emptyAddBtn) {
+        emptyAddBtn.addEventListener("click", () => addNewChain());
+      }
       return;
     }
 
@@ -1334,12 +2395,46 @@ function renderMainView() {
       chainCard.dataset.chainKey = chainKey;
 
       const isDefault = chainKey === currentConfig.defaultChain;
+      // 徽章按 **Chrome 实际登记的快捷键** 渲染，而不是「按槽位猜一个」。
+      // 用户在 chrome://extensions/shortcuts 里改过/清空过、或 Chrome 因冲突
+      // 没分配时，猜出来的值就是个按不出来的快捷键。
+      const cmdName = commandNameForChain(chainKey, chainOrder, currentConfig);
+      const realShortcut = cmdName ? commandShortcuts.get(cmdName) || "" : "";
+      let shortcutBadge = "";
+      if (realShortcut) {
+        shortcutBadge = `<span class="cc-chip hotkey${isDefault ? " def-hotkey" : ""}" title="${t("shortcut_hint_click", "点击前往 Chrome 快捷键设置页面")}"><i class="bi bi-keyboard me-1" aria-hidden="true"></i>${t("shortcut_badge_withKey", "快捷键: {key}").replace("{key}", escapeHtmlAttr(realShortcut))}</span>`;
+      } else if (cmdName) {
+        // 有命令但没分配到快捷键 —— 明说，别显示一个假的
+        shortcutBadge = `<span class="cc-chip hotkey hotkey-unset" title="${t("shortcut_hint_click", "点击前往 Chrome 快捷键设置页面")}"><i class="bi bi-keyboard me-1" aria-hidden="true"></i>${t("shortcut_badge_unset", "未设置快捷键")}</span>`;
+      } else {
+        shortcutBadge = `<span class="cc-chip hotkey-subtle" title="${t("shortcut_badge_omnibox", "地址栏: hc + 链名")}"><i class="bi bi-terminal me-1" aria-hidden="true"></i>hc</span>`;
+      }
 
       const scheduleMin = Number(chain.scheduleMinutes) > 0 ? Number(chain.scheduleMinutes) : 0;
       const hasAutoRun = !!(chain.autoRunPatterns && String(chain.autoRunPatterns).trim());
       const triggerChips =
         (scheduleMin ? `<span class="cc-chip" title="${t("info_schedule", "Schedule")}"><i class="bi bi-clock me-1"></i>${scheduleMin}m</span>` : "") +
         (hasAutoRun ? `<span class="cc-chip" title="${t("info_autoRun", "Auto-run")}"><i class="bi bi-lightning-charge"></i></span>` : "");
+
+      let workflowChips = "";
+      if (chain.nextChainKey && currentConfig.chains[chain.nextChainKey]) {
+        const nextName = currentConfig.chains[chain.nextChainKey].name || chain.nextChainKey;
+        const tooltip = t("workflow_chipTooltip", "工作流：执行完毕后自动流转至 $1").replace("$1", nextName);
+        workflowChips += `<span class="cc-chip workflow-chip" data-workflow-target="${chain.nextChainKey}" title="${escapeHtmlAttr(tooltip)}"><i class="bi bi-diagram-3 me-1" aria-hidden="true"></i>➔ ${escapeHtmlAttr(nextName)}</span>`;
+      }
+      const hasIncoming = Object.entries(currentConfig.chains).some(([k, c]) => k !== chainKey && c.nextChainKey === chainKey);
+      if (hasIncoming) {
+        workflowChips += `<span class="cc-chip workflow-incoming" title="${t("workflow_incomingTooltip", "工作流下游节点：由其他动作链触发")}"><i class="bi bi-arrow-down-left-circle me-1" aria-hidden="true"></i>Workflow</span>`;
+      }
+
+      const hasAi = (chain.actions || []).some((a) =>
+        a.type === ACTION_TYPES.AI_SUMMARIZE ||
+        a.type === ACTION_TYPES.AI_EXPLAIN ||
+        a.type === ACTION_TYPES.AI_TRANSLATE
+      );
+      const aiChip = hasAi
+        ? `<span class="cc-chip text-info-emphasis border border-info-subtle" style="background: rgba(13, 202, 240, 0.12); font-weight: 500;" title="${t("badge_requiresAi", "需端侧 AI")}"><i class="bi bi-cpu me-1" aria-hidden="true"></i>${t("badge_requiresAi", "需端侧 AI")}</span>`
+        : "";
 
       chainCard.innerHTML = `
         <div class="chain-card-header">
@@ -1348,6 +2443,9 @@ function renderMainView() {
             <h6 class="chain-title">${escapeHtmlAttr(chain.name)}</h6>
             <div class="chain-meta">
               <span class="chain-actions-count">${formatActionCount(chain.actions.length)}</span>
+              ${aiChip}
+              ${shortcutBadge}
+              ${workflowChips}
               ${isDefault ? `<span class="cc-chip def"><i class="bi bi-star-fill me-1"></i>${t("tooltip_defaultChain", "Default")}</span>` : ""}
               ${triggerChips}
             </div>
@@ -1391,6 +2489,13 @@ function renderMainView() {
           </div>
         </div>
       `;
+
+      chainCard.querySelectorAll(".cc-chip.hotkey").forEach((el) => {
+        el.addEventListener("click", (e) => {
+          e.stopPropagation();
+          chrome.tabs.create({ url: "chrome://extensions/shortcuts" });
+        });
+      });
 
       chainsContainer.appendChild(chainCard);
     });
@@ -1548,7 +2653,7 @@ function generateActionSpecificControls(chainKey, index, action) {
             <input type="text" class="form-control form-control-sm open-url-input" placeholder="${t("placeholder_urlExample", "网址 (如: https://example.com)")}"
                    value="${action.url ? escapeHtmlAttr(action.url) : ""}"
                    data-chain-key="${chainKey}" data-action-index="${index}">
-            <div class="form-text small">${t("hint_templateVars", "支持变量: {url} {title} {selection} {clipboard} {date} {time}")}</div>
+            <div class="form-text small">${t("hint_templateVars", "支持变量: {url} {title} {selection} {clipboard} {output} {date} {time}")}</div>
           </div>
           <div class="col-md-4">
             <label class="form-label small">${t("label_openIn", "打开方式")}:</label>
@@ -1567,7 +2672,7 @@ function generateActionSpecificControls(chainKey, index, action) {
         <input type="text" class="form-control form-control-sm notify-text-input" placeholder="${t("placeholder_notifyText", "要显示的通知文字")}"
                value="${action.text ? escapeHtmlAttr(action.text) : ""}"
                data-chain-key="${chainKey}" data-action-index="${index}">
-        <div class="form-text small">${t("hint_templateVars", "支持变量: {url} {title} {selection} {clipboard} {date} {time}")}</div>
+        <div class="form-text small">${t("hint_templateVars", "支持变量: {url} {title} {selection} {clipboard} {output} {date} {time}")}</div>
       </div>
     `;
   } else if (action.type === ACTION_TYPES.COPY_TEXT) {
@@ -1576,37 +2681,180 @@ function generateActionSpecificControls(chainKey, index, action) {
         <label class="form-label small">${t("label_copyText", "复制内容")}:</label>
         <textarea class="form-control form-control-sm copy-text-input" rows="2" placeholder="${t("placeholder_copyText", "如 {title} — {url}")}"
                   data-chain-key="${chainKey}" data-action-index="${index}">${action.text ? escapeHtmlAttr(action.text) : ""}</textarea>
-        <div class="form-text small">${t("hint_templateVars", "支持变量: {url} {title} {selection} {clipboard} {date} {time}")}</div>
+        <div class="form-text small">${t("hint_templateVars", "支持变量: {url} {title} {selection} {clipboard} {output} {date} {time}")}</div>
+      </div>
+    `;
+  } else if (action.type === ACTION_TYPES.SPEAK_TEXT) {
+    return `
+      <div class="mt-2">
+        <div class="mb-2">
+          <label class="form-label small">${t("label_speakText", "朗读内容")}:</label>
+          <textarea class="form-control form-control-sm speak-text-input" rows="2" placeholder="${t("placeholder_speakText", "要朗读的文字，支持变量如: {title} 或 {output}")}"
+                    data-chain-key="${chainKey}" data-action-index="${index}">${action.text ? escapeHtmlAttr(action.text) : ""}</textarea>
+          <div class="form-text small">${t("hint_templateVars", "支持变量: {url} {title} {selection} {clipboard} {output} {date} {time}")}</div>
+        </div>
+        <div class="row g-2">
+          <div class="col-md-6">
+            <label class="form-label small">${t("label_ttsLang", "朗读语言")}:</label>
+            <select class="form-select form-select-sm tts-lang-select" data-chain-key="${chainKey}" data-action-index="${index}">
+              ${generateLanguageOptions(action.lang || "auto")}
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label small">${t("label_ttsSpeed", "语速 (0.5x - 2.0x)")}:</label>
+            <input type="number" class="form-control form-control-sm tts-rate-input" min="0.5" max="2.0" step="0.1"
+                   value="${action.rate !== undefined ? action.rate : "1.0"}"
+                   data-chain-key="${chainKey}" data-action-index="${index}">
+          </div>
+        </div>
+      </div>
+    `;
+  } else if (action.type === ACTION_TYPES.SPEAK_SELECTION) {
+    return `
+      <div class="mt-2">
+        <div class="row g-2 mb-2">
+          <div class="col-md-6">
+            <label class="form-label small">${t("label_ttsLang", "朗读语言")}:</label>
+            <select class="form-select form-select-sm tts-lang-select" data-chain-key="${chainKey}" data-action-index="${index}">
+              ${generateLanguageOptions(action.lang || "auto")}
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label small">${t("label_ttsSpeed", "语速 (0.5x - 2.0x)")}:</label>
+            <input type="number" class="form-control form-control-sm tts-rate-input" min="0.5" max="2.0" step="0.1"
+                   value="${action.rate !== undefined ? action.rate : "1.0"}"
+                   data-chain-key="${chainKey}" data-action-index="${index}">
+          </div>
+        </div>
+        <div class="form-check form-switch mb-1">
+          <input class="form-check-input tts-prefer-output-check" type="checkbox" data-chain-key="${chainKey}" data-action-index="${index}" ${action.preferOutput ? "checked" : ""}>
+          <label class="form-check-label small">${t("label_preferOutput", "优先朗读上一步输出（如翻译/总结结果）")}</label>
+        </div>
+      </div>
+    `;
+  } else if (action.type === ACTION_TYPES.TRANSLATE_PAGE) {
+    return `
+      <div class="mt-2">
+        <label class="form-label small">${t("label_targetLang", "目标语言")}:</label>
+        <select class="form-select form-select-sm translate-page-lang-select" data-chain-key="${chainKey}" data-action-index="${index}">
+          ${generateLanguageOptions(action.targetLang || "auto")}
+        </select>
+      </div>
+    `;
+  } else if (action.type === ACTION_TYPES.SEARCH_SELECTION) {
+    return `
+      <div class="mt-2">
+        <div class="form-check form-switch mb-1">
+          <input class="form-check-input search-prefer-output-check" type="checkbox" data-chain-key="${chainKey}" data-action-index="${index}" ${action.preferOutput ? "checked" : ""}>
+          <label class="form-check-label small">${t("label_preferOutput", "优先搜索上一步输出（如翻译/总结结果）")}</label>
+        </div>
       </div>
     `;
   } else if (action.type === ACTION_TYPES.CONFIRM) {
+    const otherChains = (currentConfig.chainOrder || Object.keys(currentConfig.chains)).filter((key) => currentConfig.chains[key] && key !== chainKey);
     return `
       <div class="mt-2">
-        <label class="form-label small">${t("label_confirmText", "询问文字")}:</label>
-        <input type="text" class="form-control form-control-sm confirm-text-input" placeholder="${t("placeholder_confirmText", "如：确定要关闭其他标签页吗？")}"
-               value="${action.text ? escapeHtmlAttr(action.text) : ""}"
-               data-chain-key="${chainKey}" data-action-index="${index}">
+        <div class="row g-2 mb-2">
+          <div class="col-md-7">
+            <label class="form-label small">${t("label_confirmText", "询问文字")}:</label>
+            <input type="text" class="form-control form-control-sm confirm-text-input" placeholder="${t("placeholder_confirmText", "如：确定要关闭其他标签页吗？")}"
+                   value="${action.text ? escapeHtmlAttr(action.text) : ""}"
+                   data-chain-key="${chainKey}" data-action-index="${index}">
+          </div>
+          <div class="col-md-5">
+            <label class="form-label small">${t("workflow_elseChain", "取消时分支 (可选)")}:</label>
+            <select class="form-select form-select-sm condition-else-select" data-chain-key="${chainKey}" data-action-index="${index}">
+              <option value="">${t("workflow_noElseChain", "（无 - 终止后续动作）")}</option>
+              ${otherChains.map((key) => `<option value="${key}" ${action.elseChainKey === key ? "selected" : ""}>${escapeHtmlAttr(currentConfig.chains[key].name || key)}</option>`).join("")}
+            </select>
+          </div>
+        </div>
         <div class="form-text small">${t("hint_confirm", "在页面上弹出询问框：点「继续」才执行后面的动作，点「取消」则整条链停止。无法弹框的页面（如 chrome:// 设置页）也会停止。")}</div>
       </div>
     `;
   } else if (action.type === ACTION_TYPES.IF_URL_MATCHES) {
+    const otherChains = (currentConfig.chainOrder || Object.keys(currentConfig.chains)).filter((key) => currentConfig.chains[key] && key !== chainKey);
     return `
       <div class="mt-2">
-        <label class="form-label small">${t("label_pattern", "匹配规则")}:</label>
-        <input type="text" class="form-control form-control-sm condition-pattern-input" placeholder="${t("placeholder_pattern", "如 *://github.com/* 或关键字，多个用逗号分隔")}"
-               value="${action.pattern ? escapeHtmlAttr(action.pattern) : ""}"
-               data-chain-key="${chainKey}" data-action-index="${index}">
+        <div class="row g-2">
+          <div class="col-md-7">
+            <label class="form-label small">${t("label_pattern", "匹配规则")}:</label>
+            <input type="text" class="form-control form-control-sm condition-pattern-input" placeholder="${t("placeholder_pattern", "如 *://github.com/* 或关键字，多个用逗号分隔")}"
+                   value="${action.pattern ? escapeHtmlAttr(action.pattern) : ""}"
+                   data-chain-key="${chainKey}" data-action-index="${index}">
+          </div>
+          <div class="col-md-5">
+            <label class="form-label small">${t("workflow_elseChain", "不满足时分支 (可选)")}:</label>
+            <select class="form-select form-select-sm condition-else-select" data-chain-key="${chainKey}" data-action-index="${index}">
+              <option value="">${t("workflow_noElseChain", "（无 - 终止后续动作）")}</option>
+              ${otherChains.map((key) => `<option value="${key}" ${action.elseChainKey === key ? "selected" : ""}>${escapeHtmlAttr(currentConfig.chains[key].name || key)}</option>`).join("")}
+            </select>
+          </div>
+        </div>
+      </div>
+    `;
+  } else if (action.type === ACTION_TYPES.IF_HAS_SELECTION) {
+    const otherChains = (currentConfig.chainOrder || Object.keys(currentConfig.chains)).filter((key) => currentConfig.chains[key] && key !== chainKey);
+    return `
+      <div class="mt-2">
+        <div class="row g-2">
+          <div class="col-md-7">
+            <div class="form-text small mt-2">${t("hint_hasSelection", "若当前页面有选中文本则继续，并将选中文本作为 {{output}} 传递给后续动作。")}</div>
+          </div>
+          <div class="col-md-5">
+            <label class="form-label small">${t("workflow_elseChain", "未选中时分支 (可选)")}:</label>
+            <select class="form-select form-select-sm condition-else-select" data-chain-key="${chainKey}" data-action-index="${index}">
+              <option value="">${t("workflow_noElseChain", "（无 - 终止后续动作）")}</option>
+              ${otherChains.map((key) => `<option value="${key}" ${action.elseChainKey === key ? "selected" : ""}>${escapeHtmlAttr(currentConfig.chains[key].name || key)}</option>`).join("")}
+            </select>
+          </div>
+        </div>
       </div>
     `;
   } else if (action.type === ACTION_TYPES.RUN_CHAIN) {
     const otherChains = (currentConfig.chainOrder || Object.keys(currentConfig.chains)).filter((key) => currentConfig.chains[key] && key !== chainKey);
     return `
       <div class="mt-2">
-        <label class="form-label small">${t("label_runChain", "选择动作链")}:</label>
-        <select class="form-select form-select-sm run-chain-select" data-chain-key="${chainKey}" data-action-index="${index}">
-          <option value="">${t("placeholder_selectChain", "-- 选择动作链 --")}</option>
-          ${otherChains.map((key) => `<option value="${key}" ${action.chainKey === key ? "selected" : ""}>${escapeHtmlAttr(currentConfig.chains[key].name || key)}</option>`).join("")}
-        </select>
+        <div class="row g-2 mb-2">
+          <div class="col-md-7">
+            <label class="form-label small">${t("label_runChain", "选择动作链")}:</label>
+            <select class="form-select form-select-sm run-chain-select" data-chain-key="${chainKey}" data-action-index="${index}">
+              <option value="">${t("placeholder_selectChain", "-- 选择动作链 --")}</option>
+              ${otherChains.map((key) => `<option value="${key}" ${action.chainKey === key ? "selected" : ""}>${escapeHtmlAttr(currentConfig.chains[key].name || key)}</option>`).join("")}
+            </select>
+          </div>
+          <div class="col-md-5">
+            <label class="form-label small">${t("workflow_elseChain", "出错备用链 (可选)")}:</label>
+            <select class="form-select form-select-sm run-chain-else-select" data-chain-key="${chainKey}" data-action-index="${index}">
+              <option value="">${t("workflow_noElseChain", "（无 - 遇错停止）")}</option>
+              ${otherChains.map((key) => `<option value="${key}" ${action.elseChainKey === key ? "selected" : ""}>${escapeHtmlAttr(currentConfig.chains[key].name || key)}</option>`).join("")}
+            </select>
+          </div>
+        </div>
+        <div class="form-check form-switch mb-1">
+          <input class="form-check-input run-chain-pass-check" type="checkbox" data-chain-key="${chainKey}" data-action-index="${index}" ${action.passOutput !== false ? "checked" : ""}>
+          <label class="form-check-label small">${t("workflow_passOutput", "向下游传递输出数据（{{output}} / 选中文本）")}</label>
+        </div>
+      </div>
+    `;
+  } else if (action.type === ACTION_TYPES.EXTRACT_ALL_LINKS || action.type === ACTION_TYPES.EXTRACT_ALL_IMAGES) {
+    return `
+      <div class="mt-2">
+        <div class="form-check form-switch">
+          <input class="form-check-input extract-nocopy-check" type="checkbox" data-chain-key="${chainKey}" data-action-index="${index}" ${action.noCopy ? "checked" : ""}>
+          <label class="form-check-label small">${t("label_noCopy", "不自动复制到剪贴板（结果交给后续动作处理）")}</label>
+        </div>
+        <div class="form-text small">${t("hint_extractNoCopy", "模板里把多个提取结果合并后再复制时勾选，避免中间结果先占一次剪贴板并弹出误导的「已复制」。")}</div>
+      </div>
+    `;
+  } else if (action.type === ACTION_TYPES.OPEN_INCOGNITO_WINDOW) {
+    return `
+      <div class="mt-2">
+        <div class="form-check form-switch">
+          <input class="form-check-input incognito-current-check" type="checkbox" data-chain-key="${chainKey}" data-action-index="${index}" ${action.openCurrentUrl ? "checked" : ""}>
+          <label class="form-check-label small">${t("label_incognitoCurrent", "在新窗口中打开当前网页")}</label>
+        </div>
+        <div class="form-text small">${t("hint_incognitoCurrent", "不勾选则只开一个空白无痕窗口。交接类动作链需要勾选，否则原标签关闭后页面就丢了。")}</div>
       </div>
     `;
   } else if (action.type === ACTION_TYPES.OPEN_BROWSER_PAGE) {
@@ -1616,6 +2864,117 @@ function generateActionSpecificControls(chainKey, index, action) {
         <select class="form-select form-select-sm browser-page-select" data-chain-key="${chainKey}" data-action-index="${index}">
           ${BROWSER_PAGE_OPTIONS.map((page) => `<option value="${page}" ${(action.page || "downloads") === page ? "selected" : ""}>${t(`browserPage_${page}`, page)}</option>`).join("")}
         </select>
+      </div>
+    `;
+  } else if (action.type === ACTION_TYPES.OPEN_TOP_SITES) {
+    return `
+      <div class="mt-2">
+        <label class="form-label small">${t("actionName_open_top_sites", "打开常用工作台站点")}:</label>
+        <input type="number" class="form-control form-control-sm top-sites-count-input" min="1" max="20"
+               value="${parseInt(action.count, 10) || 5}"
+               data-chain-key="${chainKey}" data-action-index="${index}">
+      </div>
+    `;
+  } else if (action.type === ACTION_TYPES.WAIT_FOR_NAVIGATION) {
+    return `
+      <div class="mt-2">
+        <label class="form-label small">${t("label_delay", "延迟")}:</label>
+        <div class="input-group input-group-sm">
+          <input type="number" class="form-control form-control-sm wait-nav-timeout-input" min="500" max="60000" step="500"
+                 value="${parseInt(action.timeoutMs, 10) || 10000}"
+                 data-chain-key="${chainKey}" data-action-index="${index}">
+          <span class="input-group-text">${t("label_ms", "毫秒")}</span>
+        </div>
+      </div>
+    `;
+  } else if (action.type === ACTION_TYPES.AI_SUMMARIZE) {
+    return `
+      <div class="mt-2">
+        <div class="row g-2 mb-2">
+          <div class="col-md-6">
+            <label class="form-label small">${t("label_summaryLang", "总结语言")}:</label>
+            <select class="form-select form-select-sm ai-summary-lang-select" data-chain-key="${chainKey}" data-action-index="${index}">
+              ${generateLanguageOptions(action.summaryLang || "auto")}
+            </select>
+            <div class="form-text small">${t("hint_actionLangOverrides", "动作里指定了语言时会覆盖全局界面语言；选「自动」则跟随界面语言（见工具栏 CPU 图标的诊断）。")}</div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label small">${t("label_summaryFormat", "总结形式")}:</label>
+            <select class="form-select form-select-sm ai-summary-format-select" data-chain-key="${chainKey}" data-action-index="${index}">
+              <option value="concise" ${(action.format || "concise") === "concise" ? "selected" : ""}>${t("opt_format_concise", "简明扼要")}</option>
+              <option value="bullets" ${action.format === "bullets" ? "selected" : ""}>${t("opt_format_bullets", "要点列表 (Bullets)")}</option>
+              <option value="detailed" ${action.format === "detailed" ? "selected" : ""}>${t("opt_format_detailed", "详细内容")}</option>
+              <option value="one_sentence" ${action.format === "one_sentence" ? "selected" : ""}>${t("opt_format_oneSentence", "一句话概括")}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-check form-switch mb-2">
+          <input class="form-check-input ai-summary-nocopy-check" type="checkbox" data-chain-key="${chainKey}" data-action-index="${index}" ${action.noCopy ? "checked" : ""}>
+          <label class="form-check-label small">${t("label_noCopy", "不自动复制到剪贴板（结果交给后续动作处理）")}</label>
+        </div>
+        <div class="alert alert-info py-2 px-3 mb-0 small d-flex align-items-center gap-2">
+          <i class="bi bi-cpu-fill flex-shrink-0 fs-5 text-info"></i>
+          <div>
+            <strong>${t("badge_requiresAi", "需端侧 AI")}</strong>: ${t("hint_aiRequirement", "依赖 Chrome 内置 Gemini Nano (Prompt API)。需 Chrome 128+ 并在 chrome://flags 开启相关功能标志。")}
+          </div>
+        </div>
+      </div>
+    `;
+  } else if (action.type === ACTION_TYPES.AI_EXPLAIN) {
+    return `
+      <div class="mt-2">
+        <div class="row g-2 mb-2">
+          <div class="col-md-6">
+            <label class="form-label small">${t("label_explainLang", "解释语言")}:</label>
+            <select class="form-select form-select-sm ai-explain-lang-select" data-chain-key="${chainKey}" data-action-index="${index}">
+              ${generateLanguageOptions(action.explainLang || "auto")}
+            </select>
+            <div class="form-text small">${t("hint_actionLangOverrides", "动作里指定了语言时会覆盖全局界面语言；选「自动」则跟随界面语言（见工具栏 CPU 图标的诊断）。")}</div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label small">${t("label_explainStyle", "解释风格")}:</label>
+            <select class="form-select form-select-sm ai-explain-style-select" data-chain-key="${chainKey}" data-action-index="${index}">
+              <option value="concise" ${(action.style || "concise") === "concise" ? "selected" : ""}>${t("opt_style_concise", "简明扼要")}</option>
+              <option value="simple" ${action.style === "simple" ? "selected" : ""}>${t("opt_style_simple", "通俗浅显 (适合初学者)")}</option>
+              <option value="technical" ${action.style === "technical" ? "selected" : ""}>${t("opt_style_technical", "深入原理 (技术细节)")}</option>
+              <option value="analogy" ${action.style === "analogy" ? "selected" : ""}>${t("opt_style_analogy", "生动类比")}</option>
+            </select>
+          </div>
+        </div>
+        <div class="alert alert-info py-2 px-3 mb-0 small d-flex align-items-center gap-2">
+          <i class="bi bi-cpu-fill flex-shrink-0 fs-5 text-info"></i>
+          <div>
+            <strong>${t("badge_requiresAi", "需端侧 AI")}</strong>: ${t("hint_aiRequirement", "依赖 Chrome 内置 Gemini Nano (Prompt API)。需 Chrome 128+ 并在 chrome://flags 开启相关功能标志。")}
+          </div>
+        </div>
+      </div>
+    `;
+  } else if (action.type === ACTION_TYPES.AI_TRANSLATE) {
+    return `
+      <div class="mt-2">
+        <div class="row g-2 mb-2">
+          <div class="col-md-6">
+            <label class="form-label small">${t("label_targetLang", "目标语言")}:</label>
+            <select class="form-select form-select-sm ai-target-lang-select" data-chain-key="${chainKey}" data-action-index="${index}">
+              ${generateLanguageOptions(action.targetLang || "auto")}
+            </select>
+            <div class="form-text small">${t("hint_actionLangOverrides", "动作里指定了语言时会覆盖全局界面语言；选「自动」则跟随界面语言（见工具栏 CPU 图标的诊断）。")}</div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label small">${t("label_translateStyle", "翻译风格")}:</label>
+            <select class="form-select form-select-sm ai-translate-style-select" data-chain-key="${chainKey}" data-action-index="${index}">
+              <option value="natural" ${(action.style || "natural") === "natural" ? "selected" : ""}>${t("opt_trans_natural", "自然流畅")}</option>
+              <option value="formal" ${action.style === "formal" ? "selected" : ""}>${t("opt_trans_formal", "正式书面")}</option>
+              <option value="literal" ${action.style === "literal" ? "selected" : ""}>${t("opt_trans_literal", "直译严谨")}</option>
+            </select>
+          </div>
+        </div>
+        <div class="alert alert-info py-2 px-3 mb-0 small d-flex align-items-center gap-2">
+          <i class="bi bi-cpu-fill flex-shrink-0 fs-5 text-info"></i>
+          <div>
+            <strong>${t("badge_requiresAi", "需端侧 AI")}</strong>: ${t("hint_aiRequirement", "依赖 Chrome 内置 Gemini Nano (Prompt API)。需 Chrome 128+ 并在 chrome://flags 开启相关功能标志。")}
+          </div>
+        </div>
       </div>
     `;
   }
@@ -1804,45 +3163,230 @@ async function addNewChain() {
   }, 100);
 }
 
-// Fill the template dropdown (re-run on locale change so names follow the language)
-function populateTemplateMenu() {
-  const templateMenu = document.getElementById("templateMenu");
-  if (!templateMenu) return;
-  templateMenu.innerHTML = CHAIN_TEMPLATES.map(
-    (tpl) => `
-    <li>
-      <a class="dropdown-item" href="#" data-template-key="${tpl.key}">
-        <i class="bi ${tpl.icon} me-2"></i>${t(tpl.nameKey, tpl.fallback)}
-      </a>
-    </li>
-  `
-  ).join("");
+// State for template gallery modal
+let currentTemplateCategory = "all";
+let templateSearchQuery = "";
+
+// Distinct color palettes for template categories
+const TEMPLATE_CATEGORY_THEMES = {
+  ai: { color: "#6366f1", bg: "rgba(99, 102, 241, 0.12)" },
+  tabs: { color: "#10b981", bg: "rgba(16, 185, 129, 0.12)" },
+  reading: { color: "#0284c7", bg: "rgba(2, 132, 199, 0.12)" },
+  developer: { color: "#d97706", bg: "rgba(217, 119, 6, 0.12)" },
+  privacy: { color: "#e11d48", bg: "rgba(225, 29, 72, 0.12)" },
+  workflow: { color: "#8b5cf6", bg: "rgba(139, 92, 246, 0.12)" },
+};
+
+// Render category filter tabs in the template gallery
+function renderTemplateCategories() {
+  const container = document.getElementById("templateCategoryFilters");
+  if (!container) return;
+
+  container.innerHTML = Object.entries(TEMPLATE_CATEGORIES)
+    .map(([catKey, catInfo]) => {
+      const label = t(catInfo.nameKey, catInfo.fallback);
+      const isActive = currentTemplateCategory === catKey;
+      return `
+        <button type="button" class="category-filter-btn ${isActive ? "active" : ""}" data-category="${catKey}">
+          <i class="bi ${catInfo.icon}" aria-hidden="true"></i>
+          <span>${escapeHtmlAttr(label)}</span>
+        </button>
+      `;
+    })
+    .join("");
 }
 
-// Create a new chain from a built-in template and open it for editing
-async function addChainFromTemplate(templateKey) {
+// Render cards in the template gallery modal
+function renderTemplateGallery() {
+  renderTemplateCategories();
+
+  const container = document.getElementById("templateCardsContainer");
+  const emptyState = document.getElementById("templateEmptyState");
+  if (!container) return;
+
+  const query = (templateSearchQuery || "").trim().toLowerCase();
+
+  const filtered = CHAIN_TEMPLATES.filter((tpl) => {
+    // 1. Category filter
+    if (currentTemplateCategory !== "all" && tpl.category !== currentTemplateCategory) {
+      return false;
+    }
+
+    // 2. Search keyword filter
+    if (query) {
+      const name = t(tpl.nameKey, tpl.fallback).toLowerCase();
+      const desc = t(tpl.descKey, tpl.descFallback).toLowerCase();
+      const catInfo = TEMPLATE_CATEGORIES[tpl.category];
+      const catName = catInfo ? t(catInfo.nameKey, catInfo.fallback).toLowerCase() : "";
+
+      // Check actions in template
+      const actions = tpl.build();
+      const actionNames = actions.map((a) => {
+        const fn = ACTION_NAMES[a.type];
+        return fn ? fn().toLowerCase() : a.type.toLowerCase();
+      });
+
+      const matches =
+        name.includes(query) ||
+        desc.includes(query) ||
+        catName.includes(query) ||
+        actionNames.some((an) => an.includes(query));
+
+      if (!matches) return false;
+    }
+
+    return true;
+  });
+
+  if (filtered.length === 0) {
+    container.innerHTML = "";
+    if (emptyState) emptyState.classList.remove("d-none");
+    return;
+  }
+
+  if (emptyState) emptyState.classList.add("d-none");
+
+  container.innerHTML = filtered
+    .map((tpl) => {
+      const name = t(tpl.nameKey, tpl.fallback);
+      const desc = t(tpl.descKey, tpl.descFallback);
+      const theme = TEMPLATE_CATEGORY_THEMES[tpl.category] || { color: "#6155f5", bg: "rgba(97, 85, 245, 0.12)" };
+      const catInfo = TEMPLATE_CATEGORIES[tpl.category];
+      const catLabel = catInfo ? t(catInfo.nameKey, catInfo.fallback) : tpl.category;
+      const actions = tpl.build();
+
+      const actionFlowHtml = actions
+        .map((act, idx) => {
+          const actName = (ACTION_NAMES[act.type] && ACTION_NAMES[act.type]()) || act.type;
+          const arrowHtml =
+            idx < actions.length - 1
+              ? `<i class="bi bi-chevron-right template-flow-arrow" aria-hidden="true"></i>`
+              : "";
+          return `
+            <span class="template-flow-pill" title="${escapeHtmlAttr(actName)}">
+              ${actionTile(act.type, "tiny")}
+              <span>${escapeHtmlAttr(actName)}</span>
+            </span>
+            ${arrowHtml}
+          `;
+        })
+        .join("");
+
+      const countText = t("tmpl_gallery_actions_count", "$1 个动作").replace("$1", actions.length);
+      const useText = t("tmpl_gallery_use", "使用此模板");
+
+      return `
+        <div class="col-md-6 col-lg-4">
+          <div class="template-card" data-template-key="${tpl.key}">
+            <div class="template-card-top">
+              <div class="template-card-icon" style="background:${theme.bg}; color:${theme.color};">
+                <i class="bi ${tpl.icon}" aria-hidden="true"></i>
+              </div>
+              <div class="d-flex align-items-center gap-1">
+                <span class="template-badge-cat" style="background:${theme.bg}; color:${theme.color};">
+                  ${escapeHtmlAttr(catLabel)}
+                </span>
+                ${(tpl.requiresAi || tpl.category === "ai") ? `<span class="badge bg-info-subtle text-info-emphasis border border-info-subtle" style="font-size:0.75rem;"><i class="bi bi-cpu me-1" aria-hidden="true"></i>${escapeHtmlAttr(t("badge_requiresAi", "需端侧 AI"))}</span>` : ""}
+              </div>
+            </div>
+            <h5 class="template-card-title">${escapeHtmlAttr(name)}</h5>
+            <p class="template-card-desc">${escapeHtmlAttr(desc)}</p>
+            <div class="template-actions-flow">
+              ${actionFlowHtml}
+            </div>
+            <div class="template-card-footer">
+              <span class="template-card-count">
+                <i class="bi bi-layers me-1" aria-hidden="true"></i>${escapeHtmlAttr(countText)}
+              </span>
+              <div class="d-flex gap-2">
+                <button type="button" class="btn btn-outline-primary btn-sm template-customize-btn" data-template-key="${tpl.key}" title="${escapeHtmlAttr(t("tmpl_gallery_add_and_edit", "添加并自定义"))}">
+                  <i class="bi bi-pencil me-1" aria-hidden="true"></i>${escapeHtmlAttr(t("tmpl_gallery_add_and_edit", "自定义"))}
+                </button>
+                <button type="button" class="btn btn-primary btn-sm template-add-btn template-use-btn" data-template-key="${tpl.key}" title="${escapeHtmlAttr(t("tmpl_gallery_add_direct", "添加到我的链"))}">
+                  <i class="bi bi-plus-lg me-1" aria-hidden="true"></i>${escapeHtmlAttr(t("tmpl_gallery_add_direct", "添加"))}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    })
+    .join("");
+}
+
+// Backward-compatible alias
+function populateTemplateMenu() {
+  renderTemplateGallery();
+}
+
+// Create a new chain from a built-in template
+async function addChainFromTemplate(templateKey, openEditor = false) {
   const template = CHAIN_TEMPLATES.find((tpl) => tpl.key === templateKey);
   if (!template) return;
 
+  // Close gallery modal if open
+  const modalEl = document.getElementById("templateGalleryModal");
+  if (modalEl && window.bootstrap) {
+    const modalInstance = bootstrap.Modal.getInstance(modalEl);
+    if (modalInstance) modalInstance.hide();
+  }
+
   const chainKey = `chain_${Date.now()}`;
+
+  // 模板可以声明一条「伴侣链」(companion)：流水线编排 (nextChainKey / fallbackChainKey)
+  // 和条件分支 (elseChainKey) 都需要第二条链才有意义，而链的 key 是运行时生成的，
+  // 模板没法写死。所以模板里用 "@companion" 占位，这里换成真实 key。
+  const companionKey = template.companion ? `chain_${Date.now() + 1}` : null;
+  const resolveRef = (ref) => (ref === "@companion" ? companionKey : ref);
+
+  const resolveActionRefs = (actions) =>
+    actions.map((action) => {
+      const next = { ...action };
+      if (next.elseChainKey) next.elseChainKey = resolveRef(next.elseChainKey);
+      if (next.chainKey) next.chainKey = resolveRef(next.chainKey);
+      return next;
+    });
+
   currentConfig.chains[chainKey] = {
     name: t(template.nameKey, template.fallback),
-    actions: template.build(),
+    description: t(template.descKey, template.descFallback),
+    actions: resolveActionRefs(template.build(companionKey)),
   };
+  // 只有模板真的声明了才写，避免给每条链都塞一个没用的字段
+  if (template.passOutput !== undefined) currentConfig.chains[chainKey].passOutput = template.passOutput;
+  if (template.nextChainKey) currentConfig.chains[chainKey].nextChainKey = resolveRef(template.nextChainKey);
+  if (template.fallbackChainKey) currentConfig.chains[chainKey].fallbackChainKey = resolveRef(template.fallbackChainKey);
+
+  const newKeys = [chainKey];
+  if (template.companion) {
+    currentConfig.chains[companionKey] = {
+      name: t(template.companion.nameKey, template.companion.fallback),
+      description: t(template.companion.descKey, template.companion.descFallback),
+      actions: resolveActionRefs(template.companion.build()),
+    };
+    newKeys.push(companionKey);
+  }
 
   if (!currentConfig.chainOrder) {
     currentConfig.chainOrder = Object.keys(currentConfig.chains);
   } else {
-    currentConfig.chainOrder = [chainKey, ...currentConfig.chainOrder];
+    currentConfig.chainOrder = [...newKeys, ...currentConfig.chainOrder];
   }
 
   await saveConfig();
   renderMainView();
-  showMessage(t("toast_newChainAdded", "新链已添加"));
 
-  setTimeout(() => {
-    editChain(chainKey);
-  }, 100);
+  if (openEditor) {
+    showMessage(t("toast_newChainAdded", "新链已添加"));
+    setTimeout(() => {
+      editChain(chainKey);
+    }, 100);
+  } else {
+    showMessage(t("toast_newChainAdded", "新链已添加"), false, {
+      label: t("toast_chainAdded_actionRun", "立即运行"),
+      onClick: () => executeChain(chainKey),
+    });
+  }
 }
 
 // Duplicate chain (deep copy, inserted right after the source)
@@ -2031,6 +3575,18 @@ async function deleteChain(chainKey) {
 
   delete currentConfig.chains[chainKey];
 
+  // Clean up any workflow references to this deleted chain across all other chains
+  for (const c of Object.values(currentConfig.chains)) {
+    if (c.nextChainKey === chainKey) c.nextChainKey = undefined;
+    if (c.fallbackChainKey === chainKey) c.fallbackChainKey = undefined;
+    if (Array.isArray(c.actions)) {
+      for (const act of c.actions) {
+        if (act.chainKey === chainKey) act.chainKey = "";
+        if (act.elseChainKey === chainKey) act.elseChainKey = undefined;
+      }
+    }
+  }
+
   // 从动作链顺序中移除
   if (currentConfig.chainOrder) {
     currentConfig.chainOrder = currentConfig.chainOrder.filter((key) => key !== chainKey);
@@ -2066,21 +3622,202 @@ async function updateChainDescription(chainKey, newDescription) {
   await saveConfig();
 }
 
-// Add action to chain
-async function addAction(chainKey) {
-  currentConfig.chains[chainKey].actions.push({
-    type: ACTION_TYPES.SCROLL_TO_TOP,
-    delay: 200,
-  });
+// Open Action Picker Modal
+function openActionPicker(chainKey) {
+  actionPickerTargetChainKey = chainKey;
+  currentActionPickerCategory = "all";
+  actionPickerSearchQuery = "";
 
-  await saveConfig();
-
-  // Re-render the entire chain edit view to immediately show the new action
-  if (editingChainId === chainKey) {
-    renderChainEdit(chainKey);
+  const searchInput = document.getElementById("actionPickerSearchInput");
+  if (searchInput) {
+    searchInput.value = "";
   }
 
-  showMessage(t("actions_add", "添加动作"));
+  renderActionPickerCategories();
+  renderActionPickerList();
+
+  const modalEl = document.getElementById("actionPickerModal");
+  if (modalEl && window.bootstrap) {
+    const modalInstance = bootstrap.Modal.getOrCreateInstance(modalEl);
+    modalInstance.show();
+  }
+
+  if (searchInput) {
+    setTimeout(() => searchInput.focus(), 300);
+  }
+}
+
+// Render category filter pills in Action Picker Modal
+function renderActionPickerCategories() {
+  const container = document.getElementById("actionPickerCategoryFilters");
+  if (!container) return;
+
+  const categories = [
+    { id: "all", label: t("actionPicker_allCategories", "全部") },
+    ...Object.keys(ACTION_CATEGORIES).map((catId) => ({
+      id: catId,
+      label: (ACTION_CATEGORY_LABELS[catId] && ACTION_CATEGORY_LABELS[catId]()) || catId,
+    })),
+  ];
+
+  container.innerHTML = categories
+    .map((cat) => {
+      const isActive = currentActionPickerCategory === cat.id;
+      return `<button type="button" class="category-filter-btn btn btn-sm ${
+        isActive ? "active btn-primary" : "btn-outline-secondary"
+      }" data-category="${cat.id}">${escapeHtmlAttr(cat.label)}</button>`;
+    })
+    .join("");
+}
+
+// Render actions inside Action Picker Modal grid
+function renderActionPickerList() {
+  const container = document.getElementById("actionPickerListContainer");
+  const emptyState = document.getElementById("actionPickerEmptyState");
+  if (!container) return;
+
+  const query = (actionPickerSearchQuery || "").trim().toLowerCase();
+  const matchingActions = [];
+
+  for (const [catKey, actions] of Object.entries(ACTION_CATEGORIES)) {
+    if (currentActionPickerCategory !== "all" && currentActionPickerCategory !== catKey) {
+      continue;
+    }
+
+    const catLabel = (ACTION_CATEGORY_LABELS[catKey] && ACTION_CATEGORY_LABELS[catKey]()) || catKey;
+
+    for (const actionType of actions) {
+      const name = (ACTION_NAMES[actionType] && ACTION_NAMES[actionType]()) || actionType;
+      if (query) {
+        const matches =
+          name.toLowerCase().includes(query) ||
+          catLabel.toLowerCase().includes(query) ||
+          actionType.toLowerCase().includes(query);
+        if (!matches) continue;
+      }
+
+      matchingActions.push({
+        type: actionType,
+        name: name,
+        catKey: catKey,
+        catLabel: catLabel,
+      });
+    }
+  }
+
+  if (matchingActions.length === 0) {
+    container.innerHTML = "";
+    if (emptyState) emptyState.classList.remove("d-none");
+    return;
+  }
+
+  if (emptyState) emptyState.classList.add("d-none");
+
+  container.innerHTML = matchingActions
+    .map((item) => {
+      const isAi =
+        item.type === ACTION_TYPES.AI_SUMMARIZE ||
+        item.type === ACTION_TYPES.AI_EXPLAIN ||
+        item.type === ACTION_TYPES.AI_TRANSLATE;
+      const aiBadge = isAi
+        ? `<span class="badge bg-info-subtle text-info-emphasis border border-info-subtle ms-auto me-2" style="font-size:0.65rem;"><i class="bi bi-cpu me-1" aria-hidden="true"></i>${escapeHtmlAttr(t("badge_requiresAi", "需端侧 AI"))}</span>`
+        : "";
+      return `
+        <div class="action-picker-item" data-action-type="${escapeHtmlAttr(item.type)}" role="button" tabindex="0" title="${escapeHtmlAttr(item.name)}">
+          ${actionTile(item.type, "tiny")}
+          <span class="action-picker-name">${escapeHtmlAttr(item.name)}</span>
+          ${aiBadge}
+          <span class="action-picker-cat">${escapeHtmlAttr(item.catLabel)}</span>
+        </div>
+      `;
+    })
+    .join("");
+}
+
+// Add chosen action to the target chain
+async function addActionToChain(chainKey, actionType) {
+  if (!currentConfig.chains || !currentConfig.chains[chainKey]) return;
+
+  const newAction = {
+    type: actionType,
+    delay: 200,
+  };
+
+  if (actionType === ACTION_TYPES.CALL_EXTENSION) {
+    newAction.extensionId = "";
+    newAction.message = {};
+  } else if (actionType === ACTION_TYPES.EXECUTE_COMMAND) {
+    newAction.command = "";
+    newAction.extensionId = chrome?.runtime?.id || "";
+  } else if (actionType === ACTION_TYPES.OPEN_URL) {
+    newAction.url = "";
+  } else if (actionType === ACTION_TYPES.SHOW_NOTIFICATION) {
+    newAction.text = "";
+  } else if (actionType === ACTION_TYPES.COPY_TEXT) {
+    newAction.text = "{title}\n{url}";
+  } else if (actionType === ACTION_TYPES.CONFIRM) {
+    newAction.text = t("confirm_defaultText", "确定要继续吗？");
+  } else if (actionType === ACTION_TYPES.OPEN_BROWSER_PAGE) {
+    newAction.page = "downloads";
+  } else if (actionType === ACTION_TYPES.IF_URL_MATCHES) {
+    newAction.pattern = "";
+  } else if (actionType === ACTION_TYPES.RUN_CHAIN) {
+    newAction.chainKey = "";
+  } else if (actionType === ACTION_TYPES.AI_TRANSLATE) {
+    newAction.targetLang = "auto";
+    newAction.style = "natural";
+  } else if (actionType === ACTION_TYPES.AI_SUMMARIZE) {
+    newAction.summaryLang = "auto";
+    newAction.format = "concise";
+  } else if (actionType === ACTION_TYPES.AI_EXPLAIN) {
+    newAction.explainLang = "auto";
+    newAction.style = "concise";
+  } else if (actionType === ACTION_TYPES.SPEAK_TEXT) {
+    newAction.text = "{output}";
+    newAction.lang = "auto";
+    newAction.rate = 1.0;
+  } else if (actionType === ACTION_TYPES.SPEAK_SELECTION) {
+    newAction.lang = "auto";
+    newAction.rate = 1.0;
+    newAction.preferOutput = true;
+  } else if (actionType === ACTION_TYPES.TRANSLATE_PAGE) {
+    newAction.targetLang = "auto";
+  } else if (actionType === ACTION_TYPES.SEARCH_SELECTION) {
+    newAction.preferOutput = false;
+  }
+
+  currentConfig.chains[chainKey].actions.push(newAction);
+  await saveConfig();
+
+  // Close picker modal
+  const modalEl = document.getElementById("actionPickerModal");
+  if (modalEl && window.bootstrap) {
+    const modalInstance = bootstrap.Modal.getInstance(modalEl);
+    if (modalInstance) modalInstance.hide();
+  }
+
+  if (editingChainId === chainKey) {
+    renderChainEdit(chainKey);
+    // Smoothly scroll to the newly appended action card and trigger highlight pulse
+    setTimeout(() => {
+      const actionsList = document.getElementById("chainEditConfig");
+      if (actionsList && actionsList.lastElementChild) {
+        actionsList.lastElementChild.scrollIntoView({ behavior: "smooth", block: "center" });
+        actionsList.lastElementChild.classList.add("action-highlight");
+        setTimeout(() => {
+          actionsList.lastElementChild?.classList.remove("action-highlight");
+        }, 1200);
+      }
+    }, 100);
+  }
+
+  const actionName = (ACTION_NAMES[actionType] && ACTION_NAMES[actionType]()) || actionType;
+  showMessage(`${t("actions_add", "添加动作")}: ${actionName}`);
+}
+
+// Add action entry point — opens action picker modal
+async function addAction(chainKey) {
+  openActionPicker(chainKey);
 }
 
 // Remove action from chain
@@ -2144,6 +3881,35 @@ async function updateActionType(chainKey, actionIndex, newType) {
   // If switching to RUN_CHAIN, initialize the target chain field
   if (newType === ACTION_TYPES.RUN_CHAIN) {
     if (!action.chainKey) action.chainKey = "";
+  }
+
+  if (newType === ACTION_TYPES.AI_TRANSLATE) {
+    if (!action.targetLang) action.targetLang = "auto";
+    if (!action.style) action.style = "natural";
+  }
+  if (newType === ACTION_TYPES.AI_SUMMARIZE) {
+    if (!action.summaryLang) action.summaryLang = "auto";
+    if (!action.format) action.format = "concise";
+  }
+  if (newType === ACTION_TYPES.AI_EXPLAIN) {
+    if (!action.explainLang) action.explainLang = "auto";
+    if (!action.style) action.style = "concise";
+  }
+  if (newType === ACTION_TYPES.SPEAK_TEXT) {
+    if (!action.text) action.text = "{output}";
+    if (!action.lang) action.lang = "auto";
+    if (action.rate === undefined) action.rate = 1.0;
+  }
+  if (newType === ACTION_TYPES.SPEAK_SELECTION) {
+    if (!action.lang) action.lang = "auto";
+    if (action.rate === undefined) action.rate = 1.0;
+    if (action.preferOutput === undefined) action.preferOutput = true;
+  }
+  if (newType === ACTION_TYPES.TRANSLATE_PAGE) {
+    if (!action.targetLang) action.targetLang = "auto";
+  }
+  if (newType === ACTION_TYPES.SEARCH_SELECTION) {
+    if (action.preferOutput === undefined) action.preferOutput = false;
   }
 
   await saveConfig();
@@ -2412,7 +4178,7 @@ async function refreshCommandsList(chainKey, actionIndex) {
 }
 
 // Show message using Bootstrap Toast
-function showMessage(text, isError = false) {
+function showMessage(text, isError = false, action = null) {
   // Create toast container if it doesn't exist
   let toastContainer = document.querySelector(".toast-container");
   if (!toastContainer) {
@@ -2424,12 +4190,18 @@ function showMessage(text, isError = false) {
 
   // Create toast
   const toastId = "toast-" + Date.now();
+  const actionBtnHtml =
+    action && action.label
+      ? `<button type="button" class="btn btn-sm toast-action-btn ms-2 px-2 py-1">${escapeHtmlAttr(action.label)}</button>`
+      : "";
+
   const toastHtml = `
     <div id="${toastId}" class="toast align-items-center ${isError ? "text-bg-danger" : "text-bg-success"} border-0" role="alert">
-      <div class="d-flex">
-        <div class="toast-body">
+      <div class="d-flex align-items-center">
+        <div class="toast-body d-flex align-items-center flex-grow-1">
           <i class="bi ${isError ? "bi-exclamation-triangle" : "bi-check-circle"} me-2"></i>
-          ${escapeHtmlAttr(text)}
+          <span>${escapeHtmlAttr(text)}</span>
+          ${actionBtnHtml}
         </div>
         <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
       </div>
@@ -2441,8 +4213,22 @@ function showMessage(text, isError = false) {
   // Initialize and show toast
   const toastElement = document.getElementById(toastId);
   const toast = new bootstrap.Toast(toastElement, {
-    delay: 3000,
+    delay: action ? 4500 : 3000,
   });
+
+  if (action && typeof action.onClick === "function") {
+    const actionBtn = toastElement.querySelector(".toast-action-btn");
+    if (actionBtn) {
+      actionBtn.addEventListener("click", () => {
+        try {
+          action.onClick();
+        } catch (e) {
+          console.error("Toast action callback failed:", e);
+        }
+        toast.hide();
+      });
+    }
+  }
 
   toast.show();
 

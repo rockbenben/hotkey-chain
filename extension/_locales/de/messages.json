@@ -1,358 +1,1613 @@
 {
-  "extName": { "message": "Hotkey Chain" },
-  "extDescription": { "message": "Tastenkürzel für deinen Browser: Verkette über 75 Aktionen und führe sie per Hotkey, Adressleiste, Rechtsklick, Zeitplan oder URL-Übereinstimmung aus." },
-  "appName": { "message": "Hotkey Chain" },
-  "thisExtension": { "message": "diese Erweiterung" },
-
-  "appTitle": { "message": "Hotkey Chain – Einstellungen" },
-  "appSubtitle": { "message": "Browser-Aktionen verketten und mit einem Kürzel ausführen" },
-
-  "toolbar_add": { "message": "Neue Kette" },
-  "toolbar_export": { "message": "Exportieren" },
-  "toolbar_import": { "message": "Importieren" },
-  "toolbar_restoreDefaults": { "message": "Standard wiederherstellen" },
-  "toolbar_shortcuts": { "message": "Tastenkürzel" },
-  "toolbar_templates": { "message": "Neu aus Vorlage" },
-
-  "tmpl_focusMode": { "message": "Fokusmodus" },
-  "tmpl_tabCleanup": { "message": "Tabs aufräumen" },
-  "tmpl_videoMode": { "message": "Videomodus" },
-  "tmpl_snapshot": { "message": "Aufnahme & speichern" },
-  "tmpl_snapshot_done": { "message": "Screenshot gespeichert und Seite als Lesezeichen hinzugefügt" },
-  "tmpl_readAloud": { "message": "Vorlesen" },
-  "tmpl_translate": { "message": "Diese Seite übersetzen" },
-  "tmpl_wrapUp": { "message": "Abschlussmodus" },
-
-  "extTmpl_genericName": { "message": "Allgemeine Erweiterung" },
-  "extTmpl_toggleAdblock": { "message": "Werbeblocker umschalten" },
-  "extTmpl_pauseBlocking": { "message": "Blockierung pausieren" },
-  "extTmpl_resumeBlocking": { "message": "Blockierung fortsetzen" },
-  "extTmpl_toggleBlocker": { "message": "Blocker umschalten" },
-  "extTmpl_reloadFilters": { "message": "Filter neu laden" },
-  "extTmpl_fillForm": { "message": "Formular ausfüllen" },
-  "extTmpl_openVault": { "message": "Tresor öffnen" },
-  "extTmpl_generatePassword": { "message": "Passwort generieren" },
-  "extTmpl_autofill": { "message": "Automatisch ausfüllen" },
-  "extTmpl_openPopup": { "message": "Popup öffnen" },
-  "extTmpl_captureRequest": { "message": "Anfrage erfassen" },
-  "extTmpl_importRequest": { "message": "Anfrage importieren" },
-  "extTmpl_showRuler": { "message": "Lineal anzeigen" },
-  "extTmpl_disableCss": { "message": "CSS deaktivieren" },
-  "extTmpl_translatePage": { "message": "Seite übersetzen" },
-  "extTmpl_translateSelection": { "message": "Auswahl übersetzen" },
-  "extTmpl_captureFullPage": { "message": "Ganze Seite erfassen" },
-  "extTmpl_captureVisible": { "message": "Sichtbaren Bereich erfassen" },
-  "extTmpl_toggleFeature": { "message": "Funktion umschalten" },
-  "extTmpl_runMain": { "message": "Hauptaktion ausführen" },
-  "extTmpl_refresh": { "message": "Aktualisieren" },
-  "extTmpl_reset": { "message": "Zurücksetzen" },
-
-  "help_title": { "message": "Verfügbare Aktionen" },
-
-  "edit_title": { "message": "Kette bearbeiten" },
-  "edit_back": { "message": "Zurück" },
-  "edit_test": { "message": "Testlauf" },
-  "edit_exportChain": { "message": "Diese Kette exportieren" },
-  "info_triggers": { "message": "Automatische Auslöser" },
-  "info_schedule": { "message": "Ausführen alle (Minuten, 0 = aus)" },
-  "info_autoRun": { "message": "Automatisch beim Laden der Seite ausführen (URL-Muster)" },
-  "info_autoRun_placeholder": { "message": "z. B. *://github.com/*; mehrere Muster mit Kommas oder Zeilenumbrüchen trennen" },
-
-  "info_basic": { "message": "Grundinformationen" },
-  "info_name": { "message": "Kettenname" },
-  "info_name_placeholder": { "message": "Kettennamen eingeben" },
-  "info_desc": { "message": "Beschreibung" },
-  "info_desc_placeholder": { "message": "Optional: Zweck dieser Kette beschreiben" },
-  "info_default": { "message": "Als Standardkette festlegen" },
-
-  "actions_title": { "message": "Aktionen" },
-  "actions_add": { "message": "Aktion hinzufügen" },
-  "actions_none": { "message": "Noch keine Aktionen" },
-  "actions_more": { "message": "weitere Aktionen" },
-  "actions_count": { "message": "Aktionen" },
-
-  "card_exec": { "message": "Ausführen" },
-  "card_edit": { "message": "Bearbeiten" },
-  "card_duplicate": { "message": "Duplizieren" },
-  "card_delete": { "message": "Löschen" },
-  "suffix_copy": { "message": "(Kopie)" },
-  "action_defaultTitle": { "message": "Hotkey Chain - Klicken, um Standardaktion auszuführen" },
-  "cmd_execute_action": { "message": "Standard-Aktionskette ausführen" },
-  "cmd_execute_chain_1": { "message": "Aktionskette 1" },
-  "cmd_execute_chain_2": { "message": "Aktionskette 2" },
-  "cmd_execute_chain_3": { "message": "Aktionskette 3" },
-  "cmd_execute_chain_4": { "message": "Aktionskette 4" },
-  "cmd_execute_chain_5": { "message": "Aktionskette 5" },
-  "cmd_execute_chain_6": { "message": "Aktionskette 6" },
-  "cmd_execute_chain_7": { "message": "Aktionskette 7" },
-  "cmd_execute_chain_8": { "message": "Aktionskette 8" },
-  "cmd_execute_chain_9": { "message": "Aktionskette 9" },
-  "menu_executeDefault": { "message": "Standard-Aktionskette ausführen" },
-  "menu_executeChain": { "message": "Aktionskette $1 ausführen" },
-  "menu_options": { "message": "Einstellungen öffnen" },
-
-  "settings_language": { "message": "Sprache" },
-  "language_auto": { "message": "Automatisch (Browser)" },
-  "language_en": { "message": "English" },
-  "language_zh_CN": { "message": "简体中文" },
-
-  "defaultChain_reading": { "message": "Lesemodus" },
-  "defaultChain_tidyTabs": { "message": "Tabs aufräumen" },
-  "defaultChain_readLater": { "message": "Später lesen" },
-  "defaultChain_readLater_note": { "message": "Zur Leseliste hinzugefügt: {title}" },
-  "defaultChain_searchSelection": { "message": "Auswahl suchen" },
-  "defaultChain_cinema": { "message": "Kinomodus" },
-  "defaultChain_copyMarkdown": { "message": "Als Markdown kopieren" },
-  "defaultChain_hardRefresh": { "message": "Vollständig neu laden" },
-  "defaultChain_morningRoutine": { "message": "Morgenroutine" },
-  "defaultChain_morningRoutine_note": { "message": "Arbeitsbereich bereit" },
-
-  "actionName_scroll_to_top": { "message": "Nach oben scrollen" },
-  "actionName_scroll_to_bottom": { "message": "Nach unten scrollen" },
-  "actionName_reload_page": { "message": "Seite neu laden" },
-  "actionName_close_tab": { "message": "Tab schließen" },
-  "actionName_new_tab": { "message": "Neuer Tab" },
-  "actionName_copy_url": { "message": "URL kopieren" },
-  "actionName_copy_title": { "message": "Titel kopieren" },
-  "actionName_toggle_fullscreen": { "message": "Vollbild umschalten" },
-  "actionName_zoom_in": { "message": "Vergrößern" },
-  "actionName_zoom_out": { "message": "Verkleinern" },
-  "actionName_zoom_reset": { "message": "Zoom zurücksetzen" },
-  "actionName_go_back": { "message": "Zurück" },
-  "actionName_go_forward": { "message": "Vorwärts" },
-  "actionName_bookmark_page": { "message": "Seite als Lesezeichen" },
-  "actionName_copy_as_markdown": { "message": "Als Markdown-Link kopieren" },
-  "actionName_clear_cache": { "message": "Vollständig neu laden (Cache umgehen)" },
-  "actionName_duplicate_tab": { "message": "Tab duplizieren" },
-  "actionName_pin_tab": { "message": "Tab anheften/loslösen" },
-  "actionName_mute_tab": { "message": "Tab stummschalten/Stummschaltung aufheben" },
-  "actionName_close_other_tabs": { "message": "Andere Tabs schließen" },
-  "actionName_move_tab_left": { "message": "Tab nach links verschieben" },
-  "actionName_move_tab_right": { "message": "Tab nach rechts verschieben" },
-  "actionName_prev_tab": { "message": "Vorheriger Tab" },
-  "actionName_next_tab": { "message": "Nächster Tab" },
-  "actionName_new_window": { "message": "Neues Fenster" },
-  "actionName_reopen_closed_tab": { "message": "Geschlossenen Tab wieder öffnen" },
-  "actionName_print_page": { "message": "Seite drucken" },
-  "actionName_open_url": { "message": "URL öffnen" },
-  "actionName_wait": { "message": "Warten" },
-  "actionName_scroll_page_up": { "message": "Eine Bildschirmhöhe nach oben scrollen" },
-  "actionName_scroll_page_down": { "message": "Eine Bildschirmhöhe nach unten scrollen" },
-  "actionName_close_tabs_right": { "message": "Tabs rechts schließen" },
-  "actionName_close_window": { "message": "Fenster schließen" },
-  "actionName_toggle_dark_mode": { "message": "Dunkelmodus umschalten" },
-  "actionName_translate_page": { "message": "Seite übersetzen" },
-  "actionName_media_play_pause": { "message": "Medien abspielen/pausieren" },
-  "actionName_media_speed_up": { "message": "Wiedergabe beschleunigen" },
-  "actionName_media_speed_down": { "message": "Wiedergabe verlangsamen" },
-  "actionName_media_speed_reset": { "message": "Wiedergabegeschwindigkeit zurücksetzen" },
-  "actionName_close_left_tabs": { "message": "Tabs links schließen" },
-  "actionName_close_duplicate_tabs": { "message": "Doppelte Tabs schließen" },
-  "actionName_sort_tabs_by_url": { "message": "Tabs nach URL sortieren" },
-  "actionName_group_tabs_by_domain": { "message": "Tabs nach Domain gruppieren" },
-  "actionName_ungroup_all_tabs": { "message": "Gruppierung aller Tabs aufheben" },
-  "actionName_mute_all_tabs": { "message": "Alle Tabs stummschalten" },
-  "actionName_unmute_all_tabs": { "message": "Stummschaltung aller Tabs aufheben" },
-  "actionName_reload_all_tabs": { "message": "Alle Tabs neu laden" },
-  "actionName_move_tab_first": { "message": "Tab an den Anfang verschieben" },
-  "actionName_move_tab_last": { "message": "Tab ans Ende verschieben" },
-  "actionName_move_tab_to_new_window": { "message": "Tab in neues Fenster verschieben" },
-  "actionName_minimize_window": { "message": "Fenster minimieren" },
-  "actionName_maximize_window": { "message": "Fenster maximieren" },
-  "actionName_open_incognito_window": { "message": "Inkognito-Fenster öffnen" },
-  "actionName_copy_selected_text": { "message": "Ausgewählten Text kopieren" },
-  "actionName_search_selection": { "message": "Ausgewählten Text suchen" },
-  "actionName_speak_selection": { "message": "Auswahl vorlesen" },
-  "actionName_stop_speaking": { "message": "Vorlesen stoppen" },
-  "actionName_capture_screenshot": { "message": "Screenshot erstellen (sichtbarer Bereich)" },
-  "actionName_show_notification": { "message": "Benachrichtigung anzeigen" },
-  "actionName_open_browser_page": { "message": "Browserseite öffnen" },
-  "actionName_discard_other_tabs": { "message": "Andere Tabs verwerfen (Speicher freigeben)" },
-  "actionName_goto_audible_tab": { "message": "Zum Tab mit Tonwiedergabe springen" },
-  "actionName_bookmark_all_tabs": { "message": "Alle Tabs als Lesezeichen" },
-  "actionName_read_later": { "message": "Zur Leseliste hinzufügen" },
-  "actionName_clear_browsing_cache": { "message": "Browser-Cache leeren" },
-  "actionName_clear_site_data": { "message": "Daten dieser Website löschen" },
-  "actionName_delete_url_from_history": { "message": "Seite aus Verlauf entfernen" },
-  "actionName_toggle_keep_awake": { "message": "Wachhalten umschalten" },
-  "actionName_show_downloads_folder": { "message": "Download-Ordner anzeigen" },
-  "actionName_save_page_mhtml": { "message": "Seite speichern (MHTML)" },
-  "actionName_if_url_matches": { "message": "Bedingung: fortfahren, wenn URL passt" },
-  "actionName_if_has_selection": { "message": "Bedingung: fortfahren, wenn Text ausgewählt" },
-  "actionName_run_chain": { "message": "Andere Kette ausführen" },
-  "actionName_execute_command": { "message": "Befehl ausführen" },
-  "actionName_call_extension": { "message": "Erweiterung aufrufen" },
-
-  "category_execute_command": { "message": "Befehl ausführen" },
-  "category_flow": { "message": "Ablaufsteuerung" },
-  "category_page_ops": { "message": "Seitenaktionen" },
-  "category_tab_mgmt": { "message": "Tab-Verwaltung" },
-  "category_window": { "message": "Fensterverwaltung" },
-  "category_media": { "message": "Mediensteuerung" },
-  "category_zoom": { "message": "Zoom-Steuerung" },
-  "category_content": { "message": "Inhaltsaktionen" },
-  "category_advanced": { "message": "Erweitert" },
-  "category_extension": { "message": "Erweiterungsaufrufe" },
-
-  "label_delay": { "message": "Verzögerung" },
-  "label_ms": { "message": "ms" },
-  "label_selectExtension": { "message": "Erweiterung auswählen" },
-  "placeholder_selectInstalledExtension": { "message": "-- Installierte Erweiterung auswählen --" },
-  "option_manualInputExtensionId": { "message": "Erweiterungs-ID manuell eingeben" },
-  "label_extensionId": { "message": "Erweiterungs-ID" },
-  "placeholder_extensionIdExample": { "message": "Erweiterungs-ID (z. B. nfgcnddoajoekfpacfkehomkgmpndhob)" },
-  "label_url": { "message": "URL" },
-  "placeholder_urlExample": { "message": "URL (z. B. https://example.com)" },
-  "label_openIn": { "message": "Öffnen in" },
-  "option_openIn_new": { "message": "Neuer Tab" },
-  "option_openIn_current": { "message": "Aktueller Tab" },
-  "label_notifyText": { "message": "Benachrichtigungstext" },
-  "placeholder_notifyText": { "message": "Text, der in der Benachrichtigung angezeigt wird" },
-  "label_browserPage": { "message": "Browserseite" },
-  "browserPage_downloads": { "message": "Downloads" },
-  "browserPage_history": { "message": "Verlauf" },
-  "browserPage_bookmarks": { "message": "Lesezeichen-Manager" },
-  "browserPage_extensions": { "message": "Erweiterungen" },
-  "browserPage_settings": { "message": "Einstellungen" },
-  "browserPage_shortcuts": { "message": "Tastenkürzel" },
-  "browserPage_clear_browsing_data": { "message": "Browserdaten löschen" },
-  "label_pattern": { "message": "URL-Muster" },
-  "placeholder_pattern": { "message": "z. B. *://github.com/* oder ein Schlüsselwort; mit Kommas trennen" },
-  "label_runChain": { "message": "Auszuführende Kette" },
-  "placeholder_selectChain": { "message": "-- Kette auswählen --" },
-  "hint_templateVars": { "message": "Variablen: {url} {title} {selection} {clipboard} {date} {time}" },
-  "hint_executeCommand": { "message": "Wähle diese Erweiterung, um deine eigenen Aktionsketten auszuführen; wählst du eine andere Erweiterung, werden Verwaltungsaktionen darauf ausgeführt (aktivieren/deaktivieren, deinstallieren, Optionen öffnen …), nicht deren eigene Tastenkürzel." },
-  "hint_callExtension": { "message": "Sendet eine Nachricht an eine andere Erweiterung. Funktioniert nur, wenn diese Erweiterung externe Nachrichten akzeptiert (externally_connectable) – die meisten tun das nicht, daher passiert möglicherweise nichts." },
-  "label_presetAction": { "message": "Voreingestellte Aktion" },
-  "placeholder_selectActionTemplate": { "message": "-- Aktionsvorlage auswählen --" },
-  "option_customMessage": { "message": "Benutzerdefinierte Nachricht" },
-  "label_messageContent": { "message": "Nachrichteninhalt" },
-  "placeholder_messageJson": { "message": "Nachrichteninhalt (JSON, z. B. {\"action\": \"toggle\"})" },
-  "label_selectCommand": { "message": "Befehl auswählen" },
-  "placeholder_selectCommand": { "message": "-- Befehl auswählen --" },
-  "tooltip_refreshCommands": { "message": "Befehle aktualisieren" },
-  "tooltip_setDefaultChain": { "message": "Als Standardkette festlegen" },
-  "tooltip_defaultChain": { "message": "Standardkette" },
-  "newChain_defaultName": { "message": "Neue Kette" },
-  "msg_extension_toggled": { "message": "$1 ist jetzt $2" },
-  "state_enabled": { "message": "aktiviert" },
-  "state_disabled": { "message": "deaktiviert" },
-  "label_extension": { "message": "Erweiterung" },
-  "error_toggle_extension_failed": { "message": "Erweiterung konnte nicht umgeschaltet werden" },
-  "error_uninstall_extension_failed": { "message": "Erweiterung konnte nicht deinstalliert werden" },
-  "label_extension_name": { "message": "Name der Erweiterung" },
-  "label_version": { "message": "Version" },
-  "label_description": { "message": "Beschreibung" },
-  "label_type": { "message": "Typ" },
-  "label_install_type": { "message": "Installationstyp" },
-  "label_permissions": { "message": "Berechtigungen" },
-  "label_none": { "message": "Keine" },
-  "label_homepage": { "message": "Startseite" },
-  "label_error": { "message": "Fehler" },
-  "error_get_extension_info_failed": { "message": "Erweiterungsinformationen konnten nicht abgerufen werden" },
-  "label_app": { "message": "App" },
-  "error_launch_app_failed": { "message": "App konnte nicht gestartet werden" },
-  "label_command": { "message": "Befehl" },
-  "error_unknown_command": { "message": "Unbekannter Befehl: $1" },
-  "error_execute_command_failed": { "message": "Befehlsausführung fehlgeschlagen" },
-  "cmd_toggle_extension_name": { "message": "Erweiterung aktivieren/deaktivieren" },
-  "cmd_toggle_extension_desc": { "message": "Aktivierungsstatus von $1 umschalten" },
-  "cmd_uninstall_extension_name": { "message": "Erweiterung deinstallieren" },
-  "cmd_uninstall_extension_desc": { "message": "$1 deinstallieren (Bestätigung erforderlich)" },
-  "cmd_open_options_name": { "message": "Optionen öffnen" },
-  "cmd_open_options_desc": { "message": "Optionsseite von $1 öffnen" },
-  "cmd_open_details_name": { "message": "Details öffnen" },
-  "cmd_open_details_desc": { "message": "$1 auf der Erweiterungsseite anzeigen" },
-  "cmd_show_info_name": { "message": "Erweiterungsinformationen anzeigen" },
-  "cmd_show_info_desc": { "message": "Detaillierte Informationen zu $1 anzeigen" },
-  "cmd_open_homepage_name": { "message": "Startseite öffnen" },
-  "cmd_open_homepage_desc": { "message": "Startseite von $1 besuchen" },
-  "cmd_reload_dev_name": { "message": "Entwicklungs-Erweiterung neu laden" },
-  "cmd_reload_dev_desc": { "message": "Entwicklungs-Erweiterung $1 neu laden" },
-  "cmd_launch_app_name": { "message": "App starten" },
-  "cmd_launch_app_desc": { "message": "Chrome-App $1 starten" },
-  "cmd_open_store_name": { "message": "Store-Seite öffnen" },
-  "cmd_open_store_desc": { "message": "Chrome Web Store-Seite von $1 öffnen" },
-  "label_unknownChain": { "message": "Unbekannte Kette" },
-  "msg_no_options_page": { "message": "$1 hat keine Optionsseite" },
-  "msg_check_console_for_details": { "message": "$1-Details: siehe Konsole" },
-  "msg_no_homepage": { "message": "Für $1 ist keine Startseite konfiguriert" },
-  "msg_dev_extension_reloaded": { "message": "Entwicklungs-Erweiterung $1 neu geladen" },
-  "msg_not_dev_extension": { "message": "$1 ist keine Entwicklungs-Erweiterung; neu laden nicht möglich" },
-  "msg_app_launched": { "message": "Chrome-App $1 gestartet" },
-  "msg_not_chrome_app": { "message": "$1 ist keine Chrome-App; Start nicht möglich" },
-
-  "toast_chainExecuted": { "message": "Kette ausgeführt: $1" },
-  "toast_executeFailed": { "message": "Ausführung fehlgeschlagen" },
-  "toast_defaultSet": { "message": "Standardkette festgelegt" },
-  "toast_newChainAdded": { "message": "Neue Kette hinzugefügt" },
-  "toast_atLeastOne": { "message": "Mindestens eine Kette muss bestehen bleiben" },
-  "toast_extensionsRefreshed": { "message": "$1 Erweiterungen aktualisiert" },
-  "toast_refreshExtensionsFailed": { "message": "Erweiterungen konnten nicht aktualisiert werden" },
-  "toast_selectExtensionFirst": { "message": "Bitte zuerst eine Erweiterung auswählen" },
-  "toast_commandsRefreshed": { "message": "Befehlsliste aktualisiert" },
-  "toast_refreshCommandsFailed": { "message": "Befehlsliste konnte nicht aktualisiert werden" },
-  "toast_chainDuplicated": { "message": "Kette dupliziert" },
-  "toast_configExported": { "message": "Konfiguration exportiert" },
-  "toast_configImported": { "message": "Konfiguration importiert" },
-  "toast_importFailed": { "message": "Import fehlgeschlagen: $1" },
-  "toast_saveFailed": { "message": "Speichern fehlgeschlagen: $1" },
-  "toast_defaultsRestored": { "message": "Standard-Aktionsketten wiederhergestellt" },
-  "toast_restoreDefaultsFailed": { "message": "Standard konnte nicht wiederhergestellt werden" },
-  "confirm_importOverwrite": { "message": "Der Import ersetzt deine gesamte aktuelle Konfiguration. Fortfahren?" },
-  "confirm_restoreDefaults": { "message": "Das Wiederherstellen der Standardwerte ersetzt alle aktuellen Aktionsketten. Fortfahren?" },
-  "error_invalidConfigFile": { "message": "Ungültige Konfigurationsdatei" },
-
-  "content_urlCopied": { "message": "URL in die Zwischenablage kopiert" },
-  "content_titleCopied": { "message": "Titel in die Zwischenablage kopiert" },
-  "content_markdownCopied": { "message": "Markdown-Link in die Zwischenablage kopiert" },
-  "content_copyFailed": { "message": "Kopieren fehlgeschlagen, bitte manuell kopieren" },
-  "content_bookmarkAdded": { "message": "Seite als Lesezeichen hinzugefügt" },
-  "content_bookmarkExists": { "message": "Bereits als Lesezeichen vorhanden" },
-  "content_selectionCopied": { "message": "Auswahl in die Zwischenablage kopiert" },
-  "content_noSelection": { "message": "Kein Text ausgewählt" },
-  "content_noMedia": { "message": "Auf dieser Seite wurden keine Medien gefunden" },
-  "content_playbackRate": { "message": "Wiedergabegeschwindigkeit: $1x" },
-  "content_darkModeOn": { "message": "Dunkelmodus ein" },
-  "content_darkModeOff": { "message": "Dunkelmodus aus" },
-  "msg_duplicateTabsClosed": { "message": "$1 doppelte(r) Tab(s) geschlossen" },
-  "error_incognitoNotAllowed": { "message": "Erlaube diese Erweiterung zuerst im Inkognito-Modus (chrome://extensions)" },
-  "msg_noAudibleTab": { "message": "Kein Tab mit Tonwiedergabe" },
-  "msg_tabsBookmarked": { "message": "$1 Tab(s) als Lesezeichen hinzugefügt" },
-  "msg_readLaterAdded": { "message": "Zur Leseliste hinzugefügt" },
-  "msg_readLaterExists": { "message": "Bereits in der Leseliste" },
-  "msg_readingListUnsupported": { "message": "Leselisten-API wird in diesem Browser nicht unterstützt" },
-  "msg_cacheCleared": { "message": "Browser-Cache geleert" },
-  "msg_siteDataCleared": { "message": "Website-Daten gelöscht" },
-  "msg_historyDeleted": { "message": "Aus dem Verlauf entfernt" },
-  "msg_keepAwakeOn": { "message": "Wachhalten ein" },
-  "msg_keepAwakeOff": { "message": "Wachhalten aus" },
-  "msg_chainErrors": { "message": "Kette $1: $2 Aktion(en) fehlgeschlagen" },
-  "menu_pageParent": { "message": "Aktionskette ausführen" },
-  "toast_chainExported": { "message": "Kette exportiert" },
-  "toast_chainImported": { "message": "Kette importiert: $1" },
-  "content_close": { "message": "Schließen" },
-  "msg_uninstall_requested": { "message": "Deinstallation angefordert" },
-  "actionName_copy_text": { "message": "Text kopieren (eigenes Format)" },
-  "actionName_confirm": { "message": "Bestätigung einholen" },
-  "label_copyText": { "message": "Zu kopierender Text" },
-  "placeholder_copyText": { "message": "z. B. {title} — {url}" },
-  "label_confirmText": { "message": "Rückfrage" },
-  "placeholder_confirmText": { "message": "z. B. Alle anderen Tabs schließen?" },
-  "hint_confirm": { "message": "Zeigt einen Dialog auf der Seite. Die Kette läuft nur weiter, wenn Weiter gewählt wird; Abbrechen stoppt sie. Auf Seiten ohne möglichen Dialog (chrome://-Seiten) stoppt sie ebenfalls." },
-  "confirm_defaultText": { "message": "Fortfahren?" },
-  "content_textCopied": { "message": "In die Zwischenablage kopiert" },
-  "content_continue": { "message": "Weiter" },
-  "content_cancel": { "message": "Abbrechen" },
-  "tmpl_copyPageInfo": { "message": "Seiteninfos kopieren" },
-  "tmpl_safeCloseOthers": { "message": "Andere Tabs schließen (mit Bestätigung)" },
-  "tmpl_safeCloseOthers_ask": { "message": "Alle anderen Tabs schließen?" },
-  "confirm_importChain": { "message": "Aktionskette „$1“ importieren?" },
-  "actions_count_one": { "message": "Aktion" },
-  "card_addActions": { "message": "Aktionen hinzufügen" },
-  "actions_remove": { "message": "Aktion entfernen" },
-  "label_msValue": { "message": "$1 ms" },
-  "empty_title": { "message": "Noch keine Aktionsketten" },
-  "empty_body": { "message": "Am schnellsten geht es mit einer Vorlage — oder lege eine leere Kette an und füge eigene Aktionen hinzu." },
-  "footer_source": { "message": "Quellcode & Feedback" }
+  "extName": {
+    "message": "Hotkey Chain"
+  },
+  "extDescription": {
+    "message": "Tastenkürzel für deinen Browser: 103+ Aktionen verketten und per Hotkey, Adressleiste, Rechtsklick oder Zeitplan ausführen."
+  },
+  "appName": {
+    "message": "Hotkey Chain"
+  },
+  "thisExtension": {
+    "message": "diese Erweiterung"
+  },
+  "appTitle": {
+    "message": "Hotkey Chain – Einstellungen"
+  },
+  "appSubtitle": {
+    "message": "Browser-Aktionen verketten und mit einem Kürzel ausführen"
+  },
+  "toolbar_add": {
+    "message": "Neue Kette"
+  },
+  "toolbar_export": {
+    "message": "Exportieren"
+  },
+  "toolbar_import": {
+    "message": "Importieren"
+  },
+  "toolbar_restoreDefaults": {
+    "message": "Standard wiederherstellen"
+  },
+  "toolbar_shortcuts": {
+    "message": "Tastenkürzel"
+  },
+  "toolbar_templates": {
+    "message": "Neu aus Vorlage"
+  },
+  "tmpl_focusMode": {
+    "message": "Fokusmodus"
+  },
+  "tmpl_tabCleanup": {
+    "message": "Tabs aufräumen"
+  },
+  "tmpl_snapshot": {
+    "message": "Aufnahme & speichern"
+  },
+  "tmpl_readAloud": {
+    "message": "Vorlesen"
+  },
+  "tmpl_wrapUp": {
+    "message": "Abschlussmodus"
+  },
+  "extTmpl_genericName": {
+    "message": "Allgemeine Erweiterung"
+  },
+  "extTmpl_toggleAdblock": {
+    "message": "Werbeblocker umschalten"
+  },
+  "extTmpl_pauseBlocking": {
+    "message": "Blockierung pausieren"
+  },
+  "extTmpl_resumeBlocking": {
+    "message": "Blockierung fortsetzen"
+  },
+  "extTmpl_toggleBlocker": {
+    "message": "Blocker umschalten"
+  },
+  "extTmpl_reloadFilters": {
+    "message": "Filter neu laden"
+  },
+  "extTmpl_fillForm": {
+    "message": "Formular ausfüllen"
+  },
+  "extTmpl_openVault": {
+    "message": "Tresor öffnen"
+  },
+  "extTmpl_generatePassword": {
+    "message": "Passwort generieren"
+  },
+  "extTmpl_autofill": {
+    "message": "Automatisch ausfüllen"
+  },
+  "extTmpl_openPopup": {
+    "message": "Popup öffnen"
+  },
+  "extTmpl_captureRequest": {
+    "message": "Anfrage erfassen"
+  },
+  "extTmpl_importRequest": {
+    "message": "Anfrage importieren"
+  },
+  "extTmpl_showRuler": {
+    "message": "Lineal anzeigen"
+  },
+  "extTmpl_disableCss": {
+    "message": "CSS deaktivieren"
+  },
+  "extTmpl_translatePage": {
+    "message": "Seite übersetzen"
+  },
+  "extTmpl_translateSelection": {
+    "message": "Auswahl übersetzen"
+  },
+  "extTmpl_captureFullPage": {
+    "message": "Ganze Seite erfassen"
+  },
+  "extTmpl_captureVisible": {
+    "message": "Sichtbaren Bereich erfassen"
+  },
+  "extTmpl_toggleFeature": {
+    "message": "Funktion umschalten"
+  },
+  "extTmpl_runMain": {
+    "message": "Hauptaktion ausführen"
+  },
+  "extTmpl_refresh": {
+    "message": "Aktualisieren"
+  },
+  "extTmpl_reset": {
+    "message": "Zurücksetzen"
+  },
+  "help_title": {
+    "message": "Verfügbare Aktionen"
+  },
+  "edit_title": {
+    "message": "Kette bearbeiten"
+  },
+  "edit_back": {
+    "message": "Zurück"
+  },
+  "edit_test": {
+    "message": "Testlauf"
+  },
+  "edit_exportChain": {
+    "message": "Diese Kette exportieren"
+  },
+  "info_triggers": {
+    "message": "Automatische Auslöser"
+  },
+  "info_schedule": {
+    "message": "Ausführen alle (Minuten, 0 = aus)"
+  },
+  "info_autoRun": {
+    "message": "Automatisch beim Laden der Seite ausführen (URL-Muster)"
+  },
+  "info_autoRun_placeholder": {
+    "message": "z. B. *://github.com/*; mehrere Muster mit Kommas oder Zeilenumbrüchen trennen"
+  },
+  "info_basic": {
+    "message": "Grundinformationen"
+  },
+  "info_name": {
+    "message": "Kettenname"
+  },
+  "info_name_placeholder": {
+    "message": "Kettennamen eingeben"
+  },
+  "info_desc": {
+    "message": "Beschreibung"
+  },
+  "info_desc_placeholder": {
+    "message": "Optional: Zweck dieser Kette beschreiben"
+  },
+  "info_default": {
+    "message": "Als Standardkette festlegen"
+  },
+  "actions_title": {
+    "message": "Aktionen"
+  },
+  "actions_add": {
+    "message": "Aktion hinzufügen"
+  },
+  "actions_none": {
+    "message": "Noch keine Aktionen"
+  },
+  "actions_more": {
+    "message": "weitere Aktionen"
+  },
+  "actions_count": {
+    "message": "Aktionen"
+  },
+  "card_exec": {
+    "message": "Ausführen"
+  },
+  "card_edit": {
+    "message": "Bearbeiten"
+  },
+  "card_duplicate": {
+    "message": "Duplizieren"
+  },
+  "card_delete": {
+    "message": "Löschen"
+  },
+  "suffix_copy": {
+    "message": "(Kopie)"
+  },
+  "action_defaultTitle": {
+    "message": "Hotkey Chain - Klicken, um Standardaktion auszuführen"
+  },
+  "cmd_execute_action": {
+    "message": "Standard-Aktionskette ausführen"
+  },
+  "cmd_execute_chain_1": {
+    "message": "Aktionskette 1"
+  },
+  "cmd_execute_chain_2": {
+    "message": "Aktionskette 2"
+  },
+  "cmd_execute_chain_3": {
+    "message": "Aktionskette 3"
+  },
+  "cmd_execute_chain_4": {
+    "message": "Aktionskette 4"
+  },
+  "cmd_execute_chain_5": {
+    "message": "Aktionskette 5"
+  },
+  "cmd_execute_chain_6": {
+    "message": "Aktionskette 6"
+  },
+  "cmd_execute_chain_7": {
+    "message": "Aktionskette 7"
+  },
+  "cmd_execute_chain_8": {
+    "message": "Aktionskette 8"
+  },
+  "cmd_execute_chain_9": {
+    "message": "Aktionskette 9"
+  },
+  "menu_executeDefault": {
+    "message": "Standard-Aktionskette ausführen"
+  },
+  "menu_options": {
+    "message": "Einstellungen öffnen"
+  },
+  "settings_language": {
+    "message": "Sprache"
+  },
+  "language_auto": {
+    "message": "Automatisch (Browser)"
+  },
+  "defaultChain_reading": {
+    "message": "Lesemodus"
+  },
+  "defaultChain_tidyTabs": {
+    "message": "Tabs aufräumen"
+  },
+  "defaultChain_copyMarkdown": {
+    "message": "Als Markdown kopieren"
+  },
+  "actionName_scroll_to_top": {
+    "message": "Nach oben scrollen"
+  },
+  "actionName_scroll_to_bottom": {
+    "message": "Nach unten scrollen"
+  },
+  "actionName_reload_page": {
+    "message": "Seite neu laden"
+  },
+  "actionName_close_tab": {
+    "message": "Tab schließen"
+  },
+  "actionName_new_tab": {
+    "message": "Neuer Tab"
+  },
+  "actionName_copy_url": {
+    "message": "URL kopieren"
+  },
+  "actionName_copy_title": {
+    "message": "Titel kopieren"
+  },
+  "actionName_toggle_fullscreen": {
+    "message": "Vollbild umschalten"
+  },
+  "actionName_zoom_in": {
+    "message": "Vergrößern"
+  },
+  "actionName_zoom_out": {
+    "message": "Verkleinern"
+  },
+  "actionName_zoom_reset": {
+    "message": "Zoom zurücksetzen"
+  },
+  "actionName_go_back": {
+    "message": "Zurück"
+  },
+  "actionName_go_forward": {
+    "message": "Vorwärts"
+  },
+  "actionName_bookmark_page": {
+    "message": "Seite als Lesezeichen"
+  },
+  "actionName_copy_as_markdown": {
+    "message": "Als Markdown-Link kopieren"
+  },
+  "actionName_clear_cache": {
+    "message": "Vollständig neu laden (Cache umgehen)"
+  },
+  "actionName_duplicate_tab": {
+    "message": "Tab duplizieren"
+  },
+  "actionName_pin_tab": {
+    "message": "Tab anheften/loslösen"
+  },
+  "actionName_mute_tab": {
+    "message": "Tab stummschalten/Stummschaltung aufheben"
+  },
+  "actionName_close_other_tabs": {
+    "message": "Andere Tabs schließen"
+  },
+  "actionName_move_tab_left": {
+    "message": "Tab nach links verschieben"
+  },
+  "actionName_move_tab_right": {
+    "message": "Tab nach rechts verschieben"
+  },
+  "actionName_prev_tab": {
+    "message": "Vorheriger Tab"
+  },
+  "actionName_next_tab": {
+    "message": "Nächster Tab"
+  },
+  "actionName_new_window": {
+    "message": "Neues Fenster"
+  },
+  "actionName_reopen_closed_tab": {
+    "message": "Geschlossenen Tab wieder öffnen"
+  },
+  "actionName_print_page": {
+    "message": "Seite drucken"
+  },
+  "actionName_open_url": {
+    "message": "URL öffnen"
+  },
+  "actionName_wait": {
+    "message": "Warten"
+  },
+  "actionName_scroll_page_up": {
+    "message": "Eine Bildschirmhöhe nach oben scrollen"
+  },
+  "actionName_scroll_page_down": {
+    "message": "Eine Bildschirmhöhe nach unten scrollen"
+  },
+  "actionName_close_tabs_right": {
+    "message": "Tabs rechts schließen"
+  },
+  "actionName_close_window": {
+    "message": "Fenster schließen"
+  },
+  "actionName_toggle_dark_mode": {
+    "message": "Dunkelmodus umschalten"
+  },
+  "actionName_translate_page": {
+    "message": "Seite übersetzen"
+  },
+  "actionName_media_play_pause": {
+    "message": "Medien abspielen/pausieren"
+  },
+  "actionName_media_speed_up": {
+    "message": "Wiedergabe beschleunigen"
+  },
+  "actionName_media_speed_down": {
+    "message": "Wiedergabe verlangsamen"
+  },
+  "actionName_media_speed_reset": {
+    "message": "Wiedergabegeschwindigkeit zurücksetzen"
+  },
+  "actionName_close_left_tabs": {
+    "message": "Tabs links schließen"
+  },
+  "actionName_close_duplicate_tabs": {
+    "message": "Doppelte Tabs schließen"
+  },
+  "actionName_sort_tabs_by_url": {
+    "message": "Tabs nach URL sortieren"
+  },
+  "actionName_group_tabs_by_domain": {
+    "message": "Tabs nach Domain gruppieren"
+  },
+  "actionName_ungroup_all_tabs": {
+    "message": "Gruppierung aller Tabs aufheben"
+  },
+  "actionName_mute_all_tabs": {
+    "message": "Alle Tabs stummschalten"
+  },
+  "actionName_unmute_all_tabs": {
+    "message": "Stummschaltung aller Tabs aufheben"
+  },
+  "actionName_reload_all_tabs": {
+    "message": "Alle Tabs neu laden"
+  },
+  "actionName_move_tab_first": {
+    "message": "Tab an den Anfang verschieben"
+  },
+  "actionName_move_tab_last": {
+    "message": "Tab ans Ende verschieben"
+  },
+  "actionName_move_tab_to_new_window": {
+    "message": "Tab in neues Fenster verschieben"
+  },
+  "actionName_minimize_window": {
+    "message": "Fenster minimieren"
+  },
+  "actionName_maximize_window": {
+    "message": "Fenster maximieren"
+  },
+  "actionName_open_incognito_window": {
+    "message": "Inkognito-Fenster öffnen"
+  },
+  "actionName_copy_selected_text": {
+    "message": "Ausgewählten Text kopieren"
+  },
+  "actionName_search_selection": {
+    "message": "Ausgewählten Text suchen"
+  },
+  "actionName_speak_selection": {
+    "message": "Auswahl vorlesen"
+  },
+  "actionName_stop_speaking": {
+    "message": "Vorlesen stoppen"
+  },
+  "actionName_capture_screenshot": {
+    "message": "Screenshot erstellen (sichtbarer Bereich)"
+  },
+  "actionName_show_notification": {
+    "message": "Benachrichtigung anzeigen"
+  },
+  "actionName_open_browser_page": {
+    "message": "Browserseite öffnen"
+  },
+  "actionName_discard_other_tabs": {
+    "message": "Andere Tabs verwerfen (Speicher freigeben)"
+  },
+  "actionName_goto_audible_tab": {
+    "message": "Zum Tab mit Tonwiedergabe springen"
+  },
+  "actionName_bookmark_all_tabs": {
+    "message": "Alle Tabs als Lesezeichen"
+  },
+  "actionName_read_later": {
+    "message": "Zur Leseliste hinzufügen"
+  },
+  "actionName_clear_browsing_cache": {
+    "message": "Browser-Cache leeren"
+  },
+  "actionName_clear_site_data": {
+    "message": "Daten dieser Website löschen"
+  },
+  "actionName_delete_url_from_history": {
+    "message": "Seite aus Verlauf entfernen"
+  },
+  "actionName_toggle_keep_awake": {
+    "message": "Wachhalten umschalten"
+  },
+  "actionName_show_downloads_folder": {
+    "message": "Download-Ordner anzeigen"
+  },
+  "actionName_save_page_mhtml": {
+    "message": "Seite speichern (MHTML)"
+  },
+  "actionName_if_url_matches": {
+    "message": "Bedingung: fortfahren, wenn URL passt"
+  },
+  "actionName_if_has_selection": {
+    "message": "Bedingung: fortfahren, wenn Text ausgewählt"
+  },
+  "actionName_run_chain": {
+    "message": "Andere Kette ausführen"
+  },
+  "actionName_execute_command": {
+    "message": "Befehl ausführen"
+  },
+  "actionName_call_extension": {
+    "message": "Erweiterung aufrufen"
+  },
+  "category_execute_command": {
+    "message": "Befehl ausführen"
+  },
+  "category_flow": {
+    "message": "Ablaufsteuerung"
+  },
+  "category_page_ops": {
+    "message": "Seitenaktionen"
+  },
+  "category_tab_mgmt": {
+    "message": "Tab-Verwaltung"
+  },
+  "category_window": {
+    "message": "Fensterverwaltung"
+  },
+  "category_media": {
+    "message": "Mediensteuerung"
+  },
+  "category_zoom": {
+    "message": "Zoom-Steuerung"
+  },
+  "category_content": {
+    "message": "Inhaltsaktionen"
+  },
+  "category_advanced": {
+    "message": "Erweitert"
+  },
+  "category_extension": {
+    "message": "Erweiterungsaufrufe"
+  },
+  "label_delay": {
+    "message": "Verzögerung"
+  },
+  "label_ms": {
+    "message": "ms"
+  },
+  "label_selectExtension": {
+    "message": "Erweiterung auswählen"
+  },
+  "placeholder_selectInstalledExtension": {
+    "message": "-- Installierte Erweiterung auswählen --"
+  },
+  "option_manualInputExtensionId": {
+    "message": "Erweiterungs-ID manuell eingeben"
+  },
+  "label_extensionId": {
+    "message": "Erweiterungs-ID"
+  },
+  "placeholder_extensionIdExample": {
+    "message": "Erweiterungs-ID (z. B. nfgcnddoajoekfpacfkehomkgmpndhob)"
+  },
+  "label_url": {
+    "message": "URL"
+  },
+  "placeholder_urlExample": {
+    "message": "URL (z. B. https://example.com)"
+  },
+  "label_openIn": {
+    "message": "Öffnen in"
+  },
+  "option_openIn_new": {
+    "message": "Neuer Tab"
+  },
+  "option_openIn_current": {
+    "message": "Aktueller Tab"
+  },
+  "label_notifyText": {
+    "message": "Benachrichtigungstext"
+  },
+  "placeholder_notifyText": {
+    "message": "Text, der in der Benachrichtigung angezeigt wird"
+  },
+  "label_browserPage": {
+    "message": "Browserseite"
+  },
+  "browserPage_downloads": {
+    "message": "Downloads"
+  },
+  "browserPage_history": {
+    "message": "Verlauf"
+  },
+  "browserPage_bookmarks": {
+    "message": "Lesezeichen-Manager"
+  },
+  "browserPage_extensions": {
+    "message": "Erweiterungen"
+  },
+  "browserPage_settings": {
+    "message": "Einstellungen"
+  },
+  "browserPage_shortcuts": {
+    "message": "Tastenkürzel"
+  },
+  "browserPage_clear_browsing_data": {
+    "message": "Browserdaten löschen"
+  },
+  "label_pattern": {
+    "message": "URL-Muster"
+  },
+  "placeholder_pattern": {
+    "message": "z. B. *://github.com/* oder ein Schlüsselwort; mit Kommas trennen"
+  },
+  "label_runChain": {
+    "message": "Auszuführende Kette"
+  },
+  "placeholder_selectChain": {
+    "message": "-- Kette auswählen --"
+  },
+  "hint_templateVars": {
+    "message": "Variablen: {url} {title} {selection} {clipboard} {date} {time}"
+  },
+  "hint_executeCommand": {
+    "message": "Wähle diese Erweiterung, um deine eigenen Aktionsketten auszuführen; wählst du eine andere Erweiterung, werden Verwaltungsaktionen darauf ausgeführt (aktivieren/deaktivieren, deinstallieren, Optionen öffnen …), nicht deren eigene Tastenkürzel."
+  },
+  "hint_callExtension": {
+    "message": "Sendet eine Nachricht an eine andere Erweiterung. Funktioniert nur, wenn diese Erweiterung externe Nachrichten akzeptiert (externally_connectable) – die meisten tun das nicht, daher passiert möglicherweise nichts."
+  },
+  "label_presetAction": {
+    "message": "Voreingestellte Aktion"
+  },
+  "placeholder_selectActionTemplate": {
+    "message": "-- Aktionsvorlage auswählen --"
+  },
+  "option_customMessage": {
+    "message": "Benutzerdefinierte Nachricht"
+  },
+  "label_messageContent": {
+    "message": "Nachrichteninhalt"
+  },
+  "placeholder_messageJson": {
+    "message": "Nachrichteninhalt (JSON, z. B. {\"action\": \"toggle\"})"
+  },
+  "label_selectCommand": {
+    "message": "Befehl auswählen"
+  },
+  "placeholder_selectCommand": {
+    "message": "-- Befehl auswählen --"
+  },
+  "tooltip_refreshCommands": {
+    "message": "Befehle aktualisieren"
+  },
+  "tooltip_setDefaultChain": {
+    "message": "Als Standardkette festlegen"
+  },
+  "tooltip_defaultChain": {
+    "message": "Standardkette"
+  },
+  "newChain_defaultName": {
+    "message": "Neue Kette"
+  },
+  "msg_extension_toggled": {
+    "message": "$1 ist jetzt $2"
+  },
+  "state_enabled": {
+    "message": "aktiviert"
+  },
+  "state_disabled": {
+    "message": "deaktiviert"
+  },
+  "label_extension": {
+    "message": "Erweiterung"
+  },
+  "error_toggle_extension_failed": {
+    "message": "Erweiterung konnte nicht umgeschaltet werden"
+  },
+  "error_uninstall_extension_failed": {
+    "message": "Erweiterung konnte nicht deinstalliert werden"
+  },
+  "label_extension_name": {
+    "message": "Name der Erweiterung"
+  },
+  "label_version": {
+    "message": "Version"
+  },
+  "label_description": {
+    "message": "Beschreibung"
+  },
+  "label_type": {
+    "message": "Typ"
+  },
+  "label_install_type": {
+    "message": "Installationstyp"
+  },
+  "label_permissions": {
+    "message": "Berechtigungen"
+  },
+  "label_none": {
+    "message": "Keine"
+  },
+  "label_homepage": {
+    "message": "Startseite"
+  },
+  "label_error": {
+    "message": "Fehler"
+  },
+  "error_get_extension_info_failed": {
+    "message": "Erweiterungsinformationen konnten nicht abgerufen werden"
+  },
+  "label_app": {
+    "message": "App"
+  },
+  "error_launch_app_failed": {
+    "message": "App konnte nicht gestartet werden"
+  },
+  "label_command": {
+    "message": "Befehl"
+  },
+  "error_unknown_command": {
+    "message": "Unbekannter Befehl: $1"
+  },
+  "error_execute_command_failed": {
+    "message": "Befehlsausführung fehlgeschlagen"
+  },
+  "cmd_toggle_extension_name": {
+    "message": "Erweiterung aktivieren/deaktivieren"
+  },
+  "cmd_toggle_extension_desc": {
+    "message": "Aktivierungsstatus von $1 umschalten"
+  },
+  "cmd_uninstall_extension_name": {
+    "message": "Erweiterung deinstallieren"
+  },
+  "cmd_uninstall_extension_desc": {
+    "message": "$1 deinstallieren (Bestätigung erforderlich)"
+  },
+  "cmd_open_options_name": {
+    "message": "Optionen öffnen"
+  },
+  "cmd_open_options_desc": {
+    "message": "Optionsseite von $1 öffnen"
+  },
+  "cmd_open_details_name": {
+    "message": "Details öffnen"
+  },
+  "cmd_open_details_desc": {
+    "message": "$1 auf der Erweiterungsseite anzeigen"
+  },
+  "cmd_show_info_name": {
+    "message": "Erweiterungsinformationen anzeigen"
+  },
+  "cmd_show_info_desc": {
+    "message": "Detaillierte Informationen zu $1 anzeigen"
+  },
+  "cmd_open_homepage_name": {
+    "message": "Startseite öffnen"
+  },
+  "cmd_open_homepage_desc": {
+    "message": "Startseite von $1 besuchen"
+  },
+  "cmd_reload_dev_name": {
+    "message": "Entwicklungs-Erweiterung neu laden"
+  },
+  "cmd_reload_dev_desc": {
+    "message": "Entwicklungs-Erweiterung $1 neu laden"
+  },
+  "cmd_launch_app_name": {
+    "message": "App starten"
+  },
+  "cmd_launch_app_desc": {
+    "message": "Chrome-App $1 starten"
+  },
+  "cmd_open_store_name": {
+    "message": "Store-Seite öffnen"
+  },
+  "cmd_open_store_desc": {
+    "message": "Chrome Web Store-Seite von $1 öffnen"
+  },
+  "label_unknownChain": {
+    "message": "Unbekannte Kette"
+  },
+  "msg_no_options_page": {
+    "message": "$1 hat keine Optionsseite"
+  },
+  "msg_check_console_for_details": {
+    "message": "$1-Details: siehe Konsole"
+  },
+  "msg_no_homepage": {
+    "message": "Für $1 ist keine Startseite konfiguriert"
+  },
+  "msg_dev_extension_reloaded": {
+    "message": "Entwicklungs-Erweiterung $1 neu geladen"
+  },
+  "msg_not_dev_extension": {
+    "message": "$1 ist keine Entwicklungs-Erweiterung; neu laden nicht möglich"
+  },
+  "msg_app_launched": {
+    "message": "Chrome-App $1 gestartet"
+  },
+  "msg_not_chrome_app": {
+    "message": "$1 ist keine Chrome-App; Start nicht möglich"
+  },
+  "toast_chainExecuted": {
+    "message": "Kette ausgeführt: $1"
+  },
+  "toast_executeFailed": {
+    "message": "Ausführung fehlgeschlagen"
+  },
+  "toast_defaultSet": {
+    "message": "Standardkette festgelegt"
+  },
+  "toast_newChainAdded": {
+    "message": "Neue Kette hinzugefügt"
+  },
+  "toast_atLeastOne": {
+    "message": "Mindestens eine Kette muss bestehen bleiben"
+  },
+  "toast_extensionsRefreshed": {
+    "message": "$1 Erweiterungen aktualisiert"
+  },
+  "toast_refreshExtensionsFailed": {
+    "message": "Erweiterungen konnten nicht aktualisiert werden"
+  },
+  "toast_selectExtensionFirst": {
+    "message": "Bitte zuerst eine Erweiterung auswählen"
+  },
+  "toast_commandsRefreshed": {
+    "message": "Befehlsliste aktualisiert"
+  },
+  "toast_refreshCommandsFailed": {
+    "message": "Befehlsliste konnte nicht aktualisiert werden"
+  },
+  "toast_chainDuplicated": {
+    "message": "Kette dupliziert"
+  },
+  "toast_configExported": {
+    "message": "Konfiguration exportiert"
+  },
+  "toast_configImported": {
+    "message": "Konfiguration importiert"
+  },
+  "toast_importFailed": {
+    "message": "Import fehlgeschlagen: $1"
+  },
+  "toast_saveFailed": {
+    "message": "Speichern fehlgeschlagen: $1"
+  },
+  "toast_defaultsRestored": {
+    "message": "Standard-Aktionsketten wiederhergestellt"
+  },
+  "toast_restoreDefaultsFailed": {
+    "message": "Standard konnte nicht wiederhergestellt werden"
+  },
+  "confirm_importOverwrite": {
+    "message": "Der Import ersetzt deine gesamte aktuelle Konfiguration. Fortfahren?"
+  },
+  "confirm_restoreDefaults": {
+    "message": "Das Wiederherstellen der Standardwerte ersetzt alle aktuellen Aktionsketten. Fortfahren?"
+  },
+  "error_invalidConfigFile": {
+    "message": "Ungültige Konfigurationsdatei"
+  },
+  "content_urlCopied": {
+    "message": "URL in die Zwischenablage kopiert"
+  },
+  "content_titleCopied": {
+    "message": "Titel in die Zwischenablage kopiert"
+  },
+  "content_markdownCopied": {
+    "message": "Markdown-Link in die Zwischenablage kopiert"
+  },
+  "content_copyFailed": {
+    "message": "Kopieren fehlgeschlagen, bitte manuell kopieren"
+  },
+  "content_bookmarkAdded": {
+    "message": "Seite als Lesezeichen hinzugefügt"
+  },
+  "content_bookmarkExists": {
+    "message": "Bereits als Lesezeichen vorhanden"
+  },
+  "content_selectionCopied": {
+    "message": "Auswahl in die Zwischenablage kopiert"
+  },
+  "content_noSelection": {
+    "message": "Kein Text ausgewählt"
+  },
+  "content_noMedia": {
+    "message": "Auf dieser Seite wurden keine Medien gefunden"
+  },
+  "content_playbackRate": {
+    "message": "Wiedergabegeschwindigkeit: $1x"
+  },
+  "content_darkModeOn": {
+    "message": "Dunkelmodus ein"
+  },
+  "content_darkModeOff": {
+    "message": "Dunkelmodus aus"
+  },
+  "msg_duplicateTabsClosed": {
+    "message": "$1 doppelte(r) Tab(s) geschlossen"
+  },
+  "error_incognitoNotAllowed": {
+    "message": "Erlaube diese Erweiterung zuerst im Inkognito-Modus (chrome://extensions)"
+  },
+  "msg_noAudibleTab": {
+    "message": "Kein Tab mit Tonwiedergabe"
+  },
+  "msg_tabsBookmarked": {
+    "message": "$1 Tab(s) als Lesezeichen hinzugefügt"
+  },
+  "msg_readLaterAdded": {
+    "message": "Zur Leseliste hinzugefügt"
+  },
+  "msg_readLaterExists": {
+    "message": "Bereits in der Leseliste"
+  },
+  "msg_readingListUnsupported": {
+    "message": "Leselisten-API wird in diesem Browser nicht unterstützt"
+  },
+  "msg_cacheCleared": {
+    "message": "Browser-Cache geleert"
+  },
+  "msg_siteDataCleared": {
+    "message": "Website-Daten gelöscht"
+  },
+  "msg_historyDeleted": {
+    "message": "Aus dem Verlauf entfernt"
+  },
+  "msg_keepAwakeOn": {
+    "message": "Wachhalten ein"
+  },
+  "msg_keepAwakeOff": {
+    "message": "Wachhalten aus"
+  },
+  "msg_chainErrors": {
+    "message": "Kette $1: $2 Aktion(en) fehlgeschlagen"
+  },
+  "menu_pageParent": {
+    "message": "Aktionskette ausführen"
+  },
+  "toast_chainExported": {
+    "message": "Kette exportiert"
+  },
+  "toast_chainImported": {
+    "message": "Kette importiert: $1"
+  },
+  "content_close": {
+    "message": "Schließen"
+  },
+  "msg_uninstall_requested": {
+    "message": "Deinstallation angefordert"
+  },
+  "actionName_copy_text": {
+    "message": "Text kopieren (eigenes Format)"
+  },
+  "actionName_confirm": {
+    "message": "Bestätigung einholen"
+  },
+  "label_copyText": {
+    "message": "Zu kopierender Text"
+  },
+  "placeholder_copyText": {
+    "message": "z. B. {title} — {url}"
+  },
+  "label_confirmText": {
+    "message": "Rückfrage"
+  },
+  "placeholder_confirmText": {
+    "message": "z. B. Alle anderen Tabs schließen?"
+  },
+  "hint_confirm": {
+    "message": "Zeigt einen Dialog auf der Seite. Die Kette läuft nur weiter, wenn Weiter gewählt wird; Abbrechen stoppt sie. Auf Seiten ohne möglichen Dialog (chrome://-Seiten) stoppt sie ebenfalls."
+  },
+  "confirm_defaultText": {
+    "message": "Fortfahren?"
+  },
+  "content_textCopied": {
+    "message": "In die Zwischenablage kopiert"
+  },
+  "content_continue": {
+    "message": "Weiter"
+  },
+  "content_cancel": {
+    "message": "Abbrechen"
+  },
+  "tmpl_safeCloseOthers": {
+    "message": "Andere Tabs schließen (mit Bestätigung)"
+  },
+  "tmpl_safeCloseOthers_ask": {
+    "message": "Alle anderen Tabs schließen?"
+  },
+  "confirm_importChain": {
+    "message": "Aktionskette „$1“ importieren?"
+  },
+  "actions_count_one": {
+    "message": "Aktion"
+  },
+  "card_addActions": {
+    "message": "Aktionen hinzufügen"
+  },
+  "actions_remove": {
+    "message": "Aktion entfernen"
+  },
+  "label_msValue": {
+    "message": "$1 ms"
+  },
+  "empty_title": {
+    "message": "Noch keine Aktionsketten"
+  },
+  "empty_body": {
+    "message": "Am schnellsten geht es mit einer Vorlage — oder lege eine leere Kette an und füge eigene Aktionen hinzu."
+  },
+  "footer_source": {
+    "message": "Quellcode & Feedback"
+  },
+  "toolbar_sidePanel": {
+    "message": "Seitenleiste öffnen"
+  },
+  "ai_notSupported": {
+    "message": "Dieser Browser kann Chromes integrierte KI (Gemini Nano) nicht ausführen. Erfordert Chrome für Desktop (Windows/macOS/Linux/Chromebook Plus), ca. 22 GB freien Speicher und entweder über 4 GB VRAM oder 16 GB RAM."
+  },
+  "ai_modelDownloading": {
+    "message": "Das Chrome-KI-Modell wird auf das Gerät heruntergeladen, bitte versuchen Sie es gleich erneut"
+  },
+  "ai_noTextToProcess": {
+    "message": "Kein Text ausgewählt oder auf der Seite gefunden"
+  },
+  "ai_summaryCopied": {
+    "message": "KI-Zusammenfassung (kopiert)"
+  },
+  "ai_noSelection": {
+    "message": "Bitte wählen Sie zuerst Text aus"
+  },
+  "ai_explanationCopied": {
+    "message": "KI-Erklärung (kopiert)"
+  },
+  "ai_translationCopied": {
+    "message": "KI-Übersetzung (kopiert)"
+  },
+  "msg_cookiesCleared": {
+    "message": "Alle Cookies gelöscht"
+  },
+  "msg_downloadsCleared": {
+    "message": "Download-Verlauf gelöscht"
+  },
+  "actionName_open_side_panel": {
+    "message": "Seitenleiste öffnen"
+  },
+  "actionName_ai_summarize": {
+    "message": "Inhalt mit KI zusammenfassen"
+  },
+  "actionName_ai_explain": {
+    "message": "Auswahl mit KI erklären"
+  },
+  "actionName_ai_translate": {
+    "message": "Auswahl mit KI übersetzen"
+  },
+  "actionName_discard_current_tab": {
+    "message": "Aktuellen Tab verwerfen (Speicher freigeben)"
+  },
+  "actionName_duplicate_tab_to_new_window": {
+    "message": "Tab in neuem Fenster duplizieren"
+  },
+  "actionName_collapse_all_groups": {
+    "message": "Alle Tab-Gruppen einklappen"
+  },
+  "actionName_expand_all_groups": {
+    "message": "Alle Tab-Gruppen ausklappen"
+  },
+  "actionName_close_other_windows": {
+    "message": "Andere Fenster schließen"
+  },
+  "actionName_open_options_page": {
+    "message": "Erweiterungsoptionen öffnen"
+  },
+  "actionName_open_shortcuts_page": {
+    "message": "Tastenkombinationen-Verwaltung öffnen"
+  },
+  "actionName_reload_extension": {
+    "message": "Erweiterung neu laden"
+  },
+  "actionName_open_action_popup": {
+    "message": "Erweiterungs-Popup öffnen"
+  },
+  "actionName_clear_cookies": {
+    "message": "Alle Cookies löschen"
+  },
+  "actionName_clear_downloads_history": {
+    "message": "Download-Verlauf löschen"
+  },
+  "actionName_speak_text": {
+    "message": "Benutzerdefinierten Text vorlesen"
+  },
+  "actionName_toggle_design_mode": {
+    "message": "Designmodus der Seite umschalten (Direktbearbeitung)"
+  },
+  "actionName_copy_page_html": {
+    "message": "HTML-Quelltext der Seite kopieren"
+  },
+  "actionName_extract_all_links": {
+    "message": "Alle Links auf der Seite extrahieren"
+  },
+  "actionName_extract_all_images": {
+    "message": "Alle Bild-URLs extrahieren"
+  },
+  "label_speakText": {
+    "message": "Vorzulesender Text"
+  },
+  "placeholder_speakText": {
+    "message": "Vorzulesender Text (unterstützt Variablen wie {title})"
+  },
+  "content_designModeOff": {
+    "message": "Designmodus deaktiviert"
+  },
+  "content_designModeOn": {
+    "message": "Designmodus aktiviert (Seite ist bearbeitbar)"
+  },
+  "content_pageHtmlCopied": {
+    "message": "Seiten-HTML in die Zwischenablage kopiert"
+  },
+  "content_linksExtracted": {
+    "message": "Extrahierte Links in die Zwischenablage kopiert"
+  },
+  "content_noLinksFound": {
+    "message": "Keine Links auf der Seite gefunden"
+  },
+  "content_imagesExtracted": {
+    "message": "Extrahierte Bild-URLs in die Zwischenablage kopiert"
+  },
+  "content_noImagesFound": {
+    "message": "Keine Bilder auf der Seite gefunden"
+  },
+  "sidepanel_title": {
+    "message": "Hotkey Chain"
+  },
+  "sidepanel_openSettings": {
+    "message": "Einstellungen"
+  },
+  "sidepanel_searchPlaceholder": {
+    "message": "Aktionsketten suchen..."
+  },
+  "sidepanel_noChainsFound": {
+    "message": "Keine Ketten gefunden"
+  },
+  "sidepanel_manageChains": {
+    "message": "+ Ketten verwalten"
+  },
+  "sidepanel_chainsSuffix": {
+    "message": "Ketten"
+  },
+  "sidepanel_actionsSuffix": {
+    "message": "Aktionen"
+  },
+  "sidepanel_runChain": {
+    "message": "Ausführen"
+  },
+  "sidepanel_executedPrefix": {
+    "message": "Ausgeführt:"
+  },
+  "sidepanel_executionFailed": {
+    "message": "Ausführung fehlgeschlagen"
+  },
+  "tmpl_cat_all": {
+    "message": "Alle Vorlagen"
+  },
+  "tmpl_cat_ai": {
+    "message": "KI & Smart"
+  },
+  "tmpl_cat_tabs": {
+    "message": "Tabs & Speicher"
+  },
+  "tmpl_cat_reading": {
+    "message": "Lesen & Medien"
+  },
+  "tmpl_cat_developer": {
+    "message": "Web & Entwickler"
+  },
+  "tmpl_cat_privacy": {
+    "message": "Datenschutz & Bereinigung"
+  },
+  "tmpl_cat_workflow": {
+    "message": "Täglicher Workflow"
+  },
+  "tmpl_gallery_title": {
+    "message": "Aktionsketten-Vorlagengalerie"
+  },
+  "tmpl_gallery_subtitle": {
+    "message": "Wählen Sie sofort einsatzbereite Automatisierungs-Workflows und fügen Sie sie mit einem Klick hinzu"
+  },
+  "tmpl_gallery_search_placeholder": {
+    "message": "Vorlagen nach Name, Beschreibung oder Aktion durchsuchen..."
+  },
+  "tmpl_gallery_use": {
+    "message": "Vorlage verwenden"
+  },
+  "tmpl_gallery_actions_count": {
+    "message": "$1 Aktionen"
+  },
+  "tmpl_gallery_empty_title": {
+    "message": "Keine passenden Vorlagen gefunden"
+  },
+  "tmpl_gallery_empty_desc": {
+    "message": "Versuchen Sie andere Suchbegriffe oder wechseln Sie die Kategorie"
+  },
+  "tmpl_gallery_empty_reset": {
+    "message": "Suche zurücksetzen"
+  },
+  "tmpl_aiSummarize": {
+    "message": "Smarte KI-Seitenzusammenfassung"
+  },
+  "tmpl_aiExplain": {
+    "message": "Detaillierte KI-Textanalyse"
+  },
+  "tmpl_aiTranslate": {
+    "message": "KI-Übersetzung & Vorlesen"
+  },
+  "tmpl_tabHibernateClean": {
+    "message": "Speicher freigeben & Tabs organisieren"
+  },
+  "tmpl_webEditor": {
+    "message": "Webseiten-Direktbearbeitung"
+  },
+  "tmpl_extractMedia": {
+    "message": "Links & Bilder der Seite extrahieren"
+  },
+  "tmpl_cinemaMode": {
+    "message": "Video abspielen und Vollbild"
+  },
+  "tmpl_privacyWipe": {
+    "message": "Schnelle Datenschutz-Bereinigung"
+  },
+  "tmpl_copyMarkdown": {
+    "message": "Als Markdown-Link kopieren"
+  },
+  "tmpl_sidePanelCompanion": {
+    "message": "Seitenleisten-Begleiter"
+  },
+  "tmpl_focusMode_desc": {
+    "message": "Alle Tabs stummschalten, in den Dunkelmodus wechseln und in Vollbild arbeiten"
+  },
+  "tmpl_tabCleanup_desc": {
+    "message": "Doppelte Tabs schließen, nach URL sortieren und nach Domain gruppieren"
+  },
+  "tmpl_safeCloseOthers_desc": {
+    "message": "Bestätigungsdialog vor dem Schließen aller anderen Tabs anzeigen"
+  },
+  "tmpl_aiSummarize_desc": {
+    "message": "Kernzusammenfassung mit lokaler Gemini Nano KI extrahieren und in der Seitenleiste anzeigen"
+  },
+  "tmpl_aiExplain_desc": {
+    "message": "Markieren Sie Text für sofortige KI-Erklärungen in der Seitenleiste"
+  },
+  "tmpl_aiTranslate_desc": {
+    "message": "Übersetzen Sie markierten Text mit lokaler KI und lassen Sie ihn vorlesen"
+  },
+  "tmpl_tabHibernateClean_desc": {
+    "message": "Schließe Duplikate, versetze inaktive Tabs in den Ruhezustand und gruppiere nach Domain"
+  },
+  "tmpl_webEditor_desc": {
+    "message": "Designmodus umschalten, um Texte und Layout wie in einem Dokument frei zu bearbeiten"
+  },
+  "tmpl_extractMedia_desc": {
+    "message": "Aktuelle Webseite scannen und alle Medienbilder und Links auf einmal extrahieren"
+  },
+  "tmpl_cinemaMode_desc": {
+    "message": "Stellt sicher, dass das Video der Seite läuft, und wechselt dann ins Vollbild für ungestörtes Ansehen"
+  },
+  "tmpl_readAloud_desc": {
+    "message": "Verwenden Sie die native Sprachsynthese, um markierten Text vorzulesen"
+  },
+  "tmpl_privacyWipe_desc": {
+    "message": "Fragt nach Bestätigung und löscht dann ALLE Cookies und den GESAMTEN Download-Verlauf — alle Websites, nicht nur die aktuelle"
+  },
+  "tmpl_copyMarkdown_desc": {
+    "message": "Titel und URL im Markdown-Format formatieren und in die Zwischenablage kopieren"
+  },
+  "tmpl_snapshot_desc": {
+    "message": "Sichtbaren Bereich per Screenshot erfassen und Lesezeichen setzen"
+  },
+  "tmpl_wrapUp_desc": {
+    "message": "Lesezeichen speichern, Audio stummschalten und Fenster zum Feierabend minimieren"
+  },
+  "tmpl_sidePanelCompanion_desc": {
+    "message": "Öffnen Sie das Hotkey Chain Seitenleisten-Panel, um Ketten neben der Seite auszuführen"
+  },
+  "tmpl_privacyWipe_ask": {
+    "message": "Dies löscht Cookies und Download-Verlauf für ALLE Websites, nicht nur für diese. Fortfahren?"
+  },
+  "tmpl_gallery_footer_hint": {
+    "message": "Klicken Sie auf eine Vorlage, um sie zu erstellen und anzupassen. Alle Parameter sind frei anpassbar."
+  },
+  "actionPicker_title": {
+    "message": "Aktion hinzufügen"
+  },
+  "actionPicker_subtitle": {
+    "message": "Suchen oder nach Kategorie durchsuchen, klicken zum Hinzufügen zur Kette"
+  },
+  "actionPicker_searchPlaceholder": {
+    "message": "Aktionen suchen (z. B. dunkel, Tab, KI, stumm, Screenshot)..."
+  },
+  "actionPicker_allCategories": {
+    "message": "Alle"
+  },
+  "actionPicker_noResults": {
+    "message": "Keine passenden Aktionen gefunden. Versuchen Sie einen anderen Suchbegriff."
+  },
+  "shortcut_badge_omnibox": {
+    "message": "Adressleiste: hc + Name"
+  },
+  "shortcut_hint_click": {
+    "message": "Klicken, um die Chrome-Tastenkürzel-Einstellungen zu öffnen"
+  },
+  "empty_cta_templates": {
+    "message": "Vorlagengalerie durchsuchen"
+  },
+  "empty_cta_blank": {
+    "message": "Leere Kette erstellen"
+  },
+  "tmpl_gallery_add_direct": {
+    "message": "Zu meinen Ketten hinzufügen"
+  },
+  "tmpl_gallery_add_and_edit": {
+    "message": "Hinzufügen & Anpassen"
+  },
+  "toast_chainAdded_actionRun": {
+    "message": "Jetzt ausführen"
+  },
+  "workflow_title": {
+    "message": "Workflow-Automatisierung (Pipeline)"
+  },
+  "workflow_subtitle": {
+    "message": "Automatisch mit der nächsten Stufe verketten und Ausgabedaten weiterleiten"
+  },
+  "workflow_nextChain": {
+    "message": "Bei Erfolg: Mit nächster Kette fortfahren"
+  },
+  "workflow_fallbackChain": {
+    "message": "Bei Fehler: Fallback-Kette ausführen"
+  },
+  "workflow_noNextChain": {
+    "message": "(Keine - Workflow beenden)"
+  },
+  "workflow_noFallbackChain": {
+    "message": "(Keine - Bei Fehler stoppen)"
+  },
+  "workflow_passOutput": {
+    "message": "Ausgabedaten weiterleiten ({{output}} / Auswahl)"
+  },
+  "workflow_chipTooltip": {
+    "message": "Workflow: Fährt nach Abschluss automatisch mit $1 fort"
+  },
+  "workflow_elseChain": {
+    "message": "Else-Zweig bei Nichterfüllung (optional)"
+  },
+  "workflow_noElseChain": {
+    "message": "(Keine - Weitere Aktionen stoppen)"
+  },
+  "workflow_incomingTooltip": {
+    "message": "Workflow-Nachfolgeknoten: Durch andere Kette ausgelöst"
+  },
+  "workflow_step_current": {
+    "message": "Aktuelle Kette"
+  },
+  "workflow_step_next": {
+    "message": "Nächste Stufe: Zum Bearbeiten klicken"
+  },
+  "workflow_step_incoming": {
+    "message": "Vorherige Stufe: Zum Bearbeiten klicken"
+  },
+  "workflow_fallback_label": {
+    "message": "Fallback"
+  },
+  "workflow_pipeline_active": {
+    "message": "Pipeline aktiv: $1 verknüpfte(r) Knoten"
+  },
+  "workflow_pipeline_single": {
+    "message": "Einzelkette (keine nachgelagerten Verknüpfungen)"
+  },
+  "workflow_step_end": {
+    "message": "Ende"
+  },
+  "hint_hasSelection": {
+    "message": "Wird fortgesetzt, wenn Text ausgewählt ist, und übergibt den Text als {{output}} an nachfolgende Aktionen."
+  },
+  "tmpl_workflowAiResearch": {
+    "message": "KI-Extraktions- und Zusammenfassungs-Workflow"
+  },
+  "tmpl_workflowAiResearch_desc": {
+    "message": "Extrahiert Links, erstellt eine KI-Zusammenfassung und kopiert formatiertes Markdown in die Zwischenablage"
+  },
+  "tmpl_workflowReadLater": {
+    "message": "Später lesen & Archivierungs-Pipeline"
+  },
+  "tmpl_workflowReadLater_desc": {
+    "message": "Extrahiert sauberes Markdown in die Zwischenablage und setzt gleichzeitig ein Lesezeichen"
+  },
+  "tmpl_aiKnowledgeCard": {
+    "message": "KI-Wissenskarten-Erstellung"
+  },
+  "tmpl_aiKnowledgeCard_desc": {
+    "message": "Wichtige Punkte mit lokaler KI extrahieren und als Markdown-Notizkarte in die Zwischenablage kopieren"
+  },
+  "tmpl_workflowDevClean": {
+    "message": "Frontend-Entwickler-Reset-Pipeline"
+  },
+  "tmpl_workflowDevClean_desc": {
+    "message": "Websitedaten und Browser-Cache löschen und hart neu laden für sauberes Frontend-Debugging"
+  },
+  "tmpl_workflowCleanWorkspace": {
+    "message": "Isolierter Fokus-Arbeitsbereich"
+  },
+  "tmpl_workflowCleanWorkspace_desc": {
+    "message": "Aktiven Tab in ein maximiertes neues Fenster verschieben und restliche Tabs schlafen legen"
+  },
+  "tmpl_incognitoHandoff": {
+    "message": "Inkognito-Übergabe & Verlaufsbereinigung"
+  },
+  "tmpl_incognitoHandoff_desc": {
+    "message": "Aktuelle Seite im Inkognito-Fenster öffnen, Tab schließen und URL aus dem Verlauf löschen"
+  },
+  "actionName_toggle_site_javascript": {
+    "message": "JavaScript für diese Website umschalten"
+  },
+  "actionName_toggle_site_images": {
+    "message": "Bilder für diese Website umschalten"
+  },
+  "actionName_toggle_site_popups": {
+    "message": "Pop-ups für diese Website umschalten"
+  },
+  "actionName_open_top_sites": {
+    "message": "Meistbesuchte Websites öffnen"
+  },
+  "actionName_wait_for_navigation": {
+    "message": "Auf Seitenlade-/Navigationsabschluss warten"
+  },
+  "msg_jsBlocked": {
+    "message": "JavaScript für diese Website deaktiviert"
+  },
+  "msg_jsAllowed": {
+    "message": "JavaScript für diese Website aktiviert"
+  },
+  "msg_imagesBlocked": {
+    "message": "Bilder für diese Website deaktiviert"
+  },
+  "msg_imagesAllowed": {
+    "message": "Bilder für diese Website aktiviert"
+  },
+  "msg_popupsBlocked": {
+    "message": "Pop-ups für diese Website blockiert"
+  },
+  "msg_popupsAllowed": {
+    "message": "Pop-ups für diese Website erlaubt"
+  },
+  "badge_requiresAi": {
+    "message": "Erfordert On-Device-KI"
+  },
+  "hint_aiRequirement": {
+    "message": "Läuft auf Chromes integriertem Gemini Nano – alles bleibt auf Ihrem Gerät. Erfordert Chrome für Desktop mit ausreichend GPU oder RAM; weder API-Schlüssel noch Flags nötig."
+  },
+  "btn_checkAiStatus": {
+    "message": "On-Device-KI-Status prüfen"
+  },
+  "ai_statusReady": {
+    "message": "Chrome On-Device-KI (Gemini Nano) ist bereit und in diesem Browser verfügbar."
+  },
+  "ai_statusGuide": {
+    "message": "Voraussetzungen:\n1. Chrome für Desktop unter Windows, macOS, Linux oder Chromebook Plus (nicht Android/iOS)\n2. Ca. 22 GB frei auf dem Profil-Laufwerk; über 4 GB VRAM oder 16 GB RAM mit 4+ Kernen\n3. Das Modell wird bei der ersten Nutzung geladen – Fortschritt unter chrome://on-device-internals\n4. Für diesen ersten Download eine Verbindung ohne Datenlimit; danach werden keine Daten an Server gesendet"
+  },
+  "msg_noTopSites": {
+    "message": "Keine häufig besuchten Websites im Browserverlauf gefunden"
+  },
+  "msg_topSitesOpened": {
+    "message": " häufig besuchte Websites im Hintergrund geöffnet"
+  },
+  "tmpl_pureReader": {
+    "message": "Ablenkungsfreier Lesemodus"
+  },
+  "tmpl_pureReader_desc": {
+    "message": "Popups und Bilder blockieren sowie Dunkelmodus aktivieren für pures Lesen"
+  },
+  "tmpl_siteScriptShield": {
+    "message": "Skript- und Popup-Schutz"
+  },
+  "tmpl_siteScriptShield_desc": {
+    "message": "JavaScript und Popups für diese Website deaktivieren, um Störskripte abzuwehren"
+  },
+  "tmpl_workstationLaunch": {
+    "message": "Workstation-Start-Pipeline"
+  },
+  "tmpl_workstationLaunch_desc": {
+    "message": "Häufig besuchte Websites im Hintergrund öffnen, Duplikate bereinigen und nach Domain gruppieren"
+  },
+  "defaultChain_workstation": {
+    "message": "Morgen-Workstation"
+  },
+  "defaultChain_workstation_note": {
+    "message": "Workstation bereit: Websites geöffnet und sortiert"
+  },
+  "defaultChain_aiKnowledge": {
+    "message": "KI-Wissenskarte"
+  },
+  "defaultChain_aiKnowledge_note": {
+    "message": "KI-Wissenskarte erstellt und kopiert"
+  },
+  "defaultChain_pureReader": {
+    "message": "Pures ablenkungsfreies Lesen"
+  },
+  "defaultChain_devReset": {
+    "message": "Dev-Reset-Pipeline"
+  },
+  "defaultChain_focusSandbox": {
+    "message": "Fokus-Sandbox"
+  },
+  "label_targetLang": {
+    "message": "Zielsprache"
+  },
+  "label_translateStyle": {
+    "message": "Übersetzungsstil"
+  },
+  "label_summaryLang": {
+    "message": "Zusammenfassungssprache"
+  },
+  "label_summaryFormat": {
+    "message": "Zusammenfassungsformat"
+  },
+  "label_explainLang": {
+    "message": "Erklärungssprache"
+  },
+  "label_explainStyle": {
+    "message": "Tiefe und Stil"
+  },
+  "label_ttsLang": {
+    "message": "Sprachausgabe-Sprache"
+  },
+  "label_ttsSpeed": {
+    "message": "Sprechgeschwindigkeit"
+  },
+  "label_preferOutput": {
+    "message": "Ausgabe des vorherigen Schritts bevorzugen (z. B. KI-Übersetzung)"
+  },
+  "opt_lang_auto": {
+    "message": "Automatisch (Browser-Oberflächensprache folgen)"
+  },
+  "opt_format_bullets": {
+    "message": "Wichtige Stichpunkte (empfohlen)"
+  },
+  "opt_format_concise": {
+    "message": "Prägnanter Absatz"
+  },
+  "opt_format_detailed": {
+    "message": "Detailliert & strukturiert"
+  },
+  "opt_format_oneSentence": {
+    "message": "Ein prägnanter Satz"
+  },
+  "opt_style_concise": {
+    "message": "Klar & prägnant (Standard)"
+  },
+  "opt_style_simple": {
+    "message": "Anfängerfreundlich (einfach erklärt)"
+  },
+  "opt_style_technical": {
+    "message": "Technische Tiefenanalyse"
+  },
+  "opt_style_analogy": {
+    "message": "Anschauliche Analogie"
+  },
+  "opt_trans_natural": {
+    "message": "Natürlich & flüssig (Standard)"
+  },
+  "opt_trans_formal": {
+    "message": "Formell & professionell"
+  },
+  "opt_trans_literal": {
+    "message": "Wörtlich & präzise"
+  },
+  "actionName_media_play": {
+    "message": "Medien abspielen (ohne Pause)"
+  },
+  "label_incognitoCurrent": {
+    "message": "Aktuelle Seite im neuen Fenster öffnen"
+  },
+  "hint_incognitoCurrent": {
+    "message": "Ohne Häkchen wird nur ein leeres Inkognito-Fenster geöffnet. Übergabe-Ketten brauchen diese Option, sonst geht die Seite beim Schließen des Original-Tabs verloren."
+  },
+  "tmpl_pipelineSummarySpeak": {
+    "message": "Pipeline: Langtext zusammenfassen und vorlesen"
+  },
+  "tmpl_pipelineSummarySpeak_desc": {
+    "message": "Fasst Seite oder Auswahl mit On-Device-KI zusammen und übergibt das Ergebnis an eine zweite Kette, die es vorliest"
+  },
+  "tmpl_pipelineSummarySpeak_next": {
+    "message": "Zusammenfassung vorlesen (Pipeline-Stufe 2)"
+  },
+  "tmpl_pipelineSummarySpeak_next_desc": {
+    "message": "Wird von der ersten Kette automatisch ausgelöst: liest die Zusammenfassung des vorherigen Schritts vor"
+  },
+  "tmpl_selectionSearch": {
+    "message": "Auswahl suchen (bedingt)"
+  },
+  "tmpl_selectionSearch_desc": {
+    "message": "Prüft zuerst, ob etwas markiert ist: wenn ja, wird gesucht; wenn nicht, fordert eine zweite Kette zur Auswahl auf"
+  },
+  "tmpl_selectionSearch_else": {
+    "message": "Zur Auswahl auffordern (Zweig)"
+  },
+  "tmpl_selectionSearch_else_desc": {
+    "message": "Wird von der Bedingungsaktion bei Nichterfüllung ausgelöst: fordert den Nutzer auf, zuerst Text zu markieren"
+  },
+  "tmpl_selectionSearch_elseMsg": {
+    "message": "Markiere zuerst etwas Text auf der Seite"
+  },
+  "tmpl_reloadThenExtract": {
+    "message": "Links nach vollständigem Laden extrahieren"
+  },
+  "tmpl_reloadThenExtract_desc": {
+    "message": "Lädt die Seite neu und wartet, bis das Laden wirklich abgeschlossen ist (gut für SPAs), und extrahiert dann alle ausgehenden Links"
+  },
+  "ai_contentTooLong": {
+    "message": "Der Inhalt ist zu lang für das On-Device-Modell. Markiere einen kürzeren Abschnitt und versuche es erneut."
+  },
+  "progress_starting": {
+    "message": "Startet…"
+  },
+  "progress_done": {
+    "message": "Fertig"
+  },
+  "progress_failed": {
+    "message": "Mit Fehlern beendet"
+  },
+  "label_noCopy": {
+    "message": "Nicht automatisch in die Zwischenablage kopieren (Ergebnis an die nächste Aktion übergeben)"
+  },
+  "hint_extractNoCopy": {
+    "message": "Einschalten, wenn eine Kette mehrere Extraktionen zusammenführt und einmal kopiert – sonst belegt jedes Zwischenergebnis die Zwischenablage und zeigt einen irreführenden „kopiert“-Hinweis."
+  },
+  "ai_diag_language": {
+    "message": "KI-Ausgabesprache"
+  },
+  "hint_actionLangOverrides": {
+    "message": "Eine in der Aktion festgelegte Sprache überschreibt die globale Oberflächensprache; bei „Automatisch“ gilt die Oberflächensprache (siehe Diagnose hinter dem CPU-Symbol in der Symbolleiste)."
+  },
+  "shortcut_badge_withKey": {
+    "message": "Tastenkürzel: {key}"
+  },
+  "shortcut_badge_unset": {
+    "message": "Kein Tastenkürzel"
+  }
 }

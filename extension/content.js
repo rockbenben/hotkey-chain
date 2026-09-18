@@ -49,10 +49,18 @@ function handleBackgroundMessage(request, sender, sendResponse) {
 
   // Asks the user and answers later, so the message channel must stay open
   if (action === "confirm") {
-    showConfirmDialog(request.text).then((confirmed) => sendResponse({ success: true, confirmed }));
+    (async () => {
+      try {
+        const confirmed = await showConfirmDialog(request.text);
+        sendResponse({ success: true, confirmed });
+      } catch (e) {
+        sendResponse({ success: false, confirmed: false });
+      }
+    })();
     return true;
   }
 
+  let actionOutput = "";
   try {
     switch (action) {
       case "scroll_to_top":
@@ -73,27 +81,32 @@ function handleBackgroundMessage(request, sender, sendResponse) {
         break;
 
       case "copy_url":
-        copyToClipboard(window.location.href);
+        actionOutput = window.location.href;
+        copyToClipboard(actionOutput);
         showNotification(t("content_urlCopied", "URL copied to clipboard"));
         break;
 
       case "copy_title":
-        copyToClipboard(document.title);
+        actionOutput = document.title;
+        copyToClipboard(actionOutput);
         showNotification(t("content_titleCopied", "Title copied to clipboard"));
         break;
 
       case "copy_as_markdown":
-        copyToClipboard(`[${document.title}](${window.location.href})`);
+        actionOutput = `[${document.title}](${window.location.href})`;
+        copyToClipboard(actionOutput);
         showNotification(t("content_markdownCopied", "Markdown link copied to clipboard"));
         break;
 
       case "copy_text":
-        copyToClipboard(request.text || "");
+        actionOutput = request.text || "";
+        copyToClipboard(actionOutput);
         showNotification(t("content_textCopied", "Copied to clipboard"));
         break;
 
       case "copy_selected_text": {
         const selection = String(window.getSelection()).trim();
+        actionOutput = selection;
         if (selection) {
           copyToClipboard(selection);
           showNotification(t("content_selectionCopied", "Selection copied to clipboard"));
@@ -122,6 +135,18 @@ function handleBackgroundMessage(request, sender, sendResponse) {
         break;
       }
 
+      case "media_play": {
+        // 只播放、不切换。media_play_pause 是 toggle，把它放进「播放 + 全屏」这类
+        // 组合动作里，正在播的视频反而会被暂停 —— 组合场景需要一个幂等的播放。
+        const media = findMediaElements();
+        if (!media.length) {
+          showNotification(t("content_noMedia", "No media found on this page"), true);
+          break;
+        }
+        media.forEach((m) => m.play().catch(() => {}));
+        break;
+      }
+
       case "media_speed_up":
       case "media_speed_down":
       case "media_speed_reset": {
@@ -147,6 +172,63 @@ function handleBackgroundMessage(request, sender, sendResponse) {
         window.print();
         break;
 
+      case "toggle_design_mode": {
+        const isEditing = document.designMode === "on";
+        document.designMode = isEditing ? "off" : "on";
+        showNotification(isEditing ? t("content_designModeOff", "Design mode disabled") : t("content_designModeOn", "Design mode enabled"));
+        break;
+      }
+
+      case "copy_page_html": {
+        const html = document.documentElement ? document.documentElement.outerHTML : "";
+        actionOutput = html;
+        copyToClipboard(html);
+        showNotification(t("content_pageHtmlCopied", "Page HTML copied to clipboard"));
+        break;
+      }
+
+      case "extract_all_links": {
+        const links = Array.from(document.querySelectorAll("a[href]"))
+          .map((a) => {
+            const text = (a.textContent || "").trim().replace(/[\r\n\t]+/g, " ");
+            const href = a.href;
+            return text ? `[${text}](${href})` : href;
+          })
+          .filter((v, i, arr) => v && arr.indexOf(v) === i);
+        actionOutput = links.join("\n");
+        if (links.length) {
+          // noCopy：只要输出、不要剪贴板。模板里常把多个提取结果合并后再复制，
+          // 这里先复制一次既多余，又会让「已复制」的提示变成误导。
+          if (!request.noCopy) {
+            copyToClipboard(actionOutput);
+            showNotification(t("content_linksExtracted", "Links copied to clipboard"));
+          }
+        } else {
+          showNotification(t("content_noLinksFound", "No links found on page"), true);
+        }
+        break;
+      }
+
+      case "extract_all_images": {
+        const imgs = Array.from(document.querySelectorAll("img[src]"))
+          .map((img) => img.src)
+          .filter((src, i, arr) => src && /^https?:/i.test(src) && arr.indexOf(src) === i);
+        actionOutput = imgs.join("\n");
+        if (imgs.length) {
+          if (!request.noCopy) {
+            copyToClipboard(actionOutput);
+            showNotification(t("content_imagesExtracted", "Image URLs copied to clipboard"));
+          }
+        } else {
+          showNotification(t("content_noImagesFound", "No images found on page"), true);
+        }
+        break;
+      }
+
+      case "chain_progress":
+        showChainProgress(request);
+        break;
+
       case "show_extension_notification":
         // 显示扩展激活通知
         showNotification(request.message || `${t("menu_executeDefault", "已尝试激活扩展")}: ${request.extensionName}`, request.isError || false);
@@ -161,7 +243,7 @@ function handleBackgroundMessage(request, sender, sendResponse) {
         console.warn(`Unknown content script action: ${action}`);
     }
 
-    sendResponse({ success: true });
+    sendResponse({ success: true, output: actionOutput });
   } catch (error) {
     console.error(`Error executing content script action ${action}:`, error);
     sendResponse({ success: false, error: error.message });
@@ -278,6 +360,139 @@ function toggleFullscreen() {
 }
 
 // Show notification
+// --- 执行进度 HUD ---
+//
+// 链在后台跑，用户盯着页面却看不到任何反馈：工具栏徽章只有一个小图标，
+// 页面里什么都没有。长链尤其难判断是卡住了还是快跑完了。
+// 这个 HUD 显示「哪条链、第几步 / 共几步、正在做什么」。
+//
+// 位置选右下角：页内提示（showNotification）占了右上角且会堆叠，错开互不遮挡。
+const CHAIN_PROGRESS_ID = "hotkey-chain-progress";
+let chainProgressTimer = null;
+
+function removeChainProgress() {
+  clearTimeout(chainProgressTimer);
+  chainProgressTimer = null;
+  const el = document.getElementById(CHAIN_PROGRESS_ID);
+  if (el && el.parentNode) el.parentNode.removeChild(el);
+}
+
+// 用 DOM API 构建而不是 innerHTML：链名是用户自己填的，动作名来自 locale 文件，
+// 都直接拼进 innerHTML 就等于给自己开一个注入口。
+//
+// 版式把**动作名放主行**：用户最想知道的是「现在在做什么」，
+// 链名和计数退到次要位置。
+function buildChainProgressEl() {
+  const el = document.createElement("div");
+  el.id = CHAIN_PROGRESS_ID;
+  el.style.cssText = `
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    min-width: 250px;
+    max-width: 340px;
+    background: #1c1d28;
+    color: #fff;
+    padding: 12px 14px;
+    border-radius: 12px;
+    font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.45;
+    z-index: 2147483645;
+    box-shadow: 0 12px 32px -10px rgba(20,18,45,.55);
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  `;
+
+  const name = document.createElement("div");
+  name.dataset.role = "name";
+  name.style.cssText =
+    "font-weight:600;font-size:14px;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:8px;";
+
+  const track = document.createElement("div");
+  track.style.cssText = "height:4px;border-radius:999px;background:rgba(255,255,255,.18);overflow:hidden;margin-bottom:8px;";
+  const bar = document.createElement("div");
+  bar.dataset.role = "bar";
+  bar.style.cssText = "height:100%;width:0%;border-radius:999px;transition:width .2s ease;";
+  track.appendChild(bar);
+
+  const meta = document.createElement("div");
+  meta.dataset.role = "meta";
+  meta.style.cssText = "color:#c7c9d9;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;";
+
+  el.append(name, track, meta);
+  return el;
+}
+
+function showChainProgress(payload) {
+  const {
+    phase = "step",
+    chainName = "",
+    index = 0,
+    total = 0,
+    actionType = "",
+    actionName = "",
+    hadErrors = false,
+  } = payload || {};
+
+  // 结束：先切到结果态，停一下再淡出，否则最后一步一闪而过
+  if (phase === "end") {
+    const existing = document.getElementById(CHAIN_PROGRESS_ID);
+    if (!existing) return;
+    paintChainProgress(existing, { chainName, index: total, total, phase: "end", hadErrors });
+    clearTimeout(chainProgressTimer);
+    chainProgressTimer = setTimeout(() => {
+      const el = document.getElementById(CHAIN_PROGRESS_ID);
+      if (!el) return;
+      el.style.opacity = "0";
+      chainProgressTimer = setTimeout(removeChainProgress, 300);
+    }, hadErrors ? 2600 : 1200);
+    return;
+  }
+
+  clearTimeout(chainProgressTimer);
+  chainProgressTimer = null;
+  let el = document.getElementById(CHAIN_PROGRESS_ID);
+  if (!el) {
+    el = buildChainProgressEl();
+    (document.body || document.documentElement).appendChild(el);
+  }
+  el.style.opacity = "1";
+  paintChainProgress(el, { chainName, index, total, actionType, actionName, phase });
+}
+
+function paintChainProgress(el, { chainName, index, total, actionType, actionName, phase, hadErrors }) {
+  const pct = total > 0 ? Math.min(100, Math.round((index / total) * 100)) : 0;
+  const done = phase === "end";
+  const accent = done ? (hadErrors ? "#f87171" : "#4ade80") : "#93c5fd";
+  const shown = Math.min(index, total);
+
+  const bar = el.querySelector('[data-role="bar"]');
+  bar.style.width = `${pct}%`;
+  bar.style.background = accent;
+
+  // 主行：正在做什么（结束时显示结果态）
+  let label;
+  if (done) {
+    label = hadErrors ? t("progress_failed", "Finished with errors") : t("progress_done", "Done");
+  } else if (actionName) {
+    // 后台已经按用户选的语言解析好了，直接用
+    label = actionName;
+  } else if (actionType) {
+    // 兜底：自己查 locale（key 就是 actionName_<type>）
+    label = t(`actionName_${actionType}`, actionType);
+  } else {
+    label = t("progress_starting", "Starting…");
+  }
+  const nameEl = el.querySelector('[data-role="name"]');
+  nameEl.textContent = label;
+  nameEl.style.color = done ? accent : "#fff";
+
+  // 次要行：哪条链 · 第几步
+  const meta = [chainName || t("extName", "Hotkey Chain"), `${shown}/${total}`].join(" · ");
+  el.querySelector('[data-role="meta"]').textContent = meta;
+}
+
 function showNotification(message, isError = false, duration = 2500) {
   // Create notification element
   const notification = document.createElement("div");

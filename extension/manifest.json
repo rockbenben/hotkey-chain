@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "__MSG_extName__",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "__MSG_extDescription__",
   "default_locale": "en",
   "homepage_url": "https://github.com/rockbenben/hotkey-chain",
@@ -26,7 +26,11 @@
     "power",
     "readingList",
     "search",
-    "pageCapture"
+    "pageCapture",
+    "sidePanel",
+    "webNavigation",
+    "contentSettings",
+    "topSites"
   ],
   "host_permissions": ["<all_urls>"],
   "omnibox": { "keyword": "hc" },
@@ -38,6 +42,9 @@
       "48": "icons/icon48.png",
       "128": "icons/icon128.png"
     }
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
   },
   "background": {
     "service_worker": "background.js"

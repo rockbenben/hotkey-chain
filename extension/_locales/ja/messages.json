@@ -1,358 +1,1613 @@
 {
-  "extName": { "message": "Hotkey Chain" },
-  "extDescription": { "message": "ブラウザ用のショートカット。75種類以上のアクションを連鎖させ、ホットキー、アドレスバー、右クリック、スケジュール、URLマッチで実行できます。" },
-  "appName": { "message": "Hotkey Chain" },
-  "thisExtension": { "message": "この拡張機能" },
-
-  "appTitle": { "message": "Hotkey Chain の設定" },
-  "appSubtitle": { "message": "ブラウザ操作をつないで、ショートカット一発で実行" },
-
-  "toolbar_add": { "message": "新規チェーン" },
-  "toolbar_export": { "message": "エクスポート" },
-  "toolbar_import": { "message": "インポート" },
-  "toolbar_restoreDefaults": { "message": "デフォルトに戻す" },
-  "toolbar_shortcuts": { "message": "キーボードショートカット" },
-  "toolbar_templates": { "message": "テンプレートから作成" },
-
-  "tmpl_focusMode": { "message": "集中モード" },
-  "tmpl_tabCleanup": { "message": "タブの整理" },
-  "tmpl_videoMode": { "message": "動画モード" },
-  "tmpl_snapshot": { "message": "スナップショットと保存" },
-  "tmpl_snapshot_done": { "message": "スクリーンショットを保存し、ページをブックマークしました" },
-  "tmpl_readAloud": { "message": "読み上げ" },
-  "tmpl_translate": { "message": "このページを翻訳" },
-  "tmpl_wrapUp": { "message": "作業終了モード" },
-
-  "extTmpl_genericName": { "message": "汎用拡張機能" },
-  "extTmpl_toggleAdblock": { "message": "広告ブロックの切り替え" },
-  "extTmpl_pauseBlocking": { "message": "ブロックを一時停止" },
-  "extTmpl_resumeBlocking": { "message": "ブロックを再開" },
-  "extTmpl_toggleBlocker": { "message": "ブロッカーの切り替え" },
-  "extTmpl_reloadFilters": { "message": "フィルターを再読み込み" },
-  "extTmpl_fillForm": { "message": "フォームに入力" },
-  "extTmpl_openVault": { "message": "保管庫を開く" },
-  "extTmpl_generatePassword": { "message": "パスワードを生成" },
-  "extTmpl_autofill": { "message": "自動入力" },
-  "extTmpl_openPopup": { "message": "ポップアップを開く" },
-  "extTmpl_captureRequest": { "message": "リクエストをキャプチャ" },
-  "extTmpl_importRequest": { "message": "リクエストをインポート" },
-  "extTmpl_showRuler": { "message": "ルーラーを表示" },
-  "extTmpl_disableCss": { "message": "CSS を無効化" },
-  "extTmpl_translatePage": { "message": "ページを翻訳" },
-  "extTmpl_translateSelection": { "message": "選択範囲を翻訳" },
-  "extTmpl_captureFullPage": { "message": "ページ全体をキャプチャ" },
-  "extTmpl_captureVisible": { "message": "表示領域をキャプチャ" },
-  "extTmpl_toggleFeature": { "message": "機能の切り替え" },
-  "extTmpl_runMain": { "message": "メインアクションを実行" },
-  "extTmpl_refresh": { "message": "更新" },
-  "extTmpl_reset": { "message": "リセット" },
-
-  "help_title": { "message": "利用可能なアクション" },
-
-  "edit_title": { "message": "チェーンを編集" },
-  "edit_back": { "message": "戻る" },
-  "edit_test": { "message": "テスト実行" },
-  "edit_exportChain": { "message": "このチェーンをエクスポート" },
-  "info_triggers": { "message": "自動トリガー" },
-  "info_schedule": { "message": "実行間隔（分、0 = 無効）" },
-  "info_autoRun": { "message": "ページ読み込み時に自動実行（URL パターン）" },
-  "info_autoRun_placeholder": { "message": "例: *://github.com/*；複数のパターンはカンマまたは改行で区切ります" },
-
-  "info_basic": { "message": "基本情報" },
-  "info_name": { "message": "チェーン名" },
-  "info_name_placeholder": { "message": "チェーン名を入力" },
-  "info_desc": { "message": "説明" },
-  "info_desc_placeholder": { "message": "任意: このチェーンの目的を記述します" },
-  "info_default": { "message": "デフォルトのチェーンに設定" },
-
-  "actions_title": { "message": "アクション" },
-  "actions_add": { "message": "アクションを追加" },
-  "actions_none": { "message": "アクションがありません" },
-  "actions_more": { "message": "件の追加アクション" },
-  "actions_count": { "message": "件のアクション" },
-
-  "card_exec": { "message": "実行" },
-  "card_edit": { "message": "編集" },
-  "card_duplicate": { "message": "複製" },
-  "card_delete": { "message": "削除" },
-  "suffix_copy": { "message": "（コピー）" },
-  "action_defaultTitle": { "message": "Hotkey Chain - クリックでデフォルトアクションを実行" },
-  "cmd_execute_action": { "message": "デフォルトのアクションチェーンを実行" },
-  "cmd_execute_chain_1": { "message": "アクションチェーン 1" },
-  "cmd_execute_chain_2": { "message": "アクションチェーン 2" },
-  "cmd_execute_chain_3": { "message": "アクションチェーン 3" },
-  "cmd_execute_chain_4": { "message": "アクションチェーン 4" },
-  "cmd_execute_chain_5": { "message": "アクションチェーン 5" },
-  "cmd_execute_chain_6": { "message": "アクションチェーン 6" },
-  "cmd_execute_chain_7": { "message": "アクションチェーン 7" },
-  "cmd_execute_chain_8": { "message": "アクションチェーン 8" },
-  "cmd_execute_chain_9": { "message": "アクションチェーン 9" },
-  "menu_executeDefault": { "message": "デフォルトのアクションチェーンを実行" },
-  "menu_executeChain": { "message": "アクションチェーン $1 を実行" },
-  "menu_options": { "message": "設定を開く" },
-
-  "settings_language": { "message": "言語" },
-  "language_auto": { "message": "自動（ブラウザに従う）" },
-  "language_en": { "message": "English" },
-  "language_zh_CN": { "message": "简体中文" },
-
-  "defaultChain_reading": { "message": "読書モード" },
-  "defaultChain_tidyTabs": { "message": "タブを整理" },
-  "defaultChain_readLater": { "message": "後で読む" },
-  "defaultChain_readLater_note": { "message": "リーディングリストに保存しました: {title}" },
-  "defaultChain_searchSelection": { "message": "選択範囲を検索" },
-  "defaultChain_cinema": { "message": "シネマモード" },
-  "defaultChain_copyMarkdown": { "message": "Markdown としてコピー" },
-  "defaultChain_hardRefresh": { "message": "ハードリフレッシュ" },
-  "defaultChain_morningRoutine": { "message": "朝のルーティン" },
-  "defaultChain_morningRoutine_note": { "message": "ワークスペースの準備が完了しました" },
-
-  "actionName_scroll_to_top": { "message": "最上部へスクロール" },
-  "actionName_scroll_to_bottom": { "message": "最下部へスクロール" },
-  "actionName_reload_page": { "message": "ページを再読み込み" },
-  "actionName_close_tab": { "message": "タブを閉じる" },
-  "actionName_new_tab": { "message": "新しいタブ" },
-  "actionName_copy_url": { "message": "URL をコピー" },
-  "actionName_copy_title": { "message": "タイトルをコピー" },
-  "actionName_toggle_fullscreen": { "message": "全画面表示の切り替え" },
-  "actionName_zoom_in": { "message": "拡大" },
-  "actionName_zoom_out": { "message": "縮小" },
-  "actionName_zoom_reset": { "message": "ズームをリセット" },
-  "actionName_go_back": { "message": "戻る" },
-  "actionName_go_forward": { "message": "進む" },
-  "actionName_bookmark_page": { "message": "ページをブックマーク" },
-  "actionName_copy_as_markdown": { "message": "Markdown リンクとしてコピー" },
-  "actionName_clear_cache": { "message": "ハードリフレッシュ（キャッシュを無視）" },
-  "actionName_duplicate_tab": { "message": "タブを複製" },
-  "actionName_pin_tab": { "message": "タブの固定/固定解除" },
-  "actionName_mute_tab": { "message": "タブのミュート/ミュート解除" },
-  "actionName_close_other_tabs": { "message": "他のタブを閉じる" },
-  "actionName_move_tab_left": { "message": "タブを左へ移動" },
-  "actionName_move_tab_right": { "message": "タブを右へ移動" },
-  "actionName_prev_tab": { "message": "前のタブ" },
-  "actionName_next_tab": { "message": "次のタブ" },
-  "actionName_new_window": { "message": "新しいウィンドウ" },
-  "actionName_reopen_closed_tab": { "message": "閉じたタブを再度開く" },
-  "actionName_print_page": { "message": "ページを印刷" },
-  "actionName_open_url": { "message": "URL を開く" },
-  "actionName_wait": { "message": "待機" },
-  "actionName_scroll_page_up": { "message": "1 画面分上へスクロール" },
-  "actionName_scroll_page_down": { "message": "1 画面分下へスクロール" },
-  "actionName_close_tabs_right": { "message": "右側のタブを閉じる" },
-  "actionName_close_window": { "message": "ウィンドウを閉じる" },
-  "actionName_toggle_dark_mode": { "message": "ダークモードの切り替え" },
-  "actionName_translate_page": { "message": "ページを翻訳" },
-  "actionName_media_play_pause": { "message": "メディアの再生/一時停止" },
-  "actionName_media_speed_up": { "message": "再生速度を上げる" },
-  "actionName_media_speed_down": { "message": "再生速度を下げる" },
-  "actionName_media_speed_reset": { "message": "再生速度をリセット" },
-  "actionName_close_left_tabs": { "message": "左側のタブを閉じる" },
-  "actionName_close_duplicate_tabs": { "message": "重複したタブを閉じる" },
-  "actionName_sort_tabs_by_url": { "message": "URL でタブを並べ替え" },
-  "actionName_group_tabs_by_domain": { "message": "ドメインでタブをグループ化" },
-  "actionName_ungroup_all_tabs": { "message": "すべてのタブのグループを解除" },
-  "actionName_mute_all_tabs": { "message": "すべてのタブをミュート" },
-  "actionName_unmute_all_tabs": { "message": "すべてのタブのミュートを解除" },
-  "actionName_reload_all_tabs": { "message": "すべてのタブを再読み込み" },
-  "actionName_move_tab_first": { "message": "タブを先頭へ移動" },
-  "actionName_move_tab_last": { "message": "タブを末尾へ移動" },
-  "actionName_move_tab_to_new_window": { "message": "タブを新しいウィンドウへ移動" },
-  "actionName_minimize_window": { "message": "ウィンドウを最小化" },
-  "actionName_maximize_window": { "message": "ウィンドウを最大化" },
-  "actionName_open_incognito_window": { "message": "シークレットウィンドウを開く" },
-  "actionName_copy_selected_text": { "message": "選択したテキストをコピー" },
-  "actionName_search_selection": { "message": "選択したテキストを検索" },
-  "actionName_speak_selection": { "message": "選択範囲を読み上げ" },
-  "actionName_stop_speaking": { "message": "読み上げを停止" },
-  "actionName_capture_screenshot": { "message": "スクリーンショットを撮影（表示領域）" },
-  "actionName_show_notification": { "message": "通知を表示" },
-  "actionName_open_browser_page": { "message": "ブラウザページを開く" },
-  "actionName_discard_other_tabs": { "message": "他のタブを破棄（メモリを解放）" },
-  "actionName_goto_audible_tab": { "message": "音声が出ているタブへ移動" },
-  "actionName_bookmark_all_tabs": { "message": "すべてのタブをブックマーク" },
-  "actionName_read_later": { "message": "リーディングリストに追加" },
-  "actionName_clear_browsing_cache": { "message": "ブラウザのキャッシュを削除" },
-  "actionName_clear_site_data": { "message": "このサイトのデータを削除" },
-  "actionName_delete_url_from_history": { "message": "履歴からページを削除" },
-  "actionName_toggle_keep_awake": { "message": "スリープ防止の切り替え" },
-  "actionName_show_downloads_folder": { "message": "ダウンロードフォルダを表示" },
-  "actionName_save_page_mhtml": { "message": "ページを保存（MHTML）" },
-  "actionName_if_url_matches": { "message": "条件: URL が一致する場合に続行" },
-  "actionName_if_has_selection": { "message": "条件: テキストが選択されている場合に続行" },
-  "actionName_run_chain": { "message": "別のチェーンを実行" },
-  "actionName_execute_command": { "message": "コマンドを実行" },
-  "actionName_call_extension": { "message": "拡張機能を呼び出す" },
-
-  "category_execute_command": { "message": "コマンドを実行" },
-  "category_flow": { "message": "フロー制御" },
-  "category_page_ops": { "message": "ページ操作" },
-  "category_tab_mgmt": { "message": "タブ管理" },
-  "category_window": { "message": "ウィンドウ管理" },
-  "category_media": { "message": "メディア操作" },
-  "category_zoom": { "message": "ズーム操作" },
-  "category_content": { "message": "コンテンツ操作" },
-  "category_advanced": { "message": "高度な操作" },
-  "category_extension": { "message": "拡張機能の呼び出し" },
-
-  "label_delay": { "message": "遅延" },
-  "label_ms": { "message": "ミリ秒" },
-  "label_selectExtension": { "message": "拡張機能を選択" },
-  "placeholder_selectInstalledExtension": { "message": "-- インストール済みの拡張機能を選択 --" },
-  "option_manualInputExtensionId": { "message": "拡張機能 ID を手動入力" },
-  "label_extensionId": { "message": "拡張機能 ID" },
-  "placeholder_extensionIdExample": { "message": "拡張機能 ID（例: nfgcnddoajoekfpacfkehomkgmpndhob）" },
-  "label_url": { "message": "URL" },
-  "placeholder_urlExample": { "message": "URL（例: https://example.com）" },
-  "label_openIn": { "message": "開く場所" },
-  "option_openIn_new": { "message": "新しいタブ" },
-  "option_openIn_current": { "message": "現在のタブ" },
-  "label_notifyText": { "message": "通知テキスト" },
-  "placeholder_notifyText": { "message": "通知に表示するテキスト" },
-  "label_browserPage": { "message": "ブラウザページ" },
-  "browserPage_downloads": { "message": "ダウンロード" },
-  "browserPage_history": { "message": "履歴" },
-  "browserPage_bookmarks": { "message": "ブックマークマネージャー" },
-  "browserPage_extensions": { "message": "拡張機能" },
-  "browserPage_settings": { "message": "設定" },
-  "browserPage_shortcuts": { "message": "キーボードショートカット" },
-  "browserPage_clear_browsing_data": { "message": "閲覧履歴データの削除" },
-  "label_pattern": { "message": "URL パターン" },
-  "placeholder_pattern": { "message": "例: *://github.com/* またはキーワード；カンマで区切ります" },
-  "label_runChain": { "message": "実行するチェーン" },
-  "placeholder_selectChain": { "message": "-- チェーンを選択 --" },
-  "hint_templateVars": { "message": "変数: {url} {title} {selection} {clipboard} {date} {time}" },
-  "hint_executeCommand": { "message": "この拡張機能を選ぶと独自のアクションチェーンを実行できます。他の拡張機能を選ぶと、その拡張機能に対する管理操作（有効化/無効化、アンインストール、オプションを開くなど）が行われ、その拡張機能自身のショートカットは実行されません。" },
-  "hint_callExtension": { "message": "別の拡張機能にメッセージを送信します。その拡張機能が外部メッセージを受け付ける（externally_connectable）場合のみ動作します。ほとんどの拡張機能は受け付けないため、何も起こらない場合があります。" },
-  "label_presetAction": { "message": "プリセットアクション" },
-  "placeholder_selectActionTemplate": { "message": "-- アクションテンプレートを選択 --" },
-  "option_customMessage": { "message": "カスタムメッセージ" },
-  "label_messageContent": { "message": "メッセージ内容" },
-  "placeholder_messageJson": { "message": "メッセージ内容（JSON、例: {\"action\": \"toggle\"}）" },
-  "label_selectCommand": { "message": "コマンドを選択" },
-  "placeholder_selectCommand": { "message": "-- コマンドを選択 --" },
-  "tooltip_refreshCommands": { "message": "コマンドを更新" },
-  "tooltip_setDefaultChain": { "message": "デフォルトのチェーンに設定" },
-  "tooltip_defaultChain": { "message": "デフォルトのチェーン" },
-  "newChain_defaultName": { "message": "新しいチェーン" },
-  "msg_extension_toggled": { "message": "$1 を $2 にしました" },
-  "state_enabled": { "message": "有効" },
-  "state_disabled": { "message": "無効" },
-  "label_extension": { "message": "拡張機能" },
-  "error_toggle_extension_failed": { "message": "拡張機能の切り替えに失敗しました" },
-  "error_uninstall_extension_failed": { "message": "拡張機能のアンインストールに失敗しました" },
-  "label_extension_name": { "message": "拡張機能名" },
-  "label_version": { "message": "バージョン" },
-  "label_description": { "message": "説明" },
-  "label_type": { "message": "種類" },
-  "label_install_type": { "message": "インストール種別" },
-  "label_permissions": { "message": "権限" },
-  "label_none": { "message": "なし" },
-  "label_homepage": { "message": "ホームページ" },
-  "label_error": { "message": "エラー" },
-  "error_get_extension_info_failed": { "message": "拡張機能の情報の取得に失敗しました" },
-  "label_app": { "message": "アプリ" },
-  "error_launch_app_failed": { "message": "アプリの起動に失敗しました" },
-  "label_command": { "message": "コマンド" },
-  "error_unknown_command": { "message": "不明なコマンド: $1" },
-  "error_execute_command_failed": { "message": "コマンドの実行に失敗しました" },
-  "cmd_toggle_extension_name": { "message": "拡張機能の有効化/無効化" },
-  "cmd_toggle_extension_desc": { "message": "$1 の有効状態を切り替えます" },
-  "cmd_uninstall_extension_name": { "message": "拡張機能をアンインストール" },
-  "cmd_uninstall_extension_desc": { "message": "$1 をアンインストールします（確認が必要）" },
-  "cmd_open_options_name": { "message": "オプションを開く" },
-  "cmd_open_options_desc": { "message": "$1 のオプションページを開きます" },
-  "cmd_open_details_name": { "message": "詳細を開く" },
-  "cmd_open_details_desc": { "message": "拡張機能ページで $1 を表示します" },
-  "cmd_show_info_name": { "message": "拡張機能の情報を表示" },
-  "cmd_show_info_desc": { "message": "$1 の詳細情報を表示します" },
-  "cmd_open_homepage_name": { "message": "ホームページを開く" },
-  "cmd_open_homepage_desc": { "message": "$1 のホームページにアクセスします" },
-  "cmd_reload_dev_name": { "message": "開発版拡張機能を再読み込み" },
-  "cmd_reload_dev_desc": { "message": "開発版拡張機能 $1 を再読み込みします" },
-  "cmd_launch_app_name": { "message": "アプリを起動" },
-  "cmd_launch_app_desc": { "message": "Chrome アプリ $1 を起動します" },
-  "cmd_open_store_name": { "message": "ストアページを開く" },
-  "cmd_open_store_desc": { "message": "$1 の Chrome ウェブストアのページを開きます" },
-  "label_unknownChain": { "message": "不明なチェーン" },
-  "msg_no_options_page": { "message": "$1 にはオプションページがありません" },
-  "msg_check_console_for_details": { "message": "$1 の詳細: コンソールを確認してください" },
-  "msg_no_homepage": { "message": "$1 にはホームページが設定されていません" },
-  "msg_dev_extension_reloaded": { "message": "開発版拡張機能 $1 を再読み込みしました" },
-  "msg_not_dev_extension": { "message": "$1 は開発版拡張機能ではないため、再読み込みできません" },
-  "msg_app_launched": { "message": "Chrome アプリ $1 を起動しました" },
-  "msg_not_chrome_app": { "message": "$1 は Chrome アプリではないため、起動できません" },
-
-  "toast_chainExecuted": { "message": "チェーンを実行しました: $1" },
-  "toast_executeFailed": { "message": "実行に失敗しました" },
-  "toast_defaultSet": { "message": "デフォルトのチェーンを設定しました" },
-  "toast_newChainAdded": { "message": "新しいチェーンを追加しました" },
-  "toast_atLeastOne": { "message": "チェーンを少なくとも 1 つ残す必要があります" },
-  "toast_extensionsRefreshed": { "message": "$1 個の拡張機能を更新しました" },
-  "toast_refreshExtensionsFailed": { "message": "拡張機能の更新に失敗しました" },
-  "toast_selectExtensionFirst": { "message": "先に拡張機能を選択してください" },
-  "toast_commandsRefreshed": { "message": "コマンド一覧を更新しました" },
-  "toast_refreshCommandsFailed": { "message": "コマンド一覧の更新に失敗しました" },
-  "toast_chainDuplicated": { "message": "チェーンを複製しました" },
-  "toast_configExported": { "message": "設定をエクスポートしました" },
-  "toast_configImported": { "message": "設定をインポートしました" },
-  "toast_importFailed": { "message": "インポートに失敗しました: $1" },
-  "toast_saveFailed": { "message": "保存に失敗しました: $1" },
-  "toast_defaultsRestored": { "message": "デフォルトのアクションチェーンを復元しました" },
-  "toast_restoreDefaultsFailed": { "message": "デフォルトへの復元に失敗しました" },
-  "confirm_importOverwrite": { "message": "インポートすると現在の設定全体が置き換えられます。続行しますか？" },
-  "confirm_restoreDefaults": { "message": "デフォルトに戻すと、現在のすべてのアクションチェーンが置き換えられます。続行しますか？" },
-  "error_invalidConfigFile": { "message": "無効な設定ファイルです" },
-
-  "content_urlCopied": { "message": "URL をクリップボードにコピーしました" },
-  "content_titleCopied": { "message": "タイトルをクリップボードにコピーしました" },
-  "content_markdownCopied": { "message": "Markdown リンクをクリップボードにコピーしました" },
-  "content_copyFailed": { "message": "コピーに失敗しました。手動でコピーしてください" },
-  "content_bookmarkAdded": { "message": "ページをブックマークしました" },
-  "content_bookmarkExists": { "message": "すでにブックマーク済みです" },
-  "content_selectionCopied": { "message": "選択範囲をクリップボードにコピーしました" },
-  "content_noSelection": { "message": "テキストが選択されていません" },
-  "content_noMedia": { "message": "このページにメディアが見つかりません" },
-  "content_playbackRate": { "message": "再生速度: $1x" },
-  "content_darkModeOn": { "message": "ダークモード オン" },
-  "content_darkModeOff": { "message": "ダークモード オフ" },
-  "msg_duplicateTabsClosed": { "message": "$1 個の重複タブを閉じました" },
-  "error_incognitoNotAllowed": { "message": "先にシークレットモードでこの拡張機能を許可してください（chrome://extensions）" },
-  "msg_noAudibleTab": { "message": "音声が出ているタブがありません" },
-  "msg_tabsBookmarked": { "message": "$1 個のタブをブックマークしました" },
-  "msg_readLaterAdded": { "message": "リーディングリストに追加しました" },
-  "msg_readLaterExists": { "message": "すでにリーディングリストにあります" },
-  "msg_readingListUnsupported": { "message": "このブラウザはリーディングリスト API をサポートしていません" },
-  "msg_cacheCleared": { "message": "ブラウザのキャッシュを削除しました" },
-  "msg_siteDataCleared": { "message": "サイトのデータを削除しました" },
-  "msg_historyDeleted": { "message": "履歴から削除しました" },
-  "msg_keepAwakeOn": { "message": "スリープ防止 オン" },
-  "msg_keepAwakeOff": { "message": "スリープ防止 オフ" },
-  "msg_chainErrors": { "message": "チェーン $1: $2 個のアクションが失敗しました" },
-  "menu_pageParent": { "message": "アクションチェーンを実行" },
-  "toast_chainExported": { "message": "チェーンをエクスポートしました" },
-  "toast_chainImported": { "message": "チェーンをインポートしました: $1" },
-  "content_close": { "message": "閉じる" },
-  "msg_uninstall_requested": { "message": "アンインストールを要求しました" },
-  "actionName_copy_text": { "message": "書式を指定してコピー" },
-  "actionName_confirm": { "message": "確認してから続行" },
-  "label_copyText": { "message": "コピーする内容" },
-  "placeholder_copyText": { "message": "例: {title} — {url}" },
-  "label_confirmText": { "message": "確認メッセージ" },
-  "placeholder_confirmText": { "message": "例: 他のタブをすべて閉じますか？" },
-  "hint_confirm": { "message": "ページ上に確認ダイアログを表示します。「続行」を選んだときだけ後続の動作を実行し、「キャンセル」ならチェーン全体を停止します。ダイアログを表示できないページ（chrome:// で始まるページなど）でも停止します。" },
-  "confirm_defaultText": { "message": "続行しますか？" },
-  "content_textCopied": { "message": "クリップボードにコピーしました" },
-  "content_continue": { "message": "続行" },
-  "content_cancel": { "message": "キャンセル" },
-  "tmpl_copyPageInfo": { "message": "ページ情報をコピー" },
-  "tmpl_safeCloseOthers": { "message": "他のタブを閉じる（確認あり）" },
-  "tmpl_safeCloseOthers_ask": { "message": "他のタブをすべて閉じますか？" },
-  "confirm_importChain": { "message": "アクションチェーン「$1」をインポートしますか？" },
-  "actions_count_one": { "message": "件のアクション" },
-  "card_addActions": { "message": "アクションを追加" },
-  "actions_remove": { "message": "アクションを削除" },
-  "label_msValue": { "message": "$1ミリ秒" },
-  "empty_title": { "message": "アクションチェーンがまだありません" },
-  "empty_body": { "message": "テンプレートから始めるのが一番早いです。空のチェーンを作って自分で組むこともできます。" },
-  "footer_source": { "message": "ソースとフィードバック" }
+  "extName": {
+    "message": "Hotkey Chain"
+  },
+  "extDescription": {
+    "message": "ブラウザ用のショートカット。103+種類のアクションを連鎖させ、ホットキー、アドレスバー、右クリック、スケジュール、URLマッチで実行できます。"
+  },
+  "appName": {
+    "message": "Hotkey Chain"
+  },
+  "thisExtension": {
+    "message": "この拡張機能"
+  },
+  "appTitle": {
+    "message": "Hotkey Chain の設定"
+  },
+  "appSubtitle": {
+    "message": "ブラウザ操作をつないで、ショートカット一発で実行"
+  },
+  "toolbar_add": {
+    "message": "新規チェーン"
+  },
+  "toolbar_export": {
+    "message": "エクスポート"
+  },
+  "toolbar_import": {
+    "message": "インポート"
+  },
+  "toolbar_restoreDefaults": {
+    "message": "デフォルトに戻す"
+  },
+  "toolbar_shortcuts": {
+    "message": "キーボードショートカット"
+  },
+  "toolbar_templates": {
+    "message": "テンプレートから作成"
+  },
+  "tmpl_focusMode": {
+    "message": "集中モード"
+  },
+  "tmpl_tabCleanup": {
+    "message": "タブの整理"
+  },
+  "tmpl_snapshot": {
+    "message": "スナップショットと保存"
+  },
+  "tmpl_readAloud": {
+    "message": "読み上げ"
+  },
+  "tmpl_wrapUp": {
+    "message": "作業終了モード"
+  },
+  "extTmpl_genericName": {
+    "message": "汎用拡張機能"
+  },
+  "extTmpl_toggleAdblock": {
+    "message": "広告ブロックの切り替え"
+  },
+  "extTmpl_pauseBlocking": {
+    "message": "ブロックを一時停止"
+  },
+  "extTmpl_resumeBlocking": {
+    "message": "ブロックを再開"
+  },
+  "extTmpl_toggleBlocker": {
+    "message": "ブロッカーの切り替え"
+  },
+  "extTmpl_reloadFilters": {
+    "message": "フィルターを再読み込み"
+  },
+  "extTmpl_fillForm": {
+    "message": "フォームに入力"
+  },
+  "extTmpl_openVault": {
+    "message": "保管庫を開く"
+  },
+  "extTmpl_generatePassword": {
+    "message": "パスワードを生成"
+  },
+  "extTmpl_autofill": {
+    "message": "自動入力"
+  },
+  "extTmpl_openPopup": {
+    "message": "ポップアップを開く"
+  },
+  "extTmpl_captureRequest": {
+    "message": "リクエストをキャプチャ"
+  },
+  "extTmpl_importRequest": {
+    "message": "リクエストをインポート"
+  },
+  "extTmpl_showRuler": {
+    "message": "ルーラーを表示"
+  },
+  "extTmpl_disableCss": {
+    "message": "CSS を無効化"
+  },
+  "extTmpl_translatePage": {
+    "message": "ページを翻訳"
+  },
+  "extTmpl_translateSelection": {
+    "message": "選択範囲を翻訳"
+  },
+  "extTmpl_captureFullPage": {
+    "message": "ページ全体をキャプチャ"
+  },
+  "extTmpl_captureVisible": {
+    "message": "表示領域をキャプチャ"
+  },
+  "extTmpl_toggleFeature": {
+    "message": "機能の切り替え"
+  },
+  "extTmpl_runMain": {
+    "message": "メインアクションを実行"
+  },
+  "extTmpl_refresh": {
+    "message": "更新"
+  },
+  "extTmpl_reset": {
+    "message": "リセット"
+  },
+  "help_title": {
+    "message": "利用可能なアクション"
+  },
+  "edit_title": {
+    "message": "チェーンを編集"
+  },
+  "edit_back": {
+    "message": "戻る"
+  },
+  "edit_test": {
+    "message": "テスト実行"
+  },
+  "edit_exportChain": {
+    "message": "このチェーンをエクスポート"
+  },
+  "info_triggers": {
+    "message": "自動トリガー"
+  },
+  "info_schedule": {
+    "message": "実行間隔（分、0 = 無効）"
+  },
+  "info_autoRun": {
+    "message": "ページ読み込み時に自動実行（URL パターン）"
+  },
+  "info_autoRun_placeholder": {
+    "message": "例: *://github.com/*；複数のパターンはカンマまたは改行で区切ります"
+  },
+  "info_basic": {
+    "message": "基本情報"
+  },
+  "info_name": {
+    "message": "チェーン名"
+  },
+  "info_name_placeholder": {
+    "message": "チェーン名を入力"
+  },
+  "info_desc": {
+    "message": "説明"
+  },
+  "info_desc_placeholder": {
+    "message": "任意: このチェーンの目的を記述します"
+  },
+  "info_default": {
+    "message": "デフォルトのチェーンに設定"
+  },
+  "actions_title": {
+    "message": "アクション"
+  },
+  "actions_add": {
+    "message": "アクションを追加"
+  },
+  "actions_none": {
+    "message": "アクションがありません"
+  },
+  "actions_more": {
+    "message": "件の追加アクション"
+  },
+  "actions_count": {
+    "message": "件のアクション"
+  },
+  "card_exec": {
+    "message": "実行"
+  },
+  "card_edit": {
+    "message": "編集"
+  },
+  "card_duplicate": {
+    "message": "複製"
+  },
+  "card_delete": {
+    "message": "削除"
+  },
+  "suffix_copy": {
+    "message": "（コピー）"
+  },
+  "action_defaultTitle": {
+    "message": "Hotkey Chain - クリックでデフォルトアクションを実行"
+  },
+  "cmd_execute_action": {
+    "message": "デフォルトのアクションチェーンを実行"
+  },
+  "cmd_execute_chain_1": {
+    "message": "アクションチェーン 1"
+  },
+  "cmd_execute_chain_2": {
+    "message": "アクションチェーン 2"
+  },
+  "cmd_execute_chain_3": {
+    "message": "アクションチェーン 3"
+  },
+  "cmd_execute_chain_4": {
+    "message": "アクションチェーン 4"
+  },
+  "cmd_execute_chain_5": {
+    "message": "アクションチェーン 5"
+  },
+  "cmd_execute_chain_6": {
+    "message": "アクションチェーン 6"
+  },
+  "cmd_execute_chain_7": {
+    "message": "アクションチェーン 7"
+  },
+  "cmd_execute_chain_8": {
+    "message": "アクションチェーン 8"
+  },
+  "cmd_execute_chain_9": {
+    "message": "アクションチェーン 9"
+  },
+  "menu_executeDefault": {
+    "message": "デフォルトのアクションチェーンを実行"
+  },
+  "menu_options": {
+    "message": "設定を開く"
+  },
+  "settings_language": {
+    "message": "言語"
+  },
+  "language_auto": {
+    "message": "自動（ブラウザに従う）"
+  },
+  "defaultChain_reading": {
+    "message": "読書モード"
+  },
+  "defaultChain_tidyTabs": {
+    "message": "タブを整理"
+  },
+  "defaultChain_copyMarkdown": {
+    "message": "Markdown としてコピー"
+  },
+  "actionName_scroll_to_top": {
+    "message": "最上部へスクロール"
+  },
+  "actionName_scroll_to_bottom": {
+    "message": "最下部へスクロール"
+  },
+  "actionName_reload_page": {
+    "message": "ページを再読み込み"
+  },
+  "actionName_close_tab": {
+    "message": "タブを閉じる"
+  },
+  "actionName_new_tab": {
+    "message": "新しいタブ"
+  },
+  "actionName_copy_url": {
+    "message": "URL をコピー"
+  },
+  "actionName_copy_title": {
+    "message": "タイトルをコピー"
+  },
+  "actionName_toggle_fullscreen": {
+    "message": "全画面表示の切り替え"
+  },
+  "actionName_zoom_in": {
+    "message": "拡大"
+  },
+  "actionName_zoom_out": {
+    "message": "縮小"
+  },
+  "actionName_zoom_reset": {
+    "message": "ズームをリセット"
+  },
+  "actionName_go_back": {
+    "message": "戻る"
+  },
+  "actionName_go_forward": {
+    "message": "進む"
+  },
+  "actionName_bookmark_page": {
+    "message": "ページをブックマーク"
+  },
+  "actionName_copy_as_markdown": {
+    "message": "Markdown リンクとしてコピー"
+  },
+  "actionName_clear_cache": {
+    "message": "ハードリフレッシュ（キャッシュを無視）"
+  },
+  "actionName_duplicate_tab": {
+    "message": "タブを複製"
+  },
+  "actionName_pin_tab": {
+    "message": "タブの固定/固定解除"
+  },
+  "actionName_mute_tab": {
+    "message": "タブのミュート/ミュート解除"
+  },
+  "actionName_close_other_tabs": {
+    "message": "他のタブを閉じる"
+  },
+  "actionName_move_tab_left": {
+    "message": "タブを左へ移動"
+  },
+  "actionName_move_tab_right": {
+    "message": "タブを右へ移動"
+  },
+  "actionName_prev_tab": {
+    "message": "前のタブ"
+  },
+  "actionName_next_tab": {
+    "message": "次のタブ"
+  },
+  "actionName_new_window": {
+    "message": "新しいウィンドウ"
+  },
+  "actionName_reopen_closed_tab": {
+    "message": "閉じたタブを再度開く"
+  },
+  "actionName_print_page": {
+    "message": "ページを印刷"
+  },
+  "actionName_open_url": {
+    "message": "URL を開く"
+  },
+  "actionName_wait": {
+    "message": "待機"
+  },
+  "actionName_scroll_page_up": {
+    "message": "1 画面分上へスクロール"
+  },
+  "actionName_scroll_page_down": {
+    "message": "1 画面分下へスクロール"
+  },
+  "actionName_close_tabs_right": {
+    "message": "右側のタブを閉じる"
+  },
+  "actionName_close_window": {
+    "message": "ウィンドウを閉じる"
+  },
+  "actionName_toggle_dark_mode": {
+    "message": "ダークモードの切り替え"
+  },
+  "actionName_translate_page": {
+    "message": "ページを翻訳"
+  },
+  "actionName_media_play_pause": {
+    "message": "メディアの再生/一時停止"
+  },
+  "actionName_media_speed_up": {
+    "message": "再生速度を上げる"
+  },
+  "actionName_media_speed_down": {
+    "message": "再生速度を下げる"
+  },
+  "actionName_media_speed_reset": {
+    "message": "再生速度をリセット"
+  },
+  "actionName_close_left_tabs": {
+    "message": "左側のタブを閉じる"
+  },
+  "actionName_close_duplicate_tabs": {
+    "message": "重複したタブを閉じる"
+  },
+  "actionName_sort_tabs_by_url": {
+    "message": "URL でタブを並べ替え"
+  },
+  "actionName_group_tabs_by_domain": {
+    "message": "ドメインでタブをグループ化"
+  },
+  "actionName_ungroup_all_tabs": {
+    "message": "すべてのタブのグループを解除"
+  },
+  "actionName_mute_all_tabs": {
+    "message": "すべてのタブをミュート"
+  },
+  "actionName_unmute_all_tabs": {
+    "message": "すべてのタブのミュートを解除"
+  },
+  "actionName_reload_all_tabs": {
+    "message": "すべてのタブを再読み込み"
+  },
+  "actionName_move_tab_first": {
+    "message": "タブを先頭へ移動"
+  },
+  "actionName_move_tab_last": {
+    "message": "タブを末尾へ移動"
+  },
+  "actionName_move_tab_to_new_window": {
+    "message": "タブを新しいウィンドウへ移動"
+  },
+  "actionName_minimize_window": {
+    "message": "ウィンドウを最小化"
+  },
+  "actionName_maximize_window": {
+    "message": "ウィンドウを最大化"
+  },
+  "actionName_open_incognito_window": {
+    "message": "シークレットウィンドウを開く"
+  },
+  "actionName_copy_selected_text": {
+    "message": "選択したテキストをコピー"
+  },
+  "actionName_search_selection": {
+    "message": "選択したテキストを検索"
+  },
+  "actionName_speak_selection": {
+    "message": "選択範囲を読み上げ"
+  },
+  "actionName_stop_speaking": {
+    "message": "読み上げを停止"
+  },
+  "actionName_capture_screenshot": {
+    "message": "スクリーンショットを撮影（表示領域）"
+  },
+  "actionName_show_notification": {
+    "message": "通知を表示"
+  },
+  "actionName_open_browser_page": {
+    "message": "ブラウザページを開く"
+  },
+  "actionName_discard_other_tabs": {
+    "message": "他のタブを破棄（メモリを解放）"
+  },
+  "actionName_goto_audible_tab": {
+    "message": "音声が出ているタブへ移動"
+  },
+  "actionName_bookmark_all_tabs": {
+    "message": "すべてのタブをブックマーク"
+  },
+  "actionName_read_later": {
+    "message": "リーディングリストに追加"
+  },
+  "actionName_clear_browsing_cache": {
+    "message": "ブラウザのキャッシュを削除"
+  },
+  "actionName_clear_site_data": {
+    "message": "このサイトのデータを削除"
+  },
+  "actionName_delete_url_from_history": {
+    "message": "履歴からページを削除"
+  },
+  "actionName_toggle_keep_awake": {
+    "message": "スリープ防止の切り替え"
+  },
+  "actionName_show_downloads_folder": {
+    "message": "ダウンロードフォルダを表示"
+  },
+  "actionName_save_page_mhtml": {
+    "message": "ページを保存（MHTML）"
+  },
+  "actionName_if_url_matches": {
+    "message": "条件: URL が一致する場合に続行"
+  },
+  "actionName_if_has_selection": {
+    "message": "条件: テキストが選択されている場合に続行"
+  },
+  "actionName_run_chain": {
+    "message": "別のチェーンを実行"
+  },
+  "actionName_execute_command": {
+    "message": "コマンドを実行"
+  },
+  "actionName_call_extension": {
+    "message": "拡張機能を呼び出す"
+  },
+  "category_execute_command": {
+    "message": "コマンドを実行"
+  },
+  "category_flow": {
+    "message": "フロー制御"
+  },
+  "category_page_ops": {
+    "message": "ページ操作"
+  },
+  "category_tab_mgmt": {
+    "message": "タブ管理"
+  },
+  "category_window": {
+    "message": "ウィンドウ管理"
+  },
+  "category_media": {
+    "message": "メディア操作"
+  },
+  "category_zoom": {
+    "message": "ズーム操作"
+  },
+  "category_content": {
+    "message": "コンテンツ操作"
+  },
+  "category_advanced": {
+    "message": "高度な操作"
+  },
+  "category_extension": {
+    "message": "拡張機能の呼び出し"
+  },
+  "label_delay": {
+    "message": "遅延"
+  },
+  "label_ms": {
+    "message": "ミリ秒"
+  },
+  "label_selectExtension": {
+    "message": "拡張機能を選択"
+  },
+  "placeholder_selectInstalledExtension": {
+    "message": "-- インストール済みの拡張機能を選択 --"
+  },
+  "option_manualInputExtensionId": {
+    "message": "拡張機能 ID を手動入力"
+  },
+  "label_extensionId": {
+    "message": "拡張機能 ID"
+  },
+  "placeholder_extensionIdExample": {
+    "message": "拡張機能 ID（例: nfgcnddoajoekfpacfkehomkgmpndhob）"
+  },
+  "label_url": {
+    "message": "URL"
+  },
+  "placeholder_urlExample": {
+    "message": "URL（例: https://example.com）"
+  },
+  "label_openIn": {
+    "message": "開く場所"
+  },
+  "option_openIn_new": {
+    "message": "新しいタブ"
+  },
+  "option_openIn_current": {
+    "message": "現在のタブ"
+  },
+  "label_notifyText": {
+    "message": "通知テキスト"
+  },
+  "placeholder_notifyText": {
+    "message": "通知に表示するテキスト"
+  },
+  "label_browserPage": {
+    "message": "ブラウザページ"
+  },
+  "browserPage_downloads": {
+    "message": "ダウンロード"
+  },
+  "browserPage_history": {
+    "message": "履歴"
+  },
+  "browserPage_bookmarks": {
+    "message": "ブックマークマネージャー"
+  },
+  "browserPage_extensions": {
+    "message": "拡張機能"
+  },
+  "browserPage_settings": {
+    "message": "設定"
+  },
+  "browserPage_shortcuts": {
+    "message": "キーボードショートカット"
+  },
+  "browserPage_clear_browsing_data": {
+    "message": "閲覧履歴データの削除"
+  },
+  "label_pattern": {
+    "message": "URL パターン"
+  },
+  "placeholder_pattern": {
+    "message": "例: *://github.com/* またはキーワード；カンマで区切ります"
+  },
+  "label_runChain": {
+    "message": "実行するチェーン"
+  },
+  "placeholder_selectChain": {
+    "message": "-- チェーンを選択 --"
+  },
+  "hint_templateVars": {
+    "message": "変数: {url} {title} {selection} {clipboard} {date} {time}"
+  },
+  "hint_executeCommand": {
+    "message": "この拡張機能を選ぶと独自のアクションチェーンを実行できます。他の拡張機能を選ぶと、その拡張機能に対する管理操作（有効化/無効化、アンインストール、オプションを開くなど）が行われ、その拡張機能自身のショートカットは実行されません。"
+  },
+  "hint_callExtension": {
+    "message": "別の拡張機能にメッセージを送信します。その拡張機能が外部メッセージを受け付ける（externally_connectable）場合のみ動作します。ほとんどの拡張機能は受け付けないため、何も起こらない場合があります。"
+  },
+  "label_presetAction": {
+    "message": "プリセットアクション"
+  },
+  "placeholder_selectActionTemplate": {
+    "message": "-- アクションテンプレートを選択 --"
+  },
+  "option_customMessage": {
+    "message": "カスタムメッセージ"
+  },
+  "label_messageContent": {
+    "message": "メッセージ内容"
+  },
+  "placeholder_messageJson": {
+    "message": "メッセージ内容（JSON、例: {\"action\": \"toggle\"}）"
+  },
+  "label_selectCommand": {
+    "message": "コマンドを選択"
+  },
+  "placeholder_selectCommand": {
+    "message": "-- コマンドを選択 --"
+  },
+  "tooltip_refreshCommands": {
+    "message": "コマンドを更新"
+  },
+  "tooltip_setDefaultChain": {
+    "message": "デフォルトのチェーンに設定"
+  },
+  "tooltip_defaultChain": {
+    "message": "デフォルトのチェーン"
+  },
+  "newChain_defaultName": {
+    "message": "新しいチェーン"
+  },
+  "msg_extension_toggled": {
+    "message": "$1 を $2 にしました"
+  },
+  "state_enabled": {
+    "message": "有効"
+  },
+  "state_disabled": {
+    "message": "無効"
+  },
+  "label_extension": {
+    "message": "拡張機能"
+  },
+  "error_toggle_extension_failed": {
+    "message": "拡張機能の切り替えに失敗しました"
+  },
+  "error_uninstall_extension_failed": {
+    "message": "拡張機能のアンインストールに失敗しました"
+  },
+  "label_extension_name": {
+    "message": "拡張機能名"
+  },
+  "label_version": {
+    "message": "バージョン"
+  },
+  "label_description": {
+    "message": "説明"
+  },
+  "label_type": {
+    "message": "種類"
+  },
+  "label_install_type": {
+    "message": "インストール種別"
+  },
+  "label_permissions": {
+    "message": "権限"
+  },
+  "label_none": {
+    "message": "なし"
+  },
+  "label_homepage": {
+    "message": "ホームページ"
+  },
+  "label_error": {
+    "message": "エラー"
+  },
+  "error_get_extension_info_failed": {
+    "message": "拡張機能の情報の取得に失敗しました"
+  },
+  "label_app": {
+    "message": "アプリ"
+  },
+  "error_launch_app_failed": {
+    "message": "アプリの起動に失敗しました"
+  },
+  "label_command": {
+    "message": "コマンド"
+  },
+  "error_unknown_command": {
+    "message": "不明なコマンド: $1"
+  },
+  "error_execute_command_failed": {
+    "message": "コマンドの実行に失敗しました"
+  },
+  "cmd_toggle_extension_name": {
+    "message": "拡張機能の有効化/無効化"
+  },
+  "cmd_toggle_extension_desc": {
+    "message": "$1 の有効状態を切り替えます"
+  },
+  "cmd_uninstall_extension_name": {
+    "message": "拡張機能をアンインストール"
+  },
+  "cmd_uninstall_extension_desc": {
+    "message": "$1 をアンインストールします（確認が必要）"
+  },
+  "cmd_open_options_name": {
+    "message": "オプションを開く"
+  },
+  "cmd_open_options_desc": {
+    "message": "$1 のオプションページを開きます"
+  },
+  "cmd_open_details_name": {
+    "message": "詳細を開く"
+  },
+  "cmd_open_details_desc": {
+    "message": "拡張機能ページで $1 を表示します"
+  },
+  "cmd_show_info_name": {
+    "message": "拡張機能の情報を表示"
+  },
+  "cmd_show_info_desc": {
+    "message": "$1 の詳細情報を表示します"
+  },
+  "cmd_open_homepage_name": {
+    "message": "ホームページを開く"
+  },
+  "cmd_open_homepage_desc": {
+    "message": "$1 のホームページにアクセスします"
+  },
+  "cmd_reload_dev_name": {
+    "message": "開発版拡張機能を再読み込み"
+  },
+  "cmd_reload_dev_desc": {
+    "message": "開発版拡張機能 $1 を再読み込みします"
+  },
+  "cmd_launch_app_name": {
+    "message": "アプリを起動"
+  },
+  "cmd_launch_app_desc": {
+    "message": "Chrome アプリ $1 を起動します"
+  },
+  "cmd_open_store_name": {
+    "message": "ストアページを開く"
+  },
+  "cmd_open_store_desc": {
+    "message": "$1 の Chrome ウェブストアのページを開きます"
+  },
+  "label_unknownChain": {
+    "message": "不明なチェーン"
+  },
+  "msg_no_options_page": {
+    "message": "$1 にはオプションページがありません"
+  },
+  "msg_check_console_for_details": {
+    "message": "$1 の詳細: コンソールを確認してください"
+  },
+  "msg_no_homepage": {
+    "message": "$1 にはホームページが設定されていません"
+  },
+  "msg_dev_extension_reloaded": {
+    "message": "開発版拡張機能 $1 を再読み込みしました"
+  },
+  "msg_not_dev_extension": {
+    "message": "$1 は開発版拡張機能ではないため、再読み込みできません"
+  },
+  "msg_app_launched": {
+    "message": "Chrome アプリ $1 を起動しました"
+  },
+  "msg_not_chrome_app": {
+    "message": "$1 は Chrome アプリではないため、起動できません"
+  },
+  "toast_chainExecuted": {
+    "message": "チェーンを実行しました: $1"
+  },
+  "toast_executeFailed": {
+    "message": "実行に失敗しました"
+  },
+  "toast_defaultSet": {
+    "message": "デフォルトのチェーンを設定しました"
+  },
+  "toast_newChainAdded": {
+    "message": "新しいチェーンを追加しました"
+  },
+  "toast_atLeastOne": {
+    "message": "チェーンを少なくとも 1 つ残す必要があります"
+  },
+  "toast_extensionsRefreshed": {
+    "message": "$1 個の拡張機能を更新しました"
+  },
+  "toast_refreshExtensionsFailed": {
+    "message": "拡張機能の更新に失敗しました"
+  },
+  "toast_selectExtensionFirst": {
+    "message": "先に拡張機能を選択してください"
+  },
+  "toast_commandsRefreshed": {
+    "message": "コマンド一覧を更新しました"
+  },
+  "toast_refreshCommandsFailed": {
+    "message": "コマンド一覧の更新に失敗しました"
+  },
+  "toast_chainDuplicated": {
+    "message": "チェーンを複製しました"
+  },
+  "toast_configExported": {
+    "message": "設定をエクスポートしました"
+  },
+  "toast_configImported": {
+    "message": "設定をインポートしました"
+  },
+  "toast_importFailed": {
+    "message": "インポートに失敗しました: $1"
+  },
+  "toast_saveFailed": {
+    "message": "保存に失敗しました: $1"
+  },
+  "toast_defaultsRestored": {
+    "message": "デフォルトのアクションチェーンを復元しました"
+  },
+  "toast_restoreDefaultsFailed": {
+    "message": "デフォルトへの復元に失敗しました"
+  },
+  "confirm_importOverwrite": {
+    "message": "インポートすると現在の設定全体が置き換えられます。続行しますか？"
+  },
+  "confirm_restoreDefaults": {
+    "message": "デフォルトに戻すと、現在のすべてのアクションチェーンが置き換えられます。続行しますか？"
+  },
+  "error_invalidConfigFile": {
+    "message": "無効な設定ファイルです"
+  },
+  "content_urlCopied": {
+    "message": "URL をクリップボードにコピーしました"
+  },
+  "content_titleCopied": {
+    "message": "タイトルをクリップボードにコピーしました"
+  },
+  "content_markdownCopied": {
+    "message": "Markdown リンクをクリップボードにコピーしました"
+  },
+  "content_copyFailed": {
+    "message": "コピーに失敗しました。手動でコピーしてください"
+  },
+  "content_bookmarkAdded": {
+    "message": "ページをブックマークしました"
+  },
+  "content_bookmarkExists": {
+    "message": "すでにブックマーク済みです"
+  },
+  "content_selectionCopied": {
+    "message": "選択範囲をクリップボードにコピーしました"
+  },
+  "content_noSelection": {
+    "message": "テキストが選択されていません"
+  },
+  "content_noMedia": {
+    "message": "このページにメディアが見つかりません"
+  },
+  "content_playbackRate": {
+    "message": "再生速度: $1x"
+  },
+  "content_darkModeOn": {
+    "message": "ダークモード オン"
+  },
+  "content_darkModeOff": {
+    "message": "ダークモード オフ"
+  },
+  "msg_duplicateTabsClosed": {
+    "message": "$1 個の重複タブを閉じました"
+  },
+  "error_incognitoNotAllowed": {
+    "message": "先にシークレットモードでこの拡張機能を許可してください（chrome://extensions）"
+  },
+  "msg_noAudibleTab": {
+    "message": "音声が出ているタブがありません"
+  },
+  "msg_tabsBookmarked": {
+    "message": "$1 個のタブをブックマークしました"
+  },
+  "msg_readLaterAdded": {
+    "message": "リーディングリストに追加しました"
+  },
+  "msg_readLaterExists": {
+    "message": "すでにリーディングリストにあります"
+  },
+  "msg_readingListUnsupported": {
+    "message": "このブラウザはリーディングリスト API をサポートしていません"
+  },
+  "msg_cacheCleared": {
+    "message": "ブラウザのキャッシュを削除しました"
+  },
+  "msg_siteDataCleared": {
+    "message": "サイトのデータを削除しました"
+  },
+  "msg_historyDeleted": {
+    "message": "履歴から削除しました"
+  },
+  "msg_keepAwakeOn": {
+    "message": "スリープ防止 オン"
+  },
+  "msg_keepAwakeOff": {
+    "message": "スリープ防止 オフ"
+  },
+  "msg_chainErrors": {
+    "message": "チェーン $1: $2 個のアクションが失敗しました"
+  },
+  "menu_pageParent": {
+    "message": "アクションチェーンを実行"
+  },
+  "toast_chainExported": {
+    "message": "チェーンをエクスポートしました"
+  },
+  "toast_chainImported": {
+    "message": "チェーンをインポートしました: $1"
+  },
+  "content_close": {
+    "message": "閉じる"
+  },
+  "msg_uninstall_requested": {
+    "message": "アンインストールを要求しました"
+  },
+  "actionName_copy_text": {
+    "message": "書式を指定してコピー"
+  },
+  "actionName_confirm": {
+    "message": "確認してから続行"
+  },
+  "label_copyText": {
+    "message": "コピーする内容"
+  },
+  "placeholder_copyText": {
+    "message": "例: {title} — {url}"
+  },
+  "label_confirmText": {
+    "message": "確認メッセージ"
+  },
+  "placeholder_confirmText": {
+    "message": "例: 他のタブをすべて閉じますか？"
+  },
+  "hint_confirm": {
+    "message": "ページ上に確認ダイアログを表示します。「続行」を選んだときだけ後続の動作を実行し、「キャンセル」ならチェーン全体を停止します。ダイアログを表示できないページ（chrome:// で始まるページなど）でも停止します。"
+  },
+  "confirm_defaultText": {
+    "message": "続行しますか？"
+  },
+  "content_textCopied": {
+    "message": "クリップボードにコピーしました"
+  },
+  "content_continue": {
+    "message": "続行"
+  },
+  "content_cancel": {
+    "message": "キャンセル"
+  },
+  "tmpl_safeCloseOthers": {
+    "message": "他のタブを閉じる（確認あり）"
+  },
+  "tmpl_safeCloseOthers_ask": {
+    "message": "他のタブをすべて閉じますか？"
+  },
+  "confirm_importChain": {
+    "message": "アクションチェーン「$1」をインポートしますか？"
+  },
+  "actions_count_one": {
+    "message": "件のアクション"
+  },
+  "card_addActions": {
+    "message": "アクションを追加"
+  },
+  "actions_remove": {
+    "message": "アクションを削除"
+  },
+  "label_msValue": {
+    "message": "$1ミリ秒"
+  },
+  "empty_title": {
+    "message": "アクションチェーンがまだありません"
+  },
+  "empty_body": {
+    "message": "テンプレートから始めるのが一番早いです。空のチェーンを作って自分で組むこともできます。"
+  },
+  "footer_source": {
+    "message": "ソースとフィードバック"
+  },
+  "toolbar_sidePanel": {
+    "message": "サイドパネルを開く"
+  },
+  "ai_notSupported": {
+    "message": "このブラウザでは Chrome 内蔵 AI（Gemini Nano）を実行できません。デスクトップ版 Chrome（Windows/macOS/Linux/Chromebook Plus）、約 22 GB の空き容量、および VRAM 4 GB 超またはメモリ 16 GB が必要です。"
+  },
+  "ai_modelDownloading": {
+    "message": "Chrome AI モデルをダウンロード中です。しばらくしてから再試行してください"
+  },
+  "ai_noTextToProcess": {
+    "message": "テキストが選択されていないか、ページ内に見つかりません"
+  },
+  "ai_summaryCopied": {
+    "message": "AI 要約 (コピー済み)"
+  },
+  "ai_noSelection": {
+    "message": "先にテキストを選択してください"
+  },
+  "ai_explanationCopied": {
+    "message": "AI 解説 (コピー済み)"
+  },
+  "ai_translationCopied": {
+    "message": "AI 翻訳 (コピー済み)"
+  },
+  "msg_cookiesCleared": {
+    "message": "すべての Cookie を消去しました"
+  },
+  "msg_downloadsCleared": {
+    "message": "ダウンロード履歴を消去しました"
+  },
+  "actionName_open_side_panel": {
+    "message": "サイドパネルを開く"
+  },
+  "actionName_ai_summarize": {
+    "message": "AI で内容を要約"
+  },
+  "actionName_ai_explain": {
+    "message": "AI で選択範囲を解説"
+  },
+  "actionName_ai_translate": {
+    "message": "AI で選択範囲を翻訳"
+  },
+  "actionName_discard_current_tab": {
+    "message": "現在のタブを休止 (メモリ解放)"
+  },
+  "actionName_duplicate_tab_to_new_window": {
+    "message": "新しいウィンドウでタブを複製"
+  },
+  "actionName_collapse_all_groups": {
+    "message": "すべてのタブログループを折りたたむ"
+  },
+  "actionName_expand_all_groups": {
+    "message": "すべてのタブログループを展開"
+  },
+  "actionName_close_other_windows": {
+    "message": "他のウィンドウを閉じる"
+  },
+  "actionName_open_options_page": {
+    "message": "拡張機能の設定ページを開く"
+  },
+  "actionName_open_shortcuts_page": {
+    "message": "ショートカット管理を開く"
+  },
+  "actionName_reload_extension": {
+    "message": "拡張機能を再読み込み"
+  },
+  "actionName_open_action_popup": {
+    "message": "拡張機能ポップアップを開く"
+  },
+  "actionName_clear_cookies": {
+    "message": "すべての Cookie を削除"
+  },
+  "actionName_clear_downloads_history": {
+    "message": "ダウンロード履歴を削除"
+  },
+  "actionName_speak_text": {
+    "message": "指定したテキストを読み上げ"
+  },
+  "actionName_toggle_design_mode": {
+    "message": "ページ編集モードの切り替え (直接編集)"
+  },
+  "actionName_copy_page_html": {
+    "message": "ページの HTML ソースをコピー"
+  },
+  "actionName_extract_all_links": {
+    "message": "ページ内のすべてのリンクを抽出"
+  },
+  "actionName_extract_all_images": {
+    "message": "ページ内のすべての画像 URL を抽出"
+  },
+  "label_speakText": {
+    "message": "読み上げテキスト"
+  },
+  "placeholder_speakText": {
+    "message": "読み上げるテキスト ({title} などの変数に対応)"
+  },
+  "content_designModeOff": {
+    "message": "デザインモードが無効になりました"
+  },
+  "content_designModeOn": {
+    "message": "デザインモードが有効になりました (ページが直接編集可能)"
+  },
+  "content_pageHtmlCopied": {
+    "message": "ページの HTML をクリップボードにコピーしました"
+  },
+  "content_linksExtracted": {
+    "message": "ページ内のリンクをクリップボードに抽出しました"
+  },
+  "content_noLinksFound": {
+    "message": "ページ内にリンクが見つかりません"
+  },
+  "content_imagesExtracted": {
+    "message": "画像の URL をクリップボードに抽出しました"
+  },
+  "content_noImagesFound": {
+    "message": "ページ内に画像が見つかりません"
+  },
+  "sidepanel_title": {
+    "message": "Hotkey Chain"
+  },
+  "sidepanel_openSettings": {
+    "message": "設定"
+  },
+  "sidepanel_searchPlaceholder": {
+    "message": "アクションチェーンを検索..."
+  },
+  "sidepanel_noChainsFound": {
+    "message": "一致するチェーンが見つかりません"
+  },
+  "sidepanel_manageChains": {
+    "message": "+ チェーンの管理"
+  },
+  "sidepanel_chainsSuffix": {
+    "message": "件のチェーン"
+  },
+  "sidepanel_actionsSuffix": {
+    "message": "件のアクション"
+  },
+  "sidepanel_runChain": {
+    "message": "実行"
+  },
+  "sidepanel_executedPrefix": {
+    "message": "実行完了:"
+  },
+  "sidepanel_executionFailed": {
+    "message": "実行に失敗しました"
+  },
+  "tmpl_cat_all": {
+    "message": "すべてのテンプレート"
+  },
+  "tmpl_cat_ai": {
+    "message": "AI & スマート"
+  },
+  "tmpl_cat_tabs": {
+    "message": "タブとメモリ"
+  },
+  "tmpl_cat_reading": {
+    "message": "読書とメディア"
+  },
+  "tmpl_cat_developer": {
+    "message": "ウェブと開発"
+  },
+  "tmpl_cat_privacy": {
+    "message": "プライバシーとクリーン"
+  },
+  "tmpl_cat_workflow": {
+    "message": "日常のワークフロー"
+  },
+  "tmpl_gallery_title": {
+    "message": "アクションチェーンテンプレート集"
+  },
+  "tmpl_gallery_subtitle": {
+    "message": "すぐに使える自動化ワークフローを選択し、ワンクリックで追加・カスタマイズできます"
+  },
+  "tmpl_gallery_search_placeholder": {
+    "message": "テンプレート名、説明、アクションを検索..."
+  },
+  "tmpl_gallery_use": {
+    "message": "このテンプレートを使用"
+  },
+  "tmpl_gallery_actions_count": {
+    "message": "$1 件のアクション"
+  },
+  "tmpl_gallery_empty_title": {
+    "message": "一致するテンプレートが見つかりません"
+  },
+  "tmpl_gallery_empty_desc": {
+    "message": "別のキーワードで検索するか、上記のカテゴリを切り替えてください"
+  },
+  "tmpl_gallery_empty_reset": {
+    "message": "検索をリセット"
+  },
+  "tmpl_aiSummarize": {
+    "message": "AI ページ要約アシスタント"
+  },
+  "tmpl_aiExplain": {
+    "message": "AI 選択テキスト解説"
+  },
+  "tmpl_aiTranslate": {
+    "message": "AI 翻訳 & 音声読み上げ"
+  },
+  "tmpl_tabHibernateClean": {
+    "message": "メモリ解放 & タブ整理"
+  },
+  "tmpl_webEditor": {
+    "message": "ウェブページ直接編集モード"
+  },
+  "tmpl_extractMedia": {
+    "message": "ページ画像・リンク一括抽出"
+  },
+  "tmpl_cinemaMode": {
+    "message": "動画を再生して全画面表示"
+  },
+  "tmpl_privacyWipe": {
+    "message": "プライバシー高速クリーン"
+  },
+  "tmpl_copyMarkdown": {
+    "message": "Markdown リンクとしてコピー"
+  },
+  "tmpl_sidePanelCompanion": {
+    "message": "サイドパネルコンパニオン"
+  },
+  "tmpl_focusMode_desc": {
+    "message": "すべてのタブをミュートし、目に優しいダークモードに切り替えて全画面集中します"
+  },
+  "tmpl_tabCleanup_desc": {
+    "message": "重複タブを閉じ、URL順にソートしてドメインごとにグループ化します"
+  },
+  "tmpl_safeCloseOthers_desc": {
+    "message": "他のすべてのタブを閉じる前に確認ダイアログを表示して安全を確保します"
+  },
+  "tmpl_aiSummarize_desc": {
+    "message": "オンデバイス Gemini Nano AI でウェブページの要約を抽出し、サイドパネルに表示します"
+  },
+  "tmpl_aiExplain_desc": {
+    "message": "選択したテキストをオンデバイス AI が解説し、サイドパネルに知見を保存します"
+  },
+  "tmpl_aiTranslate_desc": {
+    "message": "選択テキストを AI で翻訳し、ブラウザの音声エンジンで読み上げます"
+  },
+  "tmpl_tabHibernateClean_desc": {
+    "message": "重複タブを閉じ、非アクティブなタブを休眠させてメモリを節約し、ドメインごとにグループ化します"
+  },
+  "tmpl_webEditor_desc": {
+    "message": "デザインモードを切り替え、Wordのように文字やレイアウトを自由に編集できます"
+  },
+  "tmpl_extractMedia_desc": {
+    "message": "現在のページからすべての画像とハイパーリンクを一度に抽出します"
+  },
+  "tmpl_cinemaMode_desc": {
+    "message": "ページの動画が再生されていることを確認し、全画面に切り替えて邪魔のない視聴を実現します"
+  },
+  "tmpl_readAloud_desc": {
+    "message": "ブラウザ標準の音声合成エンジンを使ってハイライトした文章を読み上げます"
+  },
+  "tmpl_privacyWipe_desc": {
+    "message": "確認後、すべてのサイトの Cookie とダウンロード履歴全体を消去します（現在のサイトだけではありません）"
+  },
+  "tmpl_copyMarkdown_desc": {
+    "message": "現在のページタイトルとURLをMarkdown形式でクリップボードにコピーします"
+  },
+  "tmpl_snapshot_desc": {
+    "message": "表示領域のスクリーンショットを撮影し、同時にブックマークに追加します"
+  },
+  "tmpl_wrapUp_desc": {
+    "message": "ブックマークで保存し、音声をミュートしてウィンドウを最小化して業務を終了します"
+  },
+  "tmpl_sidePanelCompanion_desc": {
+    "message": "Hotkey Chain サイドパネルを開き、ページの横でチェーンを実行・管理できます"
+  },
+  "tmpl_privacyWipe_ask": {
+    "message": "これは【すべてのサイト】の Cookie とダウンロード履歴を消去します（現在のサイトだけではありません）。続行しますか？"
+  },
+  "tmpl_gallery_footer_hint": {
+    "message": "任意のテンプレートをクリックして作成・編集できます。各パラメータは自由に調整可能です"
+  },
+  "actionPicker_title": {
+    "message": "アクションを追加"
+  },
+  "actionPicker_subtitle": {
+    "message": "検索またはカテゴリから選択し、クリックしてチェーンの末尾に追加します"
+  },
+  "actionPicker_searchPlaceholder": {
+    "message": "アクションを検索（例: ダーク、タブ、AI、ミュート、スクショ）..."
+  },
+  "actionPicker_allCategories": {
+    "message": "すべて"
+  },
+  "actionPicker_noResults": {
+    "message": "該当するアクションが見つかりません。別のキーワードをお試しください"
+  },
+  "shortcut_badge_omnibox": {
+    "message": "アドレスバー: hc + チェーン名"
+  },
+  "shortcut_hint_click": {
+    "message": "クリックして Chrome ショートカット設定を開く"
+  },
+  "empty_cta_templates": {
+    "message": "テンプレート集を見る"
+  },
+  "empty_cta_blank": {
+    "message": "新規空白チェーンを作成"
+  },
+  "tmpl_gallery_add_direct": {
+    "message": "マイチエーンに追加"
+  },
+  "tmpl_gallery_add_and_edit": {
+    "message": "追加してカスタマイズ"
+  },
+  "toast_chainAdded_actionRun": {
+    "message": "今すぐ実行"
+  },
+  "workflow_title": {
+    "message": "ワークフロー自動結合 (Pipeline)"
+  },
+  "workflow_subtitle": {
+    "message": "次のワークフローステージに自動接続し、前の出力データを下流へ引き渡します"
+  },
+  "workflow_nextChain": {
+    "message": "成功時：次のチェーンへ遷移"
+  },
+  "workflow_fallbackChain": {
+    "message": "エラー時：フォールバックチェーンを実行"
+  },
+  "workflow_noNextChain": {
+    "message": "(なし - 実行終了)"
+  },
+  "workflow_noFallbackChain": {
+    "message": "(なし - エラー時に停止)"
+  },
+  "workflow_passOutput": {
+    "message": "出力を下流へ引き渡す（{{output}} / 選択文字列）"
+  },
+  "workflow_chipTooltip": {
+    "message": "ワークフロー：完了後に自動で $1 へ進みます"
+  },
+  "workflow_elseChain": {
+    "message": "条件不一致時の分岐チェーン (任意)"
+  },
+  "workflow_noElseChain": {
+    "message": "(なし - 後続を停止)"
+  },
+  "workflow_incomingTooltip": {
+    "message": "ワークフロー下流ノード：他のチェーンからトリガーされます"
+  },
+  "workflow_step_current": {
+    "message": "現在のチェーン"
+  },
+  "workflow_step_next": {
+    "message": "後続ステージ：クリックで編集"
+  },
+  "workflow_step_incoming": {
+    "message": "先行ステージ：クリックで編集"
+  },
+  "workflow_fallback_label": {
+    "message": "予備"
+  },
+  "workflow_pipeline_active": {
+    "message": "パイプライン有効：$1 個の関連ノード"
+  },
+  "workflow_pipeline_single": {
+    "message": "単一チェーン（下流の連携なし）"
+  },
+  "workflow_step_end": {
+    "message": "終了"
+  },
+  "hint_hasSelection": {
+    "message": "テキストが選択されていれば続行し、選択されたテキストを {{output}} として後続アクションに渡します。"
+  },
+  "tmpl_workflowAiResearch": {
+    "message": "AI抽出＆要約ワークフロー"
+  },
+  "tmpl_workflowAiResearch_desc": {
+    "message": "ページのリンクを抽出し、AIで要約を生成してクリップボードに整形コピーします"
+  },
+  "tmpl_workflowReadLater": {
+    "message": "後で読む＆アーカイブパイプライン"
+  },
+  "tmpl_workflowReadLater_desc": {
+    "message": "WebページをMarkdown形式でクリップボードに保存し、同時にブックマークへ追加します"
+  },
+  "tmpl_aiKnowledgeCard": {
+    "message": "AI ナレッジカード作成"
+  },
+  "tmpl_aiKnowledgeCard_desc": {
+    "message": "端末内 AI で要点を抽出し、整形された Markdown メモカードとしてクリップボードにコピー"
+  },
+  "tmpl_workflowDevClean": {
+    "message": "フロントエンド開発用クリーンリセット"
+  },
+  "tmpl_workflowDevClean_desc": {
+    "message": "サイトデータとキャッシュをクリアしてハード再読み込みし、キャッシュの影響を排除"
+  },
+  "tmpl_workflowCleanWorkspace": {
+    "message": "集中作業用ワークスペース"
+  },
+  "tmpl_workflowCleanWorkspace_desc": {
+    "message": "現在のタブを新しい最大化ウィンドウに移動し、残りのタブを休止させてメモリを解放"
+  },
+  "tmpl_incognitoHandoff": {
+    "message": "シークレット引き継ぎと履歴消去"
+  },
+  "tmpl_incognitoHandoff_desc": {
+    "message": "現在のページをシークレットウィンドウで開き、元のタブを閉じて閲覧履歴からも削除"
+  },
+  "actionName_toggle_site_javascript": {
+    "message": "現在のサイトの JavaScript 有効/無効"
+  },
+  "actionName_toggle_site_images": {
+    "message": "現在のサイトの画像読み込み 有効/無効"
+  },
+  "actionName_toggle_site_popups": {
+    "message": "現在のサイトのポップアップブロック 有効/無効"
+  },
+  "actionName_open_top_sites": {
+    "message": "よくアクセスするサイトを開く"
+  },
+  "actionName_wait_for_navigation": {
+    "message": "ページの読み込み/移動完了を待機"
+  },
+  "msg_jsBlocked": {
+    "message": "このサイトの JavaScript を無効化しました"
+  },
+  "msg_jsAllowed": {
+    "message": "このサイトの JavaScript を有効化しました"
+  },
+  "msg_imagesBlocked": {
+    "message": "このサイトの画像読み込みを無効化しました"
+  },
+  "msg_imagesAllowed": {
+    "message": "このサイトの画像読み込みを有効化しました"
+  },
+  "msg_popupsBlocked": {
+    "message": "このサイトのポップアップをブロックしました"
+  },
+  "msg_popupsAllowed": {
+    "message": "このサイトのポップアップを許可しました"
+  },
+  "badge_requiresAi": {
+    "message": "オンデバイスAIが必要"
+  },
+  "hint_aiRequirement": {
+    "message": "Chrome 内蔵の Gemini Nano（Prompt API）で動作し、すべて端末内で完結します。十分な GPU またはメモリを備えたデスクトップ版 Chrome が必要です。API キーもフラグも不要です。"
+  },
+  "btn_checkAiStatus": {
+    "message": "オンデバイスAI状態を確認"
+  },
+  "ai_statusReady": {
+    "message": "ChromeオンデバイスAI（Gemini Nano）の準備が完了しており、すぐに使用できます。"
+  },
+  "ai_statusGuide": {
+    "message": "利用条件：\n1. デスクトップ版 Chrome（Windows / macOS / Linux / Chromebook Plus）。Android / iOS は非対応\n2. プロファイルのドライブに約 22 GB の空き容量。VRAM 4 GB 超、または 16 GB RAM + 4 コア以上\n3. モデルは初回利用時にダウンロードされます。進捗は chrome://on-device-internals で確認\n4. 初回ダウンロードには従量制でない回線が必要。以降はどのサーバーにもデータを送信しません"
+  },
+  "msg_noTopSites": {
+    "message": "閲覧履歴によくアクセスするサイトが見つかりませんでした"
+  },
+  "msg_topSitesOpened": {
+    "message": "バックグラウンドタブで  件のよくアクセスするサイトを開きました"
+  },
+  "tmpl_pureReader": {
+    "message": "ピュア・集中読書モード"
+  },
+  "tmpl_pureReader_desc": {
+    "message": "ポップアップと画像をブロックし、ダークモードで集中してテキストを読む"
+  },
+  "tmpl_siteScriptShield": {
+    "message": "スクリプト＆ポップアップ保護"
+  },
+  "tmpl_siteScriptShield_desc": {
+    "message": "サイトのJavaScriptとポップアップを一発で無効化し、迷惑なスクリプトを遮断"
+  },
+  "tmpl_workstationLaunch": {
+    "message": "ワークステーション起動パイプライン"
+  },
+  "tmpl_workstationLaunch_desc": {
+    "message": "よく使うサイトを一括で開き、重複を整理してドメインごとにグループ化"
+  },
+  "defaultChain_workstation": {
+    "message": "朝のワークステーション"
+  },
+  "defaultChain_workstation_note": {
+    "message": "ワークステーション準備完了：サイトを開いて整理しました"
+  },
+  "defaultChain_aiKnowledge": {
+    "message": "AIナレッジカード"
+  },
+  "defaultChain_aiKnowledge_note": {
+    "message": "AIナレッジカードを生成してコピーしました"
+  },
+  "defaultChain_pureReader": {
+    "message": "ピュア集中読書"
+  },
+  "defaultChain_devReset": {
+    "message": "開発リセットパイプライン"
+  },
+  "defaultChain_focusSandbox": {
+    "message": "集中サンドボックス"
+  },
+  "label_targetLang": {
+    "message": "翻訳先の言語"
+  },
+  "label_translateStyle": {
+    "message": "翻訳スタイル"
+  },
+  "label_summaryLang": {
+    "message": "要約の言語"
+  },
+  "label_summaryFormat": {
+    "message": "要約の形式"
+  },
+  "label_explainLang": {
+    "message": "解説の言語"
+  },
+  "label_explainStyle": {
+    "message": "解説の深さとスタイル"
+  },
+  "label_ttsLang": {
+    "message": "読み上げの音声言語"
+  },
+  "label_ttsSpeed": {
+    "message": "読み上げ速度"
+  },
+  "label_preferOutput": {
+    "message": "前のアクションの出力（AI翻訳結果等）を優先"
+  },
+  "opt_lang_auto": {
+    "message": "自動（ブラウザの UI 言語に従う）"
+  },
+  "opt_format_bullets": {
+    "message": "箇条書きリスト（推奨）"
+  },
+  "opt_format_concise": {
+    "message": "簡潔な段落"
+  },
+  "opt_format_detailed": {
+    "message": "詳細で構造化された要約"
+  },
+  "opt_format_oneSentence": {
+    "message": "一言でまとめた結論"
+  },
+  "opt_style_concise": {
+    "message": "簡潔で明快（標準）"
+  },
+  "opt_style_simple": {
+    "message": "初心者向け（平易な解説）"
+  },
+  "opt_style_technical": {
+    "message": "専門的な技術解説"
+  },
+  "opt_style_analogy": {
+    "message": "分かりやすい例え話"
+  },
+  "opt_trans_natural": {
+    "message": "自然で流暢（標準）"
+  },
+  "opt_trans_formal": {
+    "message": "ビジネス・フォーマル"
+  },
+  "opt_trans_literal": {
+    "message": "正確な直訳（用語重視）"
+  },
+  "actionName_media_play": {
+    "message": "メディアを再生（一時停止しない）"
+  },
+  "label_incognitoCurrent": {
+    "message": "新しいウィンドウで現在のページを開く"
+  },
+  "hint_incognitoCurrent": {
+    "message": "オフの場合は空のシークレットウィンドウのみを開きます。引き継ぎ系のチェーンではオンにしてください。オフのまま元のタブを閉じるとページが失われます。"
+  },
+  "tmpl_pipelineSummarySpeak": {
+    "message": "長文要約と読み上げパイプライン"
+  },
+  "tmpl_pipelineSummarySpeak_desc": {
+    "message": "オンデバイス AI で本文を要約し、完了後に2つ目のチェーンへ自動で渡して音声で読み上げます"
+  },
+  "tmpl_pipelineSummarySpeak_next": {
+    "message": "要約を読み上げる（パイプライン第2段）"
+  },
+  "tmpl_pipelineSummarySpeak_next_desc": {
+    "message": "最初のチェーンから自動で呼び出されます：前の手順の要約をシステム音声で読み上げます"
+  },
+  "tmpl_selectionSearch": {
+    "message": "選択テキストを検索（条件分岐）"
+  },
+  "tmpl_selectionSearch_desc": {
+    "message": "まず選択テキストの有無を判定します。あれば検索し、なければ2つ目のチェーンが選択を促します"
+  },
+  "tmpl_selectionSearch_else": {
+    "message": "選択を促す（分岐）"
+  },
+  "tmpl_selectionSearch_else_desc": {
+    "message": "条件が満たされないときに条件アクションから呼び出されます：先に検索したい文字を選択するよう促します"
+  },
+  "tmpl_selectionSearch_elseMsg": {
+    "message": "まずページ上で検索したい文字を選択してください"
+  },
+  "tmpl_reloadThenExtract": {
+    "message": "読み込み完了後にリンクを抽出"
+  },
+  "tmpl_reloadThenExtract_desc": {
+    "message": "ページを再読み込みし、読み込みが実際に完了するまで待ってから（SPA に有効）、すべての外部リンクを抽出してコピーします"
+  },
+  "ai_contentTooLong": {
+    "message": "内容がオンデバイスモデルの上限を超えています。選択範囲を短くして再試行してください。"
+  },
+  "progress_starting": {
+    "message": "開始中…"
+  },
+  "progress_done": {
+    "message": "完了"
+  },
+  "progress_failed": {
+    "message": "完了しましたがエラーがあります"
+  },
+  "label_noCopy": {
+    "message": "自動コピーしない（結果は後続のアクションに渡す）"
+  },
+  "hint_extractNoCopy": {
+    "message": "複数の抽出結果をまとめてコピーするチェーンではオンにしてください。オフのままだと中間結果がクリップボードを占有し、誤解を招く「コピーしました」が表示されます。"
+  },
+  "ai_diag_language": {
+    "message": "AI 出力言語"
+  },
+  "hint_actionLangOverrides": {
+    "message": "アクションで言語を指定するとグローバルなインターフェース言語を上書きします。「自動」を選ぶとインターフェース言語に従います（ツールバーの CPU アイコンの診断を参照）。"
+  },
+  "shortcut_badge_withKey": {
+    "message": "ショートカット: {key}"
+  },
+  "shortcut_badge_unset": {
+    "message": "ショートカット未設定"
+  }
 }

@@ -23,6 +23,17 @@ npm test           # or: node --test test.mjs
 
 Guards the failures that stay silent instead of loud: the two copies of the action list agree, every action has a display name, a category and a background handler, every i18n key used in the code exists in all 18 locales (a missing key shows the hard-coded fallback instead of the user's language), and `manifest.json` agrees with `package.json` on the version.
 
+Two of them guard the **docs** against drifting away from the code — because nothing else does:
+
+- **the numbers in the docs match the code.** The action count and the locale key count are written in 7 kinds of file, 50+ places (including all 18 `extDescription` strings and the 18-language store description). Don't hand-edit them:
+
+  ```bash
+  node scripts/sync-action-count.mjs           # rewrite every occurrence from the code
+  node scripts/sync-action-count.mjs --check   # CI mode: exit 1 if stale
+  ```
+
+- **the template table in `docs/API.md` matches `CHAIN_TEMPLATES`.** That table had drifted in 18 of 28 rows — a dozen still listed a `show_notification` step that had been removed, three were missing steps, two named the wrong action, one described a different chain entirely. When you change a template, the test tells you which row to fix.
+
 ### Build a package
 
 ```bash

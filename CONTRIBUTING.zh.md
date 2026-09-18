@@ -23,6 +23,17 @@ npm test           # 或：node --test test.mjs
 
 守的是那些「不会报错、只会静默失效」的问题：两份动作清单是否一致、每个动作是否都有显示名 / 分类 / 后台处理分支、代码里用到的每个 i18n key 是否 18 种语言都有（缺 key 时用户看到的是源码里的硬编码回退文案，而不是自己的语言）、`manifest.json` 与 `package.json` 的版本是否一致。
 
+其中两条专门守**文档与代码的漂移** —— 除此之外没有别的机制守它：
+
+- **文档里的数字要与代码一致。** 动作数和语言 key 数写在 7 类文件、50 多处（含 18 个 `extDescription` 与 18 语言的商店长描述）。**不要手改**：
+
+  ```bash
+  node scripts/sync-action-count.mjs           # 从代码重写所有出现处
+  node scripts/sync-action-count.mjs --check   # CI 模式：过期就退出码 1
+  ```
+
+- **`docs/API.md` 的模板表要与 `CHAIN_TEMPLATES` 一致。** 这张表曾漂移 18/28 行 —— 12 行还列着已删除的 `show_notification`、3 行少了动作、2 行动作名写错、1 行描述的其实是另一条链。改动模板后，测试会告诉你该修哪一行。
+
 ### 打包构建
 
 ```bash

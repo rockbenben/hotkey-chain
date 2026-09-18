@@ -28,9 +28,13 @@ Hotkey Chain lets users combine multiple browser actions into a reusable "chain"
 | `browsingData` | Powers "Clear browser cache" and "Clear this site's data" (only when the user runs those actions). |
 | `history` | Powers "Remove this page from history" (`chrome.history.deleteUrl`). |
 | `power` | Powers the "Keep awake" toggle (`chrome.power.requestKeepAwake`); released when toggled off. |
-| `readingList` | Powers "Add to reading list" (`chrome.readingList.addEntry`). |
+| `readingList` | Powers the single "Add to reading list" action. It calls `chrome.readingList.addEntry()` to save the current tab's title and URL to Chrome's own reading list, and runs only when the user triggers a chain containing that action. The extension never reads, edits or removes existing entries, and no reading-list data is sent anywhere — it stays in the user's browser. |
 | `search` | Powers "Search the selection" using the user's default search engine (`chrome.search.query`). |
 | `pageCapture` | Powers "Save page as MHTML" (`chrome.pageCapture.saveAsMHTML`). |
+| `sidePanel` | Opens the dedicated Hotkey Chain side panel companion and runs chains alongside the active page (`chrome.sidePanel.open`). |
+| `webNavigation` | Detects Single-Page Application (SPA) in-page route transitions (e.g. GitHub, YouTube, Next.js) to trigger configured URL auto-run chains, and powers the "Wait for page navigation" workflow action (`chrome.webNavigation`). |
+| `contentSettings` | Powers per-site content rule toggles: "Toggle JavaScript for site", "Toggle images for site", and "Toggle popups for site" (`chrome.contentSettings`). |
+| `topSites` | Powers the "Open top sites" action to launch the user's most frequently visited work sites in background tabs (`chrome.topSites.get`). |
 
 ## Host permission justification
 

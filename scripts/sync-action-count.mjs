@@ -23,10 +23,16 @@ const enPath = new URL("extension/_locales/en/messages.json", REPO);
 const COUNT_KEYS = Object.keys(JSON.parse(readFileSync(enPath, "utf8"))).length;
 
 // 每个语言里「动作」怎么写 —— 只在后面跟着这些词时才替换，避免误伤别的数字。
+// ⚠️ 这份词表必须覆盖**每种语言实际用的那个词**，否则那个语言会被静默跳过：
+// 实测 tr 写 `işlem`、vi 写 `thao tác`、hi 写 `एक्शन`（都不是下面已有的 eylem / hành động /
+// क्रिया），于是这 4 种语言的数字一直停在 102+ 而代码已是 103，`--check` 却报「一致」。
+// 泰语还要额外注意语序：`การกระทำ 103+ อย่าง` 里跟在数字后面的是 `อย่าง`，
+// 而下面的正则只认「数字在前」，所以 `อย่าง` 也得进表（`การกระทำ` 进表没用）。
 const ACTION_WORDS = [
   "actions", "action", "个动作", "个浏览器动作", "項動作", "種動作", "アクション", "동작",
   "acciones", "ações", "azioni", "Aktionen", "действий", "tindakan", "eylem", "hành động",
   "การกระทำ", "รายการ", "akcji", "إجراء", "क्रिया",
+  "işlem", "thao tác", "एक्शन", "อย่าง",
 ];
 const KEY_WORDS = ["keys", "条 key", "個 key", "キー", "키", "claves", "chaves", "chiavi", "Schlüssel", "ключ", "kunci", "anahtar", "khóa", "คีย์", "klucz", "مفتاح", "कुंजी"];
 const esc = (w) => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");

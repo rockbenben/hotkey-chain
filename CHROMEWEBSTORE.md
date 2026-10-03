@@ -11,28 +11,28 @@ Hotkey Chain
 Shortcuts for your browser: chain 103+ actions and run them by hotkey, address bar, right-click, schedule, or URL match.
 
 **Detailed Description** [REQUIRED]
-Hotkey Chain turns everyday browsing into one-click automations by letting you compose, chain, and trigger over 102 browser actions.
+Hotkey Chain turns everyday browsing into one-click automations. Compose a chain of browser actions, then run the whole chain from a single keystroke.
 
 Key Features:
-- Chain 103+ built-in actions: tab management, navigation, window control, page scripting, site permissions & content settings, media controls, audio TTS, reading list, screenshots, and on-device Chrome AI Prompt API.
-- Multiple trigger options: keyboard shortcuts (Ctrl+Shift+H for the default chain, Ctrl+Shift+1/2/3 for chains 1–3; chains 4–9 have bindable slots but no default key — Chrome caps suggested keys at 4), toolbar icon, side panel companion, omnibox command ("hc <name>"), in-page right-click context menu, recurring background schedule, or automatic page URL & SPA route matching.
-- Dedicated Side Panel: browse any webpage while triggering and inspecting chains from Chrome's side panel.
-- On-device AI integration: summarize, explain, and translate page content or text selections using Chrome's built-in Gemini Nano / Prompt API with zero external network requests.
+- Chain 103+ built-in actions spanning tabs, windows, pages, media, on-device AI, and extension control.
+- Trigger a chain however suits you: a keyboard shortcut (Ctrl+Shift+H runs the default chain, Ctrl+Shift+1/2/3 run chains 1–3), the toolbar icon, the side panel, an address-bar command, the right-click menu, a recurring schedule, or automatically when a matching page or single-page-app route loads.
+- Dedicated side panel: browse any webpage while triggering and inspecting chains beside it.
+- On-device AI: summarize, explain, or translate page content and text selections with the browser's built-in model. Nothing is sent to a server.
 - Workflow automation pipeline: orchestrate multi-chain execution (Chain A ➔ Chain B) with automatic success transitions, failure fallback routes, and context data piping ({output}, {{output}}, {prev.output}).
-- Full Chrome automation: toggle per-site JavaScript/images/popups, wait for page navigation, launch top work sites, group tabs by domain, collapse/expand tab groups, discard inactive tabs to reclaim memory, and organize across windows.
-- In-page power tools: toggle design mode for in-place editing, extract all page links or image URLs to clipboard, copy page HTML, or capture clean MHTML snapshots.
-- 28 modern categorized templates: AI knowledge card clipper, workstation launch, pure distraction-free reader, site script shield, frontend dev reset pipeline, isolated focus workspace sandbox, incognito handoff, RAM reclaim, in-place design editor, and multi-step research workflows.
+- Everyday automation: tidy and group your tabs, reclaim memory from inactive ones, wait for a page to finish loading, or adjust per-site permissions — each is one action in a chain.
+- In-page tools: edit a page in place, pull out every link or image URL, copy the page's HTML, or capture a clean MHTML snapshot.
+- 28 ready-made templates, grouped by category and searchable by name, so you can start from a working chain instead of an empty one.
 - Inter-extension automation: call commands and send messages to other installed extensions.
 - Full privacy: 100% offline, local configuration storage, zero tracking, zero analytics, zero data collection.
 
 How to Use:
 1. Click the Hotkey Chain toolbar icon or press Ctrl+Shift+H to open Settings or run your default chain.
-2. Click "New Chain" or pick from 28 ready-made presets (AI Knowledge Card, Daily Workstation, Dev Reset Pipeline, Focus Sandbox, Tab Cleanup, Video Fullscreen, Snapshot & Save).
+2. Start from one of the 28 ready-made templates, or create a blank chain.
 3. Add actions to your chain in sequence with optional delays and parameters.
 4. Assign a keyboard shortcut or trigger rule, and run it whenever you browse.
 
 Privacy & Permissions:
-Hotkey Chain runs entirely on your device. It makes no remote server calls, collects no personal information, and stores all chains locally in chrome.storage.local. Every permission requested maps directly to a user-configured chain action.
+Hotkey Chain runs entirely on your device. It makes no remote server calls, collects no personal information, and keeps your chains in your browser's local storage. Every permission it requests maps directly to a chain action you configure.
 
 Support & Feedback:
 Open-source on GitHub: https://github.com/rockbenben/hotkey-chain
@@ -69,38 +69,56 @@ English
 - Screenshot 2: Visual chain editor — drag-and-drop actions, per-step delays, and template variables.
 - Screenshot 3: Template gallery — 28 presets with category filters and instant search.
 - Screenshot 4: Per-chain schedule and URL auto-run triggers.
-- Screenshot 5: Grouped action picker covering tab management, Chrome AI actions, and in-page utilities.
+- Screenshot 5: Grouped action picker covering tab management, on-device AI actions, and in-page utilities.
 
 ## Permissions Justification
 
 | Permission | Type | Justification |
 |------------|------|---------------|
-| `storage` | permissions | Stores the user's chains, settings, chosen interface language, and keep-awake state locally via chrome.storage.local. No remote storage. |
-| `activeTab` | permissions | Runs page actions (scroll, copy, dark mode, design mode, etc.) on the tab the user is currently viewing when a chain is triggered. |
-| `scripting` | permissions | Injects content script on demand and executes small helper functions in the page to read text selection, clipboard, and page outerHTML for user-initiated actions. |
+| `storage` | permissions | Stores the user's chains, settings, chosen interface language, and keep-awake state locally via `chrome.storage.local`. No remote storage. |
+| `activeTab` | permissions | Runs page actions (scroll, reload, fullscreen, dark mode, design mode, copy, translate, screenshot, …) on the tab the user is currently viewing when they trigger a chain. This grant is why those actions work without asking for access to every site up front. |
+| `scripting` | permissions | Injects the content script on demand and executes small helper functions in the page to read text selection, clipboard, and page outerHTML for user-initiated actions. Nothing is injected or read unless a chain runs. |
 | `tabs` | permissions | Reads tab URLs and titles to close duplicates, sort tabs by URL, group by domain, discard tabs to free RAM, switch/move tabs, substitute {url} and {title} template variables, and evaluate URL auto-run rules. |
-| `tabGroups` | permissions | Powers "Group tabs by domain", "Ungroup all tabs", "Collapse all tab groups", and "Expand all tab groups" via chrome.tabGroups. |
-| `sessions` | permissions | Powers the "Reopen closed tab" action (chrome.sessions.restore). |
-| `contextMenus` | permissions | Adds toolbar-icon and in-page right-click menus that let users run a chain on a page, selection, link, image, or media element. |
-| `bookmarks` | permissions | Powers "Bookmark page" and "Bookmark all tabs" (chrome.bookmarks.create). |
-| `management` | permissions | Lists installed extensions and powers optional extension-control actions: enable/disable, uninstall (with native browser confirmation), reload dev extensions, and trigger extension commands. |
+| `tabGroups` | permissions | Powers "Group tabs by domain", "Ungroup all tabs", "Collapse all tab groups", and "Expand all tab groups" via `chrome.tabGroups`. |
+| `sessions` | permissions | Powers the "Reopen closed tab" action (`chrome.sessions.restore`). |
+| `contextMenus` | permissions | Adds the toolbar-icon and in-page right-click menus that let users run a chain on a page, selection, link, image, or media element. |
+| `bookmarks` | permissions | Powers "Bookmark page" and "Bookmark all tabs" (`chrome.bookmarks.create`). |
+| `management` | permissions | Lists installed extensions and powers the optional extension-control actions: enable/disable, uninstall (with the browser's own confirmation), reload a dev extension, launch a Chrome app, show extension info, and trigger another extension's commands. |
 | `clipboardWrite` | permissions | Powers "Copy URL/Title/Selection", "Copy as Markdown link", "Copy page HTML", and "Extract all links/images". |
 | `clipboardRead` | permissions | Reads the clipboard only when a user-configured chain uses the {clipboard} template variable. |
 | `downloads` | permissions | Saves screenshots and MHTML page archives to the Downloads folder, and opens the downloads folder. |
 | `notifications` | permissions | Shows the "Show notification" action, AI summary results, and surfaces chain run execution feedback and error messages. |
-| `tts` | permissions | Powers "Read selection aloud", "Speak custom text", and "Stop reading" via chrome.tts. |
-| `alarms` | permissions | Runs chains on a user-set schedule (every N minutes) via chrome.alarms. |
+| `tts` | permissions | Powers "Read selection aloud", "Speak custom text", and "Stop reading" via `chrome.tts`. |
+| `alarms` | permissions | Runs chains on a user-set schedule (every N minutes) via `chrome.alarms`. |
 | `browsingData` | permissions | Powers "Clear browser cache", "Clear this site's data", "Clear all cookies", and "Clear downloads history" only when the user explicitly triggers those actions. |
-| `history` | permissions | Powers "Remove this page from history" (chrome.history.deleteUrl). |
-| `power` | permissions | Powers the "Keep awake" toggle (chrome.power.requestKeepAwake); released when toggled off. |
-| `readingList` | permissions | Powers "Add to reading list" (chrome.readingList.addEntry) to save the current tab's title and URL to Chrome's native reading list upon user request. |
-| `search` | permissions | Powers "Search the selection" using the user's default search engine (chrome.search.query). |
-| `pageCapture` | permissions | Powers "Save page as MHTML" (chrome.pageCapture.saveAsMHTML). |
-| `sidePanel` | permissions | Powers the dedicated Hotkey Chain side panel companion and "Open side panel" action (chrome.sidePanel.open) to manage and run chains alongside any webpage. |
-| `webNavigation` | permissions | Detects Single-Page Application (SPA) in-page route transitions (e.g. GitHub, YouTube, Next.js) to trigger configured URL auto-run chains, and powers the "Wait for page navigation" workflow action (chrome.webNavigation). |
-| `contentSettings` | permissions | Powers per-site content rule toggles: "Toggle JavaScript for site", "Toggle images for site", and "Toggle popups for site" (chrome.contentSettings). |
-| `topSites` | permissions | Powers the "Open top sites" action to launch the user's most frequently visited work sites in background tabs (chrome.topSites.get). |
-| `<all_urls>` | host_permissions | A chain can run user-initiated page actions (scroll, copy selection, toggle design mode, extract links/images, capture screenshot, save MHTML, etc.) on whatever page the user is viewing, and URL auto-run rules must match target URLs. The extension only executes on a page when the user explicitly triggers a chain or when an auto-run rule configured by the user matches. |
+| `history` | permissions | Powers "Remove this page from history" (`chrome.history.deleteUrl`). |
+| `power` | permissions | Powers the "Keep awake" toggle (`chrome.power.requestKeepAwake`); released when toggled off. |
+| `readingList` | permissions | Powers the single "Add to reading list" action. It calls `chrome.readingList.addEntry()` to save the current tab's title and URL to Chrome's own reading list, and runs only when the user triggers a chain containing that action. The extension never reads, edits or removes existing entries, and no reading-list data is sent anywhere — it stays in the user's browser. |
+| `search` | permissions | Powers "Search the selection" using the user's default search engine (`chrome.search.query`). |
+| `pageCapture` | permissions | Powers "Save page as MHTML" (`chrome.pageCapture.saveAsMHTML`). |
+| `sidePanel` | permissions | Powers the dedicated Hotkey Chain side panel companion and the "Open side panel" action (`chrome.sidePanel.open`) to manage and run chains alongside any webpage. |
+| `webNavigation` | permissions | Detects Single-Page Application (SPA) in-page route transitions (e.g. GitHub, YouTube, Next.js) to trigger configured URL auto-run chains, and powers the "Wait for page navigation" workflow action (`chrome.webNavigation`). |
+| `contentSettings` | permissions | Powers per-site content rule toggles: "Toggle JavaScript for site", "Toggle images for site", and "Toggle popups for site" (`chrome.contentSettings`). |
+| `topSites` | permissions | Powers the "Open top sites" action to launch the user's most frequently visited work sites in background tabs (`chrome.topSites.get`). |
+| `<all_urls>` | host_permissions | Two things need this host permission. **(1) User-triggered page actions** — scroll, copy the selection, toggle dark mode or design mode, extract links/images, capture a screenshot, save as MHTML, translate, … must be able to run on whatever page the user is looking at, so the scope cannot be narrowed to a fixed list of sites. **(2) URL auto-run rules** the user configured must be matched against page URLs. The extension only executes on a page when the user triggers a chain, or when an auto-run rule they created matches. |
+
+### Why a content script is declared for all URLs
+
+The manifest also declares `content_scripts` for `<all_urls>` at `document_idle`, so a
+content script is loaded on every page. This is deliberate, and it is worth stating plainly
+because it is the broadest-looking thing in the manifest:
+
+- **It is a passive message listener.** On load it registers a `chrome.runtime.onMessage`
+  listener and reads the extension's own bundled locale file (via `chrome.runtime.getURL()`).
+  It reads nothing from the page and sends nothing anywhere.
+- **It only acts when the user acts.** Every handler is driven by a message the background
+  sends while a chain runs. No chain, no reads.
+- **Why it is declared rather than injected on demand.** The extension can inject on demand —
+  and does, as a fallback for tabs opened before install or update — but the in-page progress
+  HUD must be able to appear *while* a chain runs, and the HUD deliberately does **not** trigger
+  injection (spawning a whole content script just to draw a progress bar is not a trade worth
+  making). Declaring the script is what makes the HUD work on any page the user starts a chain
+  from.
 
 ## Privacy & Data Use
 

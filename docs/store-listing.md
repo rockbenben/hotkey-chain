@@ -56,7 +56,7 @@
 
 **103+ 个动作，十个分组**
 
-页面（滚动、刷新、全屏、深色模式、当前站点 JS/图片/弹窗权限开/关、翻译、打印）· 标签页（关重复、按网址排序、按域名分组、打开常用工作台站点、静音、休眠释放内存、重开已关闭）· 窗口（侧边栏、分屏）· 媒体（播放控制、朗读选中文字、TTS）· 内容与端侧 AI（端侧 Gemini Nano 总结 / 解释 / 翻译、提取所有链接 / 图片、复制网址 / 标题 / Markdown 链接 / 自定义格式、搜索选中文字、加书签、加入阅读清单）· 缩放 · 流程控制（条件判断、询问确认、等待导航完成、子链）· 高级（截图、保存为 MHTML、清缓存、保持唤醒、快捷键管理）· 扩展管理。
+动作按用途分成十组：页面、标签页、窗口、媒体、内容与端侧 AI、缩放、流程控制、高级工具与扩展管理。关闭重复标签页、按域名分组、朗读选中文字、把页面存成 MHTML，都只是其中的一项。完整清单在选项页的动作选择器里，可按分类浏览或直接搜索。
 
 **危险动作，先问一句**
 
@@ -66,7 +66,7 @@
 
 **开箱即用**
 
-28 个分类一键模板（AI 知识卡片速记、每日工作台启动、纯净无扰阅读、站点脚本急停防护、前端极速重置、独占专注沙盒、无痕隐身交接、AI 智能速读、内存暴降、工作流流水线等）与全新模板库，支持按分类筛选与即时搜索。整份配置可导出为 JSON 备份或换机，单条链也能单独导出分享给别人。
+28 个分类模板开箱可用，按 AI、标签页与内存、阅读与媒体、网页工具、隐私清理、日常工作流等分类陈列，模板库支持分类筛选与即时搜索。整份配置可导出为 JSON 备份或换机，单条链也能单独导出分享给别人。
 
 **18 种界面语言**，默认跟随浏览器，也可在选项页里单独指定；阿拉伯语自动切换为从右到左布局。
 
@@ -74,7 +74,7 @@
 
 没有账号，没有同步，没有服务端。你的动作链和设置存在浏览器本地，导出 / 导入是你自己选的文件。扩展索要的权限不少，因为一个动作要能提供，背后的权限就得先拿到——每一项对应哪个功能，在开源仓库里逐条写明。
 
-免费，MIT 开源，支持 Chrome 与 Edge。
+免费，MIT 开源。
 
 ---
 
@@ -102,7 +102,7 @@ A chain is a list of actions that run in order, with an optional wait between st
 
 **103+ actions in ten groups**
 
-Page (scroll, reload, fullscreen, dark mode, toggle site JS/images/popups permissions, translate, print) · Tabs (close duplicates, sort by URL, group by domain, open top sites, mute, discard to free memory, reopen closed) · Windows (side panel, window split) · Media (playback control, read selection aloud, custom TTS) · Content & On-Device AI (Chrome Prompt API summary / explain / translate, extract all links / images, copy URL, title, Markdown link, search selection, bookmark, reading list) · Zoom · Flow control (conditions, confirmation, wait for navigation, sub-chains) · Advanced (screenshot, save as MHTML, clear cache, keep awake, shortcuts) · Extension control.
+The actions are grouped by purpose: pages, tabs, windows, media, content and on-device AI, zoom, flow control, advanced tools, and extension control. Closing duplicate tabs, grouping tabs by domain, reading the selection aloud or saving a page as MHTML are each one entry in that list. The full set lives in the action picker in the options page, browsable by category or searchable by name.
 
 **It asks before anything you can't undo**
 
@@ -112,7 +112,7 @@ Add workflow pipeline orchestration (sequential chain execution with fallback fa
 
 **Ready to use**
 
-28 one-click templates: AI Knowledge Card, Daily Workstation Launch, Pure Reader, Site Script Shield, Frontend Dev Reset Pipeline, Isolated Focus Workspace, Incognito Handoff, AI Summarize, AI Explain, AI Translate, Tab Hibernate Clean, Tab Cleanup, Safe Close Others, Focus, Web Editor, Extract Media, Video Fullscreen, Read Aloud, Privacy Wipe, Markdown Link, Snapshot, Wrap-up, Side Panel Companion, Reload & Extract, Selection Search, and Workflow Pipelines (AI Research, Read Later Archive, Summary & Read-Aloud). Export the whole configuration as JSON to back it up or move machines, or export a single chain to share.
+28 ready-made templates ship in categories — AI, tabs and memory, reading and media, web tools, privacy, daily workflow — and the gallery can be filtered by category or searched by name. Export the whole configuration as JSON to back it up or move machines, or export a single chain to share.
 
 **18 interface languages**, following the browser by default and overridable in the options page. Arabic switches the layout right-to-left automatically.
 
@@ -120,4 +120,4 @@ Add workflow pipeline orchestration (sequential chain execution with fallback fa
 
 No account, no sync, no server. Your chains and settings live in your browser's local storage; export and import are files you choose. The extension asks for a fair number of permissions, because an action can only be offered if the permission behind it is granted — every one of them is mapped to the feature it serves in the open-source repository.
 
-Free, MIT-licensed, works on Chrome and Edge.
+Free and MIT-licensed.

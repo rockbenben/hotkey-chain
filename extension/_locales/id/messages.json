@@ -174,7 +174,7 @@
     "message": "Belum ada tindakan"
   },
   "actions_more": {
-    "message": "tindakan lainnya"
+    "message": "+$1 tindakan lagi"
   },
   "actions_count": {
     "message": "tindakan"
@@ -588,7 +588,7 @@
     "message": "Pilih ekstensi ini untuk menjalankan rangkaian tindakan Anda sendiri; memilih ekstensi lain akan melakukan tindakan pengelolaan padanya (aktifkan/nonaktifkan, copot, buka opsi…), bukan pintasannya sendiri."
   },
   "hint_callExtension": {
-    "message": "Mengirim pesan ke ekstensi lain. Hanya berfungsi jika ekstensi tersebut menerima pesan eksternal (externally_connectable) — kebanyakan tidak, jadi mungkin tidak melakukan apa pun."
+    "message": "Mengirim pesan ke ekstensi lain. Hanya berfungsi jika ekstensi tersebut menerima pesan eksternal — kebanyakan tidak, jadi mungkin tidak melakukan apa pun."
   },
   "label_presetAction": {
     "message": "Tindakan preset"
@@ -879,7 +879,7 @@
     "message": "Sudah ada di daftar bacaan"
   },
   "msg_readingListUnsupported": {
-    "message": "API daftar bacaan tidak didukung di browser ini"
+    "message": "Browser ini tidak memiliki daftar bacaan"
   },
   "msg_cacheCleared": {
     "message": "Cache browser dihapus"
@@ -1101,7 +1101,7 @@
     "message": "Pengaturan"
   },
   "sidepanel_searchPlaceholder": {
-    "message": "Cari rantai aksi..."
+    "message": "Cari rantai aksi…"
   },
   "sidepanel_noChainsFound": {
     "message": "Tidak ada rantai yang ditemukan"
@@ -1152,7 +1152,7 @@
     "message": "Pilih alur kerja otomatisasi siap pakai dan tambahkan dengan satu klik"
   },
   "tmpl_gallery_search_placeholder": {
-    "message": "Cari templat berdasarkan nama, deskripsi, atau tindakan..."
+    "message": "Cari templat berdasarkan nama, deskripsi, atau tindakan…"
   },
   "tmpl_gallery_use": {
     "message": "Gunakan Templat"
@@ -1164,7 +1164,7 @@
     "message": "Tidak ada templat yang cocok ditemukan"
   },
   "tmpl_gallery_empty_desc": {
-    "message": "Coba cari dengan kata kunci lain atau ubah kategori di atas"
+    "message": "Coba kata kunci lain atau pilih kategori lain"
   },
   "tmpl_gallery_empty_reset": {
     "message": "Atur Ulang Pencarian"
@@ -1251,7 +1251,7 @@
     "message": "Ini menghapus cookie dan riwayat unduhan SEMUA situs, bukan hanya situs ini. Lanjutkan?"
   },
   "tmpl_gallery_footer_hint": {
-    "message": "Klik templat mana saja untuk membuat dan menyesuaikan. Semua parameter dapat diatur bebas."
+    "message": "“Langsung tambah” memasukkan templat apa adanya; “Tambah & ubah” juga membuka editor."
   },
   "actionPicker_title": {
     "message": "Tambah Tindakan"
@@ -1281,16 +1281,16 @@
     "message": "Buat Rantai Kosong"
   },
   "tmpl_gallery_add_direct": {
-    "message": "Tambah ke Rantai Saya"
+    "message": "Langsung tambah"
   },
   "tmpl_gallery_add_and_edit": {
-    "message": "Tambah & Sesuaikan"
+    "message": "Tambah & ubah"
   },
   "toast_chainAdded_actionRun": {
     "message": "Jalankan Sekarang"
   },
   "workflow_title": {
-    "message": "Otomasi Alur Kerja (Pipeline)"
+    "message": "Lanjut otomatis ke rantai berikutnya"
   },
   "workflow_subtitle": {
     "message": "Hubungkan otomatis ke tahap berikutnya dengan data mengalir ke bawah"
@@ -1416,7 +1416,7 @@
     "message": "Pop-up diizinkan untuk situs ini"
   },
   "badge_requiresAi": {
-    "message": "Memerlukan AI di Perangkat"
+    "message": "Perlu AI bawaan Chrome"
   },
   "hint_aiRequirement": {
     "message": "Berjalan di Gemini Nano bawaan Chrome — semuanya tetap di perangkat Anda. Perlu Chrome desktop dengan GPU atau RAM yang memadai; tanpa API key dan tanpa flag."
@@ -1434,7 +1434,7 @@
     "message": "Tidak ada situs yang sering dikunjungi di riwayat penelusuran"
   },
   "msg_topSitesOpened": {
-    "message": "Membuka  situs populer di tab latar belakang"
+    "message": "Membuka $1 situs populer di tab latar belakang"
   },
   "tmpl_pureReader": {
     "message": "Mode Pembaca Murni Tanpa Gangguan"
@@ -1592,6 +1592,15 @@
   "progress_failed": {
     "message": "Selesai dengan error"
   },
+  "hud_stop": {
+    "message": "Hentikan"
+  },
+  "hud_stopping": {
+    "message": "Menghentikan…"
+  },
+  "progress_cancelled": {
+    "message": "Dihentikan"
+  },
   "label_noCopy": {
     "message": "Jangan salin otomatis ke papan klip (serahkan hasil ke tindakan berikutnya)"
   },
@@ -1609,5 +1618,50 @@
   },
   "shortcut_badge_unset": {
     "message": "Tanpa pintasan"
+  },
+  "toast_undo": {
+    "message": "Urungkan"
+  },
+  "toast_deletedChain": {
+    "message": "“$1” dihapus"
+  },
+  "confirm_deleteChain": {
+    "message": "Hapus rantai “$1”?"
+  },
+  "label_delayBefore": {
+    "message": "Tunggu dulu"
+  },
+  "label_delayAfter": {
+    "message": "Tunggu sesudahnya"
+  },
+  "edit_autosave": {
+    "message": "Perubahan disimpan otomatis"
+  },
+  "edit_saved": {
+    "message": "Tersimpan"
+  },
+  "test_runHint": {
+    "message": "Berjalan pada halaman web yang Anda lihat, bukan halaman pengaturan ini"
+  },
+  "sidepanel_noChains": {
+    "message": "Belum ada rantai aksi"
+  },
+  "sidepanel_noMatches": {
+    "message": "Tidak ada rantai yang cocok"
+  },
+  "empty_restore_hint": {
+    "message": "Tersalah hapus? Pulihkan rantai bawaan."
+  },
+  "toast_removedAction": {
+    "message": "Langkah “$1” dihapus"
+  },
+  "toast_defaultMoved": {
+    "message": "Rantai bawaan kini $1"
+  },
+  "sidepanel_openInSettings": {
+    "message": "Buka di Setelan"
+  },
+  "toast_noWebTarget": {
+    "message": "Tidak ada halaman web untuk bertindak — buka tab terlebih dahulu"
   }
 }

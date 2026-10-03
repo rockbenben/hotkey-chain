@@ -31,7 +31,7 @@ if (!existsSync(join(source, "manifest.json"))) {
 // zip 是直接拿去传商店的，一旦打出来就有人可能原样上传。所以生成产物之前
 // 先让解析器真的读一遍源文件：service worker 解析失败不是「某个功能坏」，
 // 是整个扩展一个动作都不会触发，且装上去不报任何错。
-const JS_FILES = ["background.js", "content.js", "options.js", "sidepanel.js"];
+const JS_FILES = ["background.js", "content.js", "options.js", "sidepanel.js", "theme.js"];
 const syntaxErrors = [];
 for (const file of JS_FILES) {
   try {

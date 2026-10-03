@@ -174,7 +174,7 @@
     "message": "アクションがありません"
   },
   "actions_more": {
-    "message": "件の追加アクション"
+    "message": "他 $1 件"
   },
   "actions_count": {
     "message": "件のアクション"
@@ -588,7 +588,7 @@
     "message": "この拡張機能を選ぶと独自のアクションチェーンを実行できます。他の拡張機能を選ぶと、その拡張機能に対する管理操作（有効化/無効化、アンインストール、オプションを開くなど）が行われ、その拡張機能自身のショートカットは実行されません。"
   },
   "hint_callExtension": {
-    "message": "別の拡張機能にメッセージを送信します。その拡張機能が外部メッセージを受け付ける（externally_connectable）場合のみ動作します。ほとんどの拡張機能は受け付けないため、何も起こらない場合があります。"
+    "message": "別の拡張機能にメッセージを送信します。その拡張機能が外部メッセージを受け付ける場合のみ動作します。ほとんどの拡張機能は受け付けないため、何も起こらない場合があります。"
   },
   "label_presetAction": {
     "message": "プリセットアクション"
@@ -879,7 +879,7 @@
     "message": "すでにリーディングリストにあります"
   },
   "msg_readingListUnsupported": {
-    "message": "このブラウザはリーディングリスト API をサポートしていません"
+    "message": "このブラウザにリーディングリストはありません"
   },
   "msg_cacheCleared": {
     "message": "ブラウザのキャッシュを削除しました"
@@ -1101,7 +1101,7 @@
     "message": "設定"
   },
   "sidepanel_searchPlaceholder": {
-    "message": "アクションチェーンを検索..."
+    "message": "アクションチェーンを検索…"
   },
   "sidepanel_noChainsFound": {
     "message": "一致するチェーンが見つかりません"
@@ -1152,7 +1152,7 @@
     "message": "すぐに使える自動化ワークフローを選択し、ワンクリックで追加・カスタマイズできます"
   },
   "tmpl_gallery_search_placeholder": {
-    "message": "テンプレート名、説明、アクションを検索..."
+    "message": "テンプレート名、説明、アクションを検索…"
   },
   "tmpl_gallery_use": {
     "message": "このテンプレートを使用"
@@ -1164,7 +1164,7 @@
     "message": "一致するテンプレートが見つかりません"
   },
   "tmpl_gallery_empty_desc": {
-    "message": "別のキーワードで検索するか、上記のカテゴリを切り替えてください"
+    "message": "別のキーワードで検索、または別のカテゴリーを選んでください"
   },
   "tmpl_gallery_empty_reset": {
     "message": "検索をリセット"
@@ -1251,7 +1251,7 @@
     "message": "これは【すべてのサイト】の Cookie とダウンロード履歴を消去します（現在のサイトだけではありません）。続行しますか？"
   },
   "tmpl_gallery_footer_hint": {
-    "message": "任意のテンプレートをクリックして作成・編集できます。各パラメータは自由に調整可能です"
+    "message": "「そのまま追加」はテンプレートゝのままチェーンに追加、「追加して編集」は編集画面も開きます。"
   },
   "actionPicker_title": {
     "message": "アクションを追加"
@@ -1281,16 +1281,16 @@
     "message": "新規空白チェーンを作成"
   },
   "tmpl_gallery_add_direct": {
-    "message": "マイチエーンに追加"
+    "message": "そのまま追加"
   },
   "tmpl_gallery_add_and_edit": {
-    "message": "追加してカスタマイズ"
+    "message": "追加して編集"
   },
   "toast_chainAdded_actionRun": {
     "message": "今すぐ実行"
   },
   "workflow_title": {
-    "message": "ワークフロー自動結合 (Pipeline)"
+    "message": "次のチェーンに自動で引き継ぎ"
   },
   "workflow_subtitle": {
     "message": "次のワークフローステージに自動接続し、前の出力データを下流へ引き渡します"
@@ -1416,7 +1416,7 @@
     "message": "このサイトのポップアップを許可しました"
   },
   "badge_requiresAi": {
-    "message": "オンデバイスAIが必要"
+    "message": "Chrome 内蔵 AI が必要"
   },
   "hint_aiRequirement": {
     "message": "Chrome 内蔵の Gemini Nano（Prompt API）で動作し、すべて端末内で完結します。十分な GPU またはメモリを備えたデスクトップ版 Chrome が必要です。API キーもフラグも不要です。"
@@ -1434,7 +1434,7 @@
     "message": "閲覧履歴によくアクセスするサイトが見つかりませんでした"
   },
   "msg_topSitesOpened": {
-    "message": "バックグラウンドタブで  件のよくアクセスするサイトを開きました"
+    "message": "バックグラウンドタブで $1 件のよくアクセスするサイトを開きました"
   },
   "tmpl_pureReader": {
     "message": "ピュア・集中読書モード"
@@ -1592,6 +1592,15 @@
   "progress_failed": {
     "message": "完了しましたがエラーがあります"
   },
+  "hud_stop": {
+    "message": "停止"
+  },
+  "hud_stopping": {
+    "message": "停止中…"
+  },
+  "progress_cancelled": {
+    "message": "停止しました"
+  },
   "label_noCopy": {
     "message": "自動コピーしない（結果は後続のアクションに渡す）"
   },
@@ -1609,5 +1618,50 @@
   },
   "shortcut_badge_unset": {
     "message": "ショートカット未設定"
+  },
+  "toast_undo": {
+    "message": "元に戻す"
+  },
+  "toast_deletedChain": {
+    "message": "「$1」を削除しました"
+  },
+  "confirm_deleteChain": {
+    "message": "アクションチェーン「$1」を削除しますか？"
+  },
+  "label_delayBefore": {
+    "message": "开始前"
+  },
+  "label_delayAfter": {
+    "message": "次への間"
+  },
+  "edit_autosave": {
+    "message": "変更は自動保存されます"
+  },
+  "edit_saved": {
+    "message": "保存済み"
+  },
+  "test_runHint": {
+    "message": "表示中のウェブページに適用されます（この設定ページではありません）"
+  },
+  "sidepanel_noChains": {
+    "message": "まだアクションチェーンがありません"
+  },
+  "sidepanel_noMatches": {
+    "message": "検索に一致するチェーンはありません"
+  },
+  "empty_restore_hint": {
+    "message": "間違って削除した場合、初期チェーンを戻せます。"
+  },
+  "toast_removedAction": {
+    "message": "アクション「$1」を削除しました"
+  },
+  "toast_defaultMoved": {
+    "message": "デフォルチェーンを $1 に変更"
+  },
+  "sidepanel_openInSettings": {
+    "message": "設定で開く"
+  },
+  "toast_noWebTarget": {
+    "message": "作用先の Web ページがありません。まずタブを開いてください"
   }
 }

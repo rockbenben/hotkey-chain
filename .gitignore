@@ -10,12 +10,20 @@ Thumbs.db
 
 # Scratch / temp files
 _*.mjs
+_*.cjs
 _*.css
 _*.json
+_*.ps1
+_*.py
 *.log
+
+# Design-preview drafts and the throwaway browser workspace they run in
+design-preview/
+.dev/
 
 # Tooling state (gstack browser audit/network logs)
 .gstack/
 
 # WorkBuddy AI 本地记忆与技能状态
 .workbuddy-ai/
+.qoder*

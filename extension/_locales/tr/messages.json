@@ -174,7 +174,7 @@
     "message": "Henüz eylem yok"
   },
   "actions_more": {
-    "message": "eylem daha"
+    "message": "+$1 eylem daha"
   },
   "actions_count": {
     "message": "eylem"
@@ -588,7 +588,7 @@
     "message": "Kendi eylem zincirlerinizi çalıştırmak için bu uzantıyı seçin; başka bir uzantı seçmek, kendi kısayollarını değil, o uzantı üzerinde yönetim eylemleri (etkinleştirme/devre dışı bırakma, kaldırma, seçenekleri açma…) gerçekleştirir."
   },
   "hint_callExtension": {
-    "message": "Başka bir uzantıya bir mesaj gönderir. Yalnızca o uzantı harici mesajları kabul ediyorsa (externally_connectable) çalışır — çoğu kabul etmez, bu nedenle hiçbir şey yapmayabilir."
+    "message": "Başka bir uzantıya bir mesaj gönderir. Yalnızca o uzantı harici mesajları kabul ediyorsa çalışır — çoğu kabul etmez, bu nedenle hiçbir şey yapmayabilir."
   },
   "label_presetAction": {
     "message": "Hazır eylem"
@@ -879,7 +879,7 @@
     "message": "Zaten okuma listesinde"
   },
   "msg_readingListUnsupported": {
-    "message": "Okuma listesi API'si bu tarayıcıda desteklenmiyor"
+    "message": "Bu tarayıcıda okuma listesi yok"
   },
   "msg_cacheCleared": {
     "message": "Tarayıcı önbelleği temizlendi"
@@ -1101,7 +1101,7 @@
     "message": "Ayarlar"
   },
   "sidepanel_searchPlaceholder": {
-    "message": "Zincirleri ara..."
+    "message": "Zincirleri ara…"
   },
   "sidepanel_noChainsFound": {
     "message": "Zincir bulunamadı"
@@ -1152,7 +1152,7 @@
     "message": "Kullanıma hazır otomasyon iş akışlarını seçin ve tek tıkla ekleyin"
   },
   "tmpl_gallery_search_placeholder": {
-    "message": "Şablonları ad, açıklama veya eyleme göre ara..."
+    "message": "Şablonları ad, açıklama veya eyleme göre ara…"
   },
   "tmpl_gallery_use": {
     "message": "Şablonu Kullan"
@@ -1164,7 +1164,7 @@
     "message": "Eşleşen şablon bulunamadı"
   },
   "tmpl_gallery_empty_desc": {
-    "message": "Farklı anahtar kelimelerle aramayı veya yukarıdaki kategoriyi değiştirmeyi deneyin"
+    "message": "Başka anahtar kelime veya başka kategori deneyin"
   },
   "tmpl_gallery_empty_reset": {
     "message": "Aramayı Sıfırla"
@@ -1251,7 +1251,7 @@
     "message": "Bu işlem yalnızca bu sitenin değil, TÜM sitelerin çerezlerini ve indirme geçmişini siler. Devam edilsin mi?"
   },
   "tmpl_gallery_footer_hint": {
-    "message": "Oluşturmak ve özelleştirmek için herhangi bir şablona tıklayın. Tüm parametreler serbestçe ayarlanabilir."
+    "message": "“Doğrudan ekle” şablonu olduğu gibi ekler; “Ekle ve düzenle” ayrıca düzenleyiciyi açar."
   },
   "actionPicker_title": {
     "message": "Eylem Ekle"
@@ -1281,16 +1281,16 @@
     "message": "Boş Zincir Oluştur"
   },
   "tmpl_gallery_add_direct": {
-    "message": "Zincirlerime Ekle"
+    "message": "Doğrudan ekle"
   },
   "tmpl_gallery_add_and_edit": {
-    "message": "Ekle ve Özelleştir"
+    "message": "Ekle ve düzenle"
   },
   "toast_chainAdded_actionRun": {
     "message": "Şimdi Çalıştır"
   },
   "workflow_title": {
-    "message": "İş Akışı Otomasyonu (Pipeline)"
+    "message": "Sonraki zincire otomatik geç"
   },
   "workflow_subtitle": {
     "message": "Çıktı verilerini aşağı aktararak bir sonraki aşamaya otomatik olarak bağlanın"
@@ -1416,7 +1416,7 @@
     "message": "Bu site için açılır pencerelere izin verildi"
   },
   "badge_requiresAi": {
-    "message": "Cihaz İçi Yapay Zeka Gerektirir"
+    "message": "Chrome'un yerleşik YZ'sini gerektirir"
   },
   "hint_aiRequirement": {
     "message": "Chrome'un yerleşik Gemini Nano'su (Prompt API) üzerinde çalışır — her şey cihazınızda kalır. Yeterli GPU veya RAM'e sahip masaüstü Chrome gerekir; API anahtarı ve flag gerekmez."
@@ -1434,7 +1434,7 @@
     "message": "Tarama geçmişinde sık ziyaret edilen site bulunamadı"
   },
   "msg_topSitesOpened": {
-    "message": "Arka plan sekmelerinde  sık ziyaret edilen site açıldı"
+    "message": "Arka plan sekmelerinde $1 sık ziyaret edilen site açıldı"
   },
   "tmpl_pureReader": {
     "message": "Dikkat Dağıtmayan Saf Okuyucu"
@@ -1592,6 +1592,15 @@
   "progress_failed": {
     "message": "Hatalarla bitti"
   },
+  "hud_stop": {
+    "message": "Durdur"
+  },
+  "hud_stopping": {
+    "message": "Durduruluyor…"
+  },
+  "progress_cancelled": {
+    "message": "Durduruldu"
+  },
   "label_noCopy": {
     "message": "Panoya otomatik kopyalama (sonucu sonraki eyleme bırak)"
   },
@@ -1609,5 +1618,50 @@
   },
   "shortcut_badge_unset": {
     "message": "Kısayol yok"
+  },
+  "toast_undo": {
+    "message": "Geri al"
+  },
+  "toast_deletedChain": {
+    "message": "“$1” silindi"
+  },
+  "confirm_deleteChain": {
+    "message": "“$1” zinciri silinsin mi?"
+  },
+  "label_delayBefore": {
+    "message": "Önce bekle"
+  },
+  "label_delayAfter": {
+    "message": "Sonra bekle"
+  },
+  "edit_autosave": {
+    "message": "Değişiklikler otomatik kaydedilir"
+  },
+  "edit_saved": {
+    "message": "Kaydedildi"
+  },
+  "test_runHint": {
+    "message": "Görüntüediğiniz web sayfasında çalışır, bu ayar sayfasında değil"
+  },
+  "sidepanel_noChains": {
+    "message": "Henüz zincir yok"
+  },
+  "sidepanel_noMatches": {
+    "message": "Eşleşen zincir yok"
+  },
+  "empty_restore_hint": {
+    "message": "Yanlışlıkla sildiniz mi? Yerleşik zincirleri geri getirin."
+  },
+  "toast_removedAction": {
+    "message": "“$1” adımı kaldırıldı"
+  },
+  "toast_defaultMoved": {
+    "message": "Varsayılan zincir artık $1"
+  },
+  "sidepanel_openInSettings": {
+    "message": "Ayarlar'da aç"
+  },
+  "toast_noWebTarget": {
+    "message": "Etkinilecek web sayfası yok — önce bir sekme açın"
   }
 }

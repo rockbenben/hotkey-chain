@@ -174,7 +174,7 @@
     "message": "Aucune action pour l'instant"
   },
   "actions_more": {
-    "message": "actions supplémentaires"
+    "message": "+$1 actions supplémentaires"
   },
   "actions_count": {
     "message": "actions"
@@ -588,7 +588,7 @@
     "message": "Choisissez cette extension pour exécuter vos propres chaînes d'actions ; choisir une autre extension effectue des actions de gestion sur celle-ci (activer/désactiver, désinstaller, ouvrir les options…), et non ses propres raccourcis."
   },
   "hint_callExtension": {
-    "message": "Envoie un message à une autre extension. Ne fonctionne que si cette extension accepte les messages externes (externally_connectable) — la plupart ne le font pas, l'opération peut donc être sans effet."
+    "message": "Envoie un message à une autre extension. Ne fonctionne que si cette extension accepte les messages externes — la plupart ne le font pas, l'opération peut donc être sans effet."
   },
   "label_presetAction": {
     "message": "Action prédéfinie"
@@ -879,7 +879,7 @@
     "message": "Déjà dans la liste de lecture"
   },
   "msg_readingListUnsupported": {
-    "message": "L'API de liste de lecture n'est pas prise en charge par ce navigateur"
+    "message": "Ce navigateur n'a pas de liste de lecture"
   },
   "msg_cacheCleared": {
     "message": "Cache du navigateur vidé"
@@ -1101,7 +1101,7 @@
     "message": "Paramètres"
   },
   "sidepanel_searchPlaceholder": {
-    "message": "Rechercher des chaînes..."
+    "message": "Rechercher des chaînes…"
   },
   "sidepanel_noChainsFound": {
     "message": "Aucune chaîne trouvée"
@@ -1152,7 +1152,7 @@
     "message": "Choisissez des flux d'automatisation prêts à l'emploi et ajoutez-les en un clic"
   },
   "tmpl_gallery_search_placeholder": {
-    "message": "Rechercher par nom, description ou action..."
+    "message": "Rechercher par nom, description ou action…"
   },
   "tmpl_gallery_use": {
     "message": "Utiliser ce modèle"
@@ -1164,7 +1164,7 @@
     "message": "Aucun modèle correspondant trouvé"
   },
   "tmpl_gallery_empty_desc": {
-    "message": "Essayez avec d'autres mots-clés ou changez de catégorie"
+    "message": "Essayez un autre mot-clé ou une autre catégorie"
   },
   "tmpl_gallery_empty_reset": {
     "message": "Réinitialiser la recherche"
@@ -1251,7 +1251,7 @@
     "message": "Cela efface les cookies et l'historique de téléchargement de TOUS les sites, pas seulement celui-ci. Continuer ?"
   },
   "tmpl_gallery_footer_hint": {
-    "message": "Cliquez sur un modèle pour le créer et le personnaliser. Tous les paramètres sont modifiables."
+    "message": "« Ajouter directement » insère le modèle tel quel ; « Ajouter et modifier » ouvre aussi l'éditeur."
   },
   "actionPicker_title": {
     "message": "Ajouter une action"
@@ -1281,16 +1281,16 @@
     "message": "Créer une chaîne vide"
   },
   "tmpl_gallery_add_direct": {
-    "message": "Ajouter à mes chaînes"
+    "message": "Ajouter directement"
   },
   "tmpl_gallery_add_and_edit": {
-    "message": "Ajouter et personnaliser"
+    "message": "Ajouter et modifier"
   },
   "toast_chainAdded_actionRun": {
     "message": "Exécuter maintenant"
   },
   "workflow_title": {
-    "message": "Automatisation de Workflow (Pipeline)"
+    "message": "Enchaîner sur la chaîne suivante"
   },
   "workflow_subtitle": {
     "message": "Enchaînez automatiquement avec l'étape suivante en transmettant les données en aval"
@@ -1416,7 +1416,7 @@
     "message": "Popups autorisées sur ce site"
   },
   "badge_requiresAi": {
-    "message": "Nécessite l'IA sur l'appareil"
+    "message": "Nécessite l'IA intégrée à Chrome"
   },
   "hint_aiRequirement": {
     "message": "Fonctionne sur le Gemini Nano intégré à Chrome — tout reste sur votre appareil. Nécessite Chrome pour ordinateur avec assez de GPU ou de RAM ; ni clé d'API ni flag requis."
@@ -1434,7 +1434,7 @@
     "message": "Aucun site fréquemment visité trouvé dans l'historique"
   },
   "msg_topSitesOpened": {
-    "message": " sites fréquents ouverts dans des onglets en arrière-plan"
+    "message": "$1 sites fréquents ouverts dans des onglets en arrière-plan"
   },
   "tmpl_pureReader": {
     "message": "Lecteur épuré sans distraction"
@@ -1592,6 +1592,15 @@
   "progress_failed": {
     "message": "Terminé avec des erreurs"
   },
+  "hud_stop": {
+    "message": "Arrêter"
+  },
+  "hud_stopping": {
+    "message": "Arrêt…"
+  },
+  "progress_cancelled": {
+    "message": "Arrêté"
+  },
   "label_noCopy": {
     "message": "Ne pas copier automatiquement dans le presse-papiers (laisser le résultat à l'action suivante)"
   },
@@ -1609,5 +1618,50 @@
   },
   "shortcut_badge_unset": {
     "message": "Aucun raccourci"
+  },
+  "toast_undo": {
+    "message": "Annuler"
+  },
+  "toast_deletedChain": {
+    "message": "« $1 » supprimé"
+  },
+  "confirm_deleteChain": {
+    "message": "Supprimer la chaîne « $1 » ?"
+  },
+  "label_delayBefore": {
+    "message": "Attendre d'abord"
+  },
+  "label_delayAfter": {
+    "message": "Attendre ensuite"
+  },
+  "edit_autosave": {
+    "message": "Les modifications sont enregistrées automatiquement"
+  },
+  "edit_saved": {
+    "message": "Enregistré"
+  },
+  "test_runHint": {
+    "message": "S'exécute sur la page web affichée, pas sur cette page de réglages"
+  },
+  "sidepanel_noChains": {
+    "message": "Aucune chaîne pour le moment"
+  },
+  "sidepanel_noMatches": {
+    "message": "Aucune chaîne ne correspond"
+  },
+  "empty_restore_hint": {
+    "message": "Supprimée par erreur ? Restaurez les chaînes intégrées."
+  },
+  "toast_removedAction": {
+    "message": "Étape « $1 » supprimé"
+  },
+  "toast_defaultMoved": {
+    "message": "La chaîne par défaut est désormais $1"
+  },
+  "sidepanel_openInSettings": {
+    "message": "Ouvrir dans les réglages"
+  },
+  "toast_noWebTarget": {
+    "message": "Aucune page web sur laquelle agir — ouvrez d'abord un onglet"
   }
 }

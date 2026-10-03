@@ -174,7 +174,7 @@
     "message": "Aún no hay acciones"
   },
   "actions_more": {
-    "message": "más acciones"
+    "message": "+$1 acciones más"
   },
   "actions_count": {
     "message": "acciones"
@@ -588,7 +588,7 @@
     "message": "Elige esta extensión para ejecutar tus propias cadenas de acciones; elegir otra extensión realiza acciones de gestión sobre ella (activar/desactivar, desinstalar, abrir opciones…), no sus propios atajos."
   },
   "hint_callExtension": {
-    "message": "Envía un mensaje a otra extensión. Solo funciona si esa extensión acepta mensajes externos (externally_connectable); la mayoría no lo hace, por lo que puede no tener efecto."
+    "message": "Envía un mensaje a otra extensión. Solo funciona si esa extensión acepta mensajes externos ; la mayoría no lo hace, por lo que puede no tener efecto."
   },
   "label_presetAction": {
     "message": "Acción predefinida"
@@ -879,7 +879,7 @@
     "message": "Ya está en la lista de lectura"
   },
   "msg_readingListUnsupported": {
-    "message": "La API de lista de lectura no es compatible con este navegador"
+    "message": "Este navegador no tiene lista de lectura"
   },
   "msg_cacheCleared": {
     "message": "Caché del navegador borrada"
@@ -1101,7 +1101,7 @@
     "message": "Configuración"
   },
   "sidepanel_searchPlaceholder": {
-    "message": "Buscar cadenas..."
+    "message": "Buscar cadenas…"
   },
   "sidepanel_noChainsFound": {
     "message": "No se encontraron cadenas"
@@ -1152,7 +1152,7 @@
     "message": "Elija flujos de trabajo de automatización listos para usar y agréguelos con un solo clic"
   },
   "tmpl_gallery_search_placeholder": {
-    "message": "Buscar plantillas por nombre, descripción o acción..."
+    "message": "Buscar plantillas por nombre, descripción o acción…"
   },
   "tmpl_gallery_use": {
     "message": "Usar plantilla"
@@ -1164,7 +1164,7 @@
     "message": "No se encontraron plantillas coincidentes"
   },
   "tmpl_gallery_empty_desc": {
-    "message": "Pruebe con otras palabras clave o cambie de categoría"
+    "message": "Pruebe otra palabra clave u otra categoría"
   },
   "tmpl_gallery_empty_reset": {
     "message": "Restablecer búsqueda"
@@ -1251,7 +1251,7 @@
     "message": "Esto borra las cookies y el historial de descargas de TODOS los sitios, no solo de este. ¿Continuar?"
   },
   "tmpl_gallery_footer_hint": {
-    "message": "Haga clic en cualquier plantilla para crearla y editarla. Todos los parámetros se pueden ajustar libremente."
+    "message": "«Añadir directamente» incorpora la plantilla tal cual; «Añadir y editar» abre además el editor."
   },
   "actionPicker_title": {
     "message": "Agregar acción"
@@ -1281,16 +1281,16 @@
     "message": "Crear cadena en blanco"
   },
   "tmpl_gallery_add_direct": {
-    "message": "Agregar a mis cadenas"
+    "message": "Añadir directamente"
   },
   "tmpl_gallery_add_and_edit": {
-    "message": "Agregar y personalizar"
+    "message": "Añadir y editar"
   },
   "toast_chainAdded_actionRun": {
     "message": "Ejecutar ahora"
   },
   "workflow_title": {
-    "message": "Automatización de Workflow (Pipeline)"
+    "message": "Encadenar la siguiente acción"
   },
   "workflow_subtitle": {
     "message": "Encadena automáticamente con la siguiente etapa pasando los datos hacia abajo"
@@ -1416,7 +1416,7 @@
     "message": "Ventanas emergentes permitidas en este sitio"
   },
   "badge_requiresAi": {
-    "message": "Requiere IA en el dispositivo"
+    "message": "Requiere la IA integrada de Chrome"
   },
   "hint_aiRequirement": {
     "message": "Funciona con la IA integrada de Chrome (Gemini Nano) y todo se procesa en tu dispositivo. Requiere Chrome de escritorio con suficiente GPU o RAM; no necesita clave de API ni flags."
@@ -1434,7 +1434,7 @@
     "message": "No se encontraron sitios frecuentados en el historial de navegación"
   },
   "msg_topSitesOpened": {
-    "message": "Se abrieron  sitios frecuentes en pestañas en segundo plano"
+    "message": "Se abrieron $1 sitios frecuentes en pestañas en segundo plano"
   },
   "tmpl_pureReader": {
     "message": "Lector puro sin distracciones"
@@ -1592,6 +1592,15 @@
   "progress_failed": {
     "message": "Terminado con errores"
   },
+  "hud_stop": {
+    "message": "Detener"
+  },
+  "hud_stopping": {
+    "message": "Deteniendo…"
+  },
+  "progress_cancelled": {
+    "message": "Detenido"
+  },
   "label_noCopy": {
     "message": "No copiar automáticamente al portapapeles (dejar el resultado a la acción siguiente)"
   },
@@ -1609,5 +1618,50 @@
   },
   "shortcut_badge_unset": {
     "message": "Sin atajo"
+  },
+  "toast_undo": {
+    "message": "Deshacer"
+  },
+  "toast_deletedChain": {
+    "message": "“$1” eliminada"
+  },
+  "confirm_deleteChain": {
+    "message": "¿Eliminar la cadena “$1”?"
+  },
+  "label_delayBefore": {
+    "message": "Esperar antes"
+  },
+  "label_delayAfter": {
+    "message": "Esperar después"
+  },
+  "edit_autosave": {
+    "message": "Los cambios se guardan automáticamente"
+  },
+  "edit_saved": {
+    "message": "Guardado"
+  },
+  "test_runHint": {
+    "message": "Se ejecuta en la página web que está viendo, no en esta página de ajustes"
+  },
+  "sidepanel_noChains": {
+    "message": "Aún no hay cadenas"
+  },
+  "sidepanel_noMatches": {
+    "message": "Ninguna cadena coincide"
+  },
+  "empty_restore_hint": {
+    "message": "¿Borrada por error? Restaura las cadenas integradas."
+  },
+  "toast_removedAction": {
+    "message": "Paso “$1” eliminado"
+  },
+  "toast_defaultMoved": {
+    "message": "La cadena predeterminada ahora es $1"
+  },
+  "sidepanel_openInSettings": {
+    "message": "Abrir en Ajustes"
+  },
+  "toast_noWebTarget": {
+    "message": "No hay ninguna página web sobre la que actuar; abra primero una pestaña"
   }
 }

@@ -174,7 +174,7 @@
     "message": "Nessuna azione"
   },
   "actions_more": {
-    "message": "altre azioni"
+    "message": "+$1 altre azioni"
   },
   "actions_count": {
     "message": "azioni"
@@ -588,7 +588,7 @@
     "message": "Scegli questa estensione per eseguire le tue catene di azioni; scegliendo un'altra estensione esegui azioni di gestione su di essa (abilita/disabilita, disinstalla, apri opzioni…), non le sue scorciatoie."
   },
   "hint_callExtension": {
-    "message": "Invia un messaggio a un'altra estensione. Funziona solo se quell'estensione accetta messaggi esterni (externally_connectable) — la maggior parte non lo fa, quindi potrebbe non avere effetto."
+    "message": "Invia un messaggio a un'altra estensione. Funziona solo se quell'estensione accetta messaggi esterni — la maggior parte non lo fa, quindi potrebbe non avere effetto."
   },
   "label_presetAction": {
     "message": "Azione predefinita"
@@ -879,7 +879,7 @@
     "message": "Già nell'elenco di lettura"
   },
   "msg_readingListUnsupported": {
-    "message": "API elenco di lettura non supportata in questo browser"
+    "message": "Questo browser non ha un elenco di lettura"
   },
   "msg_cacheCleared": {
     "message": "Cache del browser svuotata"
@@ -1101,7 +1101,7 @@
     "message": "Impostazioni"
   },
   "sidepanel_searchPlaceholder": {
-    "message": "Cerca catene..."
+    "message": "Cerca catene…"
   },
   "sidepanel_noChainsFound": {
     "message": "Nessuna catena trovata"
@@ -1152,7 +1152,7 @@
     "message": "Scegli flussi di lavoro di automazione pronti all'uso e aggiungili con un clic"
   },
   "tmpl_gallery_search_placeholder": {
-    "message": "Cerca modelli per nome, descrizione o azione..."
+    "message": "Cerca modelli per nome, descrizione o azione…"
   },
   "tmpl_gallery_use": {
     "message": "Usa modello"
@@ -1164,7 +1164,7 @@
     "message": "Nessun modello corrispondente trovato"
   },
   "tmpl_gallery_empty_desc": {
-    "message": "Prova con altre parole chiave o cambia la categoria sopra"
+    "message": "Prova un'altra parola chiave o un'altra categoria"
   },
   "tmpl_gallery_empty_reset": {
     "message": "Ripristina ricerca"
@@ -1251,7 +1251,7 @@
     "message": "Questo cancella cookie e cronologia download di TUTTI i siti, non solo di questo. Continuare?"
   },
   "tmpl_gallery_footer_hint": {
-    "message": "Fai clic su qualsiasi modello per crearlo e personalizzarlo. Tutti i parametri sono regolabili liberamente."
+    "message": "“Aggiungi direttamente” inserisce il modello così com'è; “Aggiungi e modifica” apre anche l'editor."
   },
   "actionPicker_title": {
     "message": "Aggiungi azione"
@@ -1281,16 +1281,16 @@
     "message": "Crea catena vuota"
   },
   "tmpl_gallery_add_direct": {
-    "message": "Aggiungi alle mie catene"
+    "message": "Aggiungi direttamente"
   },
   "tmpl_gallery_add_and_edit": {
-    "message": "Aggiungi e personalizza"
+    "message": "Aggiungi e modifica"
   },
   "toast_chainAdded_actionRun": {
     "message": "Esegui ora"
   },
   "workflow_title": {
-    "message": "Automazione del Flusso di Lavoro (Pipeline)"
+    "message": "Passa alla catena successiva"
   },
   "workflow_subtitle": {
     "message": "Concatena automaticamente alla fase successiva trasferendo i dati a valle"
@@ -1416,7 +1416,7 @@
     "message": "Popup consentiti per questo sito"
   },
   "badge_requiresAi": {
-    "message": "Richiede IA sul dispositivo"
+    "message": "Richiede l'IA integrata di Chrome"
   },
   "hint_aiRequirement": {
     "message": "Funziona sul Gemini Nano integrato in Chrome: tutto resta sul tuo dispositivo. Richiede Chrome per desktop con GPU o RAM sufficienti; nessuna chiave API e nessun flag."
@@ -1434,7 +1434,7 @@
     "message": "Nessun sito visitato di frequente trovato nella cronologia"
   },
   "msg_topSitesOpened": {
-    "message": "Aperti  siti frequenti in schede in background"
+    "message": "Aperti $1 siti frequenti in schede in background"
   },
   "tmpl_pureReader": {
     "message": "Lettura pura senza distrazioni"
@@ -1592,6 +1592,15 @@
   "progress_failed": {
     "message": "Terminato con errori"
   },
+  "hud_stop": {
+    "message": "Ferma"
+  },
+  "hud_stopping": {
+    "message": "Arresto…"
+  },
+  "progress_cancelled": {
+    "message": "Fermato"
+  },
   "label_noCopy": {
     "message": "Non copiare automaticamente negli appunti (lascia il risultato all'azione successiva)"
   },
@@ -1609,5 +1618,50 @@
   },
   "shortcut_badge_unset": {
     "message": "Nessuna scorciatoia"
+  },
+  "toast_undo": {
+    "message": "Annulla"
+  },
+  "toast_deletedChain": {
+    "message": "“$1” eliminata"
+  },
+  "confirm_deleteChain": {
+    "message": "Eliminare la catena “$1”?"
+  },
+  "label_delayBefore": {
+    "message": "Attendi prima"
+  },
+  "label_delayAfter": {
+    "message": "Attendi dopo"
+  },
+  "edit_autosave": {
+    "message": "Le modifiche vengono salvate automaticamente"
+  },
+  "edit_saved": {
+    "message": "Salvato"
+  },
+  "test_runHint": {
+    "message": "Viene eseguito sulla pagina web che stai vedendo, non su questa pagina delle impostazioni"
+  },
+  "sidepanel_noChains": {
+    "message": "Ancora nessuna catena"
+  },
+  "sidepanel_noMatches": {
+    "message": "Nessuna catena corrisponde"
+  },
+  "empty_restore_hint": {
+    "message": "Eliminata per errore? Ripristina le catene integrate."
+  },
+  "toast_removedAction": {
+    "message": "Passaggio “$1” rimosso"
+  },
+  "toast_defaultMoved": {
+    "message": "La catena predefinita ora è $1"
+  },
+  "sidepanel_openInSettings": {
+    "message": "Apri nelle impostazioni"
+  },
+  "toast_noWebTarget": {
+    "message": "Nessuna pagina web su cui agire: apri prima una scheda"
   }
 }

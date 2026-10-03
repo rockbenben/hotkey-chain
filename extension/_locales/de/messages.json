@@ -174,7 +174,7 @@
     "message": "Noch keine Aktionen"
   },
   "actions_more": {
-    "message": "weitere Aktionen"
+    "message": "+$1 weitere Aktionen"
   },
   "actions_count": {
     "message": "Aktionen"
@@ -588,7 +588,7 @@
     "message": "Wähle diese Erweiterung, um deine eigenen Aktionsketten auszuführen; wählst du eine andere Erweiterung, werden Verwaltungsaktionen darauf ausgeführt (aktivieren/deaktivieren, deinstallieren, Optionen öffnen …), nicht deren eigene Tastenkürzel."
   },
   "hint_callExtension": {
-    "message": "Sendet eine Nachricht an eine andere Erweiterung. Funktioniert nur, wenn diese Erweiterung externe Nachrichten akzeptiert (externally_connectable) – die meisten tun das nicht, daher passiert möglicherweise nichts."
+    "message": "Sendet eine Nachricht an eine andere Erweiterung. Funktioniert nur, wenn diese Erweiterung externe Nachrichten akzeptiert – die meisten tun das nicht, daher passiert möglicherweise nichts."
   },
   "label_presetAction": {
     "message": "Voreingestellte Aktion"
@@ -879,7 +879,7 @@
     "message": "Bereits in der Leseliste"
   },
   "msg_readingListUnsupported": {
-    "message": "Leselisten-API wird in diesem Browser nicht unterstützt"
+    "message": "Dieser Browser hat keine Leseliste"
   },
   "msg_cacheCleared": {
     "message": "Browser-Cache geleert"
@@ -1101,7 +1101,7 @@
     "message": "Einstellungen"
   },
   "sidepanel_searchPlaceholder": {
-    "message": "Aktionsketten suchen..."
+    "message": "Aktionsketten suchen…"
   },
   "sidepanel_noChainsFound": {
     "message": "Keine Ketten gefunden"
@@ -1152,7 +1152,7 @@
     "message": "Wählen Sie sofort einsatzbereite Automatisierungs-Workflows und fügen Sie sie mit einem Klick hinzu"
   },
   "tmpl_gallery_search_placeholder": {
-    "message": "Vorlagen nach Name, Beschreibung oder Aktion durchsuchen..."
+    "message": "Vorlagen nach Name, Beschreibung oder Aktion durchsuchen…"
   },
   "tmpl_gallery_use": {
     "message": "Vorlage verwenden"
@@ -1164,7 +1164,7 @@
     "message": "Keine passenden Vorlagen gefunden"
   },
   "tmpl_gallery_empty_desc": {
-    "message": "Versuchen Sie andere Suchbegriffe oder wechseln Sie die Kategorie"
+    "message": "Versuchen Sie einen anderen Suchbegriff oder eine andere Kategorie"
   },
   "tmpl_gallery_empty_reset": {
     "message": "Suche zurücksetzen"
@@ -1251,7 +1251,7 @@
     "message": "Dies löscht Cookies und Download-Verlauf für ALLE Websites, nicht nur für diese. Fortfahren?"
   },
   "tmpl_gallery_footer_hint": {
-    "message": "Klicken Sie auf eine Vorlage, um sie zu erstellen und anzupassen. Alle Parameter sind frei anpassbar."
+    "message": "„Direkt hinzufügen“ übernimmt die Vorlage; „Hinzufügen · bearbeiten“ öffnet zusätzlich den Editor."
   },
   "actionPicker_title": {
     "message": "Aktion hinzufügen"
@@ -1281,16 +1281,16 @@
     "message": "Leere Kette erstellen"
   },
   "tmpl_gallery_add_direct": {
-    "message": "Zu meinen Ketten hinzufügen"
+    "message": "Direkt hinzufügen"
   },
   "tmpl_gallery_add_and_edit": {
-    "message": "Hinzufügen & Anpassen"
+    "message": "Hinzufügen · bearbeiten"
   },
   "toast_chainAdded_actionRun": {
     "message": "Jetzt ausführen"
   },
   "workflow_title": {
-    "message": "Workflow-Automatisierung (Pipeline)"
+    "message": "Automatisch zur nächsten Kette"
   },
   "workflow_subtitle": {
     "message": "Automatisch mit der nächsten Stufe verketten und Ausgabedaten weiterleiten"
@@ -1416,7 +1416,7 @@
     "message": "Pop-ups für diese Website erlaubt"
   },
   "badge_requiresAi": {
-    "message": "Erfordert On-Device-KI"
+    "message": "Erfordert KI in Chrome"
   },
   "hint_aiRequirement": {
     "message": "Läuft auf Chromes integriertem Gemini Nano – alles bleibt auf Ihrem Gerät. Erfordert Chrome für Desktop mit ausreichend GPU oder RAM; weder API-Schlüssel noch Flags nötig."
@@ -1434,7 +1434,7 @@
     "message": "Keine häufig besuchten Websites im Browserverlauf gefunden"
   },
   "msg_topSitesOpened": {
-    "message": " häufig besuchte Websites im Hintergrund geöffnet"
+    "message": "$1 häufig besuchte Websites im Hintergrund geöffnet"
   },
   "tmpl_pureReader": {
     "message": "Ablenkungsfreier Lesemodus"
@@ -1592,6 +1592,15 @@
   "progress_failed": {
     "message": "Mit Fehlern beendet"
   },
+  "hud_stop": {
+    "message": "Stopp"
+  },
+  "hud_stopping": {
+    "message": "Stoppen…"
+  },
+  "progress_cancelled": {
+    "message": "Gestoppt"
+  },
   "label_noCopy": {
     "message": "Nicht automatisch in die Zwischenablage kopieren (Ergebnis an die nächste Aktion übergeben)"
   },
@@ -1609,5 +1618,50 @@
   },
   "shortcut_badge_unset": {
     "message": "Kein Tastenkürzel"
+  },
+  "toast_undo": {
+    "message": "Rückgängig"
+  },
+  "toast_deletedChain": {
+    "message": "„$1“ gelöscht"
+  },
+  "confirm_deleteChain": {
+    "message": "Aktionskette „$1“ löschen?"
+  },
+  "label_delayBefore": {
+    "message": "Vorher warten"
+  },
+  "label_delayAfter": {
+    "message": "Danach warten"
+  },
+  "edit_autosave": {
+    "message": "Änderungen werden automatisch gespeichert"
+  },
+  "edit_saved": {
+    "message": "Gespeichert"
+  },
+  "test_runHint": {
+    "message": "Läuft auf der gerade angezeigten Webseite, nicht auf dieser Einstellungsseite"
+  },
+  "sidepanel_noChains": {
+    "message": "Noch keine Aktionsketten"
+  },
+  "sidepanel_noMatches": {
+    "message": "Keine Ketten passen zur Suche"
+  },
+  "empty_restore_hint": {
+    "message": "Versehentlich gelöscht? Stellen Sie die integrierten Ketten wieder her."
+  },
+  "toast_removedAction": {
+    "message": "Schritt „$1“ entfernt"
+  },
+  "toast_defaultMoved": {
+    "message": "Standardkette ist jetzt $1"
+  },
+  "sidepanel_openInSettings": {
+    "message": "In den Einstellungen öffnen"
+  },
+  "toast_noWebTarget": {
+    "message": "Keine Webseite zum Ausführen – bitte zuerst einen Tab öffnen"
   }
 }

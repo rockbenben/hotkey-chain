@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="assets/bootstrap-icons.css" />
     <!-- Custom styles -->
     <link rel="stylesheet" href="options.css" />
+    <!-- Sets data-bs-theme before first paint; MV3 forbids the inline version -->
+    <script src="theme.js"></script>
   </head>
   <body>
     <div class="container-fluid">
@@ -127,9 +129,11 @@
                   <h3 class="h4 mb-0" id="editChainTitle" data-i18n="edit_title">编辑动作链</h3>
                 </div>
               </div>
-              <div class="edit-actions d-flex gap-2">
+              <div class="edit-actions d-flex align-items-center gap-2">
+                <!-- 编辑器改一下就自动存，屏上从没说过；这里给它一个会变的回执 -->
+                <span id="saveStatus" class="save-status" role="status" aria-live="polite" data-i18n="edit_autosave">改动自动保存</span>
                 <button id="exportChainBtn" class="btn btn-outline-secondary"><i class="bi bi-download me-2"></i><span data-i18n="edit_exportChain">导出此链</span></button>
-                <button id="testChainBtn" class="btn btn-outline-primary"><i class="bi bi-play me-2"></i><span data-i18n="edit_test">测试执行</span></button>
+                <button id="testChainBtn" class="btn btn-outline-primary" data-i18n-title="test_runHint"><i class="bi bi-play me-2"></i><span data-i18n="edit_test">试运行</span></button>
               </div>
             </div>
           </div>
@@ -142,11 +146,11 @@
                 <div class="chain-info-panel">
                   <h5 class="mb-3" data-i18n="info_basic">基本信息</h5>
                   <div class="mb-3">
-                    <label class="form-label" data-i18n="info_name">动作链名称</label>
+                    <label class="form-label" for="chainNameInput" data-i18n="info_name">动作链名称</label>
                     <input type="text" class="form-control" id="chainNameInput" data-i18n-placeholder="info_name_placeholder" placeholder="输入动作链名称" />
                   </div>
                   <div class="mb-3">
-                    <label class="form-label" data-i18n="info_desc">描述</label>
+                    <label class="form-label" for="chainDescInput" data-i18n="info_desc">描述</label>
                     <textarea class="form-control" id="chainDescInput" rows="3" data-i18n-placeholder="info_desc_placeholder" placeholder="可选：描述这个动作链的用途"></textarea>
                   </div>
                   <div class="form-check">
@@ -157,11 +161,11 @@
                   <hr />
                   <h6 class="mb-3" data-i18n="info_triggers">自动触发</h6>
                   <div class="mb-3">
-                    <label class="form-label" data-i18n="info_schedule">定时运行（分钟，0 = 关闭）</label>
+                    <label class="form-label" for="chainScheduleInput" data-i18n="info_schedule">定时运行（分钟，0 = 关闭）</label>
                     <input type="number" class="form-control" id="chainScheduleInput" min="0" max="10080" step="1" value="0" />
                   </div>
                   <div class="mb-3">
-                    <label class="form-label" data-i18n="info_autoRun">页面加载时自动运行（网址规则）</label>
+                    <label class="form-label" for="chainAutoRunInput" data-i18n="info_autoRun">页面加载时自动运行（网址规则）</label>
                     <textarea
                       class="form-control"
                       id="chainAutoRunInput"
@@ -174,9 +178,8 @@
                   <hr />
                   <div class="d-flex align-items-center justify-content-between mb-2">
                     <h6 class="mb-0 fw-bold" data-i18n="workflow_title">
-                      <i class="bi bi-diagram-3 me-2 text-primary" aria-hidden="true"></i>工作流自动组合 (Pipeline)
+                      <i class="bi bi-diagram-3 me-2 text-primary" aria-hidden="true"></i>自动接下一条链
                     </h6>
-                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle" style="font-size: 0.7rem;">Workflow</span>
                   </div>
                   <p class="text-muted small mb-3" data-i18n="workflow_subtitle">
                     自动衔接下一步工作流，上一步输出数据自动流向下游
@@ -233,7 +236,9 @@
     </div>
 
     <!-- 模板库模态框 (Template Gallery Modal) -->
-    <div class="modal fade" id="templateGalleryModal" tabindex="-1" aria-labelledby="templateGalleryModalLabel" aria-hidden="true">
+    <!-- aria-hidden is managed by Bootstrap when the dialog opens; declaring it here
+                 makes Chrome warn once focus lands inside the dialog. -->
+    <div class="modal fade" id="templateGalleryModal" tabindex="-1" aria-labelledby="templateGalleryModalLabel">
       <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content template-modal-content">
           <div class="modal-header border-0 pb-2">
@@ -254,6 +259,7 @@
             <div class="template-toolbar mb-4">
               <div class="row g-3 align-items-center">
                 <div class="col-md-5 col-lg-4">
+                  <label class="visually-hidden" for="templateSearchInput" data-i18n="tmpl_gallery_search_placeholder">搜索模板名称、描述或动作…</label>
                   <div class="input-group">
                     <span class="input-group-text bg-body-secondary border-end-0">
                       <i class="bi bi-search text-muted" aria-hidden="true"></i>
@@ -299,7 +305,7 @@
     </div>
 
     <!-- 动作选择器模态框 (Action Picker Modal) -->
-    <div class="modal fade" id="actionPickerModal" tabindex="-1" aria-labelledby="actionPickerModalLabel" aria-hidden="true">
+    <div class="modal fade" id="actionPickerModal" tabindex="-1" aria-labelledby="actionPickerModalLabel">
       <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class="modal-content action-picker-content">
           <div class="modal-header border-0 pb-2">
@@ -318,6 +324,7 @@
           <div class="modal-body pt-2">
             <!-- 搜索与分类工具栏 -->
             <div class="action-picker-toolbar mb-3">
+              <label class="visually-hidden" for="actionPickerSearchInput" data-i18n="actionPicker_searchPlaceholder">搜索动作名称</label>
               <div class="input-group mb-3">
                 <span class="input-group-text bg-body-secondary border-end-0">
                   <i class="bi bi-search text-muted" aria-hidden="true"></i>
@@ -358,6 +365,8 @@
     <script src="assets/Sortable.min.js"></script>
     <!-- Bootstrap 5.3.8 bundle — dropdown, collapse and toast are all in use -->
     <script src="assets/bootstrap.bundle.min.js"></script>
+    <script src="direction.js"></script>
+    <script src="shortcuts.js"></script>
     <script src="options.js"></script>
   </body>
 </html>

@@ -9,6 +9,8 @@
   --accent: #3b82f6;
   --accent-hover: #2563eb;
   --card-bg: #ffffff;
+  --accent-btn: var(--accent);
+  --accent-btn-ink: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,6 +25,8 @@
     --accent: #60a5fa;
     --accent-hover: #3b82f6;
     --card-bg: #1e293b;
+    --accent-btn: #2563eb;
+    --accent-btn-ink: #ffffff;
   }
 }
 
@@ -164,7 +168,7 @@ body {
 }
 
 .chain-badge {
-  font-size: 10px;
+  font-size: 12px;
   padding: 1px 5px;
   border-radius: 4px;
   background-color: var(--bg-hover);
@@ -173,7 +177,7 @@ body {
 }
 
 .chain-desc {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--text-secondary);
   white-space: nowrap;
   overflow: hidden;
@@ -181,8 +185,9 @@ body {
 }
 
 .btn-run {
-  background-color: var(--accent);
-  color: #ffffff;
+  /* var(--accent) is #60a5fa in dark and white on it measured 2.54:1 */
+  background-color: var(--accent-btn);
+  color: var(--accent-btn-ink);
   border: none;
   border-radius: 6px;
   padding: 4px 10px;
@@ -241,4 +246,22 @@ body {
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- leftovers the variable-based theme could not reach ---- */
+.ai-chip {
+  background: rgba(13, 202, 240, 0.14);
+  color: #0a5b6b;
+  border: 1px solid rgba(13, 202, 240, 0.4);
+  font-size: 11px;
+}
+/* Bootstrap's .text-muted is written for a light page; the panel has its own ramp */
+.sidepanel-footer, .sidepanel-footer .text-muted, #chainCount { color: var(--text-secondary); font-size: 12px; }
+/* Long localized counts and the manage link share one row; let the number give way. */
+.sidepanel-footer > div > span:first-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#searchInput::placeholder { color: var(--text-muted); }
+@media (prefers-color-scheme: dark) {
+  .ai-chip { color: #67e8f9; border-color: rgba(103, 232, 249, 0.4); }
+  #addChainLink { color: #93c5fd; }
+  .empty-state .text-muted { color: var(--text-secondary) !important; }
 }

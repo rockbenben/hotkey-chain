@@ -3,6 +3,12 @@
 // Localized-message override, mirrored from the options-page language choice.
 // Without this, content scripts fall back to chrome.i18n (the browser UI
 // language), which diverges from the override the user picked in Options.
+//
+// Fetched eagerly at document_idle. Measured before deciding to leave it:
+// the map is 552 keys / 20KB, it moves once per top frame, and "auto" never
+// fetches it at all — so only users who picked a language pay, once per tab.
+// Deferring it to the first UI message would make every action's handler
+// async to save a sub-millisecond round trip, which is the worse trade.
 let contentI18nOverride = null;
 
 async function loadContentLocaleOverride() {
@@ -22,13 +28,18 @@ async function loadContentLocaleOverride() {
 }
 
 // i18n helper
-function t(key, fallback = "") {
+// 与 options.js / background.js 同一契约：带 $1 的句子必须把替换值传进来，
+// 因为 getMessage 不传参数时会先删掉占位符再返回。
+function t(key, fallback = "", args = null) {
+  const list = args == null ? null : Array.isArray(args) ? args : [args];
+  const fill = (text) =>
+    list == null ? text : String(text).replace(/\$(\d)/g, (m, n) => list[Number(n) - 1] ?? m);
   try {
-    if (contentI18nOverride && contentI18nOverride[key]) return contentI18nOverride[key];
-    const msg = chrome.i18n.getMessage(key);
-    return msg || fallback || key;
+    if (contentI18nOverride && contentI18nOverride[key]) return fill(contentI18nOverride[key]);
+    const msg = list == null ? chrome.i18n.getMessage(key) : chrome.i18n.getMessage(key, list);
+    return fill(msg || fallback || key);
   } catch (e) {
-    return fallback || key;
+    return fill(fallback || key);
   }
 }
 
@@ -160,7 +171,7 @@ function handleBackgroundMessage(request, sender, sendResponse) {
         else if (action === "media_speed_down") rate = Math.max(rate - 0.25, 0.25);
         else rate = 1;
         media.forEach((m) => (m.playbackRate = rate));
-        showNotification(t("content_playbackRate", "Playback speed: $1x").replace("$1", String(rate)));
+        showNotification(t("content_playbackRate", "Playback speed: $1x", String(rate)));
         break;
       }
 
@@ -364,9 +375,10 @@ function toggleFullscreen() {
 //
 // 链在后台跑，用户盯着页面却看不到任何反馈：工具栏徽章只有一个小图标，
 // 页面里什么都没有。长链尤其难判断是卡住了还是快跑完了。
-// 这个 HUD 显示「哪条链、第几步 / 共几步、正在做什么」。
+// 这个 HUD 显示「哪条链、第几步 / 共几步、正在做什么」，并给一个「停止」入口。
 //
-// 位置选右下角：页内提示（showNotification）占了右上角且会堆叠，错开互不遮挡。
+// 位置选左下角：页内提示（showNotification）占了右上角且会堆叠，
+// 右下角又是客服球 / cookie 条的地盘。
 const CHAIN_PROGRESS_ID = "hotkey-chain-progress";
 let chainProgressTimer = null;
 
@@ -387,7 +399,7 @@ function buildChainProgressEl() {
   el.id = CHAIN_PROGRESS_ID;
   el.style.cssText = `
     position: fixed;
-    right: 20px;
+    left: 20px;
     bottom: 20px;
     min-width: 250px;
     max-width: 340px;
@@ -401,13 +413,40 @@ function buildChainProgressEl() {
     z-index: 2147483645;
     box-shadow: 0 12px 32px -10px rgba(20,18,45,.55);
     transition: opacity 0.3s ease;
-    pointer-events: none;
+    pointer-events: auto;
   `;
+
+  const head = document.createElement("div");
+  head.style.cssText = "display:flex;align-items:center;gap:10px;margin-bottom:8px;";
 
   const name = document.createElement("div");
   name.dataset.role = "name";
   name.style.cssText =
-    "font-weight:600;font-size:14px;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:8px;";
+    "flex:1;min-width:0;font-weight:600;font-size:14px;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;";
+
+  // 长链跑到一半想停下来，原来只能等它跑完（或去设置页找）。HUD 就在眼前，
+  // 把「停止」放在同一行：看得见、点得到，也不用猜这条链还要跑多久。
+  const stop = document.createElement("button");
+  stop.dataset.role = "stop";
+  stop.type = "button";
+  stop.textContent = t("hud_stop", "Stop");
+  stop.style.cssText =
+    "flex-shrink:0;appearance:none;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.10);color:#fff;font:inherit;font-size:12px;font-weight:600;line-height:1;padding:5px 10px;border-radius:8px;cursor:pointer;";
+  stop.addEventListener("mouseenter", () => { stop.style.background = "rgba(255,255,255,.20)"; });
+  stop.addEventListener("mouseleave", () => { if (!stop.disabled) stop.style.background = "rgba(255,255,255,.10)"; });
+  stop.addEventListener("click", () => {
+    if (stop.disabled) return;
+    stop.disabled = true;
+    stop.style.cursor = "default";
+    stop.style.opacity = ".6";
+    stop.textContent = t("hud_stopping", "Stopping…");
+    try {
+      Promise.resolve(chrome.runtime.sendMessage({ action: "cancelChainRun" })).catch(() => {});
+    } catch (e) {
+      // 上下文失效（扩展刚更新）：无事可做，链会自己跑完
+    }
+  });
+  head.append(name, stop);
 
   const track = document.createElement("div");
   track.style.cssText = "height:4px;border-radius:999px;background:rgba(255,255,255,.18);overflow:hidden;margin-bottom:8px;";
@@ -420,7 +459,7 @@ function buildChainProgressEl() {
   meta.dataset.role = "meta";
   meta.style.cssText = "color:#c7c9d9;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;";
 
-  el.append(name, track, meta);
+  el.append(head, track, meta);
   return el;
 }
 
@@ -433,20 +472,21 @@ function showChainProgress(payload) {
     actionType = "",
     actionName = "",
     hadErrors = false,
+    cancelled = false,
   } = payload || {};
 
   // 结束：先切到结果态，停一下再淡出，否则最后一步一闪而过
   if (phase === "end") {
     const existing = document.getElementById(CHAIN_PROGRESS_ID);
     if (!existing) return;
-    paintChainProgress(existing, { chainName, index: total, total, phase: "end", hadErrors });
+    paintChainProgress(existing, { chainName, index, total, phase: "end", hadErrors, cancelled });
     clearTimeout(chainProgressTimer);
     chainProgressTimer = setTimeout(() => {
       const el = document.getElementById(CHAIN_PROGRESS_ID);
       if (!el) return;
       el.style.opacity = "0";
       chainProgressTimer = setTimeout(removeChainProgress, 300);
-    }, hadErrors ? 2600 : 1200);
+    }, hadErrors || cancelled ? 2600 : 1200);
     return;
   }
 
@@ -461,11 +501,28 @@ function showChainProgress(payload) {
   paintChainProgress(el, { chainName, index, total, actionType, actionName, phase });
 }
 
-function paintChainProgress(el, { chainName, index, total, actionType, actionName, phase, hadErrors }) {
+function paintChainProgress(el, { chainName, index, total, actionType, actionName, phase, hadErrors, cancelled }) {
   const pct = total > 0 ? Math.min(100, Math.round((index / total) * 100)) : 0;
   const done = phase === "end";
-  const accent = done ? (hadErrors ? "#f87171" : "#4ade80") : "#93c5fd";
+  const accent = done ? (cancelled ? "#fbbf24" : hadErrors ? "#f87171" : "#4ade80") : "#93c5fd";
   const shown = Math.min(index, total);
+
+  // 「停止」只在真的还在跑时给；跑完了它没有意义。
+  // 上一条链淡出前可能还在原地，所以第 1 步要把按钮恢复成可点状态。
+  const stop = el.querySelector('[data-role="stop"]');
+  if (stop) {
+    if (done) {
+      stop.style.display = "none";
+    } else {
+      stop.style.display = "";
+      if (index === 1) {
+        stop.disabled = false;
+        stop.style.cursor = "pointer";
+        stop.style.opacity = "1";
+        stop.textContent = t("hud_stop", "Stop");
+      }
+    }
+  }
 
   const bar = el.querySelector('[data-role="bar"]');
   bar.style.width = `${pct}%`;
@@ -474,7 +531,8 @@ function paintChainProgress(el, { chainName, index, total, actionType, actionNam
   // 主行：正在做什么（结束时显示结果态）
   let label;
   if (done) {
-    label = hadErrors ? t("progress_failed", "Finished with errors") : t("progress_done", "Done");
+    if (cancelled) label = t("progress_cancelled", "Stopped");
+    else label = hadErrors ? t("progress_failed", "Finished with errors") : t("progress_done", "Done");
   } else if (actionName) {
     // 后台已经按用户选的语言解析好了，直接用
     label = actionName;

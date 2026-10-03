@@ -129,7 +129,7 @@
     "message": "返回"
   },
   "edit_test": {
-    "message": "测试执行"
+    "message": "试运行"
   },
   "edit_exportChain": {
     "message": "导出此链"
@@ -174,13 +174,13 @@
     "message": "暂无动作"
   },
   "actions_more": {
-    "message": "还有"
+    "message": "还有 $1 步"
   },
   "actions_count": {
     "message": "个动作"
   },
   "card_exec": {
-    "message": "执行"
+    "message": "运行"
   },
   "card_edit": {
     "message": "编辑"
@@ -264,7 +264,7 @@
     "message": "新标签页"
   },
   "actionName_copy_url": {
-    "message": "复制URL"
+    "message": "复制网址"
   },
   "actionName_copy_title": {
     "message": "复制标题"
@@ -588,7 +588,7 @@
     "message": "选「本扩展」运行你自己的动作链；选其它扩展则是对它执行管理操作（启用/停用、卸载、打开选项等），不是触发该扩展自己的快捷键。"
   },
   "hint_callExtension": {
-    "message": "向另一个扩展发送消息；仅当目标扩展允许外部消息（externally_connectable）时才生效，多数扩展不支持，可能没有反应。"
+    "message": "向另一个扩展发送消息；仅当目标扩展允许外部消息时才生效，多数扩展不支持，可能没有反应。"
   },
   "label_presetAction": {
     "message": "预设动作"
@@ -765,10 +765,10 @@
     "message": "$1 不是 Chrome 应用，无法启动"
   },
   "toast_chainExecuted": {
-    "message": "执行动作链: $1"
+    "message": "已运行：$1"
   },
   "toast_executeFailed": {
-    "message": "执行失败"
+    "message": "运行失败"
   },
   "toast_defaultSet": {
     "message": "默认链已设置"
@@ -879,7 +879,7 @@
     "message": "已在阅读清单中"
   },
   "msg_readingListUnsupported": {
-    "message": "当前浏览器不支持阅读清单 API"
+    "message": "这个浏览器没有阅读清单功能"
   },
   "msg_cacheCleared": {
     "message": "浏览器缓存已清除"
@@ -1101,7 +1101,7 @@
     "message": "设置"
   },
   "sidepanel_searchPlaceholder": {
-    "message": "搜索动作链..."
+    "message": "搜索动作链…"
   },
   "sidepanel_noChainsFound": {
     "message": "未找到匹配的动作链"
@@ -1119,10 +1119,10 @@
     "message": "运行"
   },
   "sidepanel_executedPrefix": {
-    "message": "已执行："
+    "message": "已运行："
   },
   "sidepanel_executionFailed": {
-    "message": "执行失败"
+    "message": "运行失败"
   },
   "tmpl_cat_all": {
     "message": "全部模板"
@@ -1152,7 +1152,7 @@
     "message": "挑选开箱即用的自动化动作链，一键添加并随心定制"
   },
   "tmpl_gallery_search_placeholder": {
-    "message": "搜索模板名称、描述或动作..."
+    "message": "搜索模板名称、描述或动作…"
   },
   "tmpl_gallery_use": {
     "message": "使用此模板"
@@ -1164,7 +1164,7 @@
     "message": "未找到匹配的模板"
   },
   "tmpl_gallery_empty_desc": {
-    "message": "请尝试更换关键词或切换上方分类"
+    "message": "换个关键词试试，或换一个分类"
   },
   "tmpl_gallery_empty_reset": {
     "message": "重置搜索"
@@ -1251,7 +1251,7 @@
     "message": "这会清除【全部站点】的 Cookie 与下载记录，不只是当前站点。确定继续吗？"
   },
   "tmpl_gallery_footer_hint": {
-    "message": "点击任意模板即可直接创建并进入编辑，所有参数均可根据个人习惯自由调整"
+    "message": "「直接添加」把模板原样放进你的链列表；「添加并改参数」会顺便打开编辑器。"
   },
   "actionPicker_title": {
     "message": "添加动作"
@@ -1269,7 +1269,7 @@
     "message": "未找到相关动作，请尝试更换关键词"
   },
   "shortcut_badge_omnibox": {
-    "message": "地址栏: hc + 链名"
+    "message": "地址栏输入 hc + 链名"
   },
   "shortcut_hint_click": {
     "message": "点击前往 Chrome 快捷键设置页面"
@@ -1281,16 +1281,16 @@
     "message": "新建空白链"
   },
   "tmpl_gallery_add_direct": {
-    "message": "添加到我的链"
+    "message": "直接添加"
   },
   "tmpl_gallery_add_and_edit": {
-    "message": "添加并自定义"
+    "message": "添加并改参数"
   },
   "toast_chainAdded_actionRun": {
     "message": "立即运行"
   },
   "workflow_title": {
-    "message": "工作流自动组合 (Pipeline)"
+    "message": "自动接下一条链"
   },
   "workflow_subtitle": {
     "message": "自动衔接下一步工作流，上一步输出数据自动流向下游"
@@ -1416,7 +1416,7 @@
     "message": "当前站点已允许弹窗"
   },
   "badge_requiresAi": {
-    "message": "需端侧 AI"
+    "message": "需浏览器内置 AI"
   },
   "hint_aiRequirement": {
     "message": "依赖 Chrome 内置的 Gemini Nano（Prompt API），全程在本机运行。需要桌面版 Chrome 且有足够的显存或内存；无需 API Key，也无需开启任何 flag。"
@@ -1434,7 +1434,7 @@
     "message": "浏览历史中未找到常用常访站点"
   },
   "msg_topSitesOpened": {
-    "message": "已在后台标签页打开  个常用站点"
+    "message": "已在后台标签页打开 $1 个常用站点"
   },
   "tmpl_pureReader": {
     "message": "纯净无扰阅读"
@@ -1592,6 +1592,15 @@
   "progress_failed": {
     "message": "执行完成，但有错误"
   },
+  "hud_stop": {
+    "message": "停止"
+  },
+  "hud_stopping": {
+    "message": "正在停止…"
+  },
+  "progress_cancelled": {
+    "message": "已停止"
+  },
   "label_noCopy": {
     "message": "不自动复制到剪贴板（结果交给后续动作处理）"
   },
@@ -1609,5 +1618,50 @@
   },
   "shortcut_badge_unset": {
     "message": "未设置快捷键"
+  },
+  "toast_undo": {
+    "message": "撤销"
+  },
+  "toast_deletedChain": {
+    "message": "已删除「$1」"
+  },
+  "confirm_deleteChain": {
+    "message": "删除动作链「$1」？"
+  },
+  "label_delayBefore": {
+    "message": "开跑前等"
+  },
+  "label_delayAfter": {
+    "message": "之后等"
+  },
+  "edit_autosave": {
+    "message": "改动自动保存"
+  },
+  "edit_saved": {
+    "message": "已保存"
+  },
+  "test_runHint": {
+    "message": "作用在你正在浏览的网页上，不是这个设置页"
+  },
+  "sidepanel_noChains": {
+    "message": "还没有动作链"
+  },
+  "sidepanel_noMatches": {
+    "message": "没有匹配的动作链"
+  },
+  "empty_restore_hint": {
+    "message": "删错了？可以把出厂的链放回来。"
+  },
+  "toast_removedAction": {
+    "message": "已移除动作「$1」"
+  },
+  "toast_defaultMoved": {
+    "message": "默认链已改为 $1"
+  },
+  "sidepanel_openInSettings": {
+    "message": "在设置中打开"
+  },
+  "toast_noWebTarget": {
+    "message": "没有可作用的网页：请先打开一个网页标签页再运行"
   }
 }

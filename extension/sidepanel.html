@@ -16,14 +16,15 @@
             <span class="fs-5">🔗</span>
             <h1 class="h6 mb-0 fw-bold" data-i18n="sidepanel_title">Hotkey Chain</h1>
           </div>
-          <button id="openOptionsBtn" class="btn btn-sm btn-icon" data-i18n-title="sidepanel_openSettings" title="Settings" aria-label="Settings">
+          <button id="openOptionsBtn" class="btn btn-sm btn-icon" data-i18n-title="sidepanel_openSettings" data-i18n-aria="sidepanel_openSettings" title="Settings" aria-label="Settings">
             <i class="bi bi-gear"></i>
           </button>
         </div>
         <div class="search-box">
+          <label class="visually-hidden" for="searchInput" data-i18n="sidepanel_searchPlaceholder">Search chains…</label>
           <i class="bi bi-search search-icon"></i>
           <input type="text" id="searchInput" class="form-control form-control-sm" placeholder="Search chains..." data-i18n-placeholder="sidepanel_searchPlaceholder" />
-          <button id="clearSearchBtn" class="btn-clear d-none" aria-label="Clear search">&times;</button>
+          <button id="clearSearchBtn" class="btn-clear d-none" data-i18n-aria="tmpl_gallery_empty_reset" aria-label="Clear search">&times;</button>
         </div>
       </header>
 
@@ -31,9 +32,11 @@
         <div id="chainsList" class="chains-list">
           <!-- Populated by JavaScript -->
         </div>
+        <!-- Two different empties: nothing to search, and nothing found. -->
         <div id="emptyState" class="empty-state d-none">
-          <i class="bi bi-inboxes text-muted fs-1 mb-2"></i>
-          <p class="text-muted small mb-0" data-i18n="sidepanel_noChainsFound">No chains found</p>
+          <i class="bi text-muted fs-1 mb-2" aria-hidden="true"></i>
+          <p class="text-muted small mb-0"></p>
+          <button id="emptyActionBtn" class="btn btn-link btn-sm p-0 mt-2 text-decoration-none d-none"></button>
         </div>
       </main>
 
@@ -47,6 +50,8 @@
         </div>
       </footer>
     </div>
+    <script src="direction.js"></script>
+    <script src="shortcuts.js"></script>
     <script src="sidepanel.js"></script>
   </body>
 </html>

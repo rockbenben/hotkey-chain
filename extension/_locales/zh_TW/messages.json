@@ -129,7 +129,7 @@
     "message": "返回"
   },
   "edit_test": {
-    "message": "測試執行"
+    "message": "試執行"
   },
   "edit_exportChain": {
     "message": "匯出此動作鏈"
@@ -174,7 +174,7 @@
     "message": "尚無動作"
   },
   "actions_more": {
-    "message": "項其他動作"
+    "message": "還有 $1 項"
   },
   "actions_count": {
     "message": "項動作"
@@ -588,7 +588,7 @@
     "message": "選擇此擴充功能可執行你自己的動作鏈；選擇其他擴充功能則會對其進行管理操作（啟用／停用、解除安裝、開啟選項…），而非執行該擴充功能本身的快捷功能。"
   },
   "hint_callExtension": {
-    "message": "傳送訊息給另一個擴充功能。僅在該擴充功能接受外部訊息（externally_connectable）時有效——大多數擴充功能並不接受，因此可能不會有任何作用。"
+    "message": "傳送訊息給另一個擴充功能。僅在該擴充功能接受外部訊息時有效——大多數擴充功能並不接受，因此可能不會有任何作用。"
   },
   "label_presetAction": {
     "message": "預設動作"
@@ -765,7 +765,7 @@
     "message": "$1 並非 Chrome 應用程式，無法啟動"
   },
   "toast_chainExecuted": {
-    "message": "已執行動作鏈：$1"
+    "message": "已執行：$1"
   },
   "toast_executeFailed": {
     "message": "執行失敗"
@@ -879,7 +879,7 @@
     "message": "已在閱讀清單中"
   },
   "msg_readingListUnsupported": {
-    "message": "此瀏覽器不支援閱讀清單 API"
+    "message": "此瀏覽器沒有閱讀清單功能"
   },
   "msg_cacheCleared": {
     "message": "已清除瀏覽器快取"
@@ -1101,7 +1101,7 @@
     "message": "設定"
   },
   "sidepanel_searchPlaceholder": {
-    "message": "搜尋動作鏈..."
+    "message": "搜尋動作鏈…"
   },
   "sidepanel_noChainsFound": {
     "message": "未找到符合的動作鏈"
@@ -1152,7 +1152,7 @@
     "message": "挑選隨選即用的自動化動作鏈，一鍵新增並隨心自訂"
   },
   "tmpl_gallery_search_placeholder": {
-    "message": "搜尋範本名稱、說明或動作..."
+    "message": "搜尋範本名稱、說明或動作…"
   },
   "tmpl_gallery_use": {
     "message": "使用此範本"
@@ -1164,7 +1164,7 @@
     "message": "未找到符合的範本"
   },
   "tmpl_gallery_empty_desc": {
-    "message": "請嘗試更換關鍵字或切換上方分類"
+    "message": "千換個關鍵字試試，或千換個分類"
   },
   "tmpl_gallery_empty_reset": {
     "message": "重設搜尋"
@@ -1251,7 +1251,7 @@
     "message": "這會清除【全部網站】的 Cookie 與下載記錄，不只是目前網站。確定繼續嗎？"
   },
   "tmpl_gallery_footer_hint": {
-    "message": "點擊任意範本即可直接建立並進入編輯，所有參數皆可依個人習慣自由調整"
+    "message": "「直接新增」會把範本原樣放進您的鏈列表；「新增並改參數」會順便開啟編輯器。"
   },
   "actionPicker_title": {
     "message": "新增動作"
@@ -1269,7 +1269,7 @@
     "message": "未找到相關動作，請嘗試更換關鍵字"
   },
   "shortcut_badge_omnibox": {
-    "message": "網址列: hc + 鏈名"
+    "message": "網址列輸入 hc + 鏈名"
   },
   "shortcut_hint_click": {
     "message": "點擊前往 Chrome 快捷鍵設定頁面"
@@ -1281,16 +1281,16 @@
     "message": "建立空白鏈"
   },
   "tmpl_gallery_add_direct": {
-    "message": "新增到我的鏈"
+    "message": "直接新增"
   },
   "tmpl_gallery_add_and_edit": {
-    "message": "新增並自訂"
+    "message": "新增並改參數"
   },
   "toast_chainAdded_actionRun": {
     "message": "立即執行"
   },
   "workflow_title": {
-    "message": "工作流程自動組合 (Pipeline)"
+    "message": "自動接下一條鏈"
   },
   "workflow_subtitle": {
     "message": "自動銜接下一步工作流程，上一步輸出數據自動流向下游"
@@ -1416,7 +1416,7 @@
     "message": "目前站台已允許彈跳視窗"
   },
   "badge_requiresAi": {
-    "message": "需端側 AI"
+    "message": "需瀏覽器內建 AI"
   },
   "hint_aiRequirement": {
     "message": "依賴 Chrome 內建的 Gemini Nano（Prompt API），全程在本機執行。需要桌面版 Chrome 且有足夠的顯示記憶體或記憶體；無需 API Key，也無需開啟任何 flag。"
@@ -1434,7 +1434,7 @@
     "message": "瀏覽歷史中未找到常用常訪網站"
   },
   "msg_topSitesOpened": {
-    "message": "已在背景分頁開啟  個常用網站"
+    "message": "已在背景分頁開啟 $1 個常用網站"
   },
   "tmpl_pureReader": {
     "message": "純淨無擾閱讀"
@@ -1592,6 +1592,15 @@
   "progress_failed": {
     "message": "執行完成，但有錯誤"
   },
+  "hud_stop": {
+    "message": "停止"
+  },
+  "hud_stopping": {
+    "message": "正在停止…"
+  },
+  "progress_cancelled": {
+    "message": "已停止"
+  },
   "label_noCopy": {
     "message": "不自動複製到剪貼簿（結果交給後續動作處理）"
   },
@@ -1609,5 +1618,50 @@
   },
   "shortcut_badge_unset": {
     "message": "未設定快速鍵"
+  },
+  "toast_undo": {
+    "message": "復原"
+  },
+  "toast_deletedChain": {
+    "message": "已刪除「$1」"
+  },
+  "confirm_deleteChain": {
+    "message": "刪除動作鏈「$1」？"
+  },
+  "label_delayBefore": {
+    "message": "開始前等"
+  },
+  "label_delayAfter": {
+    "message": "之後等"
+  },
+  "edit_autosave": {
+    "message": "改變自動儲存"
+  },
+  "edit_saved": {
+    "message": "已儲存"
+  },
+  "test_runHint": {
+    "message": "作用在您正在瀏覽的網頁上，不是這個設定頁"
+  },
+  "sidepanel_noChains": {
+    "message": "還沒有動作鏈"
+  },
+  "sidepanel_noMatches": {
+    "message": "沒有匹配的動作鏈"
+  },
+  "empty_restore_hint": {
+    "message": "刪錯了？可以把出廠的鏈放回來。"
+  },
+  "toast_removedAction": {
+    "message": "已移除動作「$1」"
+  },
+  "toast_defaultMoved": {
+    "message": "預設鏈已改為 $1"
+  },
+  "sidepanel_openInSettings": {
+    "message": "在設定中開銷"
+  },
+  "toast_noWebTarget": {
+    "message": "沒有可作用的網頁：請先開啟一個網頁分頁再執行"
   }
 }

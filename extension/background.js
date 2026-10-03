@@ -682,7 +682,7 @@ chrome.windows.onFocusChanged.addListener(async (windowId) => {
 // Resolve the tab an options-page-initiated run should target: the user's last
 // real page, with a fallback (after a service-worker restart) to any active
 // normal tab. Returns {} to keep the existing active-tab behaviour when none.
-async function resolveUserRunContext() {
+async function resolveUserRunContext(fromWindowId) {
   if (lastUserTabId == null && chrome.storage?.session) {
     try {
       const data = await chrome.storage.session.get("lastUserTabId");
@@ -702,12 +702,32 @@ async function resolveUserRunContext() {
   } catch (e) {
     // fall through to default
   }
+  // Measured, not assumed: with the remembered tab gone (SW restart, tab closed)
+  // the active tab *is* the options page, so the branch above finds nothing and
+  // the run used to land on the settings page itself — 放大 zoomed the settings
+  // tab. Look for the web page the user last used in that window instead.
+  try {
+    const webTabs = await chrome.tabs.query({
+      windowId: fromWindowId,
+      url: ["http://*/*", "https://*/*"],
+    });
+    const pick = webTabs
+      .filter((t) => t.id != null)
+      .sort((a, b) => (b.lastAccessed || 0) - (a.lastAccessed || 0))[0];
+    if (pick) return { tabId: pick.id };
+  } catch (e) {
+    // no window to look in
+  }
   return {};
 }
 
 // --- Run-state badge feedback ---
 
 let activeChainRuns = 0;
+
+// 用户可以叫停正在跑的链（页面 HUD 上的「停止」按钮）。检查点在动作循环里，
+// 所以粒度是「下一个动作开始之前」——正在执行的那一步会跑完它自己。
+let chainCancelled = false;
 
 async function badgeChainStarted() {
   activeChainRuns++;
@@ -790,6 +810,8 @@ async function executeChain(chainKey, context = {}) {
     console.warn(`Chain call depth limit (${MAX_CHAIN_DEPTH}) reached at ${chainKey}`);
     return;
   }
+  // 最外层那次运行开始时清掉上一次的停止标记
+  if (callStack.length === 0) chainCancelled = false;
 
   let errorCount = 0;
   let chain = null;
@@ -798,7 +820,10 @@ async function executeChain(chainKey, context = {}) {
   const isOutermost = activeChainRuns === 1;
   // finally 里也要用，所以必须在 try 之外声明
   let progressTabId = context.tabId || null;
+  let cancelledRun = false;
+  let stepsDone = 0;
   let totalSteps = 0;
+  let stepIndex = 0;
   try {
     const config = await getConfig();
     chain = config.chains[chainKey];
@@ -841,13 +866,22 @@ async function executeChain(chainKey, context = {}) {
     // Cap at 30 s so crafted imports can't hang the service worker indefinitely.
     let stoppedEarly = false;
     totalSteps = chain.actions.length;
-    let stepIndex = 0;
+    const checkCancelled = () => {
+      if (!chainCancelled) return false;
+      console.log(`Chain ${chain.name} stopped by the user at step ${stepIndex}/${totalSteps}`);
+      stoppedEarly = true;
+      cancelledRun = true;
+      return true;
+    };
     for (const action of chain.actions) {
+      if (checkCancelled()) break;
       stepIndex++;
       const delay = Math.min(Math.max(0, Number(action.delay) || 0), 30000);
       if (delay > 0) {
         await chainSleep(delay);
       }
+      // 等待期间用户可能按了停止：延迟越长，这个检查点越重要
+      if (checkCancelled()) break;
 
       // Re-resolve the tab on every step so actions after
       // close_tab / next_tab / new_tab target the right tab
@@ -883,6 +917,7 @@ async function executeChain(chainKey, context = {}) {
       };
 
       const result = await executeAction(tab, action, actionCtx);
+      stepsDone = stepIndex;
       if (result && result.output !== undefined) {
         context.lastOutput = result.output;
         context.variables.output = result.output;
@@ -910,8 +945,8 @@ async function executeChain(chainKey, context = {}) {
         variables: passData ? { ...context.variables } : {},
         lastOutput: passData ? context.lastOutput : "",
       });
-    } else if (errorCount > 0 && chain.fallbackChainKey) {
-      // Fallback branch upon error
+    } else if (errorCount > 0 && chain.fallbackChainKey && !cancelledRun) {
+      // Fallback branch upon error（用户主动停止不算出错，不该接着跑备用链）
       await executeChain(chain.fallbackChainKey, {
         tabId: context.tabId,
         noFocus: context.noFocus,
@@ -930,9 +965,12 @@ async function executeChain(chainKey, context = {}) {
       await sendProgress(progressTabId, {
         phase: "end",
         chainName: chain?.name || "",
-        index: totalSteps,
+        // 叫停时报告真正跑完的步数：stepIndex 会指向被跳过的那一步，
+        // 而「刚执行完」的那一步才是用户看到的进度（否则 HUD 会少报一步）。
+        index: cancelledRun ? stepsDone : totalSteps,
         total: totalSteps,
         hadErrors: errorCount > 0,
+        cancelled: cancelledRun,
       });
     }
     if (errorCount > 0 && chain) {
@@ -2490,7 +2528,7 @@ async function executeAction(tab, action, ctx = {}) {
             await chrome.tabs.create({ url: site.url, active: false });
           }
         }
-        await showSystemNotification(t("msg_topSitesOpened", "Opened top sites in background tabs"), t("extName", "Hotkey Chain"));
+        await showSystemNotification(t("msg_topSitesOpened", "Opened $1 top sites in background tabs", [String(toOpen.length)]), t("extName", "Hotkey Chain"));
         return { output: toOpen.map((s) => s.url).join("\n") };
       }
 
@@ -2849,15 +2887,31 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   } else if (request.action === "executeChain") {
     (async () => {
       try {
-        const ctx = await resolveUserRunContext();
+        // An extension page is not a tab, so sender.tab is undefined here: the
+        // asking page passes its own window so the fallback can look in it.
+        const windowId = request.windowId != null ? request.windowId : (sender && sender.tab ? sender.tab.windowId : undefined);
+        const ctx = await resolveUserRunContext(windowId);
+        // An extension page asking for a run with no web page to run on must not
+        // fall back onto itself: measured, 放大 left the settings tab zoomed.
+        if (request.expectWebTab && ctx.tabId == null) {
+          sendResponse({ success: false, reason: "noWebTab" });
+          return;
+        }
         await executeChain(request.chainKey, ctx);
-        sendResponse({ success: true });
+        // Report where it ran so the settings page can say so too: with no web
+        // page anywhere the actions quietly do nothing on the settings tab.
+        sendResponse({ success: true, tabId: ctx && ctx.tabId != null ? ctx.tabId : null });
       } catch (error) {
         console.error("Failed to execute chain:", error);
         sendResponse({ success: false, error: String(error?.message || error) });
       }
     })();
     return true;
+  } else if (request.action === "cancelChainRun") {
+    // 页面 HUD 的「停止」。同步置位、同步回复，不等异步：调用方（内容脚本）
+    // 发完就可能断开消息通道。
+    chainCancelled = true;
+    sendResponse({ success: true, running: activeChainRuns > 0 });
   } else if (request.action === "resetToDefaults") {
     (async () => {
       try {

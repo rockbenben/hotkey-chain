@@ -205,12 +205,13 @@ test("每个 JS 源文件都能通过语法解析", () => {
   // background.js 曾经漏掉一个 }（把新代码插进了 showSystemNotification 内部），
   // 40 条用例全绿，而 service worker 根本解析不了 —— 整个扩展一个功能都不会触发。
   // 所以这里必须真的让解析器读一遍，不能只 grep。
-  const files = [
-    "extension/background.js",
-    "extension/content.js",
-    "extension/options.js",
-    "extension/sidepanel.js",
-  ];
+  // 名单从目录里数，不手写：手写过的清单会漏掉新加的文件（theme.js 就是），
+  // 而漏掉的那一个恰恰是没人守着的。
+  const dir = new URL("./extension/", import.meta.url);
+  const files = readdirSync(dir)
+    .filter((f) => f.endsWith(".js"))
+    .map((f) => "extension/" + f);
+  assert.ok(files.length >= 5, `扩展源文件数量异常：${files.join(", ")}`);
   for (const file of files) {
     assert.doesNotThrow(
       () => new vm.Script(read(file), { filename: file }),
@@ -696,6 +697,45 @@ test("API.md 的模板表动作序列与代码一致", () => {
   assert.deepEqual(problems, [], `API.md 模板表与代码不一致：\n  ${problems.join("\n  ")}`);
 });
 
+test("两份权限说明表逐条一致，且覆盖 manifest 的全部权限", () => {
+  // 这两份表曾漂移：26 条里 14 条措辞不同，其中 store-permissions.md —— README 让用户
+  // 粘进 Edge 后台的那份 —— 少列了 6 个动作（tabGroups / browsingData / clipboardWrite /
+  // notifications / tts / management）。理由写不全，审核就会问「这个权限到底干什么」。
+  const sp = read("store-permissions.md");
+  const cw = read("CHROMEWEBSTORE.md");
+  // 两份表的列数不同：store-permissions 是 2 列，CHROMEWEBSTORE 是 3 列（多一个 Type）。
+  // 所以各用一条完整正则 —— 用参数拼「中间那段」会拼出空交替，匹配不到任何行（踩过）。
+  const grab = (text, re) =>
+    Object.fromEntries([...text.matchAll(re)].map((m) => [m[1], m[2]]));
+  const A = grab(sp, /^\|\s*`([^`]+)`\s*\|\s*(.+?)\s*\|\s*$/gm);
+  const B = grab(cw, /^\|\s*`([^`]+)`\s*\|\s*[a-z_]+\s*\|\s*(.+?)\s*\|\s*$/gm);
+  const norm = (s) => s.replace(/`/g, "").replace(/\s+/g, " ").trim();
+
+  const manifest = JSON.parse(read("extension/manifest.json"));
+  const need = [...manifest.permissions, ...(manifest.host_permissions || [])];
+  assert.ok(need.length >= 25, `manifest 权限数异常：${need.length}`);
+
+  for (const p of need) {
+    assert.ok(A[p], `store-permissions.md 缺 ${p} 的理由`);
+    assert.ok(B[p], `CHROMEWEBSTORE.md 缺 ${p} 的理由`);
+    assert.equal(norm(A[p]), norm(B[p]), `${p} 的理由在两份表里不一致`);
+  }
+  for (const p of Object.keys(A)) {
+    assert.ok(need.includes(p), `store-permissions.md 写了 manifest 里没有的权限：${p}`);
+  }
+
+  // manifest 声明了 content_scripts 对 <all_urls> 在 document_idle 运行 —— 也就是
+  // 每个页面都会加载。两份文档此前都只说「按需、用户触发」，没有一句解释它，
+  // 而审核看到 manifest 一定会问「为什么每个页面都要跑」。
+  assert.ok(manifest.content_scripts?.length, "manifest 已不再声明 content_scripts，本测试需同步更新");
+  for (const [name, text] of [
+    ["store-permissions.md", sp],
+    ["CHROMEWEBSTORE.md", cw],
+  ]) {
+    assert.ok(text.includes("Why a content script is declared for all URLs"), `${name} 没有解释常驻内容脚本`);
+  }
+});
+
 test("快捷键徽章显示 Chrome 实际登记的值，不按槽位猜", () => {
   // 用户反馈「有些快捷键没在 chrome 上登记，却显示了快捷键」。
   // 原因：徽章按槽位写死 "快捷键: Ctrl+Shift+1/2/3" 和默认链的 Ctrl+Shift+H，
@@ -717,10 +757,16 @@ test("快捷键徽章显示 Chrome 实际登记的值，不按槽位猜", () => 
   // 没分配到快捷键时要明说，而不是显示一个假的
   assert.ok(optionsSrc.includes("shortcut_badge_unset"), "没有处理「未设置快捷键」的状态");
 
-  // 链 → 命令的解析必须和 background 的 executeChainByNumber 一致
-  assert.ok(optionsSrc.includes("function commandNameForChain("), "缺少链到命令的解析");
-  assert.ok(optionsSrc.includes('return "_execute_action"'), "默认链应绑定 _execute_action");
-  assert.ok(optionsSrc.includes("!config.chains[`chain_${slot}`]"), "槽位回退条件与 background 不一致");
+  // 链 → 命令的解析必须和 background 的 executeChainByNumber 一致。
+  // 它现在住在 shortcuts.js：设置页和侧边栏都要显示同一件事，两处各写一份必然漂移。
+  const sharedSrc = read("extension/shortcuts.js");
+  assert.ok(sharedSrc.includes("function hotkeyChainCommandName("), "缺少链到命令的解析");
+  assert.ok(sharedSrc.includes('return "_execute_action"'), "默认链应绑定 _execute_action");
+  assert.ok(sharedSrc.includes("!config.chains[`chain_${slot}`]"), "槽位回退条件与 background 不一致");
+  for (const page of ["extension/options.js", "extension/sidepanel.js"]) {
+    assert.ok(read(page).includes("hotkeyChainCommandName"), `${page} 没有复用共享的链→命令解析`);
+  }
+  assert.ok(!optionsSrc.includes("const hasSlot = (n) =>"), "options.js 里还留着一份自己的解析");
 
   // 随之失效的 4 个文案不应留在 locale 里
   const en = JSON.parse(read("extension/_locales/en/messages.json"));
@@ -1035,4 +1081,218 @@ test("background.js 和 options.js 完整支持端侧 AI 与 TTS 语言和参数
   const sp = read("extension/sidepanel.js");
   assert.ok(opt.includes("hasAi"), "options.js 动作链卡片缺少 AI 标识感知");
   assert.ok(sp.includes("hasAi"), "sidepanel.js 缺少 AI 标识感知");
+});
+
+// --- 打磨稿落地的证人判据 ---
+// 每条都对应一个真实踩过的坑；写完先故意破坏一次确认它会红，
+// 不然它只是装饰（见「不变量测试要故意破坏一次」）。
+
+test("带占位符的句子不许在调用点自己 replace", () => {
+  // chrome.i18n.getMessage 不传替换参数时会把 $1 删掉再返回，
+  // 所以 t(key).replace("$1", v) 永远替换不到东西 —— 这就是「ms」「个动作」事故的成因。
+  for (const file of ["extension/options.js", "extension/content.js", "extension/sidepanel.js", "extension/background.js"]) {
+    const src = read(file);
+    const hits = src
+      .split("\n")
+      .map((l, i) => [i + 1, l])
+      .filter(([, l]) => !l.trim().startsWith("//") && !l.trim().startsWith("*") && /replace\(\s*["']\$1["']/.test(l));
+    assert.deepEqual(hits, [], `${file} 仍在调用点自己拼占位符；请改用 t(key, fallback, args)`);
+  }
+});
+
+test("t() 的替换契约在三个页面里一致", () => {
+  // background 一直是对的，页面侧曾经各写一份没有 args 的 t()
+  for (const file of ["extension/options.js", "extension/content.js", "extension/sidepanel.js"]) {
+    const src = read(file);
+    assert.ok(/function t\([^)]*args/.test(src), `${file} 的 t() 没有替换参数`);
+    assert.ok(src.includes("chrome.i18n.getMessage("), `${file} 的 t() 没有走 i18n`);
+  }
+});
+
+test("提示弹层不 anchored 在顶部", () => {
+  // 右上角是主按钮的位置，提示一停 3 秒就把它们盖住
+  const src = read("extension/options.js");
+  assert.ok(!src.includes('"toast-container position-fixed top-0'), "提示容器又回到了顶部");
+  assert.ok(src.includes("toast-container position-fixed bottom-0"), "提示容器应锚在底部右侧");
+});
+
+test("可见的徽章颜色不写在 JS 内联样式里", () => {
+  // 内联样式任何主题都够不着：侧边栏暗色的三处漏网有两处就是这么来的
+  for (const file of ["extension/options.js", "extension/sidepanel.js"]) {
+    const src = read(file);
+    const hits = src
+      .split("\n")
+      .map((l, i) => [i + 1, l])
+      .filter(([n, l]) => /class="[^"]*(badge|chip)[^"]*"[^>]*style="[^"]*(background|color)\s*:\s*(#|rgba?\()/.test(l));
+    assert.deepEqual(hits, [], `${file} 的徽章又用内联颜色：${hits.map((h) => h[0]).join(", ")}`);
+  }
+});
+
+test("破坏性动作的回执说清了对象并给了退路", () => {
+  const src = read("extension/options.js");
+  // 删除链：确认文案是一个完整句子，回执带撤销，而不是复用按钮标签
+  assert.ok(src.includes('t("confirm_deleteChain"'), "删除链没有用整句确认文案");
+  assert.ok(src.includes('t("toast_deletedChain"'), "删除回执没有写出被删的是哪条链");
+  assert.ok(src.includes('t("toast_undo"'), "删除回执没有撤销");
+  assert.ok(!/showMessage\(t\("card_delete", "删除"\)\)/.test(src), "删除回执又变回按钮标签两个字");
+  // 删一个动作同样要能反悔
+  assert.ok(src.includes('t("toast_removedAction"'), "移除单个动作没有回执");
+});
+
+test("被截断的文本有等价的全量出口", () => {
+  // .chain-title 是 nowrap+ellipsis，没有 title 就只看得见前半段
+  const src = read("extension/options.js");
+  assert.ok(/class="chain-title"[^>]*\stitle=/.test(src), "链名被截断但没有 title 出口");
+});
+
+test("每个带 id 的表单控件都有可访问名", () => {
+  // 标签写在 <label> 里但没 for，等于读屏软件读不到
+  for (const htmlFile of ["extension/options.html", "extension/sidepanel.html"]) {
+    const src = read(htmlFile);
+    const ids = [...src.matchAll(/<(?:input|select|textarea)\b[^>]*\bid="([^"]+)"/g)].map((m) => m[1]);
+    const unlabeled = ids.filter((id) => {
+      const hasFor = new RegExp(`<label[^>]*for="${id}"`).test(src);
+      const tag = new RegExp(`<[a-z]+[^>]*id="${id}"[^>]*>`).exec(src)?.[0] || "";
+      const hasAria = /aria-label=/.test(tag);
+      const isHidden = /type="hidden"| hidden[ />]/.test(tag);
+      return !(hasFor || hasAria || isHidden);
+    });
+    assert.deepEqual(unlabeled, [], `${htmlFile} 里这些控件没有可访问名：${unlabeled.join(", ")}`);
+  }
+});
+
+test("从扩展页面发起的运行必须要求一个真实网页", () => {
+  // 设置页/侧边栏不是标签页，sender.tab 为空；没有这条守卫时链会打在自己身上，
+  // 实测「放大」把设置页缩放推到了 2.0
+  const bg = read("extension/background.js");
+  assert.ok(bg.includes("request.expectWebTab"), "background 不再拒绝无网页目标的运行");
+  assert.ok(bg.includes("noWebTab"), "background 没有报出「没有可作用的网页」这个状态");
+  for (const page of ["extension/options.js", "extension/sidepanel.js"]) {
+    assert.ok(read(page).includes("expectWebTab: true"), `${page} 发起的运行没有要求真实网页`);
+  }
+});
+
+test("方向与 RTL 语言表只有一份", () => {
+  // 设置页镜像 RTL，侧边栏以前从不设 dir —— 同一串阿语在两个表面两种排法
+  const shared = read("extension/direction.js");
+  assert.ok(shared.includes("const RTL_LOCALES"), "direction.js 丢了 RTL 语言表");
+  assert.ok(shared.includes("function applyTextDirection("), "direction.js 丢了方向函数");
+  assert.ok(!read("extension/options.js").includes("const RTL_LOCALES"), "options.js 又留了一份自己的 RTL 表");
+  for (const page of ["extension/options.js", "extension/sidepanel.js"]) {
+    const calls = (read(page).match(/applyTextDirection\(/g) || []).length;
+    // once on load and once when the language changes — a page that only does
+    // the first keeps the old direction until reload
+    assert.ok(calls >= 2, `${page} 只在其中一条路径上应用了文字方向（${calls} 处）`);
+  }
+  for (const htmlFile of ["extension/options.html", "extension/sidepanel.html"]) {
+    assert.ok(read(htmlFile).includes("direction.js"), `${htmlFile} 没有加载共享脚本`);
+  }
+});
+
+test("承重的文字颜色对得上对比度", () => {
+  // 这些配对是实测翻车过的：灰字压在被调深的胶囊底色上只有 2.36:1。
+  // 用算的，不开浏览器，所以 CI 的干净克隆里也能跑。
+  const css = read("extension/options.css");
+  const hex = (h) => {
+    const v = h.replace("#", "");
+    return [0, 2, 4].map((i) => parseInt(v.slice(i, i + 2), 16));
+  };
+  const lum = (c) => {
+    const f = (v) => (v /= 255) <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+    return 0.2126 * f(c[0]) + 0.7152 * f(c[1]) + 0.0722 * f(c[2]);
+  };
+  const ratio = (a, b) => {
+    const [l1, l2] = [lum(hex(a)), lum(hex(b))].sort((x, y) => y - x);
+    return (l1 + 0.05) / (l2 + 0.05);
+  };
+  const tokens = (block) => {
+    const at = css.indexOf(block);
+    assert.notEqual(at, -1, `找不到 ${block}`);
+    const body = css.slice(at, css.indexOf("}", at));
+    return Object.fromEntries([...body.matchAll(/(--[\w-]+):\s*(#[0-9a-fA-F]{3,8})/g)].map((m) => [m[1], m[2]]));
+  };
+  const light = tokens(":root {");
+  const dark = tokens('html[data-bs-theme="dark"] {');
+  // 承载信息的灰字：正文要求 4.5:1
+  for (const [mode, t] of Object.entries({ light, dark })) {
+    assert.ok(ratio(t["--ink-2"], t["--bg-tint"]) >= 4.5, `${mode} --ink-2 on --bg-tint = ${ratio(t["--ink-2"], t["--bg-tint"]).toFixed(2)}`);
+    assert.ok(ratio(t["--ink-3"], t["--bg-tint"]) >= 4.5, `${mode} --ink-3 on --bg-tint = ${ratio(t["--ink-3"], t["--bg-tint"]).toFixed(2)}`);
+    assert.ok(ratio(t["--brand-ink"], t["--brand-soft"]) >= 4.5, `${mode} 快捷键徽章对比不足`);
+    // 拖拽把手是重复出现的非文本线索，按 3:1 判
+    assert.ok(ratio(t["--ink-deco"], t["--card"]) >= 3, `${mode} 拖拽把手低于 3:1`);
+  }
+});
+
+test("暗色下的嵌套面要能看出层级", () => {
+  // 亮色靠投影把卡片从面板里托起来，暗色没有这件事：嵌套面一旦和容器同色，
+  // 模板库看起来就是一个空面板（实测 templateCardVsModal 1.00）。
+  const css = read("extension/options.css");
+  const hex = (h) => {
+    const v = h.replace("#", "");
+    return [0, 2, 4].map((i) => parseInt(v.slice(i, i + 2), 16));
+  };
+  const lum = (c) => {
+    const f = (v) => (v /= 255) <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+    return 0.2126 * f(c[0]) + 0.7152 * f(c[1]) + 0.0722 * f(c[2]);
+  };
+  const ratio = (a, b) => {
+    const [l1, l2] = [lum(hex(a)), lum(hex(b))].sort((x, y) => y - x);
+    return (l1 + 0.05) / (l2 + 0.05);
+  };
+  const at = css.indexOf('html[data-bs-theme="dark"] {');
+  assert.notEqual(at, -1, "找不到暗色 token 块");
+  const body = css.slice(at, css.indexOf("}", at));
+  const token = (name) => {
+    const m = body.match(new RegExp(name + ":\\s*#([0-9a-fA-F]{6})"));
+    assert.ok(m, `暗色 token ${name} 不见了`);
+    return m[0].split(":")[1].trim();
+  };
+  const surface2 = token("--surface-2");
+  const card = token("--card");
+  const page = token("--bg");
+  assert.ok(ratio(surface2, card) >= 1.15, `嵌套面只比容器亮 ${ratio(surface2, card).toFixed(2)}`);
+  assert.ok(ratio(card, page) >= 1.05, "卡片和页面底色分不开");
+  // 光有 token 不算：得真的挂在这些选择器上
+  const applies = (selector, value) => {
+    const i = css.indexOf(`html[data-bs-theme="dark"] ${selector}`);
+    assert.notEqual(i, -1, `暗色没有 ${selector} 规则`);
+    const rule = css.slice(i, css.indexOf("}", i));
+    assert.ok(rule.includes(value), `${selector} 没有用 ${value}`);
+  };
+  applies(".template-card,", "var(--surface-2)");
+  applies(".action-picker-item,", "var(--surface-2)");
+  applies(".action-config,", "var(--surface-2)");
+  applies(".chain-info-panel,", "var(--surface-2)");
+  applies(".template-actions-flow", "var(--card)");
+  // 嵌套面是新底色，压在新底色上的字要重新量一次
+  assert.ok(ratio(token("--ink-2"), surface2) >= 4.5, "灰字压不住嵌套面");
+  assert.ok(ratio(token("--ink-deco"), surface2) >= 3, "嵌套面上的拖拽把手太暗");
+});
+
+
+test("卡片上的「运行」和「编辑」不能挤在同一个按钮里", () => {
+  // 事件代理先认 execute-btn，两个类同时出现时「添加动作」会去运行一条空链，
+  // 编辑器根本打不开。
+  const both = /class="[^"]*execute-btn[^"]*edit-chain-btn[^"]*"|class="[^"]*edit-chain-btn[^"]*execute-btn[^"]*"/;
+  assert.ok(!both.test(options), "空链入口同时带了 execute-btn 和 edit-chain-btn");
+});
+
+test("跑起来的链要能在页面上叫停", () => {
+  const content = read("extension/content.js");
+  // HUD 容器屏蔽点击的话，「停止」就是一块看得见的死字
+  assert.match(content, /pointer-events: auto/, "HUD 仍然屏蔽指针事件");
+  assert.match(content, /action: "cancelChainRun"/, "HUD 没有把停止发给后台");
+  assert.match(background, /request\.action === "cancelChainRun"/, "后台不认停止消息");
+  // 检查点必须落在动作循环里：循环外读一次标记等于没做
+  const loop = background.slice(background.indexOf("for (const action of chain.actions)"));
+  const beforeAction = loop.slice(0, loop.indexOf("await executeAction("));
+  assert.ok((beforeAction.match(/checkCancelled\(\)/g) || []).length >= 2, "动作循环里少于两个停止检查点");
+  // 最外层开始时不清标记，第二次运行一进去就是停止态
+  assert.match(background, /callStack\.length === 0\) chainCancelled = false/, "没有在最外层运行前清停止标记");
+  // 用户主动叫停不算出错，不该接着跑备用链
+  assert.match(background, /chain\.fallbackChainKey && !cancelledRun/, "停止之后仍会跑备用链");
+  // finally 里要读 cancelledRun：声明若落在 try 内，收尾时直接 ReferenceError
+  const fn = background.slice(background.indexOf("async function executeChain("), background.indexOf("async function sendToContent("));
+  const decl = fn.indexOf("let cancelledRun");
+  assert.ok(decl > -1 && decl < fn.indexOf("try {"), "cancelledRun 声明在 try 里面，finally 读不到");
 });

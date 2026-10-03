@@ -158,7 +158,7 @@ const ACTION_NAMES = {
   [ACTION_TYPES.RELOAD_PAGE]: () => t("actionName_reload_page", "刷新页面"),
   [ACTION_TYPES.CLOSE_TAB]: () => t("actionName_close_tab", "关闭标签页"),
   [ACTION_TYPES.NEW_TAB]: () => t("actionName_new_tab", "新标签页"),
-  [ACTION_TYPES.COPY_URL]: () => t("actionName_copy_url", "复制URL"),
+  [ACTION_TYPES.COPY_URL]: () => t("actionName_copy_url", "复制网址"),
   [ACTION_TYPES.COPY_TITLE]: () => t("actionName_copy_title", "复制标题"),
   [ACTION_TYPES.FULLSCREEN]: () => t("actionName_toggle_fullscreen", "全屏切换"),
   [ACTION_TYPES.ZOOM_IN]: () => t("actionName_zoom_in", "放大"),
@@ -705,14 +705,14 @@ function renderChainTimeline(actions) {
       // 而不是在代码里拼接。
       const gap =
         delay > 0
-          ? `<div class="action-gap timed${i === 0 ? " lead" : ""}"><span class="action-delay">${t("label_msValue", "$1ms").replace("$1", String(delay))}</span></div>`
+          ? `<div class="action-gap timed${i === 0 ? " lead" : ""}"><span class="action-delay">${t("label_msValue", "$1ms", String(delay))}</span></div>`
           : i === 0
             ? ""
             : `<div class="action-gap"></div>`;
       return `${gap}
               <div class="action-item">
                 ${actionTile(action.type)}
-                <span class="action-name">${name}</span>
+                <span class="action-name" title="${name}">${name}</span>
               </div>`;
     })
     .join("");
@@ -1233,19 +1233,38 @@ document.addEventListener("DOMContentLoaded", async () => {
   setTimeout(() => {
     initializeSortableDragDrop();
   }, 200);
+
+  // Chrome warns ("Blocked aria-hidden on an element because its descendant
+  // retained focus") when a dialog is hidden while focus is still inside it:
+  // Bootstrap sets aria-hidden at the start of the hide and only restores focus
+  // once the transition ends. Move focus out at that moment instead.
+  document.querySelectorAll(".modal").forEach((m) =>
+    m.addEventListener("hide.bs.modal", () => {
+      if (m.contains(document.activeElement)) document.activeElement.blur();
+    })
+  );
 });
 
 // i18n helpers
-function t(msgKey, fallback = "") {
+//
+// 带 $1 的句子必须由这里做替换：chrome.i18n.getMessage 在不传替换参数时
+// 会把占位符**删掉**再返回，调用点再 .replace("$1", …) 就永远替换不到 ——
+// 于是「跟随浏览器」模式下屏上只剩「ms」「个动作」这类没有数字的半截话，
+// 而手动选过语言的走 i18nCache（原始 JSON，$1 还在）却是好的。
+// 契约与 background.js 的 t(key, fallback, args) 保持一致。
+function t(msgKey, fallback = "", args = null) {
+  const list = args == null ? null : Array.isArray(args) ? args : [args];
+  const fill = (text) =>
+    list == null ? text : String(text).replace(/\$(\d)/g, (m, n) => list[Number(n) - 1] ?? m);
   try {
     if (userLocale && userLocale !== "auto" && i18nCache[userLocale]) {
       const val = i18nCache[userLocale][msgKey];
-      if (val) return val;
+      if (val) return fill(val);
     }
-    const res = chrome.i18n.getMessage(msgKey);
-    return res || fallback || msgKey;
+    const res = list == null ? chrome.i18n.getMessage(msgKey) : chrome.i18n.getMessage(msgKey, list);
+    return fill(res || fallback || msgKey);
   } catch (e) {
-    return fallback || msgKey;
+    return fill(fallback || msgKey);
   }
 }
 
@@ -1274,20 +1293,7 @@ function applyI18nToPage() {
 }
 
 // RTL languages — mirror the page direction for these locales (e.g. Arabic).
-const RTL_LOCALES = new Set(["ar", "he", "fa", "ur"]);
-function applyTextDirection(locale) {
-  let lang = locale;
-  if (!lang || lang === "auto") {
-    try {
-      lang = chrome.i18n.getUILanguage() || "en";
-    } catch {
-      lang = "en";
-    }
-  }
-  const base = String(lang).toLowerCase().split(/[-_]/)[0];
-  document.documentElement.setAttribute("dir", RTL_LOCALES.has(base) ? "rtl" : "ltr");
-  document.documentElement.setAttribute("lang", base || "en");
-}
+// Lives in direction.js so the side panel cannot drift from this page.
 
 async function loadOverrideLocale(locale) {
   if (!locale || locale === "auto") return;
@@ -1374,9 +1380,13 @@ function setupEventListeners() {
         addChainFromTemplate(addBtn.dataset.templateKey, false);
         return;
       }
-      const target = e.target.closest("[data-template-key]");
-      if (target && target.dataset.templateKey) {
-        addChainFromTemplate(target.dataset.templateKey, false);
+      // The two buttons are the entry points; the card body used to be a third
+      // one that silently meant "add without editing", which is not what the
+      // footer promised.
+      const stray = e.target.closest("[data-template-key]");
+      if (stray) {
+        const first = stray.querySelector(".template-customize-btn");
+        if (first) first.focus();
       }
     });
   }
@@ -1562,9 +1572,13 @@ function setupEventListeners() {
         // 原样展示 Chrome 报的值：排查时它比任何转述都有用
         // 顺带报出探测的是哪个标签页 —— 活动标签页若是本扩展自己的页面或 chrome:// 页，
         // 两个页面上下文会显示 (n/a)，那是正常情况，不是故障。
+        const pad = (text) => {
+          const w = [...String(text)].reduce((a, ch) => a + (/[\u1100-\uffff]/.test(ch) ? 2 : 1), 0);
+          return String(text) + " ".repeat(Math.max(1, 18 - w));
+        };
         const lines = [
-          ...rows.map(([name, v]) => `${name.padEnd(16)}${v == null ? "(no API)" : v}`),
-          `${"probed tab".padEnd(16)}${probe.tabUrl || "(none)"}`,
+          ...rows.map(([name, v]) => `${pad(name)}${v == null ? "(no API)" : v}`),
+          `${pad("probed tab")}${probe.tabUrl || "(none)"}`,
         ].join("\n");
 
         // 语言解析链也一并报出来。用户选了「自动」却拿到日语时，
@@ -1590,7 +1604,7 @@ function setupEventListeners() {
           );
         } else {
           showAiReport(
-            `⚠️ ${t("badge_requiresAi", "需端侧 AI")}: ${t("ai_notSupported", "This browser cannot run Chrome's built-in AI (Gemini Nano).")}\n\n${t("ai_statusGuide", "")}`,
+            `⚠️ ${t("badge_requiresAi", "需浏览器内置 AI")}: ${t("ai_notSupported", "This browser cannot run Chrome's built-in AI (Gemini Nano).")}\n\n${t("ai_statusGuide", "")}`,
             `${lines}\n\n${langLines}`,
             true,
           );
@@ -2099,12 +2113,16 @@ function showMainView() {
 
   // 清除编辑状态
   editingChainId = null;
+  document.body.classList.remove("editing");
 }
 
 // Show edit view
 function showEditView() {
   document.getElementById("main-view").style.display = "none";
   document.getElementById("edit-view").style.display = "block";
+  // The masthead belongs to the list; the editor needs its own header's room.
+  document.body.classList.add("editing");
+  setSaveStatus("idle");
 }
 
 // Edit chain function
@@ -2212,7 +2230,7 @@ function renderWorkflowMiniPipeline(chainKey) {
     : "";
 
   const flowNotice = steps.length > 1
-    ? `<div class="text-primary fw-semibold mb-1 small"><i class="bi bi-diagram-3 me-1"></i>${t("workflow_pipeline_active", "流水线模式已激活：$1 个关联节点").replace("$1", steps.length)}</div>`
+    ? `<div class="text-primary fw-semibold mb-1 small"><i class="bi bi-diagram-3 me-1"></i>${t("workflow_pipeline_active", "流水线模式已激活：$1 个关联节点", steps.length)}</div>`
     : `<div class="text-muted mb-1 small"><i class="bi bi-info-circle me-1"></i>${t("workflow_pipeline_single", "单动作链（未关联下游）")}</div>`;
 
   container.innerHTML = `
@@ -2283,6 +2301,7 @@ async function flushSaveConfig() {
   if (!saveConfigDirty) return;
   saveConfigDirty = false;
   clearTimeout(saveConfigTimer);
+  setSaveStatus("pending");
   try {
     const response = await chrome.runtime.sendMessage({
       action: "saveConfig",
@@ -2291,11 +2310,63 @@ async function flushSaveConfig() {
     if (response && response.success === false) {
       throw new Error(response.error || "unknown error");
     }
+    setSaveStatus("saved");
   } catch (error) {
     // Surface unexpected storage failures instead of silently losing edits
     console.error("Failed to save config:", error);
-    showMessage(t("toast_saveFailed", "保存失败: $1").replace("$1", error.message), true);
+    setSaveStatus("failed");
+    showMessage(t("toast_saveFailed", "保存失败: $1", error.message), true);
   }
+}
+
+// The editor has no save button on purpose — it writes as you type. That is only
+// reassuring if the screen says so, so the header carries a live receipt.
+function setSaveStatus(state) {
+  const el = document.getElementById("saveStatus");
+  if (!el) return;
+  el.dataset.state = state;
+  const text =
+    state === "pending" ? "⋯" :
+    state === "failed" ? t("label_error", "错误") :
+    state === "saved" ? t("edit_saved", "已保存") :
+    t("edit_autosave", "改动自动保存");
+  const clock = state === "saved" ? " " + new Date().toLocaleTimeString() : "";
+  el.textContent = text + clock;
+}
+
+// A native confirm() is the browser's chrome, not our page, and its text was
+// assembled in code ("删除 \"X\"?\n\n"). Ask in the page, in one string.
+function confirmInPage(message) {
+  return new Promise((resolve) => {
+    const host = document.createElement("div");
+    host.className = "modal fade";
+    host.tabIndex = -1;
+    host.innerHTML = `
+      <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+          <div class="modal-body p-4">
+            <p class="mb-3"></p>
+            <div class="d-flex gap-2 justify-content-end">
+              <button type="button" class="btn btn-outline-secondary btn-sm" data-answer="no"></button>
+              <button type="button" class="btn btn-primary btn-sm" data-answer="yes"></button>
+            </div>
+          </div>
+        </div>
+      </`;
+    host.querySelector("p").textContent = message;
+    host.querySelector('[data-answer="yes"]').textContent = t("content_continue", "继续");
+    host.querySelector('[data-answer="no"]').textContent = t("content_cancel", "取消");
+    document.body.appendChild(host);
+    const modal = new bootstrap.Modal(host);
+    let answered = false;
+    const done = (v) => { if (!answered) { answered = true; resolve(v); modal.hide(); } };
+    host.querySelectorAll("[data-answer]").forEach((b) =>
+      b.addEventListener("click", () => done(b.dataset.answer === "yes"))
+    );
+    host.addEventListener("hidden.bs.modal", () => host.remove());
+    host.addEventListener("shown.bs.modal", () => host.querySelector('[data-answer="no"]').focus());
+    modal.show();
+  });
 }
 
 // Persist the trailing debounced write when the options page closes
@@ -2329,18 +2400,10 @@ async function refreshCommandShortcuts() {
   }
 }
 
-// 一条链由哪个命令触发 —— 必须和 background 的 executeChainByNumber 用同一套解析，
-// 否则徽章会指着一个并不存在的绑定。
+// 一条链由哪个命令触发 —— 解析住在 shortcuts.js，和侧边栏共用一份，
+// 否则两处会各自漂移，而徽章指着一个并不存在的绑定。
 function commandNameForChain(chainKey, orderedKeys, config) {
-  if (chainKey === config.defaultChain) return "_execute_action";
-  const hasSlot = (n) => commandShortcuts.has(`execute_chain_${n}`);
-  const literal = /^chain_(\d+)$/.exec(chainKey);
-  if (literal && hasSlot(Number(literal[1]))) return `execute_chain_${literal[1]}`;
-  const idx = orderedKeys.indexOf(chainKey);
-  const slot = idx + 1;
-  // 只有 chain_<slot> 不存在时，execute_chain_<slot> 才会回退到「显示顺序第 slot 条链」
-  if (idx >= 0 && hasSlot(slot) && !config.chains[`chain_${slot}`]) return `execute_chain_${slot}`;
-  return null;
+  return hotkeyChainCommandName(chainKey, orderedKeys, config, (n) => commandShortcuts.has(`execute_chain_${n}`));
 }
 
 // Render main view with action chains
@@ -2375,12 +2438,21 @@ function renderMainView() {
             <button type="button" class="btn btn-outline-secondary" id="emptyAddBtn">
               <i class="bi bi-plus-lg me-2" aria-hidden="true"></i>${t("empty_cta_blank", "新建空白链")}
             </button>
+            <button type="button" class="btn btn-outline-secondary" id="emptyRestoreBtn">
+              <i class="bi bi-arrow-counterclockwise me-2" aria-hidden="true"></i>${t("toolbar_restoreDefaults", "恢复默认")}
+            </button>
+          </div>
+          <p class="text-muted small mt-3 mb-0">${t("empty_restore_hint", "删错了？可以把出厂的链放回来。")}</p>
           </div>
         </div>
       `;
       const emptyAddBtn = document.getElementById("emptyAddBtn");
       if (emptyAddBtn) {
         emptyAddBtn.addEventListener("click", () => addNewChain());
+      }
+      const emptyRestoreBtn = document.getElementById("emptyRestoreBtn");
+      if (emptyRestoreBtn) {
+        emptyRestoreBtn.addEventListener("click", () => restoreDefaults());
       }
       return;
     }
@@ -2402,12 +2474,12 @@ function renderMainView() {
       const realShortcut = cmdName ? commandShortcuts.get(cmdName) || "" : "";
       let shortcutBadge = "";
       if (realShortcut) {
-        shortcutBadge = `<span class="cc-chip hotkey${isDefault ? " def-hotkey" : ""}" title="${t("shortcut_hint_click", "点击前往 Chrome 快捷键设置页面")}"><i class="bi bi-keyboard me-1" aria-hidden="true"></i>${t("shortcut_badge_withKey", "快捷键: {key}").replace("{key}", escapeHtmlAttr(realShortcut))}</span>`;
+        shortcutBadge = `<span dir="ltr" class="cc-chip hotkey${isDefault ? " def-hotkey" : ""}" title="${t("shortcut_hint_click", "点击前往 Chrome 快捷键设置页面")}"><i class="bi bi-keyboard me-1" aria-hidden="true"></i>${t("shortcut_badge_withKey", "快捷键: {key}").replace("{key}", escapeHtmlAttr(realShortcut))}</span>`;
       } else if (cmdName) {
         // 有命令但没分配到快捷键 —— 明说，别显示一个假的
-        shortcutBadge = `<span class="cc-chip hotkey hotkey-unset" title="${t("shortcut_hint_click", "点击前往 Chrome 快捷键设置页面")}"><i class="bi bi-keyboard me-1" aria-hidden="true"></i>${t("shortcut_badge_unset", "未设置快捷键")}</span>`;
+        shortcutBadge = `<span dir="ltr" class="cc-chip hotkey hotkey-unset" title="${t("shortcut_hint_click", "点击前往 Chrome 快捷键设置页面")}"><i class="bi bi-keyboard me-1" aria-hidden="true"></i>${t("shortcut_badge_unset", "未设置快捷键")}</span>`;
       } else {
-        shortcutBadge = `<span class="cc-chip hotkey-subtle" title="${t("shortcut_badge_omnibox", "地址栏: hc + 链名")}"><i class="bi bi-terminal me-1" aria-hidden="true"></i>hc</span>`;
+        shortcutBadge = `<span class="cc-chip hotkey-subtle" title="${t("shortcut_badge_omnibox", "地址栏输入 hc + 链名")}"><i class="bi bi-terminal me-1" aria-hidden="true"></i>hc</span>`;
       }
 
       const scheduleMin = Number(chain.scheduleMinutes) > 0 ? Number(chain.scheduleMinutes) : 0;
@@ -2419,7 +2491,7 @@ function renderMainView() {
       let workflowChips = "";
       if (chain.nextChainKey && currentConfig.chains[chain.nextChainKey]) {
         const nextName = currentConfig.chains[chain.nextChainKey].name || chain.nextChainKey;
-        const tooltip = t("workflow_chipTooltip", "工作流：执行完毕后自动流转至 $1").replace("$1", nextName);
+        const tooltip = t("workflow_chipTooltip", "工作流：执行完毕后自动流转至 $1", nextName);
         workflowChips += `<span class="cc-chip workflow-chip" data-workflow-target="${chain.nextChainKey}" title="${escapeHtmlAttr(tooltip)}"><i class="bi bi-diagram-3 me-1" aria-hidden="true"></i>➔ ${escapeHtmlAttr(nextName)}</span>`;
       }
       const hasIncoming = Object.entries(currentConfig.chains).some(([k, c]) => k !== chainKey && c.nextChainKey === chainKey);
@@ -2433,14 +2505,14 @@ function renderMainView() {
         a.type === ACTION_TYPES.AI_TRANSLATE
       );
       const aiChip = hasAi
-        ? `<span class="cc-chip text-info-emphasis border border-info-subtle" style="background: rgba(13, 202, 240, 0.12); font-weight: 500;" title="${t("badge_requiresAi", "需端侧 AI")}"><i class="bi bi-cpu me-1" aria-hidden="true"></i>${t("badge_requiresAi", "需端侧 AI")}</span>`
+        ? `<span class="cc-chip ai-chip" title="${t("badge_requiresAi", "需浏览器内置 AI")}"><i class="bi bi-cpu me-1" aria-hidden="true"></i>${t("badge_requiresAi", "需浏览器内置 AI")}</span>`
         : "";
 
       chainCard.innerHTML = `
         <div class="chain-card-header">
           <span class="drag-handle" title="">⋮⋮</span>
           <div class="cc-titlewrap">
-            <h6 class="chain-title">${escapeHtmlAttr(chain.name)}</h6>
+            <h6 class="chain-title" dir="ltr" title="${escapeHtmlAttr(chain.name)}">${escapeHtmlAttr(chain.name)}</h6>
             <div class="chain-meta">
               <span class="chain-actions-count">${formatActionCount(chain.actions.length)}</span>
               ${aiChip}
@@ -2461,7 +2533,7 @@ function renderMainView() {
             ${renderChainTimeline(chain.actions)}
             ${
               chain.actions.length > PREVIEW_ACTIONS
-                ? `<div class="chain-more">+ ${chain.actions.length - PREVIEW_ACTIONS} ${t("actions_more", "more")}</div>`
+                ? `<div class="chain-more">${t("actions_more", "+$1 more", chain.actions.length - PREVIEW_ACTIONS)}</div>`
                 : ""
             }
             ${chain.actions.length === 0 ? `<div class="chain-empty">${t("actions_none", "暂无动作")}</div>` : ""}
@@ -2469,12 +2541,14 @@ function renderMainView() {
           <div class="chain-card-actions">
             ${
               // 空链没什么可运行的，把「运行」换成让人往下走的入口
+              // 空链没什么可运行的，把「运行」换成让人往下走的入口。
+              // 别加 execute-btn：事件代理先认它，点了会变成「运行一条空链」。
               chain.actions.length === 0
-                ? `<button class="btn btn-outline-primary btn-sm execute-btn edit-chain-btn" data-chain-key="${chainKey}">
+                ? `<button class="btn btn-outline-primary btn-sm edit-chain-btn" data-chain-key="${chainKey}">
                      <i class="bi bi-plus-lg me-1" aria-hidden="true"></i>${t("card_addActions", "添加动作")}
                    </button>`
                 : `<button class="btn btn-primary btn-sm execute-btn" data-chain-key="${chainKey}">
-                     <i class="bi bi-play-fill me-1" aria-hidden="true"></i>${t("card_exec", "执行")}
+                     <i class="bi bi-play-fill me-1" aria-hidden="true"></i>${t("card_exec", "运行")}
                    </button>
                    <button class="btn btn-outline-secondary btn-sm icon-btn edit-chain-btn" data-chain-key="${chainKey}" title="${t("card_edit", "编辑")}" aria-label="${t("card_edit", "编辑")}">
                      <i class="bi bi-pencil" aria-hidden="true"></i>
@@ -2532,7 +2606,7 @@ function renderChainEdit(chainKey) {
                 ${generateGroupedActionOptions(action.type)}
               </select>
               <div class="input-group input-group-sm action-delay-group">
-                <span class="input-group-text">${t("label_delay", "延迟")}</span>
+                <span class="input-group-text">${index === 0 ? t("label_delayBefore", "开跑前等") : t("label_delayAfter", "之后等")}</span>
                 <input type="number" class="form-control action-delay-input" min="0" max="10000" step="100"
                   value="${Number(action.delay) || 0}" data-chain-key="${chainKey}" data-action-index="${index}" aria-label="${t("label_delay", "延迟")}">
                 <span class="input-group-text">${t("label_ms", "ms")}</span>
@@ -2915,7 +2989,7 @@ function generateActionSpecificControls(chainKey, index, action) {
         <div class="alert alert-info py-2 px-3 mb-0 small d-flex align-items-center gap-2">
           <i class="bi bi-cpu-fill flex-shrink-0 fs-5 text-info"></i>
           <div>
-            <strong>${t("badge_requiresAi", "需端侧 AI")}</strong>: ${t("hint_aiRequirement", "依赖 Chrome 内置 Gemini Nano (Prompt API)。需 Chrome 128+ 并在 chrome://flags 开启相关功能标志。")}
+            <strong>${t("badge_requiresAi", "需浏览器内置 AI")}</strong>: ${t("hint_aiRequirement", "依赖 Chrome 内置 Gemini Nano (Prompt API)。需 Chrome 128+ 并在 chrome://flags 开启相关功能标志。")}
           </div>
         </div>
       </div>
@@ -2944,7 +3018,7 @@ function generateActionSpecificControls(chainKey, index, action) {
         <div class="alert alert-info py-2 px-3 mb-0 small d-flex align-items-center gap-2">
           <i class="bi bi-cpu-fill flex-shrink-0 fs-5 text-info"></i>
           <div>
-            <strong>${t("badge_requiresAi", "需端侧 AI")}</strong>: ${t("hint_aiRequirement", "依赖 Chrome 内置 Gemini Nano (Prompt API)。需 Chrome 128+ 并在 chrome://flags 开启相关功能标志。")}
+            <strong>${t("badge_requiresAi", "需浏览器内置 AI")}</strong>: ${t("hint_aiRequirement", "依赖 Chrome 内置 Gemini Nano (Prompt API)。需 Chrome 128+ 并在 chrome://flags 开启相关功能标志。")}
           </div>
         </div>
       </div>
@@ -2972,7 +3046,7 @@ function generateActionSpecificControls(chainKey, index, action) {
         <div class="alert alert-info py-2 px-3 mb-0 small d-flex align-items-center gap-2">
           <i class="bi bi-cpu-fill flex-shrink-0 fs-5 text-info"></i>
           <div>
-            <strong>${t("badge_requiresAi", "需端侧 AI")}</strong>: ${t("hint_aiRequirement", "依赖 Chrome 内置 Gemini Nano (Prompt API)。需 Chrome 128+ 并在 chrome://flags 开启相关功能标志。")}
+            <strong>${t("badge_requiresAi", "需浏览器内置 AI")}</strong>: ${t("hint_aiRequirement", "依赖 Chrome 内置 Gemini Nano (Prompt API)。需 Chrome 128+ 并在 chrome://flags 开启相关功能标志。")}
           </div>
         </div>
       </div>
@@ -3119,14 +3193,28 @@ async function executeChain(chainKey) {
   try {
     // The background reads the chain from storage — flush pending edits first
     await flushSaveConfig();
-    await chrome.runtime.sendMessage({
+    const me = await chrome.tabs.getCurrent();
+    const res = await chrome.runtime.sendMessage({
       action: "executeChain",
       chainKey: chainKey,
+      // This page is not a tab, so the background cannot infer the window from
+      // the message; without it the run can fall back onto this page.
+      windowId: me && me.windowId,
+      expectWebTab: true,
     });
-    showMessage(t("toast_chainExecuted", "执行动作链: $1").replace("$1", currentConfig.chains[chainKey].name));
+    const name = currentConfig.chains[chainKey].name;
+    // No web page anywhere: say so rather than report a run the user cannot see.
+    if (res && res.reason === "noWebTab") {
+      showMessage(t("toast_noWebTarget", "没有可作用的网页：请先打开一个网页标签页再运行"), true);
+      return;
+    }
+    if (res && res.success === false) {
+      throw new Error(res.error || "unknown error");
+    }
+    showMessage(t("toast_chainExecuted", "已运行：$1", name));
   } catch (error) {
     console.error("Failed to execute chain:", error);
-    showMessage(t("toast_executeFailed", "执行失败"), true);
+    showMessage(t("toast_executeFailed", "运行失败"), true);
   }
 }
 
@@ -3166,16 +3254,6 @@ async function addNewChain() {
 // State for template gallery modal
 let currentTemplateCategory = "all";
 let templateSearchQuery = "";
-
-// Distinct color palettes for template categories
-const TEMPLATE_CATEGORY_THEMES = {
-  ai: { color: "#6366f1", bg: "rgba(99, 102, 241, 0.12)" },
-  tabs: { color: "#10b981", bg: "rgba(16, 185, 129, 0.12)" },
-  reading: { color: "#0284c7", bg: "rgba(2, 132, 199, 0.12)" },
-  developer: { color: "#d97706", bg: "rgba(217, 119, 6, 0.12)" },
-  privacy: { color: "#e11d48", bg: "rgba(225, 29, 72, 0.12)" },
-  workflow: { color: "#8b5cf6", bg: "rgba(139, 92, 246, 0.12)" },
-};
 
 // Render category filter tabs in the template gallery
 function renderTemplateCategories() {
@@ -3250,7 +3328,6 @@ function renderTemplateGallery() {
     .map((tpl) => {
       const name = t(tpl.nameKey, tpl.fallback);
       const desc = t(tpl.descKey, tpl.descFallback);
-      const theme = TEMPLATE_CATEGORY_THEMES[tpl.category] || { color: "#6155f5", bg: "rgba(97, 85, 245, 0.12)" };
       const catInfo = TEMPLATE_CATEGORIES[tpl.category];
       const catLabel = catInfo ? t(catInfo.nameKey, catInfo.fallback) : tpl.category;
       const actions = tpl.build();
@@ -3272,21 +3349,21 @@ function renderTemplateGallery() {
         })
         .join("");
 
-      const countText = t("tmpl_gallery_actions_count", "$1 个动作").replace("$1", actions.length);
+      const countText = t("tmpl_gallery_actions_count", "$1 个动作", actions.length);
       const useText = t("tmpl_gallery_use", "使用此模板");
 
       return `
         <div class="col-md-6 col-lg-4">
-          <div class="template-card" data-template-key="${tpl.key}">
+          <div class="template-card" data-cat="${tpl.category}" data-template-key="${tpl.key}">
             <div class="template-card-top">
-              <div class="template-card-icon" style="background:${theme.bg}; color:${theme.color};">
+              <div class="template-card-icon">
                 <i class="bi ${tpl.icon}" aria-hidden="true"></i>
               </div>
               <div class="d-flex align-items-center gap-1">
-                <span class="template-badge-cat" style="background:${theme.bg}; color:${theme.color};">
+                <span class="template-badge-cat">
                   ${escapeHtmlAttr(catLabel)}
                 </span>
-                ${(tpl.requiresAi || tpl.category === "ai") ? `<span class="badge bg-info-subtle text-info-emphasis border border-info-subtle" style="font-size:0.75rem;"><i class="bi bi-cpu me-1" aria-hidden="true"></i>${escapeHtmlAttr(t("badge_requiresAi", "需端侧 AI"))}</span>` : ""}
+                ${(tpl.requiresAi || tpl.category === "ai") ? `<span class="badge ai-chip"><i class="bi bi-cpu me-1" aria-hidden="true"></i>${escapeHtmlAttr(t("badge_requiresAi", "需浏览器内置 AI"))}</span>` : ""}
               </div>
             </div>
             <h5 class="template-card-title">${escapeHtmlAttr(name)}</h5>
@@ -3299,11 +3376,11 @@ function renderTemplateGallery() {
                 <i class="bi bi-layers me-1" aria-hidden="true"></i>${escapeHtmlAttr(countText)}
               </span>
               <div class="d-flex gap-2">
-                <button type="button" class="btn btn-outline-primary btn-sm template-customize-btn" data-template-key="${tpl.key}" title="${escapeHtmlAttr(t("tmpl_gallery_add_and_edit", "添加并自定义"))}">
-                  <i class="bi bi-pencil me-1" aria-hidden="true"></i>${escapeHtmlAttr(t("tmpl_gallery_add_and_edit", "自定义"))}
+                <button type="button" class="btn btn-outline-primary btn-sm template-customize-btn" data-template-key="${tpl.key}" title="${escapeHtmlAttr(t("tmpl_gallery_add_and_edit", "添加并改参数"))}">
+                  <i class="bi bi-pencil me-1" aria-hidden="true"></i>${escapeHtmlAttr(t("tmpl_gallery_add_and_edit", "添加并改参数"))}
                 </button>
-                <button type="button" class="btn btn-primary btn-sm template-add-btn template-use-btn" data-template-key="${tpl.key}" title="${escapeHtmlAttr(t("tmpl_gallery_add_direct", "添加到我的链"))}">
-                  <i class="bi bi-plus-lg me-1" aria-hidden="true"></i>${escapeHtmlAttr(t("tmpl_gallery_add_direct", "添加"))}
+                <button type="button" class="btn btn-primary btn-sm template-add-btn template-use-btn" data-template-key="${tpl.key}" title="${escapeHtmlAttr(t("tmpl_gallery_add_direct", "直接添加"))}">
+                  <i class="bi bi-plus-lg me-1" aria-hidden="true"></i>${escapeHtmlAttr(t("tmpl_gallery_add_direct", "直接添加"))}
                 </button>
               </div>
             </div>
@@ -3430,7 +3507,7 @@ function exportConfig() {
     showMessage(t("toast_configExported", "配置已导出"));
   } catch (error) {
     console.error("Failed to export config:", error);
-    showMessage(t("toast_executeFailed", "执行失败"), true);
+    showMessage(t("toast_executeFailed", "运行失败"), true);
   }
 }
 
@@ -3451,7 +3528,7 @@ function exportSingleChain(chainKey) {
     showMessage(t("toast_chainExported", "已导出动作链"));
   } catch (error) {
     console.error("Failed to export chain:", error);
-    showMessage(t("toast_executeFailed", "执行失败"), true);
+    showMessage(t("toast_executeFailed", "运行失败"), true);
   }
 }
 
@@ -3477,7 +3554,7 @@ async function importSingleChain(chainData) {
   await saveConfig();
   renderMainView();
   setTimeout(() => initializeSortableDragDrop(), 100);
-  showMessage(t("toast_chainImported", "已导入动作链: $1").replace("$1", chainData.name));
+  showMessage(t("toast_chainImported", "已导入动作链: $1", chainData.name));
 }
 
 // Import configuration from a JSON file (replaces the current configuration)
@@ -3489,12 +3566,12 @@ async function importConfig(file) {
     // Single-chain share file? Confirm then append.
     if (imported && imported.type === "hotkey-chain" && imported.chain) {
       const chainName = imported.chain && typeof imported.chain.name === "string" ? imported.chain.name : "?";
-      if (!confirm(t("confirm_importChain", `导入动作链「${chainName}」？`).replace("$1", chainName))) return;
+      if (!confirm(t("confirm_importChain", `导入动作链「${chainName}」？`, chainName))) return;
       await importSingleChain(imported.chain);
       return;
     }
     if (imported && !imported.chains && typeof imported.name === "string" && Array.isArray(imported.actions)) {
-      if (!confirm(t("confirm_importChain", `导入动作链「${imported.name}」？`).replace("$1", imported.name))) return;
+      if (!confirm(t("confirm_importChain", `导入动作链「${imported.name}」？`, imported.name))) return;
       await importSingleChain(imported);
       return;
     }
@@ -3535,7 +3612,7 @@ async function importConfig(file) {
     showMessage(t("toast_configImported", "配置已导入"));
   } catch (error) {
     console.error("Failed to import config:", error);
-    showMessage(t("toast_importFailed", "导入失败: $1").replace("$1", error.message), true);
+    showMessage(t("toast_importFailed", "导入失败: $1", error.message), true);
   }
 }
 
@@ -3567,11 +3644,16 @@ async function deleteChain(chainKey) {
 
   const chainName = currentConfig.chains[chainKey]?.name || t("label_unknownChain", "未知动作链");
 
-  // 显示确认对话框
-  const confirmed = confirm(`${t("card_delete", "删除")} "${chainName}"?\n\n`);
-  if (!confirmed) {
-    return;
-  }
+  const confirmed = await confirmInPage(t("confirm_deleteChain", "删除动作链「$1」？", chainName));
+  if (!confirmed) return;
+
+  // Kept so the toast can offer a real undo, including the workflow edges.
+  const removed = {
+    key: chainKey,
+    chain: currentConfig.chains[chainKey],
+    order: currentConfig.chainOrder ? [...currentConfig.chainOrder] : null,
+    defaultChain: currentConfig.defaultChain,
+  };
 
   delete currentConfig.chains[chainKey];
 
@@ -3600,7 +3682,24 @@ async function deleteChain(chainKey) {
 
   await saveConfig();
   renderMainView();
-  showMessage(t("card_delete", "删除"));
+  // "删除" alone reads as a button label, not as news; and the default chain may
+  // have just moved, which changes what Ctrl+Shift+H does.
+  const movedDefault = removed.defaultChain === removed.key && currentConfig.defaultChain !== removed.key;
+  showMessage(
+    t("toast_deletedChain", "已删除「$1」", removed.chain?.name || removed.key) +
+      (movedDefault ? " · " + t("toast_defaultMoved", "默认链已改为 $1", currentConfig.chains[currentConfig.defaultChain]?.name || "") : ""),
+    false,
+    {
+      label: t("toast_undo", "撤销"),
+      onClick: () => {
+        currentConfig.chains[removed.key] = removed.chain;
+        if (removed.order) currentConfig.chainOrder = removed.order;
+        currentConfig.defaultChain = removed.defaultChain;
+        saveConfig();
+        renderMainView();
+      },
+    }
+  );
 }
 
 // Update chain name
@@ -3720,7 +3819,7 @@ function renderActionPickerList() {
         item.type === ACTION_TYPES.AI_EXPLAIN ||
         item.type === ACTION_TYPES.AI_TRANSLATE;
       const aiBadge = isAi
-        ? `<span class="badge bg-info-subtle text-info-emphasis border border-info-subtle ms-auto me-2" style="font-size:0.65rem;"><i class="bi bi-cpu me-1" aria-hidden="true"></i>${escapeHtmlAttr(t("badge_requiresAi", "需端侧 AI"))}</span>`
+        ? `<span class="badge ai-chip ms-auto me-2"><i class="bi bi-cpu me-1" aria-hidden="true"></i>${escapeHtmlAttr(t("badge_requiresAi", "需浏览器内置 AI"))}</span>`
         : "";
       return `
         <div class="action-picker-item" data-action-type="${escapeHtmlAttr(item.type)}" role="button" tabindex="0" title="${escapeHtmlAttr(item.name)}">
@@ -3822,7 +3921,8 @@ async function addAction(chainKey) {
 
 // Remove action from chain
 async function removeAction(chainKey, actionIndex) {
-  currentConfig.chains[chainKey].actions.splice(actionIndex, 1);
+  const chain = currentConfig.chains[chainKey];
+  const [taken] = chain.actions.splice(actionIndex, 1);
   await saveConfig();
 
   // Re-render the entire chain edit view to immediately show the changes
@@ -3830,7 +3930,15 @@ async function removeAction(chainKey, actionIndex) {
     renderChainEdit(chainKey);
   }
 
-  showMessage(t("card_delete", "删除"));
+  const name = (ACTION_NAMES[taken.type] && ACTION_NAMES[taken.type]()) || taken.type;
+  showMessage(t("toast_removedAction", "已移除动作「$1」", name), false, {
+    label: t("toast_undo", "撤销"),
+    onClick: () => {
+      chain.actions.splice(Math.min(actionIndex, chain.actions.length), 0, taken);
+      saveConfig();
+      if (editingChainId === chainKey) renderChainEdit(chainKey);
+    },
+  });
 }
 
 // Update action type
@@ -4131,7 +4239,7 @@ async function refreshExtensionsList(chainKey, actionIndex) {
         selector.value = currentValue;
       }
 
-      showMessage(t("toast_extensionsRefreshed", "已刷新 $1 个扩展").replace("$1", extensions.length));
+      showMessage(t("toast_extensionsRefreshed", "已刷新 $1 个扩展", extensions.length));
     }
   } catch (error) {
     console.error("Failed to refresh extensions:", error);
@@ -4183,7 +4291,9 @@ function showMessage(text, isError = false, action = null) {
   let toastContainer = document.querySelector(".toast-container");
   if (!toastContainer) {
     toastContainer = document.createElement("div");
-    toastContainer.className = "toast-container position-fixed top-0 end-0 p-3";
+    // Bottom-right: top-right is where the primary buttons live, and the toast
+    // used to swallow them for its whole 3s.
+    toastContainer.className = "toast-container position-fixed bottom-0 end-0 p-3";
     toastContainer.style.zIndex = "1055";
     document.body.appendChild(toastContainer);
   }

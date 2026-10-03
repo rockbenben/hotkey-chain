@@ -174,7 +174,7 @@
     "message": "Brak akcji"
   },
   "actions_more": {
-    "message": "więcej akcji"
+    "message": "+$1 akcji więcej"
   },
   "actions_count": {
     "message": "akcji"
@@ -588,7 +588,7 @@
     "message": "Wybierz to rozszerzenie, aby uruchamiać własne łańcuchy akcji; wybranie innego rozszerzenia wykonuje na nim akcje zarządzania (włącz/wyłącz, odinstaluj, otwórz opcje…), a nie jego własne skróty."
   },
   "hint_callExtension": {
-    "message": "Wysyła wiadomość do innego rozszerzenia. Działa tylko wtedy, gdy to rozszerzenie akceptuje wiadomości zewnętrzne (externally_connectable) — większość nie akceptuje, więc może nic nie zrobić."
+    "message": "Wysyła wiadomość do innego rozszerzenia. Działa tylko wtedy, gdy to rozszerzenie akceptuje wiadomości zewnętrzne — większość nie akceptuje, więc może nic nie zrobić."
   },
   "label_presetAction": {
     "message": "Akcja predefiniowana"
@@ -879,7 +879,7 @@
     "message": "Już na liście do przeczytania"
   },
   "msg_readingListUnsupported": {
-    "message": "API listy do przeczytania nie jest obsługiwane w tej przeglądarce"
+    "message": "Ta przeglądarka nie ma listy do przeczytania"
   },
   "msg_cacheCleared": {
     "message": "Wyczyszczono pamięć podręczną przeglądarki"
@@ -1101,7 +1101,7 @@
     "message": "Ustawienia"
   },
   "sidepanel_searchPlaceholder": {
-    "message": "Szukaj łańcuchów..."
+    "message": "Szukaj łańcuchów…"
   },
   "sidepanel_noChainsFound": {
     "message": "Nie znaleziono łańcuchów"
@@ -1152,7 +1152,7 @@
     "message": "Wybierz gotowe przepływy automatyzacji i dodaj je jednym kliknięciem"
   },
   "tmpl_gallery_search_placeholder": {
-    "message": "Szukaj szablonów według nazwy, opisu lub akcji..."
+    "message": "Szukaj szablonów według nazwy, opisu lub akcji…"
   },
   "tmpl_gallery_use": {
     "message": "Użyj tego szablonu"
@@ -1164,7 +1164,7 @@
     "message": "Nie znaleziono pasujących szablonów"
   },
   "tmpl_gallery_empty_desc": {
-    "message": "Spróbuj wyszukać inne słowa kluczowe lub zmień kategorię powyżej"
+    "message": "Spróbuj innego słowa kluczowego lub innej kategorii"
   },
   "tmpl_gallery_empty_reset": {
     "message": "Zresetuj wyszukiwanie"
@@ -1251,7 +1251,7 @@
     "message": "To usunie pliki cookie i historię pobierania WSZYSTKICH witryn, nie tylko tej. Kontynuować?"
   },
   "tmpl_gallery_footer_hint": {
-    "message": "Kliknij dowolny szablon, aby go utworzyć i dostosować. Wszystkie parametry można dowolnie modyfikować."
+    "message": "“Dodaj bez zmian” dodaje szablon w obecnym kształcie; “Dodaj i edytuj” otwiera także edytor."
   },
   "actionPicker_title": {
     "message": "Dodaj akcję"
@@ -1281,16 +1281,16 @@
     "message": "Utwórz pusty łańcuch"
   },
   "tmpl_gallery_add_direct": {
-    "message": "Dodaj do moich łańcuchów"
+    "message": "Dodaj bez zmian"
   },
   "tmpl_gallery_add_and_edit": {
-    "message": "Dodaj i dostosuj"
+    "message": "Dodaj i edytuj"
   },
   "toast_chainAdded_actionRun": {
     "message": "Uruchom teraz"
   },
   "workflow_title": {
-    "message": "Automatyzacja przepływu pracy (Pipeline)"
+    "message": "Automatycznie do następnego łańcucha"
   },
   "workflow_subtitle": {
     "message": "Automatycznie łącz z kolejnym etapem, przekazując dane wyjściowe dalej"
@@ -1416,7 +1416,7 @@
     "message": "Wyskakujące okna dozwolone dla tej witryny"
   },
   "badge_requiresAi": {
-    "message": "Wymaga lokalnej SI"
+    "message": "Wymaga wbudowanego SI w Chrome"
   },
   "hint_aiRequirement": {
     "message": "Działa na wbudowanym w Chrome Gemini Nano — wszystko zostaje na Twoim urządzeniu. Wymaga Chrome na komputer z odpowiednim GPU lub RAM; bez klucza API i bez flag."
@@ -1434,7 +1434,7 @@
     "message": "Nie znaleziono często odwiedzanych stron w historii"
   },
   "msg_topSitesOpened": {
-    "message": "Otwarto  często odwiedzanych stron w tle"
+    "message": "Otwarto $1 często odwiedzanych stron w tle"
   },
   "tmpl_pureReader": {
     "message": "Czysty tryb czytania"
@@ -1592,6 +1592,15 @@
   "progress_failed": {
     "message": "Zakończono z błędami"
   },
+  "hud_stop": {
+    "message": "Zatrzymaj"
+  },
+  "hud_stopping": {
+    "message": "Zatrzymywanie…"
+  },
+  "progress_cancelled": {
+    "message": "Zatrzymano"
+  },
   "label_noCopy": {
     "message": "Nie kopiuj automatycznie do schowka (zostaw wynik następnej akcji)"
   },
@@ -1609,5 +1618,50 @@
   },
   "shortcut_badge_unset": {
     "message": "Brak skrótu"
+  },
+  "toast_undo": {
+    "message": "Cofnij"
+  },
+  "toast_deletedChain": {
+    "message": "Usunięto „$1”"
+  },
+  "confirm_deleteChain": {
+    "message": "Usunąć łańcuch „$1”?"
+  },
+  "label_delayBefore": {
+    "message": "Najpierw czekaj"
+  },
+  "label_delayAfter": {
+    "message": "Czekaj potem"
+  },
+  "edit_autosave": {
+    "message": "Zmiany zapisują się automatycznie"
+  },
+  "edit_saved": {
+    "message": "Zapisano"
+  },
+  "test_runHint": {
+    "message": "Dłała na stronie internetowej, którą oglądasz, a nie na tej stronie ustawień"
+  },
+  "sidepanel_noChains": {
+    "message": "Brak łańcuchów"
+  },
+  "sidepanel_noMatches": {
+    "message": "Brak pasujących łańcuchów"
+  },
+  "empty_restore_hint": {
+    "message": "Usunięto przez pomyłkę? Przywróć wbudowane łańcuchy."
+  },
+  "toast_removedAction": {
+    "message": "Usunięto krok „$1”"
+  },
+  "toast_defaultMoved": {
+    "message": "Domyślnym łańcuchem jest teraz $1"
+  },
+  "sidepanel_openInSettings": {
+    "message": "Otwórz w ustawieniach"
+  },
+  "toast_noWebTarget": {
+    "message": "Brak strony internetowej do działania — najpierw otwórz kartę"
   }
 }

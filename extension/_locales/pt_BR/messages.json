@@ -174,7 +174,7 @@
     "message": "Nenhuma ação ainda"
   },
   "actions_more": {
-    "message": "mais ações"
+    "message": "+$1 ações"
   },
   "actions_count": {
     "message": "ações"
@@ -588,7 +588,7 @@
     "message": "Escolha esta extensão para executar suas próprias cadeias de ações; escolher outra extensão executa ações de gerenciamento sobre ela (ativar/desativar, desinstalar, abrir opções…), e não seus próprios atalhos."
   },
   "hint_callExtension": {
-    "message": "Envia uma mensagem a outra extensão. Só funciona se essa extensão aceitar mensagens externas (externally_connectable) — a maioria não aceita, então pode não fazer nada."
+    "message": "Envia uma mensagem a outra extensão. Só funciona se essa extensão aceitar mensagens externas — a maioria não aceita, então pode não fazer nada."
   },
   "label_presetAction": {
     "message": "Ação predefinida"
@@ -879,7 +879,7 @@
     "message": "Já está na lista de leitura"
   },
   "msg_readingListUnsupported": {
-    "message": "API de lista de leitura não é compatível com este navegador"
+    "message": "Este navegador não tem uma lista de leitura"
   },
   "msg_cacheCleared": {
     "message": "Cache do navegador limpo"
@@ -1101,7 +1101,7 @@
     "message": "Configurações"
   },
   "sidepanel_searchPlaceholder": {
-    "message": "Pesquisar sequências..."
+    "message": "Pesquisar sequências…"
   },
   "sidepanel_noChainsFound": {
     "message": "Nenhuma sequência encontrada"
@@ -1152,7 +1152,7 @@
     "message": "Escolha fluxos de trabalho prontos para automação e adicione-os com um clique"
   },
   "tmpl_gallery_search_placeholder": {
-    "message": "Pesquisar modelos por nome, descrição ou ação..."
+    "message": "Pesquisar modelos por nome, descrição ou ação…"
   },
   "tmpl_gallery_use": {
     "message": "Usar modelo"
@@ -1164,7 +1164,7 @@
     "message": "Nenhum modelo correspondente encontrado"
   },
   "tmpl_gallery_empty_desc": {
-    "message": "Tente outras palavras-chave ou altere a categoria acima"
+    "message": "Tente outra palavra-chave ou outra categoria"
   },
   "tmpl_gallery_empty_reset": {
     "message": "Redefinir pesquisa"
@@ -1251,7 +1251,7 @@
     "message": "Isso apaga cookies e histórico de downloads de TODOS os sites, não apenas deste. Continuar?"
   },
   "tmpl_gallery_footer_hint": {
-    "message": "Clique em qualquer modelo para criar e personalizar. Todos os parâmetros são ajustáveis."
+    "message": "“Adicionar diretamente” insere o modelo como está; “Adicionar e editar” também abre o editor."
   },
   "actionPicker_title": {
     "message": "Adicionar ação"
@@ -1281,16 +1281,16 @@
     "message": "Criar corrente em branco"
   },
   "tmpl_gallery_add_direct": {
-    "message": "Adicionar às minhas correntes"
+    "message": "Adicionar diretamente"
   },
   "tmpl_gallery_add_and_edit": {
-    "message": "Adicionar e personalizar"
+    "message": "Adicionar e editar"
   },
   "toast_chainAdded_actionRun": {
     "message": "Executar agora"
   },
   "workflow_title": {
-    "message": "Automação de Workflow (Pipeline)"
+    "message": "Encadear a próxima cadeia"
   },
   "workflow_subtitle": {
     "message": "Encadeie automaticamente com a próxima etapa passando os dados downstream"
@@ -1416,7 +1416,7 @@
     "message": "Pop-ups permitidos neste site"
   },
   "badge_requiresAi": {
-    "message": "Requer IA no dispositivo"
+    "message": "Requer a IA integrada do Chrome"
   },
   "hint_aiRequirement": {
     "message": "Roda no Gemini Nano integrado do Chrome — tudo fica no seu dispositivo. Requer Chrome para desktop com GPU ou RAM suficiente; sem chave de API e sem flags."
@@ -1434,7 +1434,7 @@
     "message": "Nenhum site frequente encontrado no histórico de navegação"
   },
   "msg_topSitesOpened": {
-    "message": " sites frequentes abertos em guias em segundo plano"
+    "message": "$1 sites frequentes abertos em guias em segundo plano"
   },
   "tmpl_pureReader": {
     "message": "Leitor puro sem distrações"
@@ -1592,6 +1592,15 @@
   "progress_failed": {
     "message": "Concluído com erros"
   },
+  "hud_stop": {
+    "message": "Parar"
+  },
+  "hud_stopping": {
+    "message": "Parando…"
+  },
+  "progress_cancelled": {
+    "message": "Parado"
+  },
   "label_noCopy": {
     "message": "Não copiar automaticamente para a área de transferência (deixar o resultado para a próxima ação)"
   },
@@ -1609,5 +1618,50 @@
   },
   "shortcut_badge_unset": {
     "message": "Sem atalho"
+  },
+  "toast_undo": {
+    "message": "Desfazer"
+  },
+  "toast_deletedChain": {
+    "message": "“$1” excluída"
+  },
+  "confirm_deleteChain": {
+    "message": "Excluir a cadeia “$1”?"
+  },
+  "label_delayBefore": {
+    "message": "Aguardar antes"
+  },
+  "label_delayAfter": {
+    "message": "Aguardar depois"
+  },
+  "edit_autosave": {
+    "message": "As alterações são salvas automaticamente"
+  },
+  "edit_saved": {
+    "message": "Salvo"
+  },
+  "test_runHint": {
+    "message": "Executa na página web que você está vendo, não nesta página de configurações"
+  },
+  "sidepanel_noChains": {
+    "message": "Ainda não há cadeias"
+  },
+  "sidepanel_noMatches": {
+    "message": "Nenhuma cadeia corresponde"
+  },
+  "empty_restore_hint": {
+    "message": "Excluída sem querer? Restaure as cadeias padrão."
+  },
+  "toast_removedAction": {
+    "message": "Etapa “$1” removida"
+  },
+  "toast_defaultMoved": {
+    "message": "A cadeia padrão agora é $1"
+  },
+  "sidepanel_openInSettings": {
+    "message": "Abrir nas configurações"
+  },
+  "toast_noWebTarget": {
+    "message": "Nenhuma página web para agir — abra uma aba primeiro"
   }
 }

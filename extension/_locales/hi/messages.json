@@ -174,7 +174,7 @@
     "message": "अभी तक कोई क्रिया नहीं"
   },
   "actions_more": {
-    "message": "और क्रियाएँ"
+    "message": "+$1 क्रियाएँ"
   },
   "actions_count": {
     "message": "क्रियाएँ"
@@ -588,7 +588,7 @@
     "message": "अपनी क्रिया चेन चलाने के लिए इस एक्सटेंशन को चुनें; किसी अन्य एक्सटेंशन को चुनने पर उस पर प्रबंधन क्रियाएँ की जाती हैं (सक्षम/अक्षम करें, अनइंस्टॉल करें, विकल्प खोलें…), न कि उसके अपने शॉर्टकट।"
   },
   "hint_callExtension": {
-    "message": "किसी अन्य एक्सटेंशन को संदेश भेजता है। यह केवल तभी काम करता है जब वह एक्सटेंशन बाहरी संदेश स्वीकार करता है (externally_connectable) — अधिकांश नहीं करते, इसलिए यह कुछ न भी करे।"
+    "message": "किसी अन्य एक्सटेंशन को संदेश भेजता है। यह केवल तभी काम करता है जब वह एक्सटेंशन बाहरी संदेश स्वीकार करता है — अधिकांश नहीं करते, इसलिए यह कुछ न भी करे।"
   },
   "label_presetAction": {
     "message": "प्रीसेट क्रिया"
@@ -879,7 +879,7 @@
     "message": "पहले से रीडिंग सूची में है"
   },
   "msg_readingListUnsupported": {
-    "message": "इस ब्राउज़र में रीडिंग सूची API समर्थित नहीं है"
+    "message": "इस ब्राउज਼र में रीड़िंग सूची नहीं"
   },
   "msg_cacheCleared": {
     "message": "ब्राउज़र कैश साफ़ किया गया"
@@ -1101,7 +1101,7 @@
     "message": "सेटिंग्स"
   },
   "sidepanel_searchPlaceholder": {
-    "message": "चेन खोजें..."
+    "message": "चेन खोजें…"
   },
   "sidepanel_noChainsFound": {
     "message": "कोई चेन नहीं मिली"
@@ -1152,7 +1152,7 @@
     "message": "उपयोग के लिए तैयार ऑटोमेशन वर्कफ़्लो चुनें और एक क्लिक में जोड़ें"
   },
   "tmpl_gallery_search_placeholder": {
-    "message": "नाम, विवरण या क्रिया द्वारा टेम्पलेट खोजें..."
+    "message": "नाम, विवरण या क्रिया द्वारा टेम्पलेट खोजें…"
   },
   "tmpl_gallery_use": {
     "message": "इस टेम्पलेट का उपयोग करें"
@@ -1164,7 +1164,7 @@
     "message": "कोई मेल खाता टेम्पलेट नहीं मिला"
   },
   "tmpl_gallery_empty_desc": {
-    "message": "अन्य कीवर्ड के साथ खोजें या ऊपर दी गई श्रेणी बदलें"
+    "message": "दूसरी कीवर्ड से खोजें, या दूसरी श्रेणी चुनें"
   },
   "tmpl_gallery_empty_reset": {
     "message": "खोज रीसेट करें"
@@ -1251,7 +1251,7 @@
     "message": "यह केवल इस साइट का नहीं, बल्कि सभी साइटों के कुकीज़ और डाउनलोड इतिहास को मिटा देगा। जारी रखें?"
   },
   "tmpl_gallery_footer_hint": {
-    "message": "बनाने और कस्टमाइज़ करने के लिए किसी भी टेम्पलेट पर क्लिक करें। सभी पैरामीटर स्वतंत्र रूप से समायोजित किए जा सकते हैं।"
+    "message": "“सीधे जोड़ें” टेम्पलेट को वैसे जोड़ता है; “जोड़ें और संपादिष्ट करें” साथ में संपादक खोलता है."
   },
   "actionPicker_title": {
     "message": "क्रिया जोड़ें"
@@ -1281,16 +1281,16 @@
     "message": "खाली चेन बनाएँ"
   },
   "tmpl_gallery_add_direct": {
-    "message": "मेरी चेन में जोड़ें"
+    "message": "सीधे जोड़ें"
   },
   "tmpl_gallery_add_and_edit": {
-    "message": "जोड़ें और कस्टमाइज़ करें"
+    "message": "जोड़ें और संपादिष्ट करें"
   },
   "toast_chainAdded_actionRun": {
     "message": "अभी चलाएं"
   },
   "workflow_title": {
-    "message": "वर्कफ़्लो स्वचालन (Pipeline)"
+    "message": "अगली चेन पर स्वतः आगे बढ़ेँ"
   },
   "workflow_subtitle": {
     "message": "अगले चरण से स्वचालित रूप से जुड़ें और डेटा आगे प्रवाहित करें"
@@ -1416,7 +1416,7 @@
     "message": "इस साइट के लिए पॉपअप की अनुमति दी गई"
   },
   "badge_requiresAi": {
-    "message": "ऑन-डिवाइस AI आवश्यक है"
+    "message": "Chrome के built-in AI की ज़रूरत"
   },
   "hint_aiRequirement": {
     "message": "Chrome के अंतर्निहित Gemini Nano (Prompt API) पर चलता है — सब कुछ आपके डिवाइस पर ही रहता है। पर्याप्त GPU या RAM वाला डेस्कटॉप Chrome चाहिए; न API key और न कोई flag।"
@@ -1434,7 +1434,7 @@
     "message": "ब्राउज़िंग इतिहास में अक्सर देखी जाने वाली कोई साइट नहीं मिली"
   },
   "msg_topSitesOpened": {
-    "message": "बैकग्राउंड टैब में  शीर्ष साइटें खोली गईं"
+    "message": "बैकग्राउंड टैब में $1 शीर्ष साइटें खोली गईं"
   },
   "tmpl_pureReader": {
     "message": "शुद्ध ध्यान-मुक्त रीडर"
@@ -1592,6 +1592,15 @@
   "progress_failed": {
     "message": "त्रुटियों के साथ पूर्ण"
   },
+  "hud_stop": {
+    "message": "रोकें"
+  },
+  "hud_stopping": {
+    "message": "रोका जा रहा है…"
+  },
+  "progress_cancelled": {
+    "message": "रोक दिया गया"
+  },
   "label_noCopy": {
     "message": "स्वतः क्लिपबोर्ड पर कॉपी न करें (परिणाम अगली क्रिया को दें)"
   },
@@ -1609,5 +1618,50 @@
   },
   "shortcut_badge_unset": {
     "message": "कोई शॉर्टकट नहीं"
+  },
+  "toast_undo": {
+    "message": "पूर्ववत"
+  },
+  "toast_deletedChain": {
+    "message": "“$1” हटाया"
+  },
+  "confirm_deleteChain": {
+    "message": "चेन “$1” हटाएँ?"
+  },
+  "label_delayBefore": {
+    "message": "पहले प्रीक्षा"
+  },
+  "label_delayAfter": {
+    "message": "अगर प्रीक्षा"
+  },
+  "edit_autosave": {
+    "message": "बदलाव स्वतः सुरक्षित होते हैं"
+  },
+  "edit_saved": {
+    "message": "संक्षित"
+  },
+  "test_runHint": {
+    "message": "उस वेब पृष्ठ पर चलता है जिस आप देख रहे हैं, इस सेटिंग पृष्ठ पर नहीं"
+  },
+  "sidepanel_noChains": {
+    "message": "अबही कोई चेन नहीं"
+  },
+  "sidepanel_noMatches": {
+    "message": "कोई चेन मिलान नहीं"
+  },
+  "empty_restore_hint": {
+    "message": "गलती से हटाएँ? अंतर्निर्मित चेन बहाल करें।"
+  },
+  "toast_removedAction": {
+    "message": "क्रिया “$1” हटाया"
+  },
+  "toast_defaultMoved": {
+    "message": "डिफ़ॉल्ट चेन अब $1 है"
+  },
+  "sidepanel_openInSettings": {
+    "message": "सेटिंग्स में खोलें"
+  },
+  "toast_noWebTarget": {
+    "message": "कार्रवाई के लिए कोई वेब पेज नहीं — पहले एक टैब खोलें"
   }
 }

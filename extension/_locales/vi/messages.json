@@ -174,7 +174,7 @@
     "message": "Chưa có hành động nào"
   },
   "actions_more": {
-    "message": "hành động khác"
+    "message": "+$1 hành động khác"
   },
   "actions_count": {
     "message": "hành động"
@@ -588,7 +588,7 @@
     "message": "Chọn tiện ích này để chạy chuỗi hành động của riêng bạn; chọn tiện ích khác sẽ thực hiện các thao tác quản lý trên nó (bật/tắt, gỡ cài đặt, mở tùy chọn…), không phải phím tắt của nó."
   },
   "hint_callExtension": {
-    "message": "Gửi tin nhắn đến một tiện ích khác. Chỉ hoạt động nếu tiện ích đó chấp nhận tin nhắn bên ngoài (externally_connectable) — hầu hết đều không, vì vậy có thể không có tác dụng gì."
+    "message": "Gửi tin nhắn đến một tiện ích khác. Chỉ hoạt động nếu tiện ích đó chấp nhận tin nhắn bên ngoài — hầu hết đều không, vì vậy có thể không có tác dụng gì."
   },
   "label_presetAction": {
     "message": "Hành động đặt sẵn"
@@ -879,7 +879,7 @@
     "message": "Đã có trong danh sách đọc"
   },
   "msg_readingListUnsupported": {
-    "message": "Trình duyệt này không hỗ trợ API danh sách đọc"
+    "message": "Trình duyệt này không có danh sách đọc"
   },
   "msg_cacheCleared": {
     "message": "Đã xóa bộ nhớ đệm trình duyệt"
@@ -1101,7 +1101,7 @@
     "message": "Cài đặt"
   },
   "sidepanel_searchPlaceholder": {
-    "message": "Tìm kiếm chuỗi tác vụ..."
+    "message": "Tìm kiếm chuỗi tác vụ…"
   },
   "sidepanel_noChainsFound": {
     "message": "Không tìm thấy chuỗi nào"
@@ -1152,7 +1152,7 @@
     "message": "Chọn các quy trình tự động hóa sẵn có và thêm chỉ với một cú nhấp chuột"
   },
   "tmpl_gallery_search_placeholder": {
-    "message": "Tìm kiếm mẫu theo tên, mô tả hoặc hành động..."
+    "message": "Tìm kiếm mẫu theo tên, mô tả hoặc hành động…"
   },
   "tmpl_gallery_use": {
     "message": "Dùng mẫu này"
@@ -1164,7 +1164,7 @@
     "message": "Không tìm thấy mẫu phù hợp"
   },
   "tmpl_gallery_empty_desc": {
-    "message": "Hãy thử từ khóa khác hoặc chuyển danh mục ở trên"
+    "message": "Thử từ khóa khác hoặc chọn danh mục khác"
   },
   "tmpl_gallery_empty_reset": {
     "message": "Đặt lại tìm kiếm"
@@ -1251,7 +1251,7 @@
     "message": "Thao tác này xóa cookie và lịch sử tải xuống của TẤT CẢ các trang, không chỉ trang này. Tiếp tục?"
   },
   "tmpl_gallery_footer_hint": {
-    "message": "Nhấp vào bất kỳ mẫu nào để tạo và chỉnh sửa. Tất cả các thông số đều có thể tùy chỉnh tự do."
+    "message": "“Thêm ngay” thêm mẫu nguyên trạng; “Thêm và sửa” còn mở trình sửa."
   },
   "actionPicker_title": {
     "message": "Thêm hành động"
@@ -1281,16 +1281,16 @@
     "message": "Tạo chuỗi trống"
   },
   "tmpl_gallery_add_direct": {
-    "message": "Thêm vào chuỗi của tôi"
+    "message": "Thêm ngay"
   },
   "tmpl_gallery_add_and_edit": {
-    "message": "Thêm và tùy chỉnh"
+    "message": "Thêm và sửa"
   },
   "toast_chainAdded_actionRun": {
     "message": "Chạy ngay"
   },
   "workflow_title": {
-    "message": "Tự động hóa luồng công việc (Pipeline)"
+    "message": "Tự động nối sang chuỗi tiếp theo"
   },
   "workflow_subtitle": {
     "message": "Tự động nối tiếp bước tiếp theo với dữ liệu đầu ra truyền xuống"
@@ -1416,7 +1416,7 @@
     "message": "Đã cho phép cửa sổ bật lên cho trang này"
   },
   "badge_requiresAi": {
-    "message": "Yêu cầu AI trên thiết bị"
+    "message": "Cần AI tích hợp của Chrome"
   },
   "hint_aiRequirement": {
     "message": "Chạy trên Gemini Nano tích hợp của Chrome — mọi thứ đều ở lại trên máy bạn. Cần Chrome máy tính với GPU hoặc RAM đủ; không cần API key và không cần flag."
@@ -1434,7 +1434,7 @@
     "message": "Không tìm thấy trang web thường xuyên truy cập trong lịch sử"
   },
   "msg_topSitesOpened": {
-    "message": "Đã mở  trang web thường dùng trong thẻ nền"
+    "message": "Đã mở $1 trang web thường dùng trong thẻ nền"
   },
   "tmpl_pureReader": {
     "message": "Chế độ đọc thuần khiết"
@@ -1592,6 +1592,15 @@
   "progress_failed": {
     "message": "Hoàn tất nhưng có lỗi"
   },
+  "hud_stop": {
+    "message": "Dừng"
+  },
+  "hud_stopping": {
+    "message": "Đang dừng…"
+  },
+  "progress_cancelled": {
+    "message": "Đã dừng"
+  },
   "label_noCopy": {
     "message": "Không tự động sao chép vào clipboard (để hành động sau xử lý kết quả)"
   },
@@ -1609,5 +1618,50 @@
   },
   "shortcut_badge_unset": {
     "message": "Chưa đặt phím tắt"
+  },
+  "toast_undo": {
+    "message": "Hoàn hoàn"
+  },
+  "toast_deletedChain": {
+    "message": "Đã xoá “$1”"
+  },
+  "confirm_deleteChain": {
+    "message": "Xoá chuỗi “$1”?"
+  },
+  "label_delayBefore": {
+    "message": "Đợi trước"
+  },
+  "label_delayAfter": {
+    "message": "Đợi sau"
+  },
+  "edit_autosave": {
+    "message": "Thay đổi được lưu tự động"
+  },
+  "edit_saved": {
+    "message": "Đã lưu"
+  },
+  "test_runHint": {
+    "message": "Chạy trên trang web bạn đang xem, không phải trang cài đặt này"
+  },
+  "sidepanel_noChains": {
+    "message": "Chưa có chuỗi nào"
+  },
+  "sidepanel_noMatches": {
+    "message": "Không có chuỗi nào khớp"
+  },
+  "empty_restore_hint": {
+    "message": "Đã xoá nhầm? Khôi phục lại chuỗi sẵn."
+  },
+  "toast_removedAction": {
+    "message": "Đã xóa bước “$1”"
+  },
+  "toast_defaultMoved": {
+    "message": "Chuỗi mặc định hiện là $1"
+  },
+  "sidepanel_openInSettings": {
+    "message": "Mở trong Cài đặt"
+  },
+  "toast_noWebTarget": {
+    "message": "Không có trang web để tác động — hãy mở một tab trước"
   }
 }

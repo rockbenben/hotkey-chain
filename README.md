@@ -40,7 +40,7 @@ Think of macOS/iOS Shortcuts, but living inside Chrome. Build a sequence once (a
 ## ✨ Highlights
 
 - **103+ actions**: across pages, tabs, windows, media, content, on-device AI, site content permissions, and browser automation
-- **Built-in On-Device AI (Prompt API)**: summarize, explain, and translate selection or page content locally via Gemini Nano with zero data leakage; fully configurable target language (English, Chinese, Japanese, French, German, etc.) and format styles (concise, detailed, bullet points, casual, formal); chain cards feature distinct **Requires On-Device AI** badge indicators
+- **Built-in On-Device AI (Prompt API)**: summarize, explain, and translate selection or page content locally via Gemini Nano with zero data leakage; fully configurable target language (English, Chinese, Japanese, French, German, etc.) and format styles (concise, detailed, bullet points, casual, formal); chain cards feature distinct **Needs Chrome's built-in AI** badge indicators
 - **System Speech Synthesis (TTS) & Pipeline**: native voice engine with adjustable speech rate (0.5x~2.0x), custom voice language, and direct consumption of upstream pipeline outputs
 - **Workflow Automation Pipeline**: orchestrate multi-chain execution (`Chain A ➔ Chain B`) with automatic success transitions, failure fallback routes, and seamless context data piping (`{output}` / `{{output}}`)
 - **Seven ways to trigger** a chain: hotkey, toolbar icon, side panel companion, right-click context menu, address bar (omnibox), scheduled timer, and URL & SPA auto-run
@@ -102,7 +102,7 @@ A chain is not just a linear list — it is a versatile automation pipeline:
   - `{output}` / `{{output}}`: piped output from previous steps or chains
 - **Navigation Wait** — `Wait for page navigation` smartly pauses execution until page loading or single-page app (SPA) routing is complete
 - **Sub-chain Execution** — `Run another chain` invokes modular chains as steps, guarded by recursion depth and circular loop protection
-- **Visual Feedback** — the toolbar badge shows live step progress (`3/5`) while a chain runs, hovering it names the action being executed, and an in-page HUD shows which action is running right now plus how far along the chain is; errors surface a warning badge and a system notification
+- **Visual Feedback** — the toolbar badge shows live step progress (`3/5`) while a chain runs, hovering it names the action being executed, and an in-page HUD shows which action is running right now plus how far along the chain is; the HUD carries a **Stop** button so a long chain can be ended from the page. Errors surface a warning badge and a system notification
 
 ## 📚 Curated Template Library (28 Presets)
 
@@ -155,7 +155,7 @@ Hotkey Chain uses Google Chrome's built-in on-device AI (`LanguageModel` / Promp
 - **Zero Cloud Data Transfer**: all prompts, selections, and page text are computed purely on your local hardware (NPU/GPU/CPU). After the one-time model download, no network request is made
 - **No API Key, No Flags**: no subscription, no token, and nothing to enable in `chrome://flags` — the API ships with Chrome
 - **Flexible Tuning**: configure target language (Auto-detect, English, Chinese, Japanese, etc.) and summarization/explanation styles (concise, detailed, casual, formal, etc.)
-- **Visual AI Badges**: options cards and the side panel companion prominently display a **"Requires On-Device AI"** badge, and 22 of the 28 templates never touch AI at all
+- **Visual AI Badges**: options cards and the side panel companion prominently display a **"Needs Chrome's built-in AI"** badge, and 22 of the 28 templates never touch AI at all
 - **Hardware Requirements**: desktop Chrome only — Windows 10/11, macOS 13+, Linux, or Chromebook Plus (not Android/iOS); about 22 GB free on the profile drive; either over 4 GB VRAM, or 16 GB RAM with 4+ cores. The model downloads on first use — watch progress at `chrome://on-device-internals`
 - **Honest Failure**: if the API is missing, the model is still downloading, or the hardware is unsupported, the action says which of those it is and stops the chain there — rather than failing silently and letting later steps build a card out of stale output
 - **Check It Yourself**: the CPU icon in the options toolbar probes every context that could host the model — the extension page, the service worker, and both page worlds — and reports exactly what Chrome said in each, so you can confirm whether AI works on your machine rather than guessing
@@ -217,7 +217,7 @@ Working on the extension — tests, packaging, releasing, brand assets — is in
 
 - **18 languages**: English, 简体中文, 繁體中文, 日本語, 한국어, Español, Français, Deutsch, Português (Brasil), Русский, Italiano, العربية, हिन्दी, Bahasa Indonesia, Türkçe, Tiếng Việt, ไทย, Polski — default follows the browser
 - The options page has a language selector that overrides the entire extension — background, menus, notifications, and commands; right-to-left layout is applied automatically for Arabic
-- Locale files live in `extension/_locales/<code>/messages.json` (e.g. `en`, `zh_CN`, `ja`, `ar`), 537+ keys each — `npm test` fails if any locale drifts out of sync
+- Locale files live in `extension/_locales/<code>/messages.json` (e.g. `en`, `zh_CN`, `ja`, `ar`), 555+ keys each — `npm test` fails if any locale drifts out of sync
 - Chrome's i18n has no plural rules, so counts that vary use a pair of keys (`actions_count_one` / `actions_count`); languages without a plural distinction simply repeat the same string
 
 ## About the 365 Open Source Plan

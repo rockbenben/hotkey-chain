@@ -174,7 +174,7 @@
     "message": "No actions yet"
   },
   "actions_more": {
-    "message": "more actions"
+    "message": "+$1 more"
   },
   "actions_count": {
     "message": "actions"
@@ -588,7 +588,7 @@
     "message": "Pick this extension to run your own action chains; picking another extension performs management actions on it (enable/disable, uninstall, open options…), not its own shortcuts."
   },
   "hint_callExtension": {
-    "message": "Sends a message to another extension. Only works if that extension accepts external messages (externally_connectable) — most don't, so it may do nothing."
+    "message": "Sends a message to another extension. Only works if that extension accepts external messages — most don't, so it may do nothing."
   },
   "label_presetAction": {
     "message": "Preset action"
@@ -879,7 +879,7 @@
     "message": "Already in reading list"
   },
   "msg_readingListUnsupported": {
-    "message": "Reading list API not supported in this browser"
+    "message": "This browser doesn't have a reading list"
   },
   "msg_cacheCleared": {
     "message": "Browser cache cleared"
@@ -1101,7 +1101,7 @@
     "message": "Settings"
   },
   "sidepanel_searchPlaceholder": {
-    "message": "Search chains..."
+    "message": "Search chains…"
   },
   "sidepanel_noChainsFound": {
     "message": "No chains found"
@@ -1152,7 +1152,7 @@
     "message": "Choose ready-to-use automation workflows to boost your browsing efficiency"
   },
   "tmpl_gallery_search_placeholder": {
-    "message": "Search templates by name, description, or action..."
+    "message": "Search templates by name, description, or action…"
   },
   "tmpl_gallery_use": {
     "message": "Use Template"
@@ -1164,7 +1164,7 @@
     "message": "No matching templates found"
   },
   "tmpl_gallery_empty_desc": {
-    "message": "Try searching with different keywords or switch the category filter above"
+    "message": "Try another keyword, or pick a different category"
   },
   "tmpl_gallery_empty_reset": {
     "message": "Reset Search"
@@ -1251,7 +1251,7 @@
     "message": "This clears cookies and download history for ALL sites, not just this one. Continue?"
   },
   "tmpl_gallery_footer_hint": {
-    "message": "Click any template to create and start customizing. All action parameters can be freely adjusted."
+    "message": "“Add to list” puts the template in your chains as-is; “Add & edit” also opens the editor."
   },
   "actionPicker_title": {
     "message": "Add Action"
@@ -1281,16 +1281,16 @@
     "message": "Create Blank Chain"
   },
   "tmpl_gallery_add_direct": {
-    "message": "Add to My Chains"
+    "message": "Add to list"
   },
   "tmpl_gallery_add_and_edit": {
-    "message": "Add & Customize"
+    "message": "Add & edit"
   },
   "toast_chainAdded_actionRun": {
     "message": "Run Now"
   },
   "workflow_title": {
-    "message": "Workflow Automation (Pipeline)"
+    "message": "Chain the next step automatically"
   },
   "workflow_subtitle": {
     "message": "Automatically chain to the next workflow stage with context data flowing downstream"
@@ -1416,7 +1416,7 @@
     "message": "Popups allowed for this site"
   },
   "badge_requiresAi": {
-    "message": "Requires On-Device AI"
+    "message": "Needs Chrome's built-in AI"
   },
   "hint_aiRequirement": {
     "message": "Runs on Chrome's built-in Gemini Nano (Prompt API) — everything stays on your device. Needs desktop Chrome with enough GPU or RAM; no API key and no flags required."
@@ -1434,7 +1434,7 @@
     "message": "No frequently visited sites found in browsing history"
   },
   "msg_topSitesOpened": {
-    "message": "Opened  top sites in background tabs"
+    "message": "Opened $1 top sites in background tabs"
   },
   "tmpl_pureReader": {
     "message": "Pure Distraction-Free Reader"
@@ -1592,6 +1592,15 @@
   "progress_failed": {
     "message": "Finished with errors"
   },
+  "hud_stop": {
+    "message": "Stop"
+  },
+  "hud_stopping": {
+    "message": "Stopping…"
+  },
+  "progress_cancelled": {
+    "message": "Stopped"
+  },
   "label_noCopy": {
     "message": "Don't copy to the clipboard automatically (leave the result to the next action)"
   },
@@ -1609,5 +1618,50 @@
   },
   "shortcut_badge_unset": {
     "message": "No shortcut"
+  },
+  "toast_undo": {
+    "message": "Undo"
+  },
+  "toast_deletedChain": {
+    "message": "Deleted “$1”"
+  },
+  "confirm_deleteChain": {
+    "message": "Delete the action chain “$1”?"
+  },
+  "label_delayBefore": {
+    "message": "Wait first"
+  },
+  "label_delayAfter": {
+    "message": "Wait after"
+  },
+  "edit_autosave": {
+    "message": "Changes save automatically"
+  },
+  "edit_saved": {
+    "message": "Saved"
+  },
+  "test_runHint": {
+    "message": "Runs against the web page you are viewing, not this settings page"
+  },
+  "sidepanel_noChains": {
+    "message": "No action chains yet"
+  },
+  "sidepanel_noMatches": {
+    "message": "No chains match your search"
+  },
+  "empty_restore_hint": {
+    "message": "Deleted one by mistake? Restore the built-in chains."
+  },
+  "toast_removedAction": {
+    "message": "Removed the step “$1”"
+  },
+  "toast_defaultMoved": {
+    "message": "Default chain is now $1"
+  },
+  "sidepanel_openInSettings": {
+    "message": "Open in Settings"
+  },
+  "toast_noWebTarget": {
+    "message": "No web page to act on — open a page in a tab first"
   }
 }

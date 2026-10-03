@@ -44,8 +44,11 @@
   --bg-tint: #eef0f7;
   --card: #ffffff;
   --ink: #1c1d28;
-  --ink-2: #6b6e80;
-  --ink-3: #9a9db0;
+  --ink-2: #5f6273;
+  --ink-3: #676a7c;
+  /* decorative marks (the drag glyph) only need 3:1 — keep them quiet */
+  --ink-deco: #8b8fa5;
+  --brand-ink: #4a41c9;
   --line: #ececf2;
   --line-2: #e2e3ec;
   --brand: #6155f5;
@@ -127,7 +130,8 @@ body {
   transition: transform .14s ease, box-shadow .14s ease, background-color .14s ease, color .14s ease, border-color .14s ease;
   border: 1px solid transparent;
 }
-.btn:focus { box-shadow: 0 0 0 3px rgba(97,85,245,.25); outline: none; }
+.btn:focus { box-shadow: 0 0 0 3px rgba(97,85,245,.25); }
+.btn:focus:not(:focus-visible) { outline: none; }
 .btn-sm { font-size: 0.86rem; border-radius: 10px; }
 
 .btn-primary {
@@ -195,7 +199,7 @@ body {
   position: relative;
 }
 .chain-card-header .drag-handle {
-  cursor: grab; color: var(--ink-3); font-size: 15px; user-select: none;
+  cursor: grab; color: var(--ink-deco); font-size: 15px; user-select: none;
   padding: 2px 6px 0 0; line-height: 1.2;
 }
 .cc-titlewrap { flex: 1; min-width: 0; }
@@ -210,13 +214,13 @@ body {
   background: var(--bg-tint); padding: 3px 9px; border-radius: 8px;
 }
 .cc-chip {
-  font-size: 0.72rem; font-weight: 700; color: var(--ink-2);
+  font-size: 0.75rem; font-weight: 700; color: var(--ink-2);
   background: var(--bg-tint); padding: 3px 8px; border-radius: 8px; white-space: nowrap;
   display: inline-flex; align-items: center;
 }
 .cc-chip.def { color: #fff; background: linear-gradient(145deg, var(--brand), var(--brand-2)); box-shadow: 0 3px 8px -3px rgba(97,85,245,.55); }
 .cc-chip.hotkey {
-  color: var(--brand);
+  color: var(--brand-ink);
   background: var(--brand-soft);
   border: 1px solid rgba(97, 85, 245, 0.25);
   cursor: pointer;
@@ -298,7 +302,7 @@ body {
 /* 带延迟的间隔：撑开高度，数字骑在导轨旁 */
 .action-gap.timed { height: 24px; display: flex; align-items: center; padding-inline-start: 43px; }
 .action-delay {
-  font-size: 0.7rem; font-weight: 700; color: var(--ink-3);
+  font-size: 0.75rem; font-weight: 700; color: var(--ink-3);
   background: var(--bg-tint); padding: 2px 7px; border-radius: 6px;
   font-variant-numeric: tabular-nums; line-height: 1.4;
 }
@@ -425,7 +429,7 @@ optgroup { font-weight: 700; color: var(--ink-2); }
   border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 1px 2px rgba(40,38,80,.04);
   background: var(--card);
 }
-.action-config .drag-handle { color: var(--ink-3); }
+.action-config .drag-handle { color: var(--ink-deco); }
 /* 带额外控件的动作会把卡片撑高，图标若垂直居中就会浮在中间；
    顶对齐让它和动作下拉框在同一条水平线上 */
 .action-config .card-body > .d-flex { align-items: flex-start !important; }
@@ -543,6 +547,27 @@ optgroup { font-weight: 700; color: var(--ink-2); }
   letter-spacing: 0.3px;
   padding: 4px 9px;
   border-radius: 999px;
+}
+/* Category accent (icon tile + badge) lives in variables, not inline styles,
+   so the dark theme can swap in a lighter tint of the same hue. */
+.template-card { --cat-ink: #6155f5; --cat-wash: rgba(97, 85, 245, 0.12); }
+.template-card[data-cat="ai"] { --cat-ink: #6366f1; --cat-wash: rgba(99, 102, 241, 0.12); }
+.template-card[data-cat="tabs"] { --cat-ink: #10b981; --cat-wash: rgba(16, 185, 129, 0.12); }
+.template-card[data-cat="reading"] { --cat-ink: #0284c7; --cat-wash: rgba(2, 132, 199, 0.12); }
+.template-card[data-cat="developer"] { --cat-ink: #d97706; --cat-wash: rgba(217, 119, 6, 0.12); }
+.template-card[data-cat="privacy"] { --cat-ink: #e11d48; --cat-wash: rgba(225, 29, 72, 0.12); }
+.template-card[data-cat="workflow"] { --cat-ink: #8b5cf6; --cat-wash: rgba(139, 92, 246, 0.12); }
+html[data-bs-theme="dark"] .template-card { --cat-ink: #b0b8ff; --cat-wash: rgba(126, 134, 255, 0.18); }
+html[data-bs-theme="dark"] .template-card[data-cat="ai"] { --cat-ink: #a5b4fc; --cat-wash: rgba(165, 180, 252, 0.18); }
+html[data-bs-theme="dark"] .template-card[data-cat="tabs"] { --cat-ink: #6ee7b7; --cat-wash: rgba(110, 231, 183, 0.18); }
+html[data-bs-theme="dark"] .template-card[data-cat="reading"] { --cat-ink: #7dd3fc; --cat-wash: rgba(125, 211, 252, 0.18); }
+html[data-bs-theme="dark"] .template-card[data-cat="developer"] { --cat-ink: #fcd34d; --cat-wash: rgba(252, 211, 77, 0.18); }
+html[data-bs-theme="dark"] .template-card[data-cat="privacy"] { --cat-ink: #fda4af; --cat-wash: rgba(253, 164, 175, 0.18); }
+html[data-bs-theme="dark"] .template-card[data-cat="workflow"] { --cat-ink: #c4b5fd; --cat-wash: rgba(196, 181, 253, 0.18); }
+.template-card-icon,
+.template-badge-cat {
+  background: var(--cat-wash);
+  color: var(--cat-ink);
 }
 .template-card-title {
   font-size: 1.02rem;
@@ -692,7 +717,7 @@ optgroup { font-weight: 700; color: var(--ink-2); }
 
 /* ---- Workflow Pipeline & Flow Automation ---- */
 .cc-chip.workflow-chip {
-  color: #6366f1;
+  color: var(--brand-ink);
   background: rgba(99, 102, 241, 0.08);
   border: 1px solid rgba(99, 102, 241, 0.25);
   font-weight: 600;
@@ -739,7 +764,7 @@ optgroup { font-weight: 700; color: var(--ink-2); }
 .workflow-pipeline-node.current {
   border-color: var(--brand);
   background: var(--brand-soft);
-  color: var(--brand);
+  color: var(--brand-ink);
 }
 .workflow-pipeline-node.clickable {
   cursor: pointer;
@@ -783,10 +808,23 @@ optgroup { font-weight: 700; color: var(--ink-2); }
 
 html { scroll-behavior: smooth; }
 
+
+/* ---- AI badge ----
+   Lives in three surfaces (card chip, template card, picker row). It used to be
+   an inline style, which no theme can reach, so the colour lives here. */
+.ai-chip {
+  color: #0a5b6b;
+  background: rgba(13, 202, 240, 0.14);
+  border: 1px solid rgba(13, 202, 240, 0.4);
+  font-weight: 600;
+  font-size: 0.75rem;
+}
+
 /* ---- Accessibility floor ---- */
 /* 键盘焦点必须看得见：:focus-visible 只在键盘导航时出现，不打扰鼠标用户 */
 :where(a, button, input, select, textarea, [tabindex]):focus-visible {
-  outline: 2px solid var(--brand);
+  /* 25% alpha was ~1.5:1 against the card; a solid ring is what WCAG asks for */
+  outline: 2px solid var(--brand-ink);
   outline-offset: 2px;
   border-radius: 6px;
 }
@@ -820,3 +858,154 @@ html { scroll-behavior: smooth; }
   .toolbar-primary .btn-group, .toolbar-primary > .btn { flex: 1; }
   .edit-header .d-flex { flex-wrap: wrap; gap: 12px; }
 }
+
+/* ---- options page dark ----
+   The page used to ignore the OS theme entirely: the side panel went dark and
+   the settings page stayed white, so opening it from the panel flashed.
+   Tokens first, then the handful of rules that hard-coded a light surface. */
+html[data-bs-theme="dark"] {
+  --bg: #0f1219;
+  --bg-tint: #1c2230;
+  --card: #171d29;
+  /* Dark mode has no drop shadow to fall back on, so nested surfaces alternate
+     one step lighter with their container — otherwise the template gallery
+     reads as one empty panel. */
+  --surface-2: #222b3c;
+  --ink: #eef1f8;
+  --ink-2: #b9c0d4;
+  --ink-3: #9aa3ba;
+  /* decorative marks (the drag glyph) only need 3:1 — keep them quiet */
+  --ink-deco: #6e7791;
+  --line: #242c3c;
+  --line-2: #2f3849;
+  --line-3: #364156;
+  --brand-soft: #262a52;
+  --brand-ink: #b0b8ff;
+  --danger-soft: #3a1d28;
+  color-scheme: dark;
+}
+
+html[data-bs-theme="dark"] body {
+  background:
+    radial-gradient(900px 500px at 88% -8%, #23245a, transparent 60%),
+    radial-gradient(700px 460px at 4% 6%, #14313a, transparent 55%),
+    var(--bg);
+}
+
+html[data-bs-theme="dark"] .app-header { background: linear-gradient(180deg, #1b2130, transparent); }
+html[data-bs-theme="dark"] .toolbar,
+html[data-bs-theme="dark"] .chain-card,
+html[data-bs-theme="dark"] .card,
+html[data-bs-theme="dark"] .card-header,
+html[data-bs-theme="dark"] .modal-content,
+html[data-bs-theme="dark"] .chains-empty,
+html[data-bs-theme="dark"] .template-modal-content,
+html[data-bs-theme="dark"] .action-picker-content {
+  background: var(--card);
+  color: var(--ink);
+  border-color: var(--line);
+}
+/* Second level: things that sit inside a card or a dialog. Light mode gets away
+   with a shadow here; dark needs its own step up, or the template gallery reads
+   as one empty panel. */
+html[data-bs-theme="dark"] .template-card,
+html[data-bs-theme="dark"] .action-picker-item,
+html[data-bs-theme="dark"] .action-config,
+html[data-bs-theme="dark"] .chain-info-panel,
+html[data-bs-theme="dark"] .actions-list:empty {
+  background: var(--surface-2);
+  border-color: var(--line-3);
+}
+/* Chips step back down inside a raised panel, same alternation as the cards. */
+html[data-bs-theme="dark"] .workflow-pipeline-node,
+html[data-bs-theme="dark"] .template-actions-flow {
+  background: var(--card);
+  border-color: var(--line-3);
+}
+/* The rules above outrank the plain :hover states, so the hover feedback has to
+   be restated for dark or the cards stop reacting to the pointer. */
+html[data-bs-theme="dark"] .template-card:hover { border-color: rgba(140, 130, 255, 0.55); }
+html[data-bs-theme="dark"] .action-picker-item:hover {
+  background: var(--brand-soft);
+  border-color: var(--brand);
+}
+html[data-bs-theme="dark"] .template-flow-pill {
+  background: var(--surface-2);
+  border-color: var(--line-3);
+}
+html[data-bs-theme="dark"] .workflow-pipeline-node.fallback {
+  background: #3a2f14;
+  border-color: #6b5320;
+  color: #ffd77a;
+}
+/* The dark group above outranks the plain .current rule, so restate it. */
+html[data-bs-theme="dark"] .workflow-pipeline-node.current {
+  background: var(--brand-soft);
+  border-color: var(--brand);
+  color: var(--brand-ink);
+}
+html[data-bs-theme="dark"] .chains-empty { border-color: var(--line-2); }
+html[data-bs-theme="dark"] .form-control,
+html[data-bs-theme="dark"] .form-select,
+html[data-bs-theme="dark"] .input-group-text {
+  background: var(--bg-tint);
+  color: var(--ink);
+  border-color: var(--line-2);
+}
+html[data-bs-theme="dark"] .input-group-text { color: var(--ink-2); }
+html[data-bs-theme="dark"] .form-control::placeholder { color: var(--ink-deco); }
+html[data-bs-theme="dark"] .btn-outline-secondary { color: var(--ink-2); border-color: var(--line-2); }
+html[data-bs-theme="dark"] .btn-outline-secondary:hover { color: var(--ink); background: var(--bg-tint); }
+html[data-bs-theme="dark"] .btn-outline-primary { color: var(--brand-ink); border-color: #3d4380; }
+html[data-bs-theme="dark"] .btn-outline-primary:hover { color: #fff; background: var(--brand); border-color: var(--brand); }
+html[data-bs-theme="dark"] .btn-outline-danger { color: #ff8fa3; border-color: #5b2b38; }
+html[data-bs-theme="dark"] .btn-outline-danger:hover { color: #fff; background: var(--danger); border-color: var(--danger); }
+html[data-bs-theme="dark"] .cc-chip.hotkey { color: var(--brand-ink); background: var(--brand-soft); border-color: #3d4380; }
+html[data-bs-theme="dark"] .cc-chip.hotkey.def-hotkey { color: #ffd77a; background: #3a2f14; border-color: #6b5320; }
+html[data-bs-theme="dark"] .ai-chip { color: #67e8f9; background: rgba(13, 202, 240, 0.14); border-color: rgba(103, 232, 249, 0.4); }
+html[data-bs-theme="dark"] .set-default-btn { color: var(--ink-deco); }
+html[data-bs-theme="dark"] .set-default-btn:hover { color: #fbbf24; background: #33290f; }
+html[data-bs-theme="dark"] .action-tile svg { stroke: #0f1219; }
+html[data-bs-theme="dark"] .app-footer, html[data-bs-theme="dark"] .footer-link { color: var(--ink-2); }
+html[data-bs-theme="dark"] .text-muted { color: var(--ink-2) !important; }
+html[data-bs-theme="dark"] hr { border-color: var(--line); opacity: 1; }
+
+/* ---- group-4 states ---- */
+/* Mixed-direction runs: a shortcut or a delay is LTR even inside an RTL page. */
+.cc-chip.hotkey, .action-delay, .chain-title { direction: ltr; unicode-bidi: isolate; }
+
+/* Editor: the masthead is the list's, so it steps back while editing. */
+body.editing .app-header { padding: 0.75rem 1.5rem !important; }
+body.editing .app-header h1 { font-size: 1.05rem; margin-bottom: 0 !important; }
+body.editing .app-header p { display: none; }
+
+/* Editor: the action column had no edge, so a short chain looked unfinished. */
+.actions-panel {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 18px;
+  min-height: 260px;
+}
+
+/* Save receipt in the editor header. */
+.save-status {
+  font-size: 12px;
+  color: var(--ink-2);
+  white-space: nowrap;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--bg-tint);
+}
+.save-status[data-state="saved"] { color: #0f6b3f; background: #e4f6ec; }
+.save-status[data-state="failed"] { color: #9f1239; background: var(--danger-soft); }
+html[data-bs-theme="dark"] .save-status[data-state="saved"] { color: #6ee7a8; background: #14301f; }
+html[data-bs-theme="dark"] .save-status[data-state="failed"] { color: #ff9c9c; background: #3a1d28; }
+
+/* Toasts live bottom-right now; keep them clear of the page edge. */
+.toast-container { z-index: 1090; }
+
+/* The action picker already filters by category, so the per-row badge is a
+   repeat of what is selected above it. */
+.action-picker-item .action-picker-cat { display: none; }
+.action-picker-item { font-size: 0.95rem; }

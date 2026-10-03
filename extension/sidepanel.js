@@ -3,9 +3,36 @@
 let currentConfig = { chains: {}, chainOrder: [] };
 let localeOverrideMap = null;
 
+// Which key runs which chain. This used to read chain.hotkey, a field nothing
+// in the project ever wrote, so the badge could never appear while the options
+// page showed the same information. Ask Chrome what it actually registered and
+// resolve through the shared helper so both pages agree.
+let commandShortcuts = new Map();
+let panelLocale = "auto";
+
+async function refreshCommandShortcuts() {
+  try {
+    const all = await chrome.commands.getAll();
+    commandShortcuts = new Map(all.map((c) => [c.name, c.shortcut || ""]));
+  } catch (e) {
+    commandShortcuts = new Map();
+  }
+}
+
+function shortcutForChain(chainKey) {
+  const name = hotkeyChainCommandName(
+    chainKey,
+    currentConfig.chainOrder || Object.keys(currentConfig.chains || {}),
+    currentConfig,
+    (n) => commandShortcuts.has(`execute_chain_${n}`)
+  );
+  return name ? commandShortcuts.get(name) || "" : "";
+}
+
 async function loadLocaleMessages() {
   try {
     const { localeOverride } = await chrome.storage.local.get(["localeOverride"]);
+    panelLocale = localeOverride || "auto";
     if (localeOverride && localeOverride !== "auto") {
       const resp = await chrome.runtime.sendMessage({ action: "getLocaleMessages" });
       localeOverrideMap = resp?.override || null;
@@ -17,13 +44,18 @@ async function loadLocaleMessages() {
   }
 }
 
-function t(key, fallback = "") {
+// 与 options.js / background.js 同一契约：带 $1 的句子要把替换值传进来，
+// getMessage 不传参数时会先删掉占位符再返回。
+function t(key, fallback = "", args = null) {
+  const list = args == null ? null : Array.isArray(args) ? args : [args];
+  const fill = (text) =>
+    list == null ? text : String(text).replace(/\$(\d)/g, (m, n) => list[Number(n) - 1] ?? m);
   try {
-    if (localeOverrideMap && localeOverrideMap[key]) return localeOverrideMap[key];
-    const msg = chrome.i18n.getMessage(key);
-    return msg || fallback || key;
+    if (localeOverrideMap && localeOverrideMap[key]) return fill(localeOverrideMap[key]);
+    const msg = list == null ? chrome.i18n.getMessage(key) : chrome.i18n.getMessage(key, list);
+    return fill(msg || fallback || key);
   } catch (e) {
-    return fallback || key;
+    return fill(fallback || key);
   }
 }
 
@@ -51,6 +83,7 @@ async function loadChains() {
     if (config && config.chains) {
       currentConfig = config;
     }
+    await refreshCommandShortcuts();
     renderChains();
   } catch (e) {
     console.error("Failed to load chains in side panel:", e);
@@ -87,7 +120,7 @@ function renderChains() {
 
   if (matchingKeys.length === 0) {
     chainsList.innerHTML = "";
-    emptyState.classList.remove("d-none");
+    showEmptyState(allKeys.length === 0);
     return;
   }
 
@@ -101,12 +134,12 @@ function renderChains() {
     item.dataset.chainKey = key;
 
     const actionCount = (chain.actions || []).length;
-    const shortcutText = chain.hotkey || "";
+    const shortcutText = shortcutForChain(key) || "";
     const hasAi = (chain.actions || []).some((a) =>
       a.type === "ai_summarize" || a.type === "ai_explain" || a.type === "ai_translate"
     );
     const aiBadge = hasAi
-      ? `<span class="chain-badge" style="background:rgba(13,202,240,0.15);color:#087990;border:1px solid rgba(13,202,240,0.3);font-size:0.68rem;" title="${escapeHtml(t("badge_requiresAi", "需端侧 AI"))}"><i class="bi bi-cpu me-1" aria-hidden="true"></i>AI</span>`
+      ? `<span class="chain-badge ai-chip" title="${escapeHtml(t("badge_requiresAi", "需浏览器内置 AI"))}"><i class="bi bi-cpu me-1" aria-hidden="true"></i>AI</span>`
       : "";
 
     item.innerHTML = `
@@ -138,6 +171,36 @@ function escapeHtml(str) {
   return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
+// "Nothing here yet" and "nothing matches" are different problems, so they get
+// different words and different exits.
+function showEmptyState(noChainsAtAll) {
+  const box = document.getElementById("emptyState");
+  if (!box) return;
+  const icon = box.querySelector("i");
+  const text = box.querySelector("p");
+  const btn = document.getElementById("emptyActionBtn");
+  if (icon) icon.className = "bi text-muted fs-1 mb-2 " + (noChainsAtAll ? "bi-inboxes" : "bi-search");
+  if (text) {
+    text.textContent = noChainsAtAll
+      ? t("sidepanel_noChains", "还没有动作链")
+      : t("sidepanel_noMatches", "没有匹配的动作链");
+  }
+  if (btn) {
+    btn.textContent = t("sidepanel_openInSettings", "在设置中打开");
+    btn.classList.toggle("d-none", !noChainsAtAll);
+    btn.onclick = openOptions;
+  }
+  box.classList.remove("d-none");
+}
+
+function openOptions() {
+  try {
+    chrome.runtime.openOptionsPage();
+  } catch (e) {
+    window.open("options.html", "_blank");
+  }
+}
+
 let toastTimer = null;
 function showToast(text, isError = false) {
   const toast = document.getElementById("statusToast");
@@ -156,11 +219,18 @@ function showToast(text, isError = false) {
 
 async function runChain(chainKey, chainName) {
   try {
+    // The panel is not a tab either, so tell the background which window to
+    // look in for the page this run should act on.
+    const win = await chrome.windows.getCurrent();
     const response = await chrome.runtime.sendMessage({
       action: "executeChain",
       chainKey,
+      windowId: win && win.id,
+      expectWebTab: true,
     });
-    if (response && response.success) {
+    if (response && response.reason === "noWebTab") {
+      showToast(t("toast_noWebTarget", "没有可作用的网页：请先打开一个网页标签页再运行"), true);
+    } else if (response && response.success) {
       showToast(`${t("sidepanel_executedPrefix", "Executed:")} ${chainName}`);
     } else if (response?.error) {
       showToast(response.error, true);
@@ -172,6 +242,9 @@ async function runChain(chainKey, chainName) {
 
 document.addEventListener("DOMContentLoaded", async () => {
   await loadLocaleMessages();
+  // The options page mirrors RTL locales; the panel has to agree or the same
+  // Arabic strings lay out two different ways in the two surfaces.
+  applyTextDirection(panelLocale);
   applyI18n();
   await loadChains();
 
@@ -193,21 +266,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     renderChains();
   });
 
-  document.getElementById("openOptionsBtn")?.addEventListener("click", async () => {
-    try {
-      await chrome.runtime.openOptionsPage();
-    } catch (e) {
-      window.open("options.html", "_blank");
-    }
-  });
+  document.getElementById("openOptionsBtn")?.addEventListener("click", openOptions);
 
-  document.getElementById("addChainLink")?.addEventListener("click", async () => {
-    try {
-      await chrome.runtime.openOptionsPage();
-    } catch (e) {
-      window.open("options.html", "_blank");
-    }
-  });
+  document.getElementById("addChainLink")?.addEventListener("click", openOptions);
 
   chrome.storage.onChanged.addListener((changes, area) => {
     if (area === "local") {
@@ -215,6 +276,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         try {
           if (changes.localeOverride) {
             await loadLocaleMessages();
+            applyTextDirection(panelLocale);
             applyI18n();
           }
           if (changes.hotkeyChainConfig) {

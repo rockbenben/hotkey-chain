@@ -72,6 +72,8 @@ Every promo image has a source next to it, because the one that didn't went two 
 | `assets/promo/small.html` | `assets/screenshot/small.png` | 440×280 Chrome Web Store small tile |
 | — | `assets/screenshot/*.png` | Store screenshots, 1280×800, English and 简体中文 |
 
+The screenshots have no source file — they are shot from the running extension, so they go stale the moment a label or a layout changes. When you touch the options page, re-shoot them: factory chains (`resetToDefaults`), light theme, and the browser language set per set (`--lang=en-US` / `--lang=zh-CN`) — the factory chain names are localized by the service worker, which follows the browser, not by the page's language override. Encode them as palette PNGs (256 colours, no dither) like the promo tiles: the truecolour capture is about three times the bytes for no visible difference.
+
 Rendered with [html-shot](https://github.com/anthropics/skills) (Playwright + Chromium). `--base .` is what lets the pages resolve the bundled font at `/extension/assets/fonts/`:
 
 ```bash

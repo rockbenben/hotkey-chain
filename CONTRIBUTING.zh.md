@@ -72,6 +72,8 @@ npm run package    # 或：node scripts/package.mjs
 | `assets/promo/small.html` | `assets/screenshot/small.png` | 440×280，应用店小图块 |
 | —— | `assets/screenshot/*.png` | 应用店截图，1280×800，中英各一套 |
 
+截图没有源文件 —— 它是从跑起来的扩展实拍出来的，所以标签或布局一改它就过期。动了选项页就重拍：用 `resetToDefaults` 回到出厂链、固定浅色主题，语言靠启动参数分套（`--lang=en-US` / `--lang=zh-CN`）—— 出厂链名由后台按**浏览器**语言生成，页面里那个语言下拉框管不到它。编码与宣传图一致，出成调色板 PNG（256 色、不抖动）：真彩版本体积约为三倍，肉眼看不出差别。
+
 用 [html-shot](https://github.com/anthropics/skills)（Playwright + Chromium）渲染。`--base .` 是这些页面能找到 `/extension/assets/fonts/` 下那个字体的原因：
 
 ```bash

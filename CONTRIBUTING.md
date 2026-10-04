@@ -59,6 +59,8 @@ Pushing a `v*` tag runs [`.github/workflows/release.yml`](.github/workflows/rele
 - **Logical properties, not physical ones.** Arabic flips the whole page to `dir="rtl"`. The timeline rail uses `inset-inline-start` and `padding-inline-start`; with `left`/`padding-left` the rail stays on the west side of the card while the tiles mirror east, and the two come apart.
 - **The action reference reuses the card tiles.** Category colour is how a chain is read at a glance, so the "Available actions" list shows the same coloured tile next to each name — that list is where the colour code is learned.
 - **Numbers and units are formatted by the locale** (`label_msValue`, `"$1ms"` vs `"$1 مللي ثانية"`), never concatenated in code: whether a space belongs between them is a language decision.
+- **Both themes keep two surface levels.** `theme.js` runs in `<head>` so the settings page and the side panel go dark with the OS together — otherwise opening one from the other flashes white. Light mode lifts a card out of its panel with a shadow; dark has no such trick, so nested surfaces (template cards, picker rows, action rows, the chain info panel) alternate one step lighter with their container (`--card` ↔ `--surface-2`). Flatten that ramp and the template gallery reads as an empty panel.
+- **Toasts park bottom-right.** The top-right is where the toolbar's primary buttons are, and a toast sits there for seconds at a time.
 
 ### Brand assets
 

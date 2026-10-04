@@ -625,9 +625,8 @@ test("诊断会说明活动标签页，且非网页标签页不报成错误", ()
 });
 
 test("文档里的动作数与语言 key 数与代码一致", () => {
-  // 这两个数字写在 7 类文件、50 多处（含 18 个语言的 extDescription 与商店长描述）。
-  // 实测漂移过：实际 103 个动作而文档写 102+，key 实际 537 而 README 写 540+。
-  // 手写记不住，所以改成从 SSOT 生成 + 这里守着。
+  // 这两个数字散在很多文件、几十处（含每种语言的 extDescription 与商店长描述）。
+  // 手写记不住，实测漂移过，所以改成从 SSOT 生成 + 这里守着。
   const r = spawnSync(process.execPath, ["scripts/sync-action-count.mjs", "--check"], {
     // 用 fileURLToPath 而不是 .pathname：后者在路径含空格时会拿到百分号编码
     cwd: fileURLToPath(new URL(".", import.meta.url)),

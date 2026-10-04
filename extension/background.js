@@ -780,7 +780,7 @@ async function badgeChainStep(current, total, actionLabel) {
 }
 
 // 动作显示名就是 locale 里的 actionName_<type>，与 ACTION_TYPES 的值一一对应，
-// 所以后台可以直接查表，不用再维护一份动作名映射（103 个动作都有对应 key）。
+// 所以后台可以直接查表，不用再维护一份动作名映射（每个动作都有对应 key）。
 function actionDisplayName(type) {
   return t(`actionName_${type}`, type);
 }
@@ -1206,7 +1206,7 @@ function resolveLanguageName(code, fallbackCode = "en") {
   const norm = String(picked).replace("-", "_");
   const named = AI_LANGUAGE_NAMES[norm] || AI_LANGUAGE_NAMES[norm.split("_")[0]];
   if (named) return named;
-  // 18 种界面语言之外的语言（比如荷兰语 nl）不在表里。直接把这串代码塞进提示词
+  // 界面语言表之外的语言（比如荷兰语 nl）不在表里。直接把这串代码塞进提示词
   // 会写出 "in nl"，交给 Intl 转成可读名（"Dutch"）更清楚。
   try {
     const display = new Intl.DisplayNames(["en"], { type: "language" }).of(norm.replace("_", "-"));

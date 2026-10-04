@@ -5,8 +5,8 @@
 // language), which diverges from the override the user picked in Options.
 //
 // Fetched eagerly at document_idle. Measured before deciding to leave it:
-// the map is 552 keys / 20KB, it moves once per top frame, and "auto" never
-// fetches it at all — so only users who picked a language pay, once per tab.
+// the map is a few hundred short strings, it moves once per top frame, and "auto"
+// never fetches it at all — so only users who picked a language pay, once per tab.
 // Deferring it to the first UI message would make every action's handler
 // async to save a sub-millisecond round trip, which is the worse trade.
 let contentI18nOverride = null;

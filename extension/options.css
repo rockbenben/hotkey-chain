@@ -1,11 +1,12 @@
 /* Hotkey Chain — "Shortcut Cards" theme (friendly, colorful, Shortcuts-inspired) */
 /* Overrides Bootstrap; keeps Bootstrap JS (toast/dropdown/collapse/modal) working. */
 /*
- * 几条承重规则，别当成冗余清理掉（详见 README 的「选项页设计」）：
+ * 几条承重规则，别当成冗余清理掉（详见 CONTRIBUTING 的「选项页设计」）：
  *   - 动作列表是时间轴：延迟画在连接线上（.action-gap），0 延迟不渲染徽章
  *   - .main-content 清零横向内边距：与 Bootstrap .p-4 叠加会白白吃掉 96px
  *   - 卡片 flex 撑满 + 操作行贴底：同排「运行」按钮才对齐
  *   - :focus-visible 与 prefers-reduced-motion 是可访问性底线，不是装饰
+ *   - 暗色靠两级面交替分层（--card ↔ --surface-2），塌成一级就是「模板库看起来是空的」
  */
 
 /* ---- Display font (local variable font, offline-safe) ---- */

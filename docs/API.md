@@ -1,6 +1,6 @@
 # Hotkey Chain API 文档
 
-> 版本 1.4.0 · Manifest V3 · 适用 Chrome 120+（部分 API 有版本门槛，见下）
+> 版本以 `extension/manifest.json` 的 `version` 为准（发版 tag 与它必须一致，CI 会拦）· Manifest V3 · 适用 Chrome 120+（部分 API 有版本门槛，见下）
 
 ## 📦 概览
 
@@ -89,7 +89,7 @@
 - 进度用 `chrome.tabs.sendMessage` 直连，**不用 `sendToContent`** ——
   后者在消息失败时会注入整个 `content.js`，只为显示进度条不值得那个副作用
 - 动作显示名走 `actionDisplayName()`，即 locale 里的 `actionName_<type>`
-  （与 `ACTION_TYPES` 的值一一对应，103 个动作都有）。后台解析好再随载荷下发，
+  （与 `ACTION_TYPES` 的值一一对应，每个动作都有）。后台解析好再随载荷下发，
   内容脚本不用自己维护映射；查不到时退回裸类型名
 - HUD 用 DOM API + `textContent` 构建，**不用 innerHTML**：链名是用户自己填的、
   动作名来自 locale 文件，拼 innerHTML 等于给自己开一个注入口

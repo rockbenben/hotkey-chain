@@ -47,7 +47,8 @@ Think of macOS/iOS Shortcuts, but living inside Chrome. Build a sequence once (a
 - **Dedicated Side Panel companion**: browse any webpage while triggering, inspecting, and monitoring chains with live AI dependency badges side-by-side
 - **Site permissions & content controls**: toggle per-site JavaScript, images, and popups on the fly; wait for page navigation and single-page app (SPA) loading completion
 - **Modern template gallery**: 28 categorized ready-to-run presets (AI knowledge card, workstation launch, dev reset pipeline, pure reader, focus sandbox, tab cleanup, …), including two that ship as a chain *pair* to show off pipeline orchestration and conditional branching
-- **Visual editor**: build chains with grouped action pickers, per-step delays (ms), drag-and-drop ordering, and visual timeline previews
+- **Visual editor**: build chains with grouped action pickers, per-step delays (ms), drag-and-drop ordering, and visual timeline previews — it saves as you type and says so in the header, and the destructive steps come back with an undo
+- **Follows your system theme**: the settings page and the side panel go dark with the OS, no setting to hunt for
 - **Backup & share**: export/import the whole config as JSON, or share a single chain as its own file
 - **18 languages**: complete localization across English, 简体中文, 繁體中文, 日本語, 한국어, العربية, and 12 more, with automatic RTL layout for Arabic
 
@@ -69,6 +70,7 @@ Think of macOS/iOS Shortcuts, but living inside Chrome. Build a sequence once (a
 
 | Group | Features & Key Configurations |
 | --- | --- |
+| **Execute command** | Fire a registered extension command: your own `_execute_action` or `execute_chain_N`, or another extension's command by id + name |
 | **Page** | Scroll, reload, back/forward, fullscreen, dark mode, design mode (in-place editing), toggle site JavaScript/images/popups, page translation (**configurable target language**), print, open a URL |
 | **Tabs** | Close duplicates, sort by URL, group by domain, collapse/expand groups, mute, discard active/other tabs to free memory, reopen closed, open top workstation sites, move and switch |
 | **Windows** | New window, close other windows, minimize, maximize, incognito, side panel companion, move/duplicate tab to its own window |

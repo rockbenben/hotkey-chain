@@ -1,7 +1,5 @@
 # Chrome Web Store Listing — Hotkey Chain
 
-> Last Updated: 2026-09-18
-
 ## Store Listing
 
 **Extension Name** [REQUIRED]
@@ -62,7 +60,8 @@ English
 | Social preview card | 1280×640 | ✅ Ready | `assets/social-card.png` |
 
 > Simplified-Chinese variants of screenshots 1–5 live in `assets/screenshot/zh/`.
-> These are **rendered** from `assets/promo/*.html` — see CONTRIBUTING.md for the render command.
+> These are **rendered** from `assets/promo/*.html` (small, marquee, social card). The five
+> screenshots are shot from the running extension instead — see CONTRIBUTING.md for both.
 
 ### Screenshot Notes
 - Screenshot 1: Options dashboard — chain cards with trigger badges, live step timeline, and quick-run controls.
@@ -172,7 +171,7 @@ https://github.com/rockbenben/hotkey-chain
 
 | Version | Date | Changes | Status |
 |---------|------|---------|--------|
-| 1.5.0 | 2026-09-18 | Live step progress in the toolbar badge and an in-page HUD that names the action being executed; shortcut badges now show the shortcut Chrome actually registered instead of assuming the suggested key; on-device AI failures stop the chain and say why instead of silently building an empty card; trimmed 15 redundant system notifications from the templates; docs and store copy re-synced with the code. | Draft |
+| 1.5.0 | 2026-09-18 | Live step progress in the toolbar badge and an in-page HUD that names the action being executed — with a **Stop** button, so a long chain can be ended from the page; the settings page now follows the OS light/dark theme instead of staying white next to a dark side panel; shortcut badges show the shortcut Chrome actually registered instead of assuming the suggested key; on-device AI failures stop the chain and say why instead of silently building an empty card; trimmed redundant system notifications from the templates; the editor shows a save receipt and offers undo on delete/remove; destructive prompts moved from the browser's native dialog into the page, in one localised sentence; empty chains open the editor instead of running nothing; every store screenshot re-shot. | Draft |
 | 1.4.0 | 2026-09-11 | Full Chrome open APIs expansion (Side Panel companion, Prompt API / built-in AI summarize/explain/translate, tab discard, collapse/expand tab groups, close other windows, cookie/download cleanup, design mode, link/image extractors, speech TTS, and MV3 async/await compliance). | Draft |
 | 1.3.0 | 2026-06-20 | Added URL auto-run triggers and recurring alarm schedule execution. | Published |
 | 1.2.0 | 2026-03-15 | Added tab group by domain and Markdown link actions. | Published |
